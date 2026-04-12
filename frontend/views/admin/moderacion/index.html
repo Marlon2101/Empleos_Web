@@ -15,7 +15,7 @@
 
     <nav class="navbar navbar-expand-lg py-3 bg-secondary">
         <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
                 <span class="display-5 me-3 lh-1">💼</span> 
                 <div class="lh-sm">
                     <span class="text-white fw-bold d-block fs-3">Workly</span>
@@ -45,13 +45,13 @@
                     <div class="card bg-white border-0 shadow-sm rounded-4 p-3 mb-4">
                         <h6 class="fw-bold text-dark mb-3 ps-2">Menú Admin</h6>
                         <div class="d-grid gap-2">
-                            <button onclick="window.location.href='dashboard-principal.html'" class="btn btn-primary fw-bold py-2">Dashboard</button>
-                            <button onclick="window.location.href='dashboard-gestionusuaios.html'" class="btn btn-primary fw-bold py-2">Gestión de Usuarios</button>
-                            <button onclick="window.location.href='dashboard-gestionempresas.html'" class="btn btn-primary fw-bold py-2">Gestión de Empresas</button>
-                            <button onclick="window.location.href='dashboard-gestionvacantes.html'" class="btn btn-primary fw-bold py-2">Gestión de Vacantes</button>
+                            <button onclick="window.location.href='../principal/index.html'" class="btn btn-primary fw-bold py-2">Dashboard</button>
+                            <button onclick="window.location.href='../gestionusuarios/index.html'" class="btn btn-primary fw-bold py-2">Gestión de Usuarios</button>
+                            <button onclick="window.location.href='../gestionempresas/index.html'" class="btn btn-primary fw-bold py-2">Gestión de Empresas</button>
+                            <button onclick="window.location.href='../gestionvacantes/index.html'" class="btn btn-primary fw-bold py-2">Gestión de Vacantes</button>
                             <button onclick="lanzarToast('info', 'Cargando configuraciones globales...')" class="btn btn-primary fw-bold py-2">Configuración</button>
-                            <button onclick="window.location.href='dashboard-estadisticas.html'" class="btn btn-primary fw-bold py-2">Estadísticas del Sistema</button>
-                            <button onclick="window.location.href='dashboard-moderacion.html'" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold shadow-none py-2">Moderación de Contenido</button>
+                            <button onclick="window.location.href='../estadisticas/index.html'" class="btn btn-primary fw-bold py-2">Estadísticas del Sistema</button>
+                            <button onclick="window.location.href='./index.html'" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold shadow-none py-2">Moderación de Contenido</button>
                         </div>
                     </div>
                 </aside>
@@ -90,7 +90,7 @@
                     </div>
 
                     <div class="card bg-white border-0 shadow-sm rounded-0 p-4 mb-4">
-                        <h6 class="fw-bold text-dark mb-4">Cola de revisión prioritaria</h6>
+                        <h6 class="fw-bold text-dark mb-4 text-start">Cola de revisión prioritaria</h6>
                         
                         <div class="row fw-bold text-dark border-bottom border-dark border-opacity-25 pb-2 mb-3 px-2 text-center small">
                             <div class="col-3 text-start">Contenido Reportado</div>
@@ -118,89 +118,9 @@
                             </div>
                         </div>
 
-                        <div class="row align-items-center mb-3 px-2 small text-center">
-                            <div class="col-3 text-start">
-                                <div class="fw-bold text-dark lh-sm text-truncate">Publicación Foro: Ayuda Urgente</div>
-                                <div class="text-muted small">Sección: Consejos</div>
-                            </div>
-                            <div class="col-1"><span class="badge bg-secondary bg-opacity-10 text-dark w-100">Foro</span></div>
-                            <div class="col-2 fw-bold text-dark">Ana López</div>
-                            <div class="col-2 text-dark">Lenguaje</div>
-                            <div class="col-1"><span class="badge bg-warning text-dark py-2 w-100 rounded-pill">Pendiente</span></div>
-                            <div class="col-1 text-dark fw-bold">12/03</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerReporte" data-tipo="Foro">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalResolverReporte" data-nombre="Publicación Foro">Editar</button>
-                            </div>
                         </div>
 
-                        <div class="row align-items-center mb-3 px-2 small text-center">
-                            <div class="col-3 text-start">
-                                <div class="fw-bold text-dark lh-sm text-truncate">Reseña: InnovaCorp S.A.</div>
-                                <div class="text-muted small">Calificación: 1 estrella</div>
-                            </div>
-                            <div class="col-1"><span class="badge bg-secondary bg-opacity-10 text-dark w-100">Reseña</span></div>
-                            <div class="col-2 fw-bold text-dark">José Méndez</div>
-                            <div class="col-2 text-dark">Falsedad</div>
-                            <div class="col-1"><span class="badge bg-success text-white py-2 w-100 rounded-pill">Revisado</span></div>
-                            <div class="col-1 text-dark fw-bold">12/03</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm">Editar</button>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center mb-3 px-2 small text-center">
-                            <div class="col-3 text-start">
-                                <div class="fw-bold text-dark lh-sm text-truncate">Comentario: Ofrezco dinero...</div>
-                                <div class="text-muted small">Debajo de vacante #772</div>
-                            </div>
-                            <div class="col-1"><span class="badge bg-secondary bg-opacity-10 text-dark w-100">Chat</span></div>
-                            <div class="col-2 fw-bold text-dark">Soporte TI</div>
-                            <div class="col-2 text-dark">Spam</div>
-                            <div class="col-1"><span class="badge bg-danger text-white py-2 w-100 rounded-pill">Eliminado</span></div>
-                            <div class="col-1 text-dark fw-bold">11/03</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm">Editar</button>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center mb-3 px-2 small text-center">
-                            <div class="col-3 text-start">
-                                <div class="fw-bold text-dark lh-sm text-truncate">Vacante: Junior Designer</div>
-                                <div class="text-muted small">Publicado hoy</div>
-                            </div>
-                            <div class="col-1"><span class="badge bg-secondary bg-opacity-10 text-dark w-100">Job</span></div>
-                            <div class="col-2 fw-bold text-dark">Elena Rivas</div>
-                            <div class="col-2 text-dark">Engañoso</div>
-                            <div class="col-1"><span class="badge bg-warning text-dark py-2 w-100 rounded-pill">Pendiente</span></div>
-                            <div class="col-1 text-dark fw-bold">10/03</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerReporte" data-tipo="Vacante">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalResolverReporte" data-nombre="Junior Designer">Editar</button>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center px-2 small text-center">
-                            <div class="col-3 text-start">
-                                <div class="fw-bold text-dark lh-sm text-truncate">Post: No pagan bien aquí</div>
-                                <div class="text-muted small">Usuario anónimo</div>
-                            </div>
-                            <div class="col-1"><span class="badge bg-secondary bg-opacity-10 text-dark w-100">Foro</span></div>
-                            <div class="col-2 fw-bold text-dark">Moderador 2</div>
-                            <div class="col-2 text-dark">Odio/Acoso</div>
-                            <div class="col-1"><span class="badge bg-warning text-dark py-2 w-100 rounded-pill">Pendiente</span></div>
-                            <div class="col-1 text-dark fw-bold">09/03</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerReporte" data-tipo="Foro">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalResolverReporte" data-nombre="Post Foro">Editar</button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row g-4">
+                    <div class="row g-4 text-start">
                         <div class="col-12 col-md-5">
                             <div class="card bg-white border-0 shadow-sm rounded-4 p-4 h-100">
                                 <h6 class="fw-bold text-dark mb-4">Estado de Reportes</h6>
@@ -235,11 +155,6 @@
                                     <div class="text-dark small">La vacante de "HR Global" fue validada como legítima.</div>
                                     <div class="text-muted small fw-bold mt-1">Hace 1 hora</div>
                                 </div>
-                                <div class="bg-secondary bg-opacity-10 p-3 rounded-3 border-start border-3 border-warning">
-                                    <div class="fw-bold text-dark small">Usuario advertido</div>
-                                    <div class="text-dark small">Se envió notificación de aviso a @carlosruiz.</div>
-                                    <div class="text-muted small fw-bold mt-1">Hace 4 horas</div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -256,7 +171,7 @@
                     <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4 pt-0">
-                    <p class="text-muted small mb-4">Decisión final para: <strong id="nombreReporteEdit" class="text-dark">Contenido</strong>.</p>
+                    <p class="text-muted small mb-4 text-start">Decisión final para: <strong id="nombreReporteEdit" class="text-dark">Contenido</strong>.</p>
                     <form>
                         <div class="d-grid gap-3 text-start">
                             <div class="form-check p-3 border rounded-3 bg-light">
@@ -315,7 +230,7 @@
 
     <footer class="py-4 mt-auto bg-secondary text-white-50 text-center small">
         <div class="container">
-            <span>Workly Admin &nbsp;&nbsp;&nbsp; 2026 - Central de Seguridad</span>
+            <span>Workly Admin &copy; 2026 - Central de Seguridad</span>
         </div>
     </footer>
 

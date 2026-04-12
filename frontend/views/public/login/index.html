@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
+
 <body class="d-flex flex-column min-vh-100">
 
     <nav class="navbar navbar-expand-lg py-3 bg-secondary">
         <div class="container-fluid px-4 px-lg-5">
             <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
-                <span class="display-5 me-3 lh-1">💼</span> 
+                <span class="display-5 me-3 lh-1">💼</span>
                 <div class="lh-sm">
                     <span class="text-white fw-bold d-block fs-3">Workly</span>
                     <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
@@ -20,8 +22,11 @@
             </a>
             <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
                 <div class="d-flex gap-3 mt-3 mt-lg-0 align-items-center">
-                    <button class="btn btn-primary px-3 py-2 fw-semibold text-white shadow-sm" onclick="window.location.href='sesiondasboard.html'">Iniciar sesión en dashboard</button>
-                    <button class="btn btn-primary px-4 py-2 fw-semibold text-white shadow-sm" onclick="window.location.href='registro.html'">Registrarse</button>
+                    <button class="btn btn-primary px-3 py-2 fw-semibold text-white shadow-sm"
+                        onclick="window.location.href='../sesiondashboard/index.html'">Iniciar sesión en
+                        dashboard</button>
+                    <button class="btn btn-primary px-4 py-2 fw-semibold text-white shadow-sm"
+                        onclick="window.location.href='../registro/index.html'">Registrarse</button>
                 </div>
             </div>
         </div>
@@ -32,55 +37,65 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-10 col-xl-8">
                     <div class="card bg-white border-0 p-4 p-md-5 mx-2 rounded-5 shadow-lg">
-                        
+
                         <div class="text-center mb-5">
                             <h1 class="display-6 fw-normal text-dark mb-3">Iniciar Sesión</h1>
                             <p class="fs-6 text-dark">Accede a tu cuenta de Workly</p>
                         </div>
-                        
+
                         <div class="row justify-content-center">
                             <div class="col-12 col-md-10">
-                                
+
                                 <div class="mb-4">
                                     <label class="form-label fw-bold text-dark">Correo electrónico</label>
                                     <div class="input-group">
-                                        <input type="email" id="emailInput" class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent" >
+                                        <input type="email" id="emailInput"
+                                            class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent">
                                         <span class="input-group-text bg-transparent border-start-0 border-dark-subtle">
                                             <i class="bi bi-envelope-fill text-dark"></i>
                                         </span>
                                     </div>
-                                    <div id="emailError" class="text-danger small mt-1 d-none fw-semibold">Este campo es obligatorio.</div>
+                                    <div id="emailError" class="text-danger small mt-1 d-none fw-semibold">Este campo es
+                                        obligatorio.</div>
                                 </div>
 
                                 <div class="mb-4">
                                     <label class="form-label fw-bold text-dark">Contraseña</label>
                                     <div class="input-group">
-                                        <input type="password" id="passInput" class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent">
+                                        <input type="password" id="passInput"
+                                            class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent">
                                         <span class="input-group-text bg-transparent border-start-0 border-dark-subtle">
                                             <i class="bi bi-lock-fill text-dark"></i>
                                         </span>
                                     </div>
-                                    <div id="passError" class="text-danger small mt-1 d-none fw-semibold">Este campo es obligatorio.</div>
+                                    <div id="passError" class="text-danger small mt-1 d-none fw-semibold">Este campo es
+                                        obligatorio.</div>
                                 </div>
 
                                 <div class="d-flex justify-content-between align-items-center mb-5">
                                     <div class="form-check mb-0">
-                                        <input class="form-check-input bg-dark border-dark" type="checkbox" id="recordarme" checked>
+                                        <input class="form-check-input bg-dark border-dark" type="checkbox"
+                                            id="recordarme" checked>
                                         <label class="form-check-label text-dark" for="recordarme">Recordarme</label>
                                     </div>
-                                    <a href="#" class="text-dark text-decoration-underline">¿Olvidaste tu contraseña?</a>
+                                    <a href="#" class="text-dark text-decoration-underline">¿Olvidaste tu
+                                        contraseña?</a>
                                 </div>
-                                
+
                                 <div class="row g-3 mb-4">
                                     <div class="col-12 col-sm-6 d-grid">
-                                        <button type="button" id="btnIniciarSesion" class="btn btn-primary text-white py-2 shadow-sm rounded-3">
+                                        <button type="button" id="btnIniciarSesion"
+                                            class="btn btn-primary text-white py-2 shadow-sm rounded-3">
                                             Iniciar Sesión
                                         </button>
                                     </div>
                                     <div class="col-12 col-sm-6 d-grid">
-                                        <button type="button" class="btn btn-primary text-white py-2 shadow-sm rounded-3 d-flex justify-content-center align-items-center gap-2">
-                                            <span class="bg-white rounded-circle d-flex align-items-center justify-content-center p-1">
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" width="16" height="16">
+                                        <button type="button"
+                                            class="btn btn-primary text-white py-2 shadow-sm rounded-3 d-flex justify-content-center align-items-center gap-2">
+                                            <span
+                                                class="bg-white rounded-circle d-flex align-items-center justify-content-center p-1">
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
+                                                    alt="Google" width="16" height="16">
                                             </span>
                                             Continuar con Google
                                         </button>
@@ -88,8 +103,9 @@
                                 </div>
 
                                 <div class="text-center mt-3">
-                                    <span class="text-dark">¿Aún no tienes cuenta?</span> 
-                                    <a href="registro.html" class="text-dark fw-bold text-decoration-none ms-1">Regístrate ahora</a>
+                                    <span class="text-dark">¿Aún no tienes cuenta?</span>
+                                    <a href="../registro/index.html"
+                                        class="text-dark fw-bold text-decoration-none ms-1">Regístrate ahora</a>
                                 </div>
                             </div>
                         </div>
@@ -101,22 +117,27 @@
     </main>
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        
-        <div id="errorToast" class="toast align-items-center text-white bg-danger border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+
+        <div id="errorToast" class="toast align-items-center text-white bg-danger border-0 rounded-3 shadow mb-2"
+            role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body fs-6 py-3 fw-semibold">
-                    <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i> ¡Error! Por favor, completa todos los campos.
+                    <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i> ¡Error! Por favor, completa todos los
+                    campos.
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
             </div>
         </div>
 
-        <div id="successToast" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="successToast" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow"
+            role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body fs-6 py-3 fw-semibold">
                     <i class="bi bi-check-circle-fill me-2 fs-5"></i> ¡Inicio de sesión exitoso! Redirigiendo...
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
             </div>
         </div>
 
@@ -133,14 +154,17 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <script src="./app.js"></script>
     <script>
-        document.getElementById('btnIniciarSesion').addEventListener('click', function() {
-            // Obtenemos los valores de los inputs
-            const emailValue = document.getElementById('emailInput').value.trim();
-            const passValue = document.getElementById('passInput').value.trim();
-            
-            // Textos de advertencia debajo del input
+        document.getElementById('btnIniciarSesion').addEventListener('click', function (event) {
+            event.preventDefault(); // Evita recargar la página
+
+            // Obtenemos los valores
+            const emailInput = document.getElementById('emailInput');
+            const passInput = document.getElementById('passInput');
+            const emailValue = emailInput.value.trim().toLowerCase();
+            const passValue = passInput.value.trim();
+
             const emailError = document.getElementById('emailError');
             const passError = document.getElementById('passError');
 
@@ -149,74 +173,49 @@
             // Validar Correo
             if (emailValue === '') {
                 emailError.classList.remove('d-none');
-                document.getElementById('emailInput').classList.add('is-invalid');
+                emailInput.classList.add('is-invalid');
                 isValid = false;
             } else {
                 emailError.classList.add('d-none');
-                document.getElementById('emailInput').classList.remove('is-invalid');
+                emailInput.classList.remove('is-invalid');
             }
 
             // Validar Contraseña
             if (passValue === '') {
                 passError.classList.remove('d-none');
-                document.getElementById('passInput').classList.add('is-invalid');
+                passInput.classList.add('is-invalid');
                 isValid = false;
             } else {
                 passError.classList.add('d-none');
-                document.getElementById('passInput').classList.remove('is-invalid');
+                passInput.classList.remove('is-invalid');
             }
 
-            // Ejecutar acciones según el resultado
-            if (!isValid) {
-                // Mostrar TOAST DE ERROR si falta algún campo
-                const errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
-                errorToast.show();
-            } else {
-                // Mostrar TOAST VERDE DE ÉXITO si ambos están llenos
+            if (isValid) {
+                // Mostrar Toast de Éxito
                 const successToast = new bootstrap.Toast(document.getElementById('successToast'));
                 successToast.show();
-                
-                // Redirigir después de 2 segundos
+
+                // LÓGICA DE RUTEO CORREGIDA CON ../../
+                // LÓGICA DE RUTEO BASADA EN ROLES (Corregida)
                 setTimeout(() => {
-                    window.location.href = 'usuario-buscarempleo.html';
-                }, 2000);
+                    if (emailValue.includes('@empresa')) {
+                        // Redirección para Empresa (¡Ojo a los dos ../../!)
+                        localStorage.setItem('userRole', 'empresa');
+                        window.location.href = '../../empresa/principal/index.html';
+
+                    } else {
+                        // Redirección para Usuario Normal (¡Ojo a los dos ../../!)
+                        localStorage.setItem('userRole', 'usuario');
+                        window.location.href = '../../usuario/principal/index.html';
+                    }
+                }, 1500);
+            } else {
+                // Mostrar Toast de Error si falta un campo
+                const errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
+                errorToast.show();
             }
         });
     </script>
-
-    <script>
-    document.getElementById('btnIniciarSesion').addEventListener('click', function(event) {
-        event.preventDefault(); // Evita recargar la página
-
-        const emailInput = document.getElementById('emailInput');
-        const passInput = document.getElementById('passInput');
-        const emailValue = emailInput.value.trim().toLowerCase();
-        const passValue = passInput.value.trim();
-
-        // Validaciones visuales (como las que ya teníamos)
-        let isValid = true;
-        // ... (Aquí mantienes la lógica de pintar en rojo si están vacíos) ...
-
-        if (emailValue !== '' && passValue !== '') {
-            // Mostrar Toast de Éxito
-            const successToast = new bootstrap.Toast(document.getElementById('successToast'));
-            successToast.show();
-            
-            // LÓGICA DE RUTEO BASADA EN ROLES (Simulada)
-            setTimeout(() => {
-                if (emailValue.includes('@empresa')) {
-                   localStorage.setItem('userRole', 'empresa');
-                    window.location.href = 'empresa-principa.html'; 
-                    
-                }  else {
-                    // Cualquier otro correo se considera un usuario normal
-                    localStorage.setItem('userRole', 'usuario');
-                    window.location.href = 'usuario-principal.html';
-                }
-            }, 1500);
-        }
-    });
-</script>
-
 </body>
+
 </html>

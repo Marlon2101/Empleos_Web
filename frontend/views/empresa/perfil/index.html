@@ -15,7 +15,7 @@
 
     <nav class="navbar navbar-expand-lg py-3 bg-secondary">
         <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
                 <span class="display-5 me-3 lh-1">💼</span> 
                 <div class="lh-sm">
                     <span class="text-white fw-bold d-block fs-3">Workly</span>
@@ -29,15 +29,15 @@
 
             <div class="collapse navbar-collapse" id="navbarContent">
                 <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                    <a href="empresa-publicarvacante.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Publicar vacante</a>
-                    <a href="empresa-misvacantes.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Mis vacantes</a>
-                    <a href="empresa-postulaciones.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Ver postulaciones</a>
-                    <a href="empresa-foro.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Foro</a>
-                    <a href="empresa-resenaempresa.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Reseñas de postulantes</a>
+                    <a href="../publicarvacante/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Publicar vacante</a>
+                    <a href="../misvacantes/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Mis vacantes</a>
+                    <a href="../postulaciones/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Ver postulaciones</a>
+                    <a href="../foro/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Foro</a>
+                    <a href="../resenaempresa/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Reseñas de postulantes</a>
                 </div>
 
                 <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                    <a href="empresa-notificaciones.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
+                    <a href="../notificaciones/index.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
                         <i class="bi bi-bell-fill fs-3"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
                             2
@@ -45,7 +45,7 @@
                         </span>
                     </a>
                     
-                    <a href="empresa-perfil.html" class="text-info text-decoration-none d-inline-block">
+                    <a href="../perfil/index.html" class="text-info text-decoration-none d-inline-block">
                         <i class="bi bi-person-circle fs-2"></i>
                     </a>
                 </div>
@@ -82,19 +82,19 @@
                             Menú de perfil
                         </div>
                         <div class="list-group list-group-flush">
-                            <a href="empresa-perfil.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-primary fw-bold bg-light">
+                            <a href="../perfil/index.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-primary fw-bold bg-light">
                                 <i class="bi bi-person-circle fs-5"></i> Información personal
                             </a>
                             <a href="#" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary btn-accion" data-mensaje="Sección en desarrollo">
                                 <i class="bi bi-file-earmark-text-fill fs-5"></i> Documentos legales
                             </a>
-                            <a href="empresa-misvacantes.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary">
+                            <a href="../misvacantes/index.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary">
                                 <i class="bi bi-briefcase-fill fs-5"></i> Mis Vacantes
                             </a>
                             <a href="#" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary btn-accion" data-mensaje="Abriendo lista de postulantes guardados...">
                                 <i class="bi bi-bookmark-fill fs-5"></i> Postulantes guardados
                             </a>
-                            <a href="empresa-notificaciones.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary">
+                            <a href="../notificaciones/index.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary">
                                 <i class="bi bi-bell-fill fs-5"></i> Alertas y notificaciones
                             </a>
                             <a href="#" class="list-group-item list-group-item-action py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary btn-accion" data-mensaje="Abriendo panel de configuraciones...">
@@ -302,7 +302,6 @@
     </div>
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        
         <div id="toastAccion" class="toast align-items-center text-white bg-info bg-opacity-75 border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body fs-6 py-3 fw-bold text-dark" id="toastTexto">
@@ -320,11 +319,10 @@
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
-
     </div>
 
-    <footer class="py-4 mt-auto bg-secondary">
-        <div class="container text-center">
+    <footer class="py-4 mt-auto bg-secondary text-center">
+        <div class="container">
             <div class="d-flex justify-content-center gap-5">
                 <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
                 <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
@@ -336,7 +334,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // 1. Toast Genérico para botones del Menú Lateral
         const botonesAccion = document.querySelectorAll('.btn-accion');
         const toastAccionEl = document.getElementById('toastAccion');
         const toastTexto = document.getElementById('toastTexto');
@@ -351,11 +348,9 @@
             });
         });
 
-        // 2. Tooltip para el botón de la cámara (Logo)
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
-        // 3. Funcionalidad de Guardar Cambios del Perfil
         document.getElementById('btnGuardarCambios').addEventListener('click', function() {
             const toastExitoEl = document.getElementById('toastExito');
             const toastExito = new bootstrap.Toast(toastExitoEl);

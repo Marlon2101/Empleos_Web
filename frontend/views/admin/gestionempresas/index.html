@@ -15,7 +15,7 @@
 
     <nav class="navbar navbar-expand-lg py-3 bg-secondary">
         <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
                 <span class="display-5 me-3 lh-1">💼</span> 
                 <div class="lh-sm">
                     <span class="text-white fw-bold d-block fs-3">Workly</span>
@@ -45,13 +45,13 @@
                     <div class="card bg-white border-0 shadow-sm rounded-4 p-3 mb-4">
                         <h6 class="fw-bold text-dark mb-3 ps-2">Menú Admin</h6>
                         <div class="d-grid gap-2">
-                            <button onclick="window.location.href='dashboard-principal.html'" class="btn btn-primary fw-bold py-2">Dashboard</button>
-                            <button onclick="window.location.href='dashboard-gestionusuaios.html'" class="btn btn-primary fw-bold py-2">Gestión de Usuarios</button>
-                            <button onclick="window.location.href='dashboard-gestionempresas.html'" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold shadow-none py-2">Gestión de Empresas</button>
-                            <button onclick="window.location.href='dashboard-gestionvacantes.html'" class="btn btn-primary fw-bold py-2">Gestión de Vacantes</button>
+                            <button onclick="window.location.href='../principal/index.html'" class="btn btn-primary fw-bold py-2">Dashboard</button>
+                            <button onclick="window.location.href='../gestionusuarios/index.html'" class="btn btn-primary fw-bold py-2">Gestión de Usuarios</button>
+                            <button onclick="window.location.href='./index.html'" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold shadow-none py-2">Gestión de Empresas</button>
+                            <button onclick="window.location.href='../gestionvacantes/index.html'" class="btn btn-primary fw-bold py-2">Gestión de Vacantes</button>
                             <button onclick="lanzarToast('info', 'Accediendo a las configuraciones de seguridad y sistema...')" class="btn btn-primary fw-bold py-2">Configuración</button>
-                            <button onclick="window.location.href='dashboard-estadisticas.html'" class="btn btn-primary fw-bold py-2">Estadísticas del Sistema</button>
-                            <button onclick="window.location.href='dashboard-moderacion.html'" class="btn btn-primary fw-bold py-2">Moderación de Contenido</button>
+                            <button onclick="window.location.href='../estadisticas/index.html'" class="btn btn-primary fw-bold py-2">Estadísticas del Sistema</button>
+                            <button onclick="window.location.href='../moderacion/index.html'" class="btn btn-primary fw-bold py-2">Moderación de Contenido</button>
                         </div>
                     </div>
                 </aside>
@@ -131,74 +131,6 @@
                             <div class="col-2 d-flex justify-content-center align-items-center gap-3">
                                 <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerEmpresa" data-nombre="InnovaCorp">Ver</span>
                                 <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarEstado" data-nombre="InnovaCorp">Editar</button>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center mb-3 px-2 small text-center">
-                            <div class="col-3 d-flex align-items-center gap-2 text-start">
-                                <i class="bi bi-building fs-4 opacity-75"></i>
-                                <div>
-                                    <div class="fw-bold text-dark lh-sm">Creative Studio</div>
-                                    <div class="text-muted lh-sm small">Cuenta corporativa</div>
-                                </div>
-                            </div>
-                            <div class="col-3 text-dark fw-bold text-start text-truncate">hola@creativestudio.com</div>
-                            <div class="col-2"><span class="badge bg-success px-3 py-2 w-75 rounded-pill">Activa</span></div>
-                            <div class="col-2 text-dark fw-bold">12/03/2026</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerEmpresa" data-nombre="Creative Studio">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarEstado" data-nombre="Creative Studio">Editar</button>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center mb-3 px-2 small text-center">
-                            <div class="col-3 d-flex align-items-center gap-2 text-start">
-                                <i class="bi bi-building fs-4 opacity-75"></i>
-                                <div>
-                                    <div class="fw-bold text-dark lh-sm">HR Global</div>
-                                    <div class="text-muted lh-sm small">En revisión</div>
-                                </div>
-                            </div>
-                            <div class="col-3 text-dark fw-bold text-start text-truncate">admin@hrglobal.com</div>
-                            <div class="col-2"><span class="badge bg-warning text-dark px-3 py-2 w-75 rounded-pill">Pendiente</span></div>
-                            <div class="col-2 text-dark fw-bold">12/03/2026</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerEmpresa" data-nombre="HR Global">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarEstado" data-nombre="HR Global">Editar</button>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center mb-3 px-2 small text-center">
-                            <div class="col-3 d-flex align-items-center gap-2 text-start">
-                                <i class="bi bi-building fs-4 opacity-75"></i>
-                                <div>
-                                    <div class="fw-bold text-dark lh-sm">DataCore Systems</div>
-                                    <div class="text-muted lh-sm small">Empresa verificada</div>
-                                </div>
-                            </div>
-                            <div class="col-3 text-dark fw-bold text-start text-truncate">info@datacore.sv</div>
-                            <div class="col-2"><span class="badge bg-success px-3 py-2 w-75 rounded-pill">Activa</span></div>
-                            <div class="col-2 text-dark fw-bold">11/03/2026</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerEmpresa" data-nombre="DataCore Systems">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarEstado" data-nombre="DataCore Systems">Editar</button>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center px-2 small text-center">
-                            <div class="col-3 d-flex align-items-center gap-2 text-start">
-                                <i class="bi bi-building fs-4 opacity-75"></i>
-                                <div>
-                                    <div class="fw-bold text-dark lh-sm">BlueSky Agency</div>
-                                    <div class="text-muted lh-sm small">Restringida</div>
-                                </div>
-                            </div>
-                            <div class="col-3 text-dark fw-bold text-start text-truncate">legal@bluesky.com</div>
-                            <div class="col-2"><span class="badge bg-danger text-white px-3 py-2 w-75 rounded-pill">Bloqueada</span></div>
-                            <div class="col-2 text-dark fw-bold">10/03/2026</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerEmpresa" data-nombre="BlueSky Agency">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarEstado" data-nombre="BlueSky Agency">Editar</button>
                             </div>
                         </div>
 
@@ -312,34 +244,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modalNuevaEmpresa" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 rounded-4 shadow-lg">
-                <div class="modal-header border-bottom-0 pt-4 px-4">
-                    <h5 class="modal-title fw-bold text-dark">Registrar Nueva Empresa</h5>
-                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4 pt-0">
-                    <form>
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold">Nombre de la Empresa</label>
-                            <input type="text" class="form-control bg-light border-0 shadow-none" placeholder="Nombre comercial">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold">NIT / Registro Fiscal</label>
-                            <input type="text" class="form-control bg-light border-0 shadow-none" placeholder="0614-000000-000-0">
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label small fw-bold">Email Corporativo</label>
-                            <input type="email" class="form-control bg-light border-0 shadow-none" placeholder="rrhh@empresa.com">
-                        </div>
-                        <button type="button" onclick="lanzarToast('exito', '¡Solicitud de registro enviada con éxito!')" data-bs-dismiss="modal" class="btn btn-primary w-100 fw-bold py-2 rounded-3">Registrar</button>
-                    </form>
                 </div>
             </div>
         </div>

@@ -1,6 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import { pool } from "./config/db.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 import authRoutes from "./routes/authRoutes.js";
 import catalogosRoutes from "./routes/catalogosRoutes.js";
@@ -24,6 +26,12 @@ import valoracionesRoutes from "./routes/valoracionesRoutes.js";
 dotenv.config();
 
 const app = express();
+// 1. Configuramos las rutas (necesario cuando usamos 'import' en Node)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// 2. LA SOLUCIÓN: Le decimos a Node que toda tu carpeta 'frontend' es pública
+app.use(express.static(path.join(__dirname, '../frontend')));
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());

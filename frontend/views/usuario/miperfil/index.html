@@ -15,7 +15,7 @@
 
     <nav class="navbar navbar-expand-lg py-3 bg-secondary">
         <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../../public/paginainicial/index.html">
                 <span class="display-5 me-3 lh-1">💼</span> 
                 <div class="lh-sm">
                     <span class="text-white fw-bold d-block fs-3">Workly</span>
@@ -29,21 +29,21 @@
 
             <div class="collapse navbar-collapse" id="navbarContent">
                 <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                    <a href="usuario-buscarempleo.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Búsqueda de empleo</a>
-                    <a href="usuario-recursos.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Recursos</a>
-                    <a href="usuario-valoracionempresa.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Valoraciones de empresas</a>
-                    <a href="usuario-miperfil.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Mi Perfil</a>
+                    <a href="../buscarempleo/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Búsqueda de empleo</a>
+                    <a href="../recursos/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Recursos</a>
+                    <a href="../valoracionempresa/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Valoraciones de empresas</a>
+                    <a href="../miperfil/index.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Mi Perfil</a>
                 </div>
 
                 <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                    <a href="usuario-notificaciones.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
+                    <a href="../notificaciones/index.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
                         <i class="bi bi-bell-fill fs-3"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
                             5
                         </span>
                     </a>
                     
-                    <a href="usuario-miperfil.html" class="text-info text-decoration-none d-inline-block">
+                    <a href="../miperfil/index.html" class="text-info text-decoration-none d-inline-block">
                         <i class="bi bi-person-circle fs-2"></i>
                     </a>
                 </div>
@@ -80,13 +80,13 @@
                             Menú de perfil
                         </div>
                         <div class="list-group list-group-flush">
-                            <a href="usuario-miperfil.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-primary fw-bold bg-light">
+                            <a href="../miperfil/index.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-primary fw-bold bg-light">
                                 <i class="bi bi-person-circle fs-5"></i> Información personal
                             </a>
                             <a href="#" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary btn-accion" data-mensaje="Cargando tus documentos...">
                                 <i class="bi bi-file-earmark-text-fill fs-5"></i> CV y documentos
                             </a>
-                            <a href="usuario-notificaciones.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary">
+                            <a href="../notificaciones/index.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary">
                                 <i class="bi bi-briefcase-fill fs-5"></i> Mis postulaciones
                             </a>
                             <a href="#" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary btn-accion" data-mensaje="Abriendo empleos guardados...">
@@ -232,7 +232,6 @@
     </div>
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        
         <div id="toastExito" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body fs-6 py-3 fw-semibold">
@@ -241,16 +240,12 @@
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
-
         <div id="toastInfo" class="toast align-items-center text-white bg-info bg-opacity-75 border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
-                <div class="toast-body fs-6 py-3 fw-bold text-dark" id="toastInfoTexto">
-                    Acción realizada.
-                </div>
+                <div class="toast-body fs-6 py-3 fw-bold text-dark" id="toastInfoTexto">Acción realizada.</div>
                 <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
-
     </div>
 
     <footer class="py-4 mt-auto bg-secondary">
@@ -264,37 +259,25 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
-        // 1. Tooltips
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
-        // 2. Toast de Éxito al Guardar
         document.getElementById('btnGuardarPerfil').addEventListener('click', function() {
-            const toastElement = document.getElementById('toastExito');
-            const toast = new bootstrap.Toast(toastElement);
-            toast.show();
+            new bootstrap.Toast(document.getElementById('toastExito')).show();
         });
 
-        // 3. Interacción del Selector de Tiempo
         document.getElementById('selectTiempo').addEventListener('change', function() {
-            const toastInfoEl = document.getElementById('toastInfo');
-            document.getElementById('toastInfoTexto').innerHTML = `<i class="bi bi-arrow-repeat me-2"></i> Actualizando estadísticas...`;
-            const toast = new bootstrap.Toast(toastInfoEl);
-            toast.show();
+            const toastInfoTexto = document.getElementById('toastInfoTexto');
+            toastInfoTexto.innerHTML = `<i class="bi bi-arrow-repeat me-2"></i> Actualizando estadísticas...`;
+            new bootstrap.Toast(document.getElementById('toastInfo')).show();
         });
 
-        // 4. Toasts para el Menú Lateral
-        const botonesAccion = document.querySelectorAll('.btn-accion');
-        botonesAccion.forEach(function(boton) {
+        document.querySelectorAll('.btn-accion').forEach(boton => {
             boton.addEventListener('click', function(e) {
                 e.preventDefault();
-                const mensaje = this.getAttribute('data-mensaje');
-                const toastInfoEl = document.getElementById('toastInfo');
-                document.getElementById('toastInfoTexto').innerHTML = `<i class="bi bi-info-circle-fill me-2"></i> ${mensaje}`;
-                const toast = new bootstrap.Toast(toastInfoEl);
-                toast.show();
+                document.getElementById('toastInfoTexto').innerHTML = `<i class="bi bi-info-circle-fill me-2"></i> ${this.getAttribute('data-mensaje')}`;
+                new bootstrap.Toast(document.getElementById('toastInfo')).show();
             });
         });
     </script>

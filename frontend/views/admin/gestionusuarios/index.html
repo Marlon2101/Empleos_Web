@@ -15,7 +15,7 @@
 
     <nav class="navbar navbar-expand-lg py-3 bg-secondary">
         <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
                 <span class="display-5 me-3 lh-1">💼</span> 
                 <div class="lh-sm">
                     <span class="text-white fw-bold d-block fs-3">Workly</span>
@@ -45,13 +45,13 @@
                     <div class="card bg-white border-0 shadow-sm rounded-4 p-3 mb-4">
                         <h6 class="fw-bold text-dark mb-3 ps-2">Menú Admin</h6>
                         <div class="d-grid gap-2">
-                            <button onclick="window.location.href='dashboard-principal.html'" class="btn btn-primary fw-bold py-2">Dashboard</button>
-                            <button onclick="window.location.href='dashboard-gestionusuaios.html'" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold shadow-none py-2">Gestión de Usuarios</button>
-                            <button onclick="window.location.href='dashboard-gestionempresas.html'" class="btn btn-primary fw-bold py-2">Gestión de Empresas</button>
-                            <button onclick="window.location.href='dashboard-gestionvacantes.html'" class="btn btn-primary fw-bold py-2">Gestión de Vacantes</button>
+                            <button onclick="window.location.href='../principal/index.html'" class="btn btn-primary fw-bold py-2">Dashboard</button>
+                            <button onclick="window.location.href='./index.html'" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold shadow-none py-2">Gestión de Usuarios</button>
+                            <button onclick="window.location.href='../gestionempresas/index.html'" class="btn btn-primary fw-bold py-2">Gestión de Empresas</button>
+                            <button onclick="window.location.href='../gestionvacantes/index.html'" class="btn btn-primary fw-bold py-2">Gestión de Vacantes</button>
                             <button onclick="lanzarToast('info', 'Accediendo a las configuraciones de seguridad y sistema...')" class="btn btn-primary fw-bold py-2">Configuración</button>
-                            <button onclick="window.location.href='dashboard-estadisticas.html'" class="btn btn-primary fw-bold py-2">Estadísticas del Sistema</button>
-                            <button onclick="window.location.href='dashboard-moderacion.html'" class="btn btn-primary fw-bold py-2">Moderación de Contenido</button>
+                            <button onclick="window.location.href='../estadisticas/index.html'" class="btn btn-primary fw-bold py-2">Estadísticas del Sistema</button>
+                            <button onclick="window.location.href='../moderacion/index.html'" class="btn btn-primary fw-bold py-2">Moderación de Contenido</button>
                         </div>
                     </div>
                 </aside>
@@ -116,93 +116,8 @@
                                 <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarEstado" data-nombre="Carlos Ruiz">Editar</button>
                             </div>
                         </div>
-
-                        <div class="row align-items-center mb-3 px-2 small">
-                            <div class="col-3 d-flex align-items-center gap-2">
-                                <i class="bi bi-person-circle fs-4 opacity-75"></i>
-                                <div>
-                                    <div class="fw-bold text-dark lh-sm">María García</div>
-                                    <div class="text-muted lh-sm small">maria@email.com</div>
-                                </div>
-                            </div>
-                            <div class="col-3 text-dark fw-bold">Frontend Developer</div>
-                            <div class="col-2 text-center"><span class="badge bg-warning text-dark px-3 py-2 w-75 rounded-pill">Pendiente</span></div>
-                            <div class="col-2 text-center text-dark fw-bold">12/03/2026</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerPerfil" data-nombre="María García">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarEstado" data-nombre="María García">Editar</button>
-                            </div>
+                        
                         </div>
-
-                        <div class="row align-items-center mb-3 px-2 small">
-                            <div class="col-3 d-flex align-items-center gap-2">
-                                <i class="bi bi-person-circle fs-4 opacity-75"></i>
-                                <div>
-                                    <div class="fw-bold text-dark lh-sm">José Méndez</div>
-                                    <div class="text-muted lh-sm small">jose@email.com</div>
-                                </div>
-                            </div>
-                            <div class="col-3 text-dark fw-bold">jose@email.com</div>
-                            <div class="col-2 text-center"><span class="badge bg-success px-3 py-2 w-75 rounded-pill">Activo</span></div>
-                            <div class="col-2 text-center text-dark fw-bold">12/03/2026</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerPerfil" data-nombre="José Méndez">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarEstado" data-nombre="José Méndez">Editar</button>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center mb-3 px-2 small">
-                            <div class="col-3 d-flex align-items-center gap-2">
-                                <i class="bi bi-person-circle fs-4 opacity-75"></i>
-                                <div>
-                                    <div class="fw-bold text-dark lh-sm">Roberto Flores</div>
-                                    <div class="text-muted lh-sm small">roberto@email.com</div>
-                                </div>
-                            </div>
-                            <div class="col-3 text-dark fw-bold">UX Designer</div>
-                            <div class="col-2 text-center"><span class="badge bg-warning text-dark px-3 py-2 w-75 rounded-pill">Pendiente</span></div>
-                            <div class="col-2 text-center text-dark fw-bold">12/03/2026</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerPerfil" data-nombre="Roberto Flores">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarEstado" data-nombre="Roberto Flores">Editar</button>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center mb-3 px-2 small">
-                            <div class="col-3 d-flex align-items-center gap-2">
-                                <i class="bi bi-person-circle fs-4 opacity-75"></i>
-                                <div>
-                                    <div class="fw-bold text-dark lh-sm">Elena Rivas</div>
-                                    <div class="text-muted lh-sm small">@elenarivas</div>
-                                </div>
-                            </div>
-                            <div class="col-3 text-dark fw-bold">elena@email.com</div>
-                            <div class="col-2 text-center"><span class="badge bg-success px-3 py-2 w-75 rounded-pill">Activo</span></div>
-                            <div class="col-2 text-center text-dark fw-bold">12/03/2026</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerPerfil" data-nombre="Elena Rivas">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarEstado" data-nombre="Elena Rivas">Editar</button>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center mb-3 px-2 small">
-                            <div class="col-3 d-flex align-items-center gap-2">
-                                <i class="bi bi-person-circle fs-4 opacity-75"></i>
-                                <div>
-                                    <div class="fw-bold text-dark lh-sm">Miguel Ángel</div>
-                                    <div class="text-muted lh-sm small">miguel@email.com</div>
-                                </div>
-                            </div>
-                            <div class="col-3 text-dark fw-bold">QA Tester</div>
-                            <div class="col-2 text-center"><span class="badge bg-warning text-dark px-3 py-2 w-75 rounded-pill">Pendiente</span></div>
-                            <div class="col-2 text-center text-dark fw-bold">12/03/2026</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerPerfil" data-nombre="Miguel Ángel">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarEstado" data-nombre="Miguel Ángel">Editar</button>
-                            </div>
-                        </div>
-
-                    </div>
 
                     <div class="row g-4">
                         <div class="col-12 col-md-5">

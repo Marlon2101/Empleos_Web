@@ -6,12 +6,15 @@
     <title>Workly - Detalle de Empleo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .cursor-pointer { cursor: pointer; }
+    </style>
 </head>
 <body class="d-flex flex-column min-vh-100 bg-primary-subtle">
 
     <nav class="navbar navbar-expand-lg py-3 bg-secondary">
         <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../../public/paginainicial/index.html">
                 <span class="display-5 me-3 lh-1">💼</span> 
                 <div class="lh-sm">
                     <span class="text-white fw-bold d-block fs-3">Workly</span>
@@ -25,26 +28,22 @@
 
             <div class="collapse navbar-collapse" id="navbarContent">
                 <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                    <a href="usuario-buscarempleo.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Búsqueda de empleo</a>
-                    <a href="usuario-recursos.html" class="btn btn-primary btn-sm px-3 fw-semibold">Recursos</a>
-                    <a href="usuario-valoracionempresa.html" class="btn btn-primary btn-sm px-3 fw-semibold">Valoraciones de empresas</a>
-                    <a href="usuario-miperfil.html" class="btn btn-primary btn-sm px-3 fw-semibold">Mi Perfil</a>
+                    <a href="../buscarempleo/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Búsqueda de empleo</a>
+                    <a href="../recursos/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Recursos</a>
+                    <a href="../valoracionempresa/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Valoraciones de empresas</a>
+                    <a href="../miperfil/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Mi Perfil</a>
                 </div>
 
                 <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                    
-                    <a href="usuario-notificaciones.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
+                    <a href="../notificaciones/index.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
                         <i class="bi bi-bell-fill fs-3"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
                             5
-                            <span class="visually-hidden">notificaciones no leídas</span>
                         </span>
                     </a>
-                    
-                    <a href="usuario-miperfil.html" class="text-dark text-decoration-none d-inline-block">
+                    <a href="../miperfil/index.html" class="text-dark text-decoration-none d-inline-block">
                         <i class="bi bi-person-circle fs-2"></i>
                     </a>
-
                 </div>
             </div>
         </div>
@@ -54,7 +53,7 @@
         <div class="container-fluid px-4 px-lg-5">
             
             <div class="mb-4 mt-2">
-                <a href="usuario-buscarempleo.html" class="btn btn-primary px-4 py-2 fw-semibold rounded-3 shadow-sm">
+                <a href="../buscarempleo/index.html" class="btn btn-primary px-4 py-2 fw-semibold rounded-3 shadow-sm">
                     <i class="bi bi-arrow-left me-2"></i> Volver a resultados
                 </a>
             </div>
@@ -62,7 +61,6 @@
             <div class="card bg-white border-0 rounded-4 shadow-sm p-4 p-lg-5 mb-5">
                 
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start mb-5 pb-3 border-bottom border-light">
-                    
                     <div>
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <i class="bi bi-pencil-square display-6 text-dark"></i>
@@ -95,134 +93,27 @@
                 </div>
 
                 <div class="row g-5">
-                    
                     <div class="col-12 col-lg-8">
-                        
                         <h5 class="fw-bold text-dark mb-3">Descripción del puesto</h5>
-                        <p class="text-dark mb-3">TechSolutions está buscando un Desarrollador Full Stack Senior para unirse a nuestro equipo de ingeniería en rápido crecimiento. En este rol, serás responsable de diseñar, desarrollar y mantener aplicaciones web de alto rendimiento que impacten positivamente a millones de usuarios.</p>
-                        <p class="text-dark mb-5">Como parte de nuestro equipo, trabajarás en un entorno colaborativo donde tendrás la oportunidad de influir en la dirección tecnológica de nuestros productos y contribuir al crecimiento de la empresa.</p>
+                        <p class="text-dark mb-5">TechSolutions está buscando un Desarrollador Full Stack Senior para unirse a nuestro equipo de ingeniería. En este rol, serás responsable de diseñar, desarrollar y mantener aplicaciones web de alto rendimiento.</p>
 
                         <h5 class="fw-bold text-dark mb-3">Responsabilidades</h5>
                         <ul class="text-dark mb-5 lh-lg">
-                            <li>Desarrollar y mantener aplicaciones web de alto rendimiento utilizando React y Node.js</li>
+                            <li>Desarrollar y mantener aplicaciones web utilizando React y Node.js</li>
                             <li>Diseñar e implementar arquitecturas de microservicios escalables</li>
-                            <li>Colaborar con equipos de producto y diseño para crear soluciones técnicas eficientes</li>
-                            <li>Participar en revisiones de código y asegurar la calidad del software</li>
-                            <li>Mentorear a desarrolladores junior y contribuir al crecimiento del equipo</li>
-                            <li>Implementar y mantener CI/CD para asegurar entregas eficientes</li>
-                            <li>Optimizar aplicaciones para máximo rendimiento y escalabilidad</li>
+                            <li>Colaborar con equipos de producto y diseño</li>
                         </ul>
-
-                        <h5 class="fw-bold text-dark mb-3">Requisitos</h5>
-                        <ul class="text-dark mb-5 lh-lg">
-                            <li>5+ años de experiencia en desarrollo web full stack</li>
-                            <li>Sólidos conocimientos en React, Redux y ecosistema moderno de JavaScript</li>
-                            <li>Experiencia con Node.js y frameworks como Express o Nest.js</li>
-                            <li>Familiaridad con bases de datos SQL y NoSQL (MongoDB, PostgreSQL)</li>
-                            <li>Experiencia con servicios cloud (AWS, GCP o Azure)</li>
-                            <li>Conocimiento en CI/CD y herramientas de containerización (Docker)</li>
-                            <li>Excelentes habilidades de comunicación y trabajo en equipo</li>
-                            <li>Capacidad para resolver problemas complejos de manera independiente</li>
-                        </ul>
-
-                        <h5 class="fw-bold text-dark mb-4 mt-5">Empleos similares</h5>
-                        <div class="row g-4">
-                            
-                            <div class="col-12 col-md-4">
-                                <div class="card bg-light border-0 rounded-4 p-4 h-100 d-flex flex-column shadow-sm">
-                                    <h6 class="fw-bold text-dark mb-3">Desarrollador Full Stack</h6>
-                                    <ul class="list-unstyled text-dark fs-6 mb-4">
-                                        <li class="mb-1"><i class="bi bi-building me-2"></i>CodeCrafters</li>
-                                        <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>San Salvador</li>
-                                        <li class="fw-bold"><i class="bi bi-cash me-2"></i>$800 - $900</li>
-                                    </ul>
-                                    <button class="btn bg-white text-dark fw-bold border-0 rounded-3 py-2 w-100 shadow-sm mt-auto" onclick="window.location.href='usuario-detalleempleo.html'">Ver Detalles</button>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-4">
-                                <div class="card bg-light border-0 rounded-4 p-4 h-100 d-flex flex-column shadow-sm">
-                                    <h6 class="fw-bold text-dark mb-3">Lead Developer</h6>
-                                    <ul class="list-unstyled text-dark fs-6 mb-4">
-                                        <li class="mb-1"><i class="bi bi-building me-2"></i>SoftwareHouse</li>
-                                        <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>Santa Ana</li>
-                                        <li class="fw-bold"><i class="bi bi-cash me-2"></i>$500 - $700</li>
-                                    </ul>
-                                    <button class="btn bg-white text-dark fw-bold border-0 rounded-3 py-2 w-100 shadow-sm mt-auto" onclick="window.location.href='usuario-detalleempleo.html'">Ver Detalles</button>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-4">
-                                <div class="card bg-light border-0 rounded-4 p-4 h-100 d-flex flex-column shadow-sm">
-                                    <h6 class="fw-bold text-dark mb-3">Arquitecto de Software</h6>
-                                    <ul class="list-unstyled text-dark fs-6 mb-4">
-                                        <li class="mb-1"><i class="bi bi-building me-2"></i>TechInnovate</li>
-                                        <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>La Libertad</li>
-                                        <li class="fw-bold"><i class="bi bi-cash me-2"></i>$1,000 - $2,000</li>
-                                    </ul>
-                                    <button class="btn bg-white text-dark fw-bold border-0 rounded-3 py-2 w-100 shadow-sm mt-auto" onclick="window.location.href='usuario-detalleempleo.html'">Ver Detalles</button>
-                                </div>
-                            </div>
-
-                        </div>
                     </div>
 
                     <div class="col-12 col-lg-4">
-                        
                         <div class="card bg-light border-0 rounded-4 p-4 mb-4 shadow-sm">
                             <h6 class="fw-bold text-dark mb-3">Sobre la empresa</h6>
-                            <p class="text-dark small mb-4">TechSolutions es una empresa líder en desarrollo de software especializada en soluciones cloud y aplicaciones web de alto rendimiento. Con más de 10 años en el mercado, trabajamos con clientes de todo el mundo para impulsar su transformación digital.</p>
-                            
-                            <div class="d-flex align-items-center mb-2">
-                                <i class="bi bi-star-fill text-dark me-1"></i>
-                                <i class="bi bi-star-fill text-dark me-1"></i>
-                                <i class="bi bi-star-fill text-dark me-1"></i>
-                                <i class="bi bi-star-fill text-dark me-1"></i>
-                                <i class="bi bi-star text-dark me-2"></i>
-                                <span class="text-dark small">4.0 (125 valoraciones)</span>
-                            </div>
-                            
-                            <div class="d-flex align-items-center mb-4">
-                                <i class="bi bi-people-fill text-dark me-2"></i>
-                                <span class="text-dark small">50-200 empleados</span>
-                            </div>
-
-                            <button class="btn bg-white text-dark fw-bold border-0 rounded-3 py-2 w-100 shadow-sm d-flex justify-content-center align-items-center gap-2" >
-                                Ver perfil de empresa <i class="bi bi-arrow-right" ></i>
+                            <p class="text-dark small mb-4">TechSolutions es una empresa líder en desarrollo de software especializada en soluciones cloud.</p>
+                            <button class="btn bg-white text-dark fw-bold border-0 rounded-3 py-2 w-100 shadow-sm d-flex justify-content-center align-items-center gap-2" onclick="window.location.href='../valoracionempresa/index.html'">
+                                Ver perfil de empresa <i class="bi bi-arrow-right"></i>
                             </button>
                         </div>
-
-                        <div class="card bg-light border-0 rounded-4 p-4 shadow-sm">
-                            <h6 class="fw-bold text-dark mb-4">Detalles del empleo</h6>
-                            
-                            <div class="mb-3">
-                                <div class="fw-bold text-dark small">Tipo de contrato</div>
-                                <div class="text-dark small">Tiempo completo</div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <div class="fw-bold text-dark small">Experiencia</div>
-                                <div class="text-dark small">5+ años</div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <div class="fw-bold text-dark small">Educación</div>
-                                <div class="text-dark small">Licenciatura o superior en Informática o áreas afines</div>
-                            </div>
-
-                            <div class="mb-3">
-                                <div class="fw-bold text-dark small">Idiomas</div>
-                                <div class="text-dark small">Español (nativo), Inglés (avanzado)</div>
-                            </div>
-
-                            <div class="mb-0">
-                                <div class="fw-bold text-dark small">Modalidad</div>
-                                <div class="text-dark small">Remoto</div>
-                            </div>
-                        </div>
-
                     </div>
-
                 </div>
             </div>
         </div>
@@ -245,13 +136,9 @@
                             <label class="form-label small fw-bold text-dark">Adjuntar CV actualizado (PDF)</label>
                             <input class="form-control bg-secondary-subtle border-0 shadow-none py-2" type="file">
                         </div>
-                        <div class="mb-4">
-                            <label class="form-label small fw-bold text-dark">Mensaje para el reclutador (Opcional)</label>
-                            <textarea class="form-control bg-secondary-subtle border-0 shadow-none py-2" rows="3" placeholder="¿Por qué eres el candidato ideal para este puesto?"></textarea>
-                        </div>
-                        <div class="d-flex justify-content-end gap-2">
+                        <div class="d-flex justify-content-end gap-2 mt-4">
                             <button type="button" class="btn btn-light bg-secondary-subtle border-0 text-dark fw-bold px-4" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary fw-bold px-4 shadow-sm" data-bs-dismiss="modal" id="btnConfirmarPostulacion">Enviar Postulación</button>
+                            <button type="button" class="btn btn-primary fw-bold px-4 shadow-sm" id="btnConfirmarPostulacion">Enviar Postulación</button>
                         </div>
                     </form>
                 </div>
@@ -267,40 +154,35 @@
                     <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body px-4 py-4 text-center">
-                    
                     <div class="d-flex justify-content-center gap-3 mb-4">
                         <button class="btn btn-outline-secondary rounded-circle p-3 shadow-sm d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;"><i class="bi bi-linkedin fs-4 text-primary"></i></button>
-                        <button class="btn btn-outline-secondary rounded-circle p-3 shadow-sm d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;"><i class="bi bi-twitter-x fs-4 text-dark"></i></button>
                         <button class="btn btn-outline-secondary rounded-circle p-3 shadow-sm d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;"><i class="bi bi-whatsapp fs-4 text-success"></i></button>
                     </div>
-
                     <div class="input-group mb-3">
                         <input type="text" class="form-control bg-secondary-subtle border-0 shadow-none text-muted small" value="https://workly.com/empleo/dev-fullstack-123" readonly id="linkCompartir">
-                        <button class="btn btn-primary fw-bold" type="button" id="btnCopiarEnlace" data-bs-dismiss="modal">Copiar enlace</button>
+                        <button class="btn btn-primary fw-bold" type="button" id="btnCopiarEnlace">Copiar</button>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        
-        <div id="toastPostulacion" class="toast align-items-center text-white bg-primary border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="toastPostulacion" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body fs-6 py-3 fw-semibold">
-                    <i class="bi bi-send-check-fill me-2 fs-5"></i> ¡Tu postulación ha sido enviada a la empresa!
+                    <i class="bi bi-send-check-fill me-2 fs-5"></i> ¡Tu postulación ha sido enviada!
                 </div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
 
-        <div id="toastCopiado" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="toastCopiado" class="toast align-items-center text-white bg-info border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
-                <div class="toast-body fs-6 py-3 fw-semibold">
+                <div class="toast-body fs-6 py-3 fw-semibold text-dark">
                     <i class="bi bi-clipboard-check me-2 fs-5"></i> Enlace copiado al portapapeles.
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
 
@@ -312,59 +194,42 @@
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
-
     </div>
 
     <footer class="py-4 mt-auto bg-secondary">
-        <div class="container text-center">
-            <div class="d-flex justify-content-center gap-5">
-                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
-                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
-                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2024</span>
-            </div>
+        <div class="container text-center text-white-50">
+            <span>Workly &nbsp;&nbsp;&nbsp; 2026</span>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
         // Funcionalidad Enviar Postulación
-        document.getElementById('btnConfirmarPostulacion').addEventListener('click', function() {
-            const toastElement = document.getElementById('toastPostulacion');
-            const toast = new bootstrap.Toast(toastElement);
-            toast.show();
+        document.getElementById('btnConfirmarPostulacion')?.addEventListener('click', function() {
+            // Cerramos el modal
+            const modalEl = document.getElementById('modalPostulacion');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+            // Mostramos el Toast
+            new bootstrap.Toast(document.getElementById('toastPostulacion')).show();
         });
 
         // Funcionalidad Copiar Enlace
-        document.getElementById('btnCopiarEnlace').addEventListener('click', function() {
+        document.getElementById('btnCopiarEnlace')?.addEventListener('click', function() {
             const linkInput = document.getElementById('linkCompartir');
             linkInput.select();
-            linkInput.setSelectionRange(0, 99999); 
+            document.execCommand('copy');
             
-            const toastElement = document.getElementById('toastCopiado');
-            const toast = new bootstrap.Toast(toastElement);
-            toast.show();
+            new bootstrap.Toast(document.getElementById('toastCopiado')).show();
         });
 
-        // NUEVA Funcionalidad Guardar Empleo
-        document.getElementById('btnGuardar').addEventListener('click', function(e) {
-            e.preventDefault(); // Evita que la página salte hacia arriba
-            
-            // Mostrar notificación
-            const toastElement = document.getElementById('toastGuardado');
-            const toast = new bootstrap.Toast(toastElement);
-            toast.show();
-
-            // Cambiar la apariencia del botón para indicar que está guardado
-            const boton = document.getElementById('btnGuardar');
-            const icono = document.getElementById('iconoGuardar');
-            const texto = document.getElementById('textoGuardar');
-
-            boton.classList.remove('text-dark');
-            boton.classList.add('text-primary'); // Cambia a azul
-            icono.classList.remove('bi-bookmark');
-            icono.classList.add('bi-bookmark-fill'); // Rellena el ícono
-            texto.textContent = 'Guardado'; // Cambia el texto
+        // Funcionalidad Guardar Empleo
+        document.getElementById('btnGuardar')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            new bootstrap.Toast(document.getElementById('toastGuardado')).show();
+            this.classList.add('text-primary');
+            document.getElementById('iconoGuardar').classList.replace('bi-bookmark', 'bi-bookmark-fill');
+            document.getElementById('textoGuardar').textContent = 'Guardado';
         });
     </script>
 </body>

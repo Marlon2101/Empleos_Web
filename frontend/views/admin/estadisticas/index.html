@@ -15,7 +15,7 @@
 
     <nav class="navbar navbar-expand-lg py-3 bg-secondary">
         <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
                 <span class="display-5 me-3 lh-1">💼</span> 
                 <div class="lh-sm">
                     <span class="text-white fw-bold d-block fs-3">Workly</span>
@@ -29,7 +29,6 @@
 
             <div class="collapse navbar-collapse" id="navbarContent">
                 <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                    
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
                     <a href="#" onclick="lanzarToast('info', 'Accediendo al perfil administrativo...')" class="text-dark"><i class="bi bi-person-circle fs-1"></i></a>
@@ -46,13 +45,13 @@
                     <div class="card bg-white border-0 shadow-sm rounded-4 p-3 mb-4">
                         <h6 class="fw-bold text-dark mb-3 ps-2">Menú Admin</h6>
                         <div class="d-grid gap-2">
-                            <button onclick="window.location.href='dashboard-principal.html'" class="btn btn-primary fw-bold py-2">Dashboard</button>
-                            <button onclick="window.location.href='dashboard-gestionusuaios.html'" class="btn btn-primary fw-bold py-2">Gestión de Usuarios</button>
-                            <button onclick="window.location.href='dashboard-gestionempresas.html'" class="btn btn-primary fw-bold py-2">Gestión de Empresas</button>
-                            <button onclick="window.location.href='dashboard-gestionvacantes.html'" class="btn btn-primary fw-bold py-2">Gestión de Vacantes</button>
+                            <button onclick="window.location.href='../principal/index.html'" class="btn btn-primary fw-bold py-2">Dashboard</button>
+                            <button onclick="window.location.href='../gestionusuarios/index.html'" class="btn btn-primary fw-bold py-2">Gestión de Usuarios</button>
+                            <button onclick="window.location.href='../gestionempresas/index.html'" class="btn btn-primary fw-bold py-2">Gestión de Empresas</button>
+                            <button onclick="window.location.href='../gestionvacantes/index.html'" class="btn btn-primary fw-bold py-2">Gestión de Vacantes</button>
                             <button onclick="lanzarToast('info', 'Accediendo a las configuraciones de seguridad y sistema...')" class="btn btn-primary fw-bold py-2">Configuración</button>
-                            <button onclick="window.location.href='dashboard-estadisticas.html'" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold shadow-none py-2">Estadísticas del Sistema</button>
-                            <button onclick="window.location.href='dashboard-moderacion.html'" class="btn btn-primary fw-bold py-2">Moderación de Contenido</button>
+                            <button onclick="window.location.href='./index.html'" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold shadow-none py-2">Estadísticas del Sistema</button>
+                            <button onclick="window.location.href='../moderacion/index.html'" class="btn btn-primary fw-bold py-2">Moderación de Contenido</button>
                         </div>
                     </div>
                 </aside>
@@ -133,35 +132,19 @@
                                     <span class="fw-bold text-primary cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalDetalleEstadistica" data-titulo="Frontend Developer">Ver</span>
                                 </div>
                             </div>
-                            <div class="row align-items-center bg-secondary bg-opacity-10 p-2 rounded-2 mx-0 small mt-1">
-                                <div class="col-4 fw-bold text-dark text-truncate">Diseñador UI/UX</div>
-                                <div class="col-5 text-dark">Creative Studio</div>
-                                <div class="col-3 text-end">
-                                    <span class="fw-bold text-dark me-3">1,740</span>
-                                    <span class="fw-bold text-primary cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalDetalleEstadistica" data-titulo="Diseñador UI/UX">Ver</span>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </section>
 
                 <aside class="col-12 col-lg-3">
-                    
                     <div class="card bg-white border-0 shadow-sm rounded-4 p-4 mb-4 text-center">
                         <h6 class="fw-bold text-dark mb-4">Categorías más usadas</h6>
-                        
                         <div class="d-flex justify-content-center mb-4">
                             <div class="rounded-circle d-inline-block position-relative border border-secondary border-opacity-10 bg-body-secondary" 
-                                 style="width: 150px; height: 150px; background-image: conic-gradient(
-                                     #ffc107 0% 40%,        /* Tecnología (Amarillo) - 40% */
-                                     #0d6efd 40% 65%,       /* Administración (Azul) - 25% */
-                                     #6c757d 65% 85%,       /* Diseño (Gris) - 20% */
-                                     #f8f9fa 85% 100%       /* Ventas (Blanco) - 15% */
-                                 );">
+                                 style="width: 150px; height: 150px; background-image: conic-gradient(#ffc107 0% 40%, #0d6efd 40% 65%, #6c757d 65% 85%, #f8f9fa 85% 100%);">
                                 <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle" style="border: 15px solid rgba(0,0,0,0.03);"></div>
                             </div>
                         </div>
-                        
                         <div class="list-unstyled small fw-bold text-dark text-start ps-4">
                             <div class="mb-1 d-flex align-items-center"><i class="bi bi-circle-fill text-warning opacity-75 me-2 fs-6"></i>Tecnología (40%)</div>
                             <div class="mb-1 d-flex align-items-center"><i class="bi bi-circle-fill text-primary opacity-75 me-2 fs-6"></i>Administración (25%)</div>
@@ -190,7 +173,6 @@
                             <div class="d-flex justify-content-between text-warning"><span>Reportes Pendientes</span><span>48</span></div>
                         </div>
                     </div>
-
                 </aside>
 
             </div>
@@ -208,7 +190,6 @@
                     <i class="bi bi-graph-up-arrow display-1 text-primary opacity-25"></i>
                     <h4 class="fw-bold mt-2" id="vacanteModalNombre">Nombre Vacante</h4>
                     <p class="text-muted small">Métricas detalladas de los últimos 7 días</p>
-                    
                     <div class="bg-light p-3 rounded-3 text-start mt-3">
                         <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
                             <span class="small fw-bold text-muted">Vistas Únicas</span>
@@ -252,19 +233,15 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Lógica de Toasts Dinámicos
         function lanzarToast(tipo, mensaje) {
             const toastEl = document.getElementById('toastAdmin');
             const textoEl = document.getElementById('mensajeToast');
             textoEl.textContent = mensaje;
-            
             toastEl.classList.remove('bg-info', 'bg-success');
             toastEl.classList.add(tipo === 'exito' ? 'bg-success' : 'bg-info');
-            
             new bootstrap.Toast(toastEl).show();
         }
 
-        // Lógica para el modal de detalles de vacante
         const modalDetalle = document.getElementById('modalDetalleEstadistica');
         modalDetalle.addEventListener('show.bs.modal', event => {
             const button = event.relatedTarget;
