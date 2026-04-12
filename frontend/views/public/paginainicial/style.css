@@ -1,0 +1,35 @@
+.hero-section {
+  background: linear-gradient(135deg, #eef5ff 0%, #ffffff 100%);
+}
+
+.hero-card {
+  min-height: 260px;
+}
+
+.stat-card {
+  border-radius: 14px;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+}
+
+.hero-mini-text {
+  font-size: 0.95rem;
+}
+
+.vacante-card {
+  height: 100%;
+}
+
+.vacante-card .card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.vacante-footer {
+  margin-top: auto;
+}
+
+.vacante-meta {
+  font-size: 0.92rem;
+  color: #6c757d;
+}

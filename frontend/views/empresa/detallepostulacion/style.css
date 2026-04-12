@@ -1,0 +1,14 @@
+.info-label {
+  font-size: 0.92rem;
+  color: #6c757d;
+}
+
+.info-value {
+  font-weight: 600;
+  color: #212529;
+}
+
+.box-text {
+  white-space: pre-line;
+  line-height: 1.6;
+}

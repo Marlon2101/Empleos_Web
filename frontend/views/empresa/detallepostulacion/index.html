@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle de Postulación | Workly</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/global.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="../principal/index.html">Workly Empresa</a>
+      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <main class="py-4">
+    <div class="container">
+      <div class="mb-3">
+        <a href="../postulaciones/index.html" class="btn btn-outline-secondary btn-sm">← Volver a postulaciones</a>
+      </div>
+
+      <div id="alertContainer"></div>
+
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <div class="card card-custom p-4">
+            <h4 class="mb-3">Información del postulante</h4>
+            <div id="detallePostulante">
+              <p class="text-muted mb-0">Cargando información...</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="card card-custom p-4 mb-4">
+            <h5 class="mb-3">Vacante</h5>
+            <div id="detalleVacante">
+              <p class="text-muted mb-0">Cargando información...</p>
+            </div>
+          </div>
+
+          <div class="card card-custom p-4">
+            <h5 class="mb-3">Estado del proceso</h5>
+            <div id="detalleEstado">
+              <p class="text-muted mb-0">Cargando información...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

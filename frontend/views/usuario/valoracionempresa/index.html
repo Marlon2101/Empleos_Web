@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valorar Empresa | Workly</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/global.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="../principal/index.html">Workly Usuario</a>
+      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <main class="py-4">
+    <div class="container">
+      <div class="mb-3">
+        <a href="../principal/index.html" class="btn btn-outline-secondary btn-sm">← Volver</a>
+      </div>
+
+      <div class="mb-4">
+        <h1 class="page-title mb-1">Valoraciones de empresa</h1>
+        <p class="text-muted mb-0">Consulta opiniones y deja tu reseña</p>
+      </div>
+
+      <div id="alertContainer"></div>
+
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-custom p-4">
+            <h5 class="mb-3">Nueva valoración</h5>
+
+            <form id="formValoracion">
+              <div class="mb-3">
+                <label for="puntuacion" class="form-label">Puntuación</label>
+                <select id="puntuacion" class="form-select" required>
+                  <option value="">Selecciona</option>
+                  <option value="5">5 - Excelente</option>
+                  <option value="4">4 - Muy buena</option>
+                  <option value="3">3 - Buena</option>
+                  <option value="2">2 - Regular</option>
+                  <option value="1">1 - Mala</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="comentario" class="form-label">Comentario</label>
+                <textarea id="comentario" class="form-control" rows="5" required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">Enviar valoración</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-lg-8">
+          <div class="card card-custom p-4 mb-4">
+            <h5 class="mb-2">Resumen</h5>
+            <div id="resumenEmpresa">
+              <p class="text-muted mb-0">Cargando resumen...</p>
+            </div>
+          </div>
+
+          <div class="card card-custom p-4">
+            <h5 class="mb-3">Reseñas</h5>
+            <div id="listaValoraciones">
+              <p class="text-muted mb-0">Cargando valoraciones...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

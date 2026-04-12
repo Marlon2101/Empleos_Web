@@ -1,0 +1,29 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f8f9fa;
+}
+
+.page-title {
+  font-weight: 700;
+  color: #212529;
+}
+
+.card-custom {
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.form-control,
+.form-select,
+.btn {
+  border-radius: 10px;
+}
+
+.link-clean {
+  text-decoration: none;
+}
+
+.link-clean:hover {
+  text-decoration: underline;
+}

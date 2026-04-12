@@ -1,0 +1,9 @@
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.resumen-cell {
+  max-width: 260px;
+  white-space: normal;
+}

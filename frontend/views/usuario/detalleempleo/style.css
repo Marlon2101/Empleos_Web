@@ -1,0 +1,14 @@
+.detalle-label {
+  font-size: 0.95rem;
+  color: #6c757d;
+}
+
+.detalle-value {
+  font-weight: 600;
+  color: #212529;
+}
+
+.descripcion-box {
+  white-space: pre-line;
+  line-height: 1.6;
+}

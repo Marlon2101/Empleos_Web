@@ -1,0 +1,8 @@
+.recurso-card .card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.recurso-card .btn {
+  margin-top: auto;
+}

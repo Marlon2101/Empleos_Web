@@ -1,0 +1,16 @@
+.estadistica-item {
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: #fff;
+}
+
+.estadistica-label {
+  font-weight: 600;
+}
+
+.estadistica-total {
+  font-size: 1.1rem;
+  font-weight: 700;
+}

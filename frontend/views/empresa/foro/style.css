@@ -1,0 +1,21 @@
+.foro-item {
+  border: 1px solid #e9ecef;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+  background: #fff;
+}
+
+.foro-titulo {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.foro-meta {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+textarea.form-control {
+  resize: vertical;
+}

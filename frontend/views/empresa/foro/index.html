@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foro | Workly Empresa</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/css/global.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="../principal/index.html">Workly Empresa</a>
+      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <main class="py-4">
+    <div class="container">
+      <div class="mb-3">
+        <a href="../principal/index.html" class="btn btn-outline-secondary btn-sm">← Volver al panel</a>
+      </div>
+
+      <div class="mb-4">
+        <h1 class="page-title mb-1">Foro empresarial</h1>
+        <p class="text-muted mb-0">Un espacio para compartir ideas, prácticas y dudas comunes</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-custom p-4">
+            <h5 class="mb-3">Nueva publicación</h5>
+
+            <form id="formForo">
+              <div class="mb-3">
+                <label for="tituloPost" class="form-label">Título</label>
+                <input type="text" id="tituloPost" class="form-control" placeholder="Escribe un título">
+              </div>
+
+              <div class="mb-3">
+                <label for="contenidoPost" class="form-label">Contenido</label>
+                <textarea id="contenidoPost" class="form-control" rows="5" placeholder="Comparte una idea o experiencia"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">Publicar</button>
+            </form>
+
+            <div class="alert alert-info mt-3 mb-0 small">
+              Esta vista está preparada visualmente. Cuando quieras, después conectamos un backend real de foro.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-8">
+          <div class="card card-custom p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="mb-0">Temas recientes</h5>
+              <span class="badge text-bg-light">Demo visual</span>
+            </div>
+
+            <div id="listaTemas">
+              <div class="foro-item">
+                <div class="d-flex justify-content-between align-items-start gap-3">
+                  <div>
+                    <h6 class="foro-titulo">¿Qué buscan más los candidatos hoy?</h6>
+                    <p class="text-muted mb-2">
+                      Buenas prácticas para redactar vacantes más atractivas y realistas.
+                    </p>
+                    <div class="foro-meta">Publicado por Empresa Demo · Hace 2 días</div>
+                  </div>
+                  <span class="badge text-bg-primary">Tendencias</span>
+                </div>
+              </div>
+
+              <div class="foro-item">
+                <div class="d-flex justify-content-between align-items-start gap-3">
+                  <div>
+                    <h6 class="foro-titulo">Cómo mejorar el proceso de entrevistas</h6>
+                    <p class="text-muted mb-2">
+                      Ideas para que la experiencia del candidato sea más clara y profesional.
+                    </p>
+                    <div class="foro-meta">Publicado por Empresa Demo · Hace 4 días</div>
+                  </div>
+                  <span class="badge text-bg-success">Selección</span>
+                </div>
+              </div>
+
+              <div class="foro-item">
+                <div class="d-flex justify-content-between align-items-start gap-3">
+                  <div>
+                    <h6 class="foro-titulo">Errores comunes al publicar vacantes</h6>
+                    <p class="text-muted mb-2">
+                      Títulos poco claros, descripciones ambiguas y requisitos excesivos.
+                    </p>
+                    <div class="foro-meta">Publicado por Empresa Demo · Hace 1 semana</div>
+                  </div>
+                  <span class="badge text-bg-warning">Vacantes</span>
+                </div>
+              </div>
+
+              <div class="foro-item">
+                <div class="d-flex justify-content-between align-items-start gap-3">
+                  <div>
+                    <h6 class="foro-titulo">¿Cómo destacar la cultura de empresa?</h6>
+                    <p class="text-muted mb-2">
+                      Consejos para presentar mejor tu marca empleadora dentro de la plataforma.
+                    </p>
+                    <div class="foro-meta">Publicado por Empresa Demo · Hace 1 semana</div>
+                  </div>
+                  <span class="badge text-bg-info">Marca</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

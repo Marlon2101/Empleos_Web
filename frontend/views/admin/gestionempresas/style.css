@@ -1,0 +1,9 @@
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.descripcion-cell {
+  max-width: 280px;
+  white-space: normal;
+}

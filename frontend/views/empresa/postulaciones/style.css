@@ -1,0 +1,8 @@
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.badge-estado {
+  font-size: 0.85rem;
+}
