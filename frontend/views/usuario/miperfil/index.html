@@ -1,100 +1,302 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Perfil | Workly</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../assets/css/global.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly - Mi Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .hover-primary:hover { color: #0d6efd !important; text-decoration: underline !important; }
+        .cursor-pointer { cursor: pointer; }
+    </style>
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="../principal/index.html">Workly Usuario</a>
-      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
+<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+
+    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+                <span class="display-5 me-3 lh-1">💼</span> 
+                <div class="lh-sm">
+                    <span class="text-white fw-bold d-block fs-3">Workly</span>
+                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                    <a href="usuario-buscarempleo.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Búsqueda de empleo</a>
+                    <a href="usuario-recursos.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Recursos</a>
+                    <a href="usuario-valoracionempresa.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Valoraciones de empresas</a>
+                    <a href="usuario-miperfil.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Mi Perfil</a>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                    <a href="usuario-notificaciones.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
+                        <i class="bi bi-bell-fill fs-3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
+                            5
+                        </span>
+                    </a>
+                    
+                    <a href="usuario-miperfil.html" class="text-info text-decoration-none d-inline-block">
+                        <i class="bi bi-person-circle fs-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow-1 py-4">
+        <div class="container-fluid px-4 px-lg-5">
+            <div class="row g-4 mt-1">
+                
+                <aside class="col-12 col-lg-4">
+                    
+                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 text-center mb-4">
+                        <div class="mb-3 position-relative d-inline-block mx-auto">
+                            <i class="bi bi-person-circle text-dark" style="font-size: 8rem; line-height: 1;"></i>
+                            <button class="btn btn-primary rounded-circle position-absolute bottom-0 end-0 mb-3 shadow-sm btn-sm" data-bs-toggle="tooltip" data-bs-title="Subir nueva foto">
+                                <i class="bi bi-camera-fill"></i>
+                            </button>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-1">Carlos Martínez</h4>
+                        <p class="text-primary fw-bold small mb-4">Desarrollador Full Stack</p>
+
+                        <ul class="list-unstyled text-start text-dark small ms-md-4 ms-lg-2 ms-xl-4 mb-0 lh-lg">
+                            <li class="mb-2"><i class="bi bi-envelope me-3 text-primary"></i>carlos.martinez@email.com</li>
+                            <li class="mb-2"><i class="bi bi-telephone-fill me-3 text-primary"></i>+503 1234 5678</li>
+                            <li class="mb-2"><i class="bi bi-geo-alt-fill me-3 text-primary"></i>San Salvador, El Salvador</li>
+                            <li><i class="bi bi-globe me-3 text-primary"></i>carlosmartinez.dev</li>
+                        </ul>
+                    </div>
+
+                    <div class="card bg-white border-0 rounded-4 shadow-sm overflow-hidden mb-4">
+                        <div class="bg-primary-subtle text-dark fw-bold px-4 py-3">
+                            Menú de perfil
+                        </div>
+                        <div class="list-group list-group-flush">
+                            <a href="usuario-miperfil.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-primary fw-bold bg-light">
+                                <i class="bi bi-person-circle fs-5"></i> Información personal
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary btn-accion" data-mensaje="Cargando tus documentos...">
+                                <i class="bi bi-file-earmark-text-fill fs-5"></i> CV y documentos
+                            </a>
+                            <a href="usuario-notificaciones.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary">
+                                <i class="bi bi-briefcase-fill fs-5"></i> Mis postulaciones
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary btn-accion" data-mensaje="Abriendo empleos guardados...">
+                                <i class="bi bi-bookmark-fill fs-5"></i> Empleos guardados
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary btn-accion" data-mensaje="Abriendo configuraciones de cuenta...">
+                                <i class="bi bi-gear-fill fs-5"></i> Configuraciones
+                            </a>
+                        </div>
+                    </div>
+
+                </aside>
+
+                <section class="col-12 col-lg-8">
+                    
+                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 p-lg-5 mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="fw-bold text-dark mb-0">Información Profesional</h5>
+                            <button class="btn btn-outline-primary btn-sm fw-bold border-0" data-bs-toggle="modal" data-bs-target="#modalEditarPerfilUsuario">Editar <i class="bi bi-pencil-square ms-1"></i></button>
+                        </div>
+                        
+                        <div class="row g-4">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Nombre completo</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 text-muted shadow-none" value="Carlos Martínez" readonly>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Título profesional</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 text-muted shadow-none" value="Desarrollador Full Stack" readonly>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold text-dark small">Resumen profesional</label>
+                                <textarea class="form-control bg-secondary-subtle border-0 text-muted shadow-none" rows="3" readonly>Desarrollador Full Stack con más de 5 años de experiencia en tecnologías web modernas. Especializado en React, Node.js y bases de datos NoSQL. Apasionado por crear soluciones elegantes y eficientes.</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 p-lg-5 mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="fw-bold text-dark mb-0">Habilidades</h5>
+                            <button class="btn btn-outline-primary btn-sm fw-bold border-0" data-bs-toggle="modal" data-bs-target="#modalEditarPerfilUsuario">Editar <i class="bi bi-pencil-square ms-1"></i></button>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6 class="fw-bold text-dark small mb-3">Habilidades técnicas</h6>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">JavaScript</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">React</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">Node.js</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">MongoDB</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">SQL</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h6 class="fw-bold text-dark small mb-3">Habilidades blandas</h6>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">Trabajo en equipo</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">Comunicación efectiva</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">Adaptabilidad</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 p-lg-5 mb-5">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-2 gap-3">
+                            <h5 class="fw-bold text-dark mb-0">Estadísticas Del Perfil</h5>
+                            <select class="form-select form-select-sm bg-secondary-subtle border-0 shadow-none text-dark fw-semibold py-2 ps-3 pe-5 w-auto rounded-pill cursor-pointer" id="selectTiempo">
+                                <option selected>Hace 1 semana</option>
+                                <option>Hace 1 mes</option>
+                                <option>Hace 6 meses</option>
+                            </select>
+                        </div>
+                        <p class="text-dark small mb-4">Visualiza cuantas veces tu perfil ha sido visto por empresas</p>
+
+                        <div class="row g-4 align-items-center">
+                            <div class="col-12 col-md-4 text-center">
+                                <div class="bg-primary bg-opacity-10 rounded-4 p-4 shadow-sm h-100 d-flex flex-column justify-content-center">
+                                    <h1 class="display-3 fw-bold text-primary mb-0">245</h1>
+                                    <span class="text-dark fw-bold small">Vistas totales</span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-8">
+                                <div class="bg-secondary bg-opacity-10 rounded-4 p-4">
+                                    <div class="d-flex align-items-end justify-content-between gap-2 border-bottom border-secondary border-opacity-25 pb-1" style="height: 120px;">
+                                        <div class="bg-primary flex-fill rounded-top shadow-sm" style="height: 40%;"></div>
+                                        <div class="bg-primary flex-fill rounded-top shadow-sm" style="height: 60%;"></div>
+                                        <div class="bg-primary flex-fill rounded-top shadow-sm" style="height: 90%;"></div>
+                                        <div class="bg-primary flex-fill rounded-top shadow-sm" style="height: 70%;"></div>
+                                        <div class="bg-primary flex-fill rounded-top shadow-sm" style="height: 100%;"></div>
+                                        <div class="bg-primary flex-fill rounded-top shadow-sm" style="height: 30%;"></div>
+                                        <div class="bg-primary flex-fill rounded-top shadow-sm" style="height: 20%;"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2 opacity-50 fw-bold" style="font-size: 0.65rem;">
+                                        <span>LUN</span><span>MAR</span><span>MIE</span><span>JUE</span><span>VIE</span><span>SAB</span><span>DOM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="modalEditarPerfilUsuario" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-bottom-0 px-4 pt-4">
+                    <h5 class="modal-title fw-bold text-dark">Editar Mi Perfil</h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 py-4">
+                    <form>
+                        <div class="row g-4">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Nombre completo</label>
+                                <input type="text" class="form-control border-dark-subtle shadow-none" value="Carlos Martínez">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Título profesional</label>
+                                <input type="text" class="form-control border-dark-subtle shadow-none" value="Desarrollador Full Stack">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold text-dark small">Resumen profesional</label>
+                                <textarea class="form-control border-dark-subtle shadow-none" rows="4">Desarrollador Full Stack con más de 5 años de experiencia en tecnologías web modernas. Especializado en React, Node.js y bases de datos NoSQL. Apasionado por crear soluciones elegantes y eficientes.</textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold text-dark small">Habilidades técnicas (separadas por comas)</label>
+                                <input type="text" class="form-control border-dark-subtle shadow-none" value="JavaScript, React, Node.js, MongoDB, SQL">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-top-0 px-4 pb-4">
+                    <button type="button" class="btn btn-light bg-secondary-subtle border-0 text-dark fw-bold px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary fw-bold px-5 shadow-sm" data-bs-dismiss="modal" id="btnGuardarPerfil">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </nav>
 
-  <main class="py-4">
-    <div class="container">
-      <div class="mb-3">
-        <a href="../principal/index.html" class="btn btn-outline-secondary btn-sm">← Volver al panel</a>
-      </div>
-
-      <div class="mb-4">
-        <h1 class="page-title mb-1">Mi perfil</h1>
-        <p class="text-muted mb-0">Actualiza tu información y tus habilidades</p>
-      </div>
-
-      <div id="alertContainer"></div>
-
-      <div class="row g-4">
-        <div class="col-lg-8">
-          <div class="card card-custom p-4">
-            <h4 class="mb-3">Información personal</h4>
-
-            <form id="formPerfil">
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label for="nombres" class="form-label">Nombres</label>
-                  <input type="text" id="nombres" class="form-control" required>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        
+        <div id="toastExito" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold">
+                    <i class="bi bi-check-circle-fill me-2 fs-5"></i> ¡Perfil actualizado correctamente!
                 </div>
-
-                <div class="col-md-6">
-                  <label for="apellidos" class="form-label">Apellidos</label>
-                  <input type="text" id="apellidos" class="form-control" required>
-                </div>
-
-                <div class="col-md-6">
-                  <label for="telefono" class="form-label">Teléfono</label>
-                  <input type="text" id="telefono" class="form-control" required>
-                </div>
-
-                <div class="col-md-6">
-                  <label for="id_municipio_fk" class="form-label">Municipio</label>
-                  <select id="id_municipio_fk" class="form-select" required>
-                    <option value="">Selecciona un municipio</option>
-                  </select>
-                </div>
-
-                <div class="col-12">
-                  <label for="resumen_profesional" class="form-label">Resumen profesional</label>
-                  <textarea id="resumen_profesional" class="form-control" rows="5" required></textarea>
-                </div>
-
-                <div class="col-12">
-                  <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                </div>
-              </div>
-            </form>
-          </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
         </div>
 
-        <div class="col-lg-4">
-          <div class="card card-custom p-4">
-            <h4 class="mb-3">Mis habilidades</h4>
-
-            <div class="mb-3">
-              <label for="id_habilidad_fk" class="form-label">Agregar habilidad</label>
-              <div class="d-flex gap-2">
-                <select id="id_habilidad_fk" class="form-select">
-                  <option value="">Selecciona una habilidad</option>
-                </select>
-                <button class="btn btn-primary" id="btnAgregarHabilidad" type="button">Agregar</button>
-              </div>
+        <div id="toastInfo" class="toast align-items-center text-white bg-info bg-opacity-75 border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-bold text-dark" id="toastInfoTexto">
+                    Acción realizada.
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-
-            <div id="listaHabilidades">
-              <p class="text-muted mb-0">Cargando habilidades...</p>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </main>
 
-  <script type="module" src="./app.js"></script>
+    </div>
+
+    <footer class="py-4 mt-auto bg-secondary">
+        <div class="container text-center text-white-50 small">
+            <div class="d-flex justify-content-center gap-5">
+                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
+                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
+                <span>Workly &nbsp;&nbsp;&nbsp; 2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // 1. Tooltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+        // 2. Toast de Éxito al Guardar
+        document.getElementById('btnGuardarPerfil').addEventListener('click', function() {
+            const toastElement = document.getElementById('toastExito');
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        });
+
+        // 3. Interacción del Selector de Tiempo
+        document.getElementById('selectTiempo').addEventListener('change', function() {
+            const toastInfoEl = document.getElementById('toastInfo');
+            document.getElementById('toastInfoTexto').innerHTML = `<i class="bi bi-arrow-repeat me-2"></i> Actualizando estadísticas...`;
+            const toast = new bootstrap.Toast(toastInfoEl);
+            toast.show();
+        });
+
+        // 4. Toasts para el Menú Lateral
+        const botonesAccion = document.querySelectorAll('.btn-accion');
+        botonesAccion.forEach(function(boton) {
+            boton.addEventListener('click', function(e) {
+                e.preventDefault();
+                const mensaje = this.getAttribute('data-mensaje');
+                const toastInfoEl = document.getElementById('toastInfo');
+                document.getElementById('toastInfoTexto').innerHTML = `<i class="bi bi-info-circle-fill me-2"></i> ${mensaje}`;
+                const toast = new bootstrap.Toast(toastInfoEl);
+                toast.show();
+            });
+        });
+    </script>
 </body>
 </html>

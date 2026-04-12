@@ -1,87 +1,261 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Publicar Vacante | Workly</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../assets/css/global.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly - Publicar Vacante</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="../principal/index.html">Workly Empresa</a>
-      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
+<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+
+    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+                <span class="display-5 me-3 lh-1">💼</span> 
+                <div class="lh-sm">
+                    <span class="text-white fw-bold d-block fs-3">Workly</span>
+                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                    <a href="empresa-publicarvacante.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Publicar vacante</a>
+                    <a href="empresa-misvacantes.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Mis vacantes</a>
+                    <a href="empresa-postulaciones.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Ver postulaciones</a>
+                    <a href="empresa-foro.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Foro</a>
+                    <a href="empresa-resenaempresa.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Reseñas de postulantes</a>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                    
+                    <a href="empresa-notificaciones.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
+                        <i class="bi bi-bell-fill fs-3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
+                            2
+                            <span class="visually-hidden">notificaciones no leídas</span>
+                        </span>
+                    </a>
+                    
+                    <a href="empresa-perfil.html" class="text-dark text-decoration-none d-inline-block">
+                        <i class="bi bi-person-circle fs-2"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow-1 py-4">
+        <div class="container px-4 px-lg-5">
+            
+            <div class="card bg-white border-0 shadow-sm rounded-4 mb-5 mt-2 overflow-hidden">
+                
+                <div class="p-4 p-lg-5 pb-0">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-3">
+                        <h4 class="fw-bold text-dark mb-0">Publicar Nueva Vacante</h4>
+                        <div class="fw-bold text-dark fs-5">
+                            <i class="bi bi-1-circle-fill text-primary me-2"></i>Paso 1 de 2
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-flex w-100 mb-4 px-4 px-lg-5">
+                    <div class="bg-primary bg-opacity-50 w-50 py-1 rounded-start-pill"></div>
+                    <div class="bg-secondary bg-opacity-25 w-50 py-1 rounded-end-pill"></div>
+                </div>
+
+                <div class="p-4 p-lg-5 pt-0">
+                    <form>
+                        <h5 class="fw-bold text-dark mb-4">Información Básica</h5>
+                        
+                        <div class="row g-4 mb-5">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark">Título del Puesto</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 rounded-3 py-2 text-muted shadow-none" placeholder="Ej: Desarrollador Frontend">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark">Ubicación</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 rounded-3 py-2 text-muted shadow-none" placeholder="Ej: San Salvador, El Salvador">
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <label class="form-label fw-bold text-dark">Empresa</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 rounded-3 py-2 text-muted shadow-none" value="TechSolutions" readonly>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="form-label fw-bold text-dark">Tipo de Contrato</label>
+                                <select class="form-select bg-secondary-subtle border-0 rounded-3 py-2 text-muted shadow-none">
+                                    <option selected>Tiempo Completo</option>
+                                    <option value="1">Medio Tiempo</option>
+                                    <option value="2">Híbrido</option>
+                                    <option value="3">Remoto</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="form-label fw-bold text-dark">Rango Salarial (Opcional)</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 rounded-3 py-2 text-muted shadow-none" placeholder="Ej: $1,000 - $1,500">
+                            </div>
+                        </div>
+
+                        <hr class="text-secondary opacity-25 mb-5">
+
+                        <h5 class="fw-bold text-dark mb-4">Detalles del Puesto</h5>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-dark">Descripción de la vacante</label>
+                            <div class="border border-secondary border-opacity-25 rounded-3 overflow-hidden">
+                                <div class="bg-light border-bottom border-secondary border-opacity-25 p-2 d-flex gap-3 flex-wrap text-dark">
+                                    <i class="bi bi-type-bold fs-5 cursor-pointer"></i>
+                                    <i class="bi bi-type-italic fs-5 cursor-pointer"></i>
+                                    <i class="bi bi-type-underline fs-5 cursor-pointer"></i>
+                                    <span class="border-end border-secondary border-opacity-25 mx-1"></span>
+                                    <i class="bi bi-text-left fs-5 cursor-pointer"></i>
+                                    <i class="bi bi-text-center fs-5 cursor-pointer"></i>
+                                    <i class="bi bi-text-right fs-5 cursor-pointer"></i>
+                                    <span class="border-end border-secondary border-opacity-25 mx-1"></span>
+                                    <i class="bi bi-list-ul fs-5 cursor-pointer"></i>
+                                    <i class="bi bi-list-ol fs-5 cursor-pointer"></i>
+                                    <i class="bi bi-link-45deg fs-5 cursor-pointer"></i>
+                                </div>
+                                <textarea class="form-control border-0 shadow-none p-3 text-muted" rows="4" placeholder="Añade una descripción general del puesto y el impacto en la empresa..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-dark">Responsabilidades Clave</label>
+                            <div class="border border-secondary border-opacity-25 rounded-3 overflow-hidden">
+                                <div class="bg-light border-bottom border-secondary border-opacity-25 p-2 d-flex gap-3 flex-wrap text-dark">
+                                    <i class="bi bi-type-bold fs-5 cursor-pointer"></i>
+                                    <i class="bi bi-type-italic fs-5 cursor-pointer"></i>
+                                    <span class="border-end border-secondary border-opacity-25 mx-1"></span>
+                                    <i class="bi bi-list-ul fs-5 cursor-pointer text-primary"></i> <i class="bi bi-list-ol fs-5 cursor-pointer"></i>
+                                </div>
+                                <textarea class="form-control border-0 shadow-none p-3 text-muted" rows="4" placeholder="• Desarrollar y mantener aplicaciones web...&#10;• Diseñar e implementar arquitecturas...&#10;• Colaborar con equipos de producto..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="form-label fw-bold text-dark">Requisitos y Experiencia</label>
+                            <div class="border border-secondary border-opacity-25 rounded-3 overflow-hidden">
+                                <div class="bg-light border-bottom border-secondary border-opacity-25 p-2 d-flex gap-3 flex-wrap text-dark">
+                                    <i class="bi bi-type-bold fs-5 cursor-pointer"></i>
+                                    <i class="bi bi-type-italic fs-5 cursor-pointer"></i>
+                                    <span class="border-end border-secondary border-opacity-25 mx-1"></span>
+                                    <i class="bi bi-list-ul fs-5 cursor-pointer text-primary"></i> <i class="bi bi-list-ol fs-5 cursor-pointer"></i>
+                                </div>
+                                <textarea class="form-control border-0 shadow-none p-3 text-muted" rows="4" placeholder="• 5+ años de experiencia en desarrollo...&#10;• Sólidos conocimientos en React y Node.js...&#10;• Experiencia con servicios cloud..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-between mt-5 pt-3">
+                            <div class="col-12 col-sm-auto mb-3 mb-sm-0">
+                                <button type="button" id="btnGuardarBorrador" class="btn btn-primary bg-opacity-75 px-5 py-2 fw-semibold rounded-3 w-100">Guardar Borrador</button>
+                            </div>
+                            <div class="col-12 col-sm-auto">
+                                <button type="button" class="btn btn-primary px-5 py-2 fw-semibold rounded-3 w-100" data-bs-toggle="modal" data-bs-target="#modalPaso2">Continuar a Publicar <i class="bi bi-arrow-right ms-2"></i></button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="modal fade" id="modalPaso2" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                    <div class="d-flex align-items-center w-100">
+                        <i class="bi bi-2-circle-fill text-primary fs-4 me-2"></i>
+                        <h5 class="modal-title fw-bold text-dark mb-0">Paso 2: Confirmación</h5>
+                        <button type="button" class="btn-close shadow-none ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="modal-body px-4 py-4">
+                    <p class="text-dark mb-4">Revisa las preferencias finales de tu publicación. Una vez confirmada, la vacante estará visible para todos los candidatos.</p>
+                    
+                    <form>
+                        <div class="mb-3 form-check bg-secondary-subtle p-3 rounded-3 d-flex align-items-center gap-2">
+                            <input type="checkbox" class="form-check-input bg-dark border-dark shadow-none mt-0 ms-1" id="checkNotificar" checked>
+                            <label class="form-check-label text-dark fw-semibold small ms-2" for="checkNotificar">Notificar a los candidatos compatibles</label>
+                        </div>
+                        <div class="mb-4 form-check bg-secondary-subtle p-3 rounded-3 d-flex align-items-center gap-2">
+                            <input type="checkbox" class="form-check-input bg-dark border-dark shadow-none mt-0 ms-1" id="checkDestacar">
+                            <label class="form-check-label text-dark fw-semibold small ms-2" for="checkDestacar">Marcar como vacante destacada <span class="text-muted">(Consume 1 crédito)</span></label>
+                        </div>
+
+                        <div class="d-grid gap-2 d-sm-flex justify-content-sm-end mt-4">
+                            <button type="button" class="btn btn-light bg-secondary-subtle border-0 text-dark fw-bold px-4 py-2 rounded-3" data-bs-dismiss="modal">Volver al Paso 1</button>
+                            <button type="button" class="btn btn-primary fw-bold px-4 py-2 rounded-3 shadow-sm" data-bs-dismiss="modal" id="btnConfirmarPublicacion">Confirmar y Publicar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </nav>
 
-  <main class="py-4">
-    <div class="container">
-      <div class="mb-3">
-        <a href="../principal/index.html" class="btn btn-outline-secondary btn-sm">← Volver al panel</a>
-      </div>
-
-      <div class="mb-4">
-        <h1 class="page-title mb-1">Publicar vacante</h1>
-        <p class="text-muted mb-0">Completa la información para publicar una nueva oportunidad</p>
-      </div>
-
-      <div id="alertContainer"></div>
-
-      <div class="card card-custom p-4">
-        <form id="formVacante">
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="id_categoria_fk" class="form-label">Categoría</label>
-              <select id="id_categoria_fk" class="form-select" required>
-                <option value="">Selecciona una categoría</option>
-              </select>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        
+        <div id="toastBorrador" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold">
+                    <i class="bi bi-floppy-fill me-2 fs-5"></i> Borrador guardado correctamente.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
+        </div>
 
-            <div class="col-md-6">
-              <label for="id_municipio_fk" class="form-label">Municipio</label>
-              <select id="id_municipio_fk" class="form-select" required>
-                <option value="">Selecciona un municipio</option>
-              </select>
+        <div id="toastPublicado" class="toast align-items-center text-white bg-primary border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold">
+                    <i class="bi bi-send-check-fill me-2 fs-5"></i> ¡Vacante publicada con éxito!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
+        </div>
 
-            <div class="col-md-8">
-              <label for="titulo_puesto" class="form-label">Título del puesto</label>
-              <input type="text" id="titulo_puesto" class="form-control" placeholder="Ejemplo: Backend Developer" required>
-            </div>
-
-            <div class="col-md-4">
-              <label for="modalidad" class="form-label">Modalidad</label>
-              <select id="modalidad" class="form-select" required>
-                <option value="">Selecciona una modalidad</option>
-                <option value="Remoto">Remoto</option>
-                <option value="Presencial">Presencial</option>
-                <option value="Híbrido">Híbrido</option>
-              </select>
-            </div>
-
-            <div class="col-md-4">
-              <label for="salario_offrecido" class="form-label">Salario ofrecido</label>
-              <input type="number" step="0.01" id="salario_offrecido" class="form-control" placeholder="0.00" required>
-            </div>
-
-            <div class="col-12">
-              <label for="descripcion_puesto" class="form-label">Descripción del puesto</label>
-              <textarea id="descripcion_puesto" class="form-control" rows="6" placeholder="Describe responsabilidades, requisitos y beneficios" required></textarea>
-            </div>
-
-            <div class="col-12 d-flex gap-2 pt-2">
-              <button type="submit" class="btn btn-primary">Publicar vacante</button>
-              <button type="button" class="btn btn-outline-secondary" id="btnLimpiar">Limpiar</button>
-            </div>
-          </div>
-        </form>
-      </div>
     </div>
-  </main>
 
-  <script type="module" src="./app.js"></script>
+    <footer class="py-4 mt-auto bg-secondary">
+        <div class="container text-center">
+            <div class="d-flex justify-content-center gap-5">
+                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
+                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
+                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Funcionalidad para Guardar Borrador
+        document.getElementById('btnGuardarBorrador').addEventListener('click', function() {
+            const toastElement = document.getElementById('toastBorrador');
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        });
+
+        // Funcionalidad para Confirmar y Publicar (Paso 2)
+        document.getElementById('btnConfirmarPublicacion').addEventListener('click', function() {
+            // Muestra el Toast de Publicado
+            const toastElement = document.getElementById('toastPublicado');
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+            
+            // Simular redirección a la lista de vacantes después de publicar (opcional)
+            setTimeout(() => {
+                window.location.href = 'empresa-principal.html';
+            }, 2000);
+        });
+    </script>
 </body>
 </html>

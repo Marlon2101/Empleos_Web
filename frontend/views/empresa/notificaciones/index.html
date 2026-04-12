@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly - Notificaciones Empresa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .hover-primary:hover { color: #0d6efd !important; text-decoration: underline !important; }
+        .cursor-pointer { cursor: pointer; }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+
+    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+                <span class="display-5 me-3 lh-1">💼</span> 
+                <div class="lh-sm">
+                    <span class="text-white fw-bold d-block fs-3">Workly</span>
+                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                    <a href="empresa-publicarvacante.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Publicar vacante</a>
+                    <a href="empresa-misvacantes.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Mis vacantes</a>
+                    <a href="empresa-postulaciones.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Ver postulaciones</a>
+                    <a href="empresa-foro.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Foro</a>
+                    <a href="empresa-resenaempresa.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Reseñas de postulantes</a>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                    <a href="empresa-notificaciones.html" class="text-info text-decoration-none position-relative d-inline-block mt-1">
+                        <i class="bi bi-bell-fill fs-3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
+                            2
+                        </span>
+                    </a>
+                    <a href="empresa-perfil.html" class="text-dark text-decoration-none d-inline-block">
+                        <i class="bi bi-person-circle fs-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow-1 py-4">
+        <div class="container-fluid px-4 px-lg-5">
+            
+            <div class="card bg-white border-0 shadow-sm p-3 mb-4 rounded-3 mt-2">
+                <div class="row g-3 align-items-center">
+                    <div class="col-12 col-md-auto">
+                        <button class="btn bg-info text-white bg-opacity-50 border-0 fw-bold px-4 w-100 shadow-none pointer-events-none">Notificaciones</button>
+                    </div>
+                    <div class="col-12 col-md">
+                        <div class="input-group">
+                            <span class="input-group-text bg-secondary-subtle border-0"><i class="bi bi-search text-muted"></i></span>
+                            <input type="text" class="form-control bg-secondary-subtle border-0 shadow-none fw-semibold text-muted" placeholder="Buscar avisos, nombres o vacantes...">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-auto">
+                        <select class="form-select bg-primary-subtle text-dark fw-bold border-0 px-4 w-100 text-center cursor-pointer btn-accion" data-mensaje="Filtro de avisos aplicado">
+                            <option selected>Todas</option>
+                            <option value="1">No leídas</option>
+                            <option value="2">Candidatos</option>
+                            <option value="3">Sistema</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-auto">
+                        <button class="btn bg-primary-subtle text-dark fw-bold px-4 w-100 shadow-sm btn-accion" data-mensaje="Búsqueda de notificaciones completada">Buscar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                
+                <section class="col-12 col-lg-8">
+                    
+                    <div class="card bg-white border-0 shadow-sm rounded-3 mb-4 border-start border-5 border-primary border-opacity-50 notificacion-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex gap-4">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 d-inline-flex align-items-center justify-content-center">
+                                        <i class="bi bi-person-plus-fill fs-3"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold text-dark mb-1">Nueva postulación recibida</h6>
+                                    <p class="text-dark fw-bold mb-3 small">Carlos Ruiz ha aplicado a tu vacante de <strong>Backend Developer</strong>. Su perfil coincide en un 90% con tus requisitos.</p>
+                                    <div class="d-flex gap-3">
+                                        <button type="button" class="btn bg-primary-subtle text-dark fw-bold btn-sm px-3 rounded-2 shadow-sm" onclick="window.location.href='empresa-postulaciones.html'">Ver postulante</button>
+                                        <button type="button" class="btn bg-primary-subtle text-dark fw-bold btn-sm px-3 rounded-2 shadow-sm btn-marcar-leido">Marcar como leído</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-3 mb-4 border-start border-5 border-primary border-opacity-50 notificacion-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex gap-4">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-secondary-subtle rounded-circle p-3 d-inline-flex align-items-center justify-content-center">
+                                        <i class="bi bi-chat-dots-fill fs-3 text-dark"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold text-dark mb-1">Respuesta de candidato</h6>
+                                    <p class="text-dark fw-bold mb-1 small">María García respondió a la invitación de entrevista para <strong>Frontend Developer</strong>.</p>
+                                    <p class="text-muted small mb-3">Hace 35 minutos · Candidatos</p>
+                                    <div class="d-flex gap-3">
+                                        <button type="button" class="btn bg-primary-subtle text-dark fw-bold btn-sm px-4 rounded-2 shadow-sm btn-detalle"
+                                            data-remitente="María García (Postulante)" 
+                                            data-asunto="Confirmación de Entrevista" 
+                                            data-mensaje="Hola, muchas gracias por la invitación. Confirmo mi asistencia para el jueves a las 10:00 AM. Adjunto mi portafolio actualizado para que puedan revisarlo previamente."
+                                            data-bs-toggle="modal" data-bs-target="#modalDetalleMensaje">Abrir mensaje</button>
+                                        <button type="button" class="btn bg-primary-subtle text-dark fw-bold btn-sm px-3 rounded-2 shadow-sm btn-marcar-leido">Marcar como leído</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-3 mb-4 notificacion-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex gap-4">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-secondary-subtle rounded-circle p-3 d-inline-flex align-items-center justify-content-center">
+                                        <i class="bi bi-clock-history fs-3 text-dark"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold text-dark mb-1">Vacante próxima a vencer</h6>
+                                    <p class="text-dark fw-bold mb-3 small">Tu publicación de <strong>Diseñador UI/UX</strong> expirará en 48 horas. Renuévala ahora para mantenerla en los primeros resultados.</p>
+                                    <div class="d-flex gap-3">
+                                        <button type="button" class="btn bg-primary-subtle text-dark fw-bold btn-sm px-3 rounded-2 shadow-sm btn-accion" data-mensaje="¡Vacante renovada con éxito!">Renovar vacante</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <aside class="col-12 col-lg-4">
+                    <div class="card bg-white border-0 shadow-sm rounded-3 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-2 small">Resumen de avisos</h6>
+                        <hr class="mt-0 mb-3 border-dark border-1 opacity-10">
+                        <div class="list-unstyled small fw-bold text-dark lh-lg">
+                            <div class="d-flex justify-content-between mb-1"><span>Pendientes</span><span class="text-danger">2</span></div>
+                            <div class="d-flex justify-content-between mb-1"><span>Postulaciones nuevas</span><span>8</span></div>
+                            <div class="d-flex justify-content-between"><span>Mensajes sin leer</span><span>5</span></div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-3 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-2 small">Accesos rápidos</h6>
+                        <hr class="mt-0 mb-3 border-dark border-1 opacity-10">
+                        <ul class="list-unstyled small fw-bold text-dark lh-lg mb-0">
+                            <li><a href="empresa-postulaciones.html" class="text-dark text-decoration-none hover-primary">Gestión de candidatos</a></li>
+                            <li><a href="empresa-misvacantes.html" class="text-dark text-decoration-none hover-primary">Estado de vacantes</a></li>
+                            <li class="cursor-pointer hover-primary btn-accion" data-mensaje="Abriendo biblioteca de recursos para empresas...">Recursos de contratación</li>
+                        </ul>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-3 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-2 small">Actividad del Foro</h6>
+                        <hr class="mt-0 mb-3 border-dark border-1 opacity-10">
+                        <ul class="list-unstyled small fw-bold text-dark lh-lg mb-0">
+                            <li class="cursor-pointer hover-primary btn-accion" data-mensaje="Cargando nuevas respuestas en el foro...">3 nuevas respuestas en tu tema</li>
+                            <li class="cursor-pointer hover-primary btn-accion" data-mensaje="Viendo menciones de tu empresa...">1 mención de tu empresa</li>
+                        </ul>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="modalDetalleMensaje" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4 text-center d-block">
+                    <i class="bi bi-chat-quote display-4 text-primary mb-2"></i>
+                    <h5 class="modal-title fw-bold text-dark" id="modalAsunto">Asunto</h5>
+                </div>
+                <div class="modal-body px-4 py-4">
+                    <div class="bg-light p-3 rounded-3 mb-4">
+                        <p class="small text-muted mb-1 fw-bold">De:</p>
+                        <p class="mb-0 text-dark fw-bold" id="modalRemitente">Nombre</p>
+                    </div>
+                    <p class="text-dark lh-base" id="modalCuerpo">Mensaje...</p>
+                    <div class="d-grid mt-4">
+                        <button type="button" class="btn btn-primary fw-bold py-2 rounded-3 shadow-sm" data-bs-dismiss="modal">Entendido</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastAccion" class="toast align-items-center text-white bg-info bg-opacity-75 border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-bold text-dark" id="toastTexto">Acción realizada.</div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+        <div id="toastExito" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold" id="toastExitoTexto">Realizado con éxito.</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="py-4 mt-auto bg-secondary text-center text-white-50 small">
+        <div class="container">
+            <div class="d-flex justify-content-center gap-5 mb-2">
+                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
+                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
+            </div>
+            <span>Workly &copy; 2026</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // 1. Función para lanzar avisos (Toasts)
+        function lanzarToast(tipo, mensaje) {
+            const toastEl = tipo === 'exito' ? document.getElementById('toastExito') : document.getElementById('toastAccion');
+            const textoEl = tipo === 'exito' ? document.getElementById('toastExitoTexto') : document.getElementById('toastTexto');
+            textoEl.innerHTML = `<i class="bi ${tipo === 'exito' ? 'bi-check-circle-fill' : 'bi-info-circle-fill'} me-2"></i> ${mensaje}`;
+            new bootstrap.Toast(toastEl).show();
+        }
+
+        // 2. Botones de acción rápida (.btn-accion)
+        document.querySelectorAll('.btn-accion').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const msj = this.getAttribute('data-mensaje');
+                lanzarToast('info', msj);
+            });
+        });
+
+        // 3. Lógica de "Marcar como leído"
+        document.querySelectorAll('.btn-marcar-leido').forEach(btn => {
+            btn.addEventListener('click', function() {
+                lanzarToast('exito', 'Notificación marcada como leída.');
+                const card = this.closest('.notificacion-card');
+                if(card) {
+                    card.classList.remove('border-start', 'border-5', 'border-primary', 'border-opacity-50');
+                }
+                this.textContent = 'Leído';
+                this.disabled = true;
+                this.classList.replace('text-dark', 'text-muted');
+            });
+        });
+
+        // 4. Modal Dinámico (Cambia el texto según el botón pulsado)
+        const modalDetalle = document.getElementById('modalDetalleMensaje');
+        modalDetalle.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // El botón que abrió el modal
+            document.getElementById('modalRemitente').textContent = button.getAttribute('data-remitente');
+            document.getElementById('modalAsunto').textContent = button.getAttribute('data-asunto');
+            document.getElementById('modalCuerpo').textContent = button.getAttribute('data-mensaje');
+        });
+    </script>
+</body>
+</html>

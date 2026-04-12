@@ -1,87 +1,253 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Empresa | Workly</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../assets/css/global.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly - Panel Empresa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="#">Workly Empresa</a>
-      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
+<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+
+    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+                <span class="display-5 me-3 lh-1">💼</span> 
+                <div class="lh-sm">
+                    <span class="text-white fw-bold d-block fs-3">Workly</span>
+                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                    <a href="empresa-publicarvacante.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Publicar vacante</a>
+                    <a href="empresa-misvacantes.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Mis vacantes</a>
+                    <a href="empresa-postulaciones.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Ver postulaciones</a>
+                    <a href="empresa-foro.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Foro</a>
+                    <a href="empresa-resenaempresa.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Reseñas de postulantes</a>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                    
+                    <a href="empresa-notificaciones.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
+                        <i class="bi bi-bell-fill fs-3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
+                            2
+                            <span class="visually-hidden">notificaciones no leídas</span>
+                        </span>
+                    </a>
+                    
+                    <a href="empresa-perfil.html" class="text-dark text-decoration-none d-inline-block">
+                        <i class="bi bi-person-circle fs-2"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow-1 py-4">
+        <div class="container-fluid px-4 px-lg-5">
+            
+            <div class="card bg-white border-0 shadow-sm p-2 mb-4 rounded-3 mt-2">
+                <div class="row g-2 align-items-center">
+                    
+                    <div class="col-12 col-md-auto">
+                        <button class="btn bg-info text-white bg-opacity-50 border-0 fw-bold px-4 w-100 shadow-none pointer-events-none">Panel Empresa</button>
+                    </div>
+                    
+                    <div class="col-12 col-md">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                            <input type="text" class="form-control border-start-0 shadow-none text-muted" placeholder="Buscar vacantes, candidatos, publicaciones...">
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 col-md-auto">
+                        <button type="button" class="btn btn-primary fw-bold px-5 w-100 rounded-3" onclick="window.location.href='empresa-publicarvacante.html'">Publicar Vacante</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row g-4">
+                
+                <section class="col-12 col-lg-8">
+                    
+                    <div class="card bg-white border-0 shadow-sm rounded-4 mb-4 p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="fw-bold text-dark">¿Qué deseas publicar hoy?</h5>
+                            <div class="d-flex gap-2">
+                                <button type="button" id="btnGuardarPub" class="btn btn-primary fw-bold px-4 rounded-pill shadow-sm">Guardar</button>
+                                <button type="button" id="btnPublicarPub" class="btn btn-primary fw-bold px-4 rounded-pill shadow-sm">Publicar</button>
+                            </div>
+                        </div>
+                        
+                        <textarea id="textareaPublicacion" class="form-control border-0 shadow-none px-0 mb-4 text-dark fw-semibold" rows="2" placeholder="Crear publicación..."></textarea>
+                        
+                        <div class="d-flex flex-wrap gap-3">
+                            <span class="badge bg-primary-subtle text-primary rounded-pill px-4 py-2 fs-6 cursor-pointer border border-primary-subtle shadow-sm">Vacante</span>
+                            <span class="badge bg-primary-subtle text-primary rounded-pill px-4 py-2 fs-6 cursor-pointer border border-primary-subtle shadow-sm">Noticia</span>
+                            <span class="badge bg-primary-subtle text-primary rounded-pill px-4 py-2 fs-6 cursor-pointer border border-primary-subtle shadow-sm">Cultura</span>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-4 mb-4 p-4 p-lg-5">
+                        <div class="d-flex gap-3 mb-4">
+                            <div class="flex-shrink-0">
+                                <div class="bg-secondary-subtle rounded-circle p-2 d-inline-flex align-items-center justify-content-center">
+                                    <i class="bi bi-person fs-4 text-dark"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-0">TechSolutions</h6>
+                                <span class="text-dark small">Publicado hace 2 horas</span>
+                            </div>
+                        </div>
+                        
+                        <p class="text-dark mb-4">Estamos buscando talento para nuestro equipo de desarrollo. Buscamos un Backend Developer con experiencia en APIs, bases de datos, .NET y trabajo en equipo.</p>
+                        
+                        <div class="bg-secondary text-dark bg-opacity-25 rounded-4 p-4 mb-4">
+                            <div class="fw-bold mb-1">Backend Developer</div>
+                            <div class="small mb-1">Tiempo completo | Híbrido | San Salvador</div>
+                            <div class="small">Salario estimado: $1,200 - $1,800</div>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-3 mt-auto">
+                            <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 fs-6 border border-primary-subtle shadow-sm">24 postulantes</span>
+                            <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 fs-6 border border-primary-subtle shadow-sm">85 vistas</span>
+                            <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 fs-6 border border-primary-subtle shadow-sm">12 guardados</span>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-4 mb-4 p-4 p-lg-5">
+                        <div class="d-flex gap-3 mb-4">
+                            <div class="flex-shrink-0">
+                                <div class="bg-secondary-subtle rounded-circle p-2 d-inline-flex align-items-center justify-content-center">
+                                    <i class="bi bi-person fs-4 text-dark"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-0">TechSolutions</h6>
+                                <span class="text-dark small">Publicado hace 5 horas</span>
+                            </div>
+                        </div>
+                        
+                        <p class="text-dark mb-4">¡Nuestra cultura de trabajo híbrido sigue creciendo! Hoy celebramos la integración de nuevas herramientas para facilitar la comunicación entre nuestros equipos presenciales y remotos. 🚀💻</p>
+                    </div>
+
+                </section>
+
+                <aside class="col-12 col-lg-4">
+                    
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-3">Vacantes activas</h6>
+                        <p class="text-dark small mb-4">12 vacantes publicadas actualmente.</p>
+                        <div>
+                            <button type="button" class="btn btn-primary fw-bold px-4 rounded-pill shadow-sm" onclick="window.location.href='empresa-misvacantes.html'">Ver vacantes</button>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-3">Postulantes recientes</h6>
+                        <div class="d-flex justify-content-between align-items-center gap-2">
+                            <ul class="list-unstyled text-dark small fw-semibold mb-0 lh-lg">
+                                <li>&bull; Carlos Ruiz</li>
+                                <li>&bull; María García</li>
+                                <li>&bull; José Méndez</li>
+                            </ul>
+                            <button type="button" class="btn btn-primary fw-bold px-4 py-2 rounded-pill shadow-sm flex-shrink-0" onclick="window.location.href='empresa-postulaciones.html'">Ver Candidatos</button>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-3">Explorar recursos</h6>
+                        <div class="d-flex justify-content-between align-items-center gap-2">
+                            <ul class="list-unstyled text-dark small fw-semibold mb-0 lh-lg">
+                                <li>&bull; Guía para redactar vacantes</li>
+                                <li>&bull; Plantilla de entrevista técnica</li>
+                                <li>&bull; Checklist para entrevistas</li>
+                                <li>&bull; Manual de marca empleadora</li>
+                            </ul>
+                            <button type="button" class="btn btn-primary fw-bold px-4 py-2 rounded-pill shadow-sm flex-shrink-0" onclick="window.location.href='empresa-recursos.html'">Ver Recursos</button>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-3">Accesos rápidos</h6>
+                        <div class="d-flex justify-content-between align-items-start gap-2">
+                            <ul class="list-unstyled text-dark small fw-semibold mb-0 lh-lg">
+                                <li><a href="empresa-foro.html" class="text-dark text-decoration-none">&bull; Foro</a></li>
+                                <li><a href="empresa-resenaempresa.html" class="text-dark text-decoration-none">&bull; Reseñas de postulantes</a></li>
+                                <li><a href="empresa-perfil.html" class="text-dark text-decoration-none">&bull; Perfil de empresa</a></li>
+                                <li><a href="empresa-recursos.html" class="text-dark text-decoration-none">&bull; Recursos</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        
+        <div id="toastGuardado" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold">
+                    <i class="bi bi-floppy-fill me-2 fs-5"></i> Borrador guardado correctamente.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div id="toastPublicado" class="toast align-items-center text-white bg-primary border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold">
+                    <i class="bi bi-send-check-fill me-2 fs-5"></i> ¡Publicación realizada con éxito!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
     </div>
-  </nav>
 
-  <main class="py-4">
-    <div class="container">
-      <div class="mb-4">
-        <h1 class="page-title mb-1">Bienvenido, <span id="nombreEmpresa">Empresa</span></h1>
-        <p class="text-muted mb-0">Gestiona tus vacantes y revisa postulaciones</p>
-      </div>
-
-      <div id="alertContainer"></div>
-
-      <div class="row g-3 mb-4">
-        <div class="col-md-6 col-lg-3">
-          <div class="card card-custom p-3 dashboard-card">
-            <h6 class="text-muted">Vacantes publicadas</h6>
-            <h2 id="totalVacantes">0</h2>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-          <div class="card card-custom p-3 dashboard-card">
-            <h6 class="text-muted">Postulaciones recibidas</h6>
-            <h2 id="totalPostulaciones">0</h2>
-          </div>
-        </div>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-lg-6">
-          <div class="card card-custom p-3">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <h5 class="mb-0">Últimas vacantes</h5>
-              <a href="../misvacantes/index.html" class="btn btn-sm btn-outline-primary">Ver todas</a>
+    <footer class="py-4 mt-auto bg-secondary">
+        <div class="container text-center">
+            <div class="d-flex justify-content-center gap-5">
+                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
+                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
+                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2026</span>
             </div>
-            <div id="ultimasVacantes" class="small-empty">
-              <div class="text-muted">Cargando vacantes...</div>
-            </div>
-          </div>
         </div>
+    </footer>
 
-        <div class="col-lg-6">
-          <div class="card card-custom p-3">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <h5 class="mb-0">Últimas postulaciones</h5>
-              <a href="../postulaciones/index.html" class="btn btn-sm btn-outline-primary">Ver todas</a>
-            </div>
-            <div id="ultimasPostulaciones" class="small-empty">
-              <div class="text-muted">Cargando postulaciones...</div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-      <div class="row g-3 mt-4">
-        <div class="col-md-4">
-          <a href="../publicarvacante/index.html" class="btn btn-primary w-100 py-3">Publicar vacante</a>
-        </div>
-        <div class="col-md-4">
-          <a href="../misvacantes/index.html" class="btn btn-outline-primary w-100 py-3">Mis vacantes</a>
-        </div>
-        <div class="col-md-4">
-          <a href="../perfil/index.html" class="btn btn-outline-secondary w-100 py-3">Mi perfil</a>
-        </div>
-      </div>
-    </div>
-  </main>
+    <script>
+        // Funcionalidad para el botón "Guardar" publicación
+        document.getElementById('btnGuardarPub').addEventListener('click', function() {
+            const toastElement = document.getElementById('toastGuardado');
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        });
 
-  <script type="module" src="./app.js"></script>
+        // Funcionalidad para el botón "Publicar" publicación
+        document.getElementById('btnPublicarPub').addEventListener('click', function() {
+            // Mostrar notificación
+            const toastElement = document.getElementById('toastPublicado');
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+            
+            // Limpiar el área de texto como feedback visual extra
+            document.getElementById('textareaPublicacion').value = '';
+        });
+    </script>
 </body>
 </html>

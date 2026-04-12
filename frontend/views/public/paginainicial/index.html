@@ -1,123 +1,91 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Workly | Bolsa de empleo</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../assets/css/global.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly - Inicio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-    <div class="container">
-      <a class="navbar-brand fw-bold text-primary" href="#">Workly</a>
-      <div class="d-flex gap-2">
-        <a href="../login/index.html" class="btn btn-outline-primary btn-sm">Iniciar sesión</a>
-        <a href="../registro/index.html" class="btn btn-primary btn-sm">Registrarse</a>
-      </div>
-    </div>
-  </nav>
 
-  <main>
-    <section class="hero-section py-5">
-      <div class="container">
-        <div class="row align-items-center g-4">
-          <div class="col-lg-6">
-            <span class="badge bg-primary-subtle text-primary mb-3">Bolsa de empleo moderna</span>
-            <h1 class="display-5 fw-bold mb-3">
-              Encuentra talento o encuentra tu próximo empleo
-            </h1>
-            <p class="lead text-muted mb-4">
-              Workly conecta usuarios y empresas en un solo lugar. Publica vacantes, aplica fácilmente y gestiona procesos de selección.
-            </p>
-
-            <div class="d-flex flex-wrap gap-2">
-              <a href="../registro/index.html" class="btn btn-primary btn-lg">Crear cuenta</a>
-              <a href="../../usuario/buscarempleo/index.html" class="btn btn-outline-secondary btn-lg">Explorar vacantes</a>
-            </div>
-          </div>
-
-          <div class="col-lg-6">
-            <div class="hero-card card card-custom p-4">
-              <div class="row g-3 text-center">
-                <div class="col-6">
-                  <div class="stat-card p-3">
-                    <h3 class="fw-bold mb-1" id="statVacantes">0</h3>
-                    <small class="text-muted">Vacantes visibles</small>
-                  </div>
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg py-3" style="background-color: #929aa9;">
+        <div class="container-fluid px-4 px-lg-5"> <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <span class="me-3" style="font-size: 3.5rem; line-height: 1;">💼</span>
+                <div class="lh-sm">
+                    <span class="text-white fw-bold d-block" style="font-size: 2rem;">Workly</span>
+                    <span style="color: #e2e4e8; font-size: 0.95rem;">Tu búsqueda de trabajo profesional</span>
                 </div>
-                <div class="col-6">
-                  <div class="stat-card p-3">
-                    <h3 class="fw-bold mb-1">2</h3>
-                    <small class="text-muted">Tipos de cuenta</small>
-                  </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                <div class="d-flex gap-2 mt-3 mt-lg-0">
+                    <button class="btn px-4 fw-semibold border-0 text-white" style="background-color: #3f51b5;"
+                        onclick="window.location.href='login.html'">Iniciar sesión</button>
+                    <button class="btn px-4 fw-semibold border-0 text-white" style="background-color: #3f51b5;"
+                        onclick="window.location.href='registro.html'">Registrarse</button>
+                    <button class="btn border-0 text-dark fs-3 d-none d-lg-block ms-3"><i
+                            class="bi bi-list"></i></button>
                 </div>
-                <div class="col-12">
-                  <div class="hero-mini-text text-muted">
-                    Publica vacantes, recibe postulaciones, revisa estados y gestiona tu perfil en una sola plataforma.
-                  </div>
+            </div>
+
+        </div>
+    </nav>
+
+    <main class="flex-grow-1 position-relative d-flex align-items-center justify-content-center py-5"
+        style="background: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat; min-height: 75vh;">
+
+        <div class="container bg-white shadow-lg p-4 p-md-5 mx-3" style="border-radius: 2rem; max-width: 1100px;">
+            <div class="row align-items-center g-4">
+
+                <div class="col-lg-7 pe-lg-5">
+                    <h1 class="display-5 fw-bold text-dark mb-3">
+                        Encuentra <span style="color: #3f51b5;">oportunidades</span> de trabajo <br> Impulsa tu carrera
+                    </h1>
+                    <p class="fs-5 text-dark mb-5" style="max-width: 90%;">
+                        Accede a oportunidades para generar ingresos de forma segura y sustentable
+                    </p>
+
+                    <div class="d-flex flex-wrap gap-3">
+                        <button class="btn text-white px-4 py-2 fw-semibold d-flex align-items-center gap-2"
+                            style="background-color: #3f51b5; border-radius: 0.5rem;"
+                            onclick="window.location.href='registro.html'">
+                            Quiero trabajar <i class="bi bi-arrow-right"></i>
+                        </button>
+                        <button class="btn text-dark px-4 py-2 fw-semibold d-flex align-items-center gap-2 border-0"
+                            style="background-color: #f1ebd9; border-radius: 0.5rem;"
+                            onclick="window.location.href='registro.html'">
+                            ¿Quieres contratar? <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
                 </div>
-              </div>
+
+                <div class="col-lg-5 text-center">
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80"
+                        alt="Red de conexiones" class="img-fluid w-100" style="border-radius: 1.5rem;">
+                </div>
+
             </div>
-          </div>
         </div>
-     </div>
-    </section>
+    </main>
 
-    <section class="py-5 bg-light">
-      <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-          <div>
-            <h2 class="fw-bold mb-1">Vacantes recientes</h2>
-            <p class="text-muted mb-0">Algunas oportunidades disponibles en la plataforma</p>
-          </div>
-          <a href="../../usuario/buscarempleo/index.html" class="btn btn-outline-primary">Ver todas</a>
-        </div>
-
-        <div id="alertContainer"></div>
-
-        <div class="row g-4" id="contenedorVacantes">
-          <div class="col-12 text-muted">Cargando vacantes...</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="py-5">
-      <div class="container">
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="card card-custom p-4 h-100">
-              <h5 class="fw-bold">Para usuarios</h5>
-              <p class="text-muted mb-0">
-                Crea tu perfil, agrega habilidades, busca vacantes y postúlate de forma sencilla.
-              </p>
+    <footer class="py-4 mt-auto" style="background-color: #929aa9;">
+        <div class="container text-center">
+            <div class="d-flex justify-content-center gap-4">
+                <a href="#" class="text-white text-decoration-none" style="color: #e2e4e8 !important;">Ayuda</a>
+                <a href="#" class="text-white text-decoration-none" style="color: #e2e4e8 !important;">Privacidad</a>
+                <span class="text-white" style="color: #e2e4e8 !important;">Workly 2026</span>
             </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card card-custom p-4 h-100">
-              <h5 class="fw-bold">Para empresas</h5>
-              <p class="text-muted mb-0">
-                Publica vacantes, recibe postulaciones y administra tus procesos de selección.
-              </p>
-            </div>
-          </div>
-
-          <div class="col-md-4">
-            <div class="card card-custom p-4 h-100">
-              <h5 class="fw-bold">Gestión centralizada</h5>
-              <p class="text-muted mb-0">
-                Todo organizado desde dashboards, perfiles, notificaciones y módulos administrativos.
-              </p>
-            </div>
-          </div>
         </div>
-      </div>
-    </section>
-  </main>
+    </footer>
 
-  <script type="module" src="./app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

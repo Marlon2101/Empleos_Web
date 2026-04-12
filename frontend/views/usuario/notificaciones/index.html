@@ -1,42 +1,274 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notificaciones | Workly</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../assets/css/global.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly - Notificaciones Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .hover-primary:hover { color: #0d6efd !important; text-decoration: underline !important; }
+        .cursor-pointer { cursor: pointer; }
+    </style>
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="../principal/index.html">Workly Usuario</a>
-      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
-    </div>
-  </nav>
+<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
 
-  <main class="py-4">
-    <div class="container">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <h1 class="page-title mb-1">Notificaciones</h1>
-          <p class="text-muted mb-0">Mantente al día con tus procesos y novedades</p>
+    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+                <span class="display-5 me-3 lh-1">💼</span> 
+                <div class="lh-sm">
+                    <span class="text-white fw-bold d-block fs-3">Workly</span>
+                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                    <a href="usuario-buscarempleo.html" class="btn btn-primary btn-sm px-3 fw-semibold">Búsqueda de empleo</a>
+                    <a href="usuario-recursos.html" class="btn btn-primary btn-sm px-3 fw-semibold">Recursos</a>
+                    <a href="usuario-valoracionempresa.html" class="btn btn-primary btn-sm px-3 fw-semibold">Valoraciones de empresas</a>
+                    <a href="usuario-miperfil.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Mi Perfil</a>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                    <a href="usuario-notificaciones.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
+                        <i class="bi bi-bell-fill fs-3 text-info"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
+                            5
+                        </span>
+                    </a>
+                    <a href="usuario-miperfil.html" class="text-dark text-decoration-none d-inline-block">
+                        <i class="bi bi-person-circle fs-2"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-        <button class="btn btn-outline-primary" id="btnMarcarTodas">Marcar todas como leídas</button>
-      </div>
+    </nav>
 
-      <div id="alertContainer"></div>
+    <main class="flex-grow-1 py-4">
+        <div class="container-fluid px-4 px-lg-5">
+            
+            <div class="card bg-white border-0 shadow-sm p-3 mb-4 rounded-3 mt-2">
+                <div class="row g-3 align-items-center">
+                    <div class="col-12 col-md-auto">
+                        <button class="btn bg-info text-white bg-opacity-50 border-0 fw-bold px-4 w-100 shadow-none pointer-events-none">Notificaciones</button>
+                    </div>
+                    <div class="col-12 col-md">
+                        <div class="input-group">
+                            <span class="input-group-text bg-secondary-subtle border-0"><i class="bi bi-search text-muted"></i></span>
+                            <input type="text" class="form-control bg-secondary-subtle border-0 shadow-none fw-semibold text-muted" placeholder="Buscar notificaciones...">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-auto">
+                        <select class="form-select bg-primary-subtle text-dark fw-bold border-0 px-4 w-100 text-center cursor-pointer btn-accion" data-mensaje="Filtro de búsqueda aplicado">
+                            <option selected>Todas</option>
+                            <option value="1">No leídas</option>
+                            <option value="2">Postulaciones</option>
+                            <option value="3">Mensajes</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-auto">
+                        <button class="btn bg-primary-subtle text-dark fw-bold px-4 w-100 shadow-sm btn-accion" data-mensaje="Búsqueda realizada con éxito">Buscar</button>
+                    </div>
+                </div>
+            </div>
 
-      <div class="card card-custom p-3 p-md-4">
-        <div id="listaNotificaciones">
-          <p class="text-muted mb-0">Cargando notificaciones...</p>
+            <div class="row g-4">
+                
+                <section class="col-12 col-lg-8">
+                    
+                    <div class="card bg-white border-0 shadow-sm rounded-3 mb-4 border-start border-5 border-primary border-opacity-50 notificacion-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex gap-4">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-secondary-subtle rounded-circle p-3 d-inline-flex align-items-center justify-content-center">
+                                        <i class="bi bi-briefcase-fill fs-3 text-dark"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold text-dark mb-1">Nueva actualización de postulación</h6>
+                                    <p class="text-dark fw-bold mb-3 small">TechSolutions revisó tu solicitud para la vacante <strong>Backend Developer</strong>. Tu perfil está en fase de evaluación.</p>
+                                    <div class="d-flex gap-3">
+                                        <button type="button" class="btn bg-primary-subtle text-dark fw-bold btn-sm px-3 rounded-2 shadow-sm btn-detalle" 
+                                            data-remitente="RRHH - TechSolutions" 
+                                            data-asunto="Actualización de Proceso" 
+                                            data-mensaje="Hola Carlos, hemos recibido y revisado tu CV. Actualmente estamos comparando perfiles y el tuyo ha pasado a la lista de candidatos pre-seleccionados. Te contactaremos pronto para una entrevista técnica."
+                                            data-bs-toggle="modal" data-bs-target="#modalDetalleMensaje">Ver detalle</button>
+                                        <button type="button" class="btn bg-primary-subtle text-dark fw-bold btn-sm px-3 rounded-2 shadow-sm btn-marcar-leido">Marcar como leído</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-3 mb-4 border-start border-5 border-primary border-opacity-50 notificacion-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex gap-4">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-secondary-subtle rounded-circle p-3 d-inline-flex align-items-center justify-content-center">
+                                        <i class="bi bi-chat-text fs-3 text-dark"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold text-dark mb-1">Nuevo mensaje recibido</h6>
+                                    <p class="text-dark fw-bold mb-1 small">María García te envió información adicional sobre la entrevista programada.</p>
+                                    <p class="text-dark fw-bold mb-3 small opacity-75">Hace 35 minutos · Mensaje</p>
+                                    <div class="d-flex gap-3">
+                                        <button type="button" class="btn bg-primary-subtle text-dark fw-bold btn-sm px-4 rounded-2 shadow-sm btn-detalle"
+                                            data-remitente="María García (TechSolutions)" 
+                                            data-asunto="Información de Entrevista" 
+                                            data-mensaje="Hola Carlos, te adjunto el enlace de la videollamada para mañana. Recuerda tener a mano tu documento de identidad y tu portafolio de proyectos actualizado. ¡Mucho éxito!"
+                                            data-bs-toggle="modal" data-bs-target="#modalDetalleMensaje">Abrir mensaje</button>
+                                        <button type="button" class="btn bg-primary-subtle text-dark fw-bold btn-sm px-3 rounded-2 shadow-sm btn-marcar-leido">Marcar como leído</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-3 mb-4 notificacion-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex gap-4">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-secondary-subtle rounded-circle p-3 d-inline-flex align-items-center justify-content-center">
+                                        <i class="bi bi-clock-history fs-3 text-dark"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-bold text-dark mb-1">Vacante próxima a cerrar</h6>
+                                    <p class="text-dark fw-bold mb-1 small">La vacante <strong>Diseñador UI/UX</strong> donde aplicaste cerrará en 2 días. Asegúrate de que tus datos estén completos.</p>
+                                    <p class="text-dark fw-bold mb-3 small opacity-75">Hoy · Sistema</p>
+                                    <div class="d-flex gap-3">
+                                        <button type="button" class="btn bg-primary-subtle text-dark fw-bold btn-sm px-3 rounded-2 shadow-sm" onclick="window.location.href='usuario-detalleempleo.html'">Ver vacante</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <aside class="col-12 col-lg-4">
+                    
+                    <div class="card bg-white border-0 shadow-sm rounded-3 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-2 small">Resumen de actividad</h6>
+                        <hr class="mt-0 mb-3 border-dark border-1 opacity-100">
+                        <div class="list-unstyled small fw-bold text-dark lh-lg">
+                            <div class="d-flex justify-content-between"><span>No leídas</span><span class="text-danger">2</span></div>
+                            <div class="d-flex justify-content-between"><span>Postulaciones</span><span>8</span></div>
+                            <div class="d-flex justify-content-between"><span>Mensajes</span><span>5</span></div>
+                            <div class="d-flex justify-content-between"><span>Vistas de perfil</span><span>24</span></div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-3 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-2 small">Accesos rápidos</h6>
+                        <hr class="mt-0 mb-3 border-dark border-1 opacity-100">
+                        <ul class="list-unstyled small fw-bold text-dark lh-lg mb-0">
+                            <li><a href="usuario-buscarempleo.html" class="text-dark text-decoration-none hover-primary">Buscar más empleos</a></li>
+                            <li><a href="usuario-miperfil.html" class="text-dark text-decoration-none hover-primary">Mi perfil profesional</a></li>
+                            <li class="cursor-pointer hover-primary btn-accion" data-mensaje="Cargando tus aplicaciones guardadas...">Postulaciones guardadas</li>
+                            <li class="cursor-pointer hover-primary btn-accion" data-mensaje="Cargando biblioteca de recursos...">Recursos útiles</li>
+                        </ul>
+                    </div>
+
+                </aside>
+
+            </div>
         </div>
-      </div>
-    </div>
-  </main>
+    </main>
 
-  <script type="module" src="./app.js"></script>
+    <div class="modal fade" id="modalDetalleMensaje" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4 text-center d-block">
+                    <i class="bi bi-envelope-open-fill display-4 text-primary mb-2"></i>
+                    <h5 class="modal-title fw-bold text-dark" id="modalAsunto">Asunto</h5>
+                </div>
+                <div class="modal-body px-4 py-4">
+                    <div class="bg-light p-3 rounded-3 mb-4">
+                        <p class="small text-muted mb-1 fw-bold">Remitente:</p>
+                        <p class="mb-0 text-dark fw-bold" id="modalRemitente">Nombre</p>
+                    </div>
+                    <p class="text-dark lh-base" id="modalCuerpo">Mensaje...</p>
+                    <div class="d-grid mt-4">
+                        <button type="button" class="btn btn-primary fw-bold py-2 rounded-3 shadow-sm" data-bs-dismiss="modal">Entendido</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastAccion" class="toast align-items-center text-white bg-info bg-opacity-75 border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-bold text-dark" id="toastTexto">Acción realizada.</div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+        <div id="toastExito" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold" id="toastExitoTexto">Realizado con éxito.</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="py-4 mt-auto bg-secondary text-center">
+        <div class="container">
+            <div class="d-flex justify-content-center gap-5">
+                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
+                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
+                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // 1. Lógica de Toasts
+        function lanzarToast(tipo, mensaje) {
+            const toastEl = tipo === 'exito' ? document.getElementById('toastExito') : document.getElementById('toastAccion');
+            const textoEl = tipo === 'exito' ? document.getElementById('toastExitoTexto') : document.getElementById('toastTexto');
+            textoEl.innerHTML = `<i class="bi ${tipo === 'exito' ? 'bi-check-circle-fill' : 'bi-info-circle-fill'} me-2"></i> ${mensaje}`;
+            new bootstrap.Toast(toastEl).show();
+        }
+
+        // 2. Botones de acción genérica
+        document.querySelectorAll('.btn-accion').forEach(btn => {
+            btn.addEventListener('click', function() {
+                lanzarToast('info', this.getAttribute('data-mensaje'));
+            });
+        });
+
+        // 3. Marcar como leído
+        document.querySelectorAll('.btn-marcar-leido').forEach(btn => {
+            btn.addEventListener('click', function() {
+                lanzarToast('exito', 'Notificación marcada como leída.');
+                const card = this.closest('.notificacion-card');
+                if(card) {
+                    card.classList.remove('border-start', 'border-5', 'border-primary', 'border-opacity-50');
+                }
+                this.textContent = 'Leído';
+                this.disabled = true;
+                this.classList.replace('text-dark', 'text-muted');
+            });
+        });
+
+        // 4. Modal Dinámico
+        const modalDetalle = document.getElementById('modalDetalleMensaje');
+        modalDetalle.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            document.getElementById('modalRemitente').textContent = button.getAttribute('data-remitente');
+            document.getElementById('modalAsunto').textContent = button.getAttribute('data-asunto');
+            document.getElementById('modalCuerpo').textContent = button.getAttribute('data-mensaje');
+        });
+    </script>
 </body>
 </html>

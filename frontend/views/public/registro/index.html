@@ -1,125 +1,267 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registro | Workly</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../assets/css/global.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly - Registro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<body>
-  <main class="registro-wrapper py-5">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-12 col-lg-8">
-          <div class="card card-custom p-4 p-md-5">
-            <div class="text-center mb-4">
-              <h1 class="page-title mb-2">Crear cuenta</h1>
-              <p class="text-muted mb-0">Regístrate como usuario o empresa</p>
+<body class="d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+                <span class="display-5 me-3 lh-1">💼</span> 
+                <div class="lh-sm">
+                    <span class="text-white fw-bold d-block fs-3">Workly</span>
+                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                <div class="d-flex gap-3 mt-3 mt-lg-0 align-items-center">
+                    <button class="btn btn-primary px-3 py-2 fw-semibold text-white shadow-sm" onclick="window.location.href='login.html'">Iniciar sesión</button>
+                    <button class="btn btn-primary px-4 py-2 fw-semibold text-white shadow-sm" onclick="window.location.href='registro.html'">Registrarse</button>
+                    <button class="btn border-0 text-dark fs-1 d-none d-lg-block ms-3 p-0"><i class="bi bi-list"></i></button>
+                </div>
             </div>
-
-            <div id="alertContainer"></div>
-
-            <form id="formRegistro">
-              <div class="row">
-                <div class="col-12 mb-3">
-                  <label for="tipoRegistro" class="form-label">Tipo de cuenta</label>
-                  <select id="tipoRegistro" class="form-select" required>
-                    <option value="">Selecciona una opción</option>
-                    <option value="usuario">Usuario</option>
-                    <option value="empresa">Empresa</option>
-                  </select>
-                </div>
-              </div>
-
-              <div id="camposUsuario" class="d-none">
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label for="nombres" class="form-label">Nombres</label>
-                    <input type="text" id="nombres" class="form-control">
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="apellidos" class="form-label">Apellidos</label>
-                    <input type="text" id="apellidos" class="form-control">
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="correoUsuario" class="form-label">Correo electrónico</label>
-                    <input type="email" id="correoUsuario" class="form-control">
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="passwordUsuario" class="form-label">Contraseña</label>
-                    <input type="password" id="passwordUsuario" class="form-control">
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="telefonoUsuario" class="form-label">Teléfono</label>
-                    <input type="text" id="telefonoUsuario" class="form-control">
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="municipioUsuario" class="form-label">Municipio</label>
-                    <select id="municipioUsuario" class="form-select">
-                      <option value="">Selecciona un municipio</option>
-                    </select>
-                  </div>
-                  <div class="col-12 mb-3">
-                    <label for="resumenProfesional" class="form-label">Resumen profesional</label>
-                    <textarea id="resumenProfesional" class="form-control" rows="4"></textarea>
-                  </div>
-                </div>
-              </div>
-
-              <div id="camposEmpresa" class="d-none">
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label for="nombreComercial" class="form-label">Nombre comercial</label>
-                    <input type="text" id="nombreComercial" class="form-control">
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="razonSocial" class="form-label">Razón social</label>
-                    <input type="text" id="razonSocial" class="form-control">
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="correoEmpresa" class="form-label">Correo electrónico</label>
-                    <input type="email" id="correoEmpresa" class="form-control">
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="passwordEmpresa" class="form-label">Contraseña</label>
-                    <input type="password" id="passwordEmpresa" class="form-control">
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="sitioWeb" class="form-label">Sitio web</label>
-                    <input type="text" id="sitioWeb" class="form-control">
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="municipioEmpresa" class="form-label">Municipio</label>
-                    <select id="municipioEmpresa" class="form-select">
-                      <option value="">Selecciona un municipio</option>
-                    </select>
-                  </div>
-                  <div class="col-12 mb-3">
-                    <label for="descripcionEmpresa" class="form-label">Descripción de la empresa</label>
-                    <textarea id="descripcionEmpresa" class="form-control" rows="4"></textarea>
-                  </div>
-                </div>
-              </div>
-
-              <div class="d-grid mb-3">
-                <button type="submit" class="btn btn-primary btn-lg">Registrarme</button>
-              </div>
-
-              <div class="text-center">
-                <a href="../login/index.html" class="link-clean">
-                  ¿Ya tienes cuenta? Inicia sesión
-                </a>
-              </div>
-            </form>
-          </div>
         </div>
-      </div>
-    </div>
-  </main>
+    </nav>
 
-  <script type="module" src="./app.js"></script>
+    <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5 bg-primary-subtle">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10 col-xl-8">
+                    <div class="card bg-white border-0 p-4 p-md-5 mx-2 rounded-5 shadow-lg">
+                        
+                        <div class="text-center mb-4">
+                            <h1 class="display-6 fw-normal text-dark mb-4">Registro</h1>
+                            
+                            <ul class="nav nav-pills justify-content-center bg-secondary-subtle rounded-pill p-1 d-inline-flex mx-auto" id="registroTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active rounded-pill px-4 text-dark fw-semibold" id="usuario-tab" data-bs-toggle="pill" data-bs-target="#usuario-content" type="button" role="tab" aria-selected="true">Usuario</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link rounded-pill px-4 text-dark fw-semibold" id="empresa-tab" data-bs-toggle="pill" data-bs-target="#empresa-content" type="button" role="tab" aria-selected="false">Empresa</button>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tab-content" id="registroTabsContent">
+                            
+                            <div class="tab-pane fade show active" id="usuario-content" role="tabpanel" aria-labelledby="usuario-tab">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-10">
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Nombre Completo</label>
+                                            <div class="input-group">
+                                                <input type="text" id="nombreUsuario" class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent">
+                                                <span class="input-group-text bg-transparent border-start-0 border-dark-subtle"><i class="bi bi-person text-dark"></i></span>
+                                            </div>
+                                            <div id="errorNombreUsuario" class="text-danger small mt-1 d-none fw-semibold">Este campo es obligatorio.</div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Correo electrónico</label>
+                                            <div class="input-group">
+                                                <input type="email" id="emailUsuario" class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent">
+                                                <span class="input-group-text bg-transparent border-start-0 border-dark-subtle"><i class="bi bi-envelope-fill text-dark"></i></span>
+                                            </div>
+                                            <div id="errorEmailUsuario" class="text-danger small mt-1 d-none fw-semibold">Este campo es obligatorio.</div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Contraseña</label>
+                                            <div class="input-group">
+                                                <input type="password" id="passUsuario" class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent">
+                                                <span class="input-group-text bg-transparent border-start-0 border-dark-subtle"><i class="bi bi-lock-fill text-dark"></i></span>
+                                            </div>
+                                            <div id="errorPassUsuario" class="text-danger small mt-1 d-none fw-semibold">Este campo es obligatorio.</div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">Confirmar contraseña</label>
+                                            <div class="input-group">
+                                                <input type="password" id="passConfUsuario" class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent">
+                                                <span class="input-group-text bg-transparent border-start-0 border-dark-subtle"><i class="bi bi-lock-fill text-dark"></i></span>
+                                            </div>
+                                            <div id="errorPassConfUsuario" class="text-danger small mt-1 d-none fw-semibold">Este campo es obligatorio.</div>
+                                        </div>
+
+                                        <div class="form-check mb-4">
+                                            <input class="form-check-input bg-dark border-dark" type="checkbox" id="terminos-usuario" checked>
+                                            <label class="form-check-label text-dark" for="terminos-usuario">Acepto términos y condiciones</label>
+                                        </div>
+                                        
+                                        <div class="row g-3 mb-2 align-items-start">
+                                            <div class="col-6">
+                                                <button type="button" id="btnRegistroUsuario" class="btn btn-primary w-100 text-white py-2 shadow-sm rounded-3">Registrarse</button>
+                                            </div>
+                                            <div class="col-6 text-center">
+                                                <button type="button" class="btn btn-primary w-100 text-white py-2 shadow-sm rounded-3" onclick="window.location.href='login.html'">Iniciar sesión</button>
+                                                <small class="text-dark d-block mt-1">¿Ya tienes una cuenta?</small>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="empresa-content" role="tabpanel" aria-labelledby="empresa-tab">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-10">
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Nombre de la empresa</label>
+                                            <div class="input-group">
+                                                <input type="text" id="nombreEmpresa" class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent">
+                                                <span class="input-group-text bg-transparent border-start-0 border-dark-subtle"><i class="bi bi-building text-dark"></i></span>
+                                            </div>
+                                            <div id="errorNombreEmpresa" class="text-danger small mt-1 d-none fw-semibold">Este campo es obligatorio.</div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Correo electrónico corporativo</label>
+                                            <div class="input-group">
+                                                <input type="email" id="emailEmpresa" class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent">
+                                                <span class="input-group-text bg-transparent border-start-0 border-dark-subtle"><i class="bi bi-envelope-fill text-dark"></i></span>
+                                            </div>
+                                            <div id="errorEmailEmpresa" class="text-danger small mt-1 d-none fw-semibold">Este campo es obligatorio.</div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Contraseña</label>
+                                            <div class="input-group">
+                                                <input type="password" id="passEmpresa" class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent">
+                                                <span class="input-group-text bg-transparent border-start-0 border-dark-subtle"><i class="bi bi-lock-fill text-dark"></i></span>
+                                            </div>
+                                            <div id="errorPassEmpresa" class="text-danger small mt-1 d-none fw-semibold">Este campo es obligatorio.</div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">Confirmar contraseña</label>
+                                            <div class="input-group">
+                                                <input type="password" id="passConfEmpresa" class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent">
+                                                <span class="input-group-text bg-transparent border-start-0 border-dark-subtle"><i class="bi bi-lock-fill text-dark"></i></span>
+                                            </div>
+                                            <div id="errorPassConfEmpresa" class="text-danger small mt-1 d-none fw-semibold">Este campo es obligatorio.</div>
+                                        </div>
+
+                                        <div class="form-check mb-4">
+                                            <input class="form-check-input bg-dark border-dark" type="checkbox" id="terminos-empresa" checked>
+                                            <label class="form-check-label text-dark" for="terminos-empresa">Acepto términos y condiciones</label>
+                                        </div>
+                                        
+                                        <div class="row g-3 mb-2 align-items-start">
+                                            <div class="col-6">
+                                                <button type="button" id="btnRegistroEmpresa" class="btn btn-primary w-100 text-white py-2 shadow-sm rounded-3">Registrarse</button>
+                                            </div>
+                                            <div class="col-6 text-center">
+                                                <button type="button" class="btn btn-primary w-100 text-white py-2 shadow-sm rounded-3" onclick="window.location.href='login.html'">Iniciar sesión</button>
+                                                <small class="text-dark d-block mt-1">¿Ya tienes una cuenta?</small>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        
+        <div id="errorToast" class="toast align-items-center text-white bg-danger border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold">
+                    <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i> ¡Error! Por favor, completa todos los campos.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div id="successToast" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold">
+                    <i class="bi bi-check-circle-fill me-2 fs-5"></i> ¡Registro exitoso! Redirigiendo a login...
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="py-4 mt-auto bg-secondary">
+        <div class="container text-center">
+            <div class="d-flex justify-content-center gap-5">
+                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
+                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
+                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2024</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Función reutilizable para validar
+        function validateRegistration(type) {
+            let isValid = true;
+            
+            // Array de campos a validar según el tipo (usuario o empresa)
+            const fields = (type === 'usuario') 
+                ? ['nombreUsuario', 'emailUsuario', 'passUsuario', 'passConfUsuario']
+                : ['nombreEmpresa', 'emailEmpresa', 'passEmpresa', 'passConfEmpresa'];
+
+            fields.forEach(fieldId => {
+                const input = document.getElementById(fieldId);
+                const errorMsg = document.getElementById('error' + fieldId.charAt(0).toUpperCase() + fieldId.slice(1));
+                
+                if (input.value.trim() === '') {
+                    errorMsg.classList.remove('d-none');
+                    input.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    errorMsg.classList.add('d-none');
+                    input.classList.remove('is-invalid');
+                }
+            });
+
+            if (!isValid) {
+                // Mostrar Toast de Error
+                const errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
+                errorToast.show();
+            } else {
+                // Mostrar Toast de Éxito
+                const successToast = new bootstrap.Toast(document.getElementById('successToast'));
+                successToast.show();
+                
+                // Redirigir al login después de 2 segundos
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            }
+        }
+
+        // Asignar eventos a los botones
+        document.getElementById('btnRegistroUsuario').addEventListener('click', function() {
+            validateRegistration('usuario');
+        });
+
+        document.getElementById('btnRegistroEmpresa').addEventListener('click', function() {
+            validateRegistration('empresa');
+        });
+    </script>
+    
 </body>
 </html>

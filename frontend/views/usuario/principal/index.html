@@ -1,69 +1,245 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Usuario | Workly</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../assets/css/global.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly - Dashboard Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="#">Workly Usuario</a>
-      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
-    </div>
-  </nav>
+<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
 
-  <main class="py-4">
-    <div class="container">
-      <div class="mb-4">
-        <h1 class="page-title mb-1">Bienvenido, <span id="nombreUsuario">Usuario</span></h1>
-        <p class="text-muted mb-0">Este es tu panel principal</p>
-      </div>
+    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+                <span class="display-5 me-3 lh-1">💼</span> 
+                <div class="lh-sm">
+                    <span class="text-white fw-bold d-block fs-3">Workly</span>
+                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
 
-      <div id="alertContainer"></div>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-      <div class="row g-3 mb-4">
-        <div class="col-md-6 col-lg-3">
-          <div class="card card-custom p-3 dashboard-card">
-            <h6 class="text-muted">Total postulaciones</h6>
-            <h2 id="totalPostulaciones">0</h2>
-          </div>
-        </div>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                    <a href="#" class="btn btn-primary btn-sm px-3 fw-semibold" onclick="window.location.href='usuario-buscarempleo.html'">Búsqueda de empleo</a>
+                    <a href="#" class="btn btn-primary btn-sm px-3 fw-semibold " onclick="window.location.href='usuario-recursos.html'">Recursos</a>
+                    <a href="#" class="btn btn-primary btn-sm px-3 fw-semibold" onclick="window.location.href='usuario-valoracionempresa.html'">Valoraciones de empresas</a>
+                    <a href="#" class="btn btn-primary btn-sm px-3 fw-semibold" onclick="window.location.href='usuario-miperfil.html'">Mi Perfil</a>
+                </div>
 
-        <div class="col-md-6 col-lg-3">
-          <div class="card card-custom p-3 dashboard-card">
-            <h6 class="text-muted">Total habilidades</h6>
-            <h2 id="totalHabilidades">0</h2>
-          </div>
-        </div>
-      </div>
+                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                    
+                    <a href="usuario-notificaciones.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
+                        <i class="bi bi-bell-fill fs-3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
+                            5
+                            <span class="visually-hidden">notificaciones no leídas</span>
+                        </span>
+                    </a>
+                    
+                    <a href="usuario-miperfil.html" class="text-dark text-decoration-none d-inline-block">
+                        <i class="bi bi-person-circle fs-2"></i>
+                    </a>
 
-      <div class="row g-4">
-        <div class="col-lg-6">
-          <div class="card card-custom p-3">
-            <h5 class="mb-3">Últimas postulaciones</h5>
-            <div id="ultimasPostulaciones" class="list-group small-empty">
-              <div class="text-muted">Cargando...</div>
+                </div>
             </div>
-          </div>
         </div>
+    </nav>
 
-        <div class="col-lg-6">
-          <div class="card card-custom p-3">
-            <h5 class="mb-3">Vacantes recientes</h5>
-            <div id="vacantesRecientes" class="list-group small-empty">
-              <div class="text-muted">Cargando...</div>
+    <main class="flex-grow-1 py-4">
+        <div class="container px-4 px-lg-5">
+            
+            <section class="mb-5 mt-3">
+                <h5 class="fw-bold text-dark mb-3">Explora ofertas de trabajo</h5>
+                <div class="bg-white p-2 rounded-pill shadow-sm d-flex align-items-center">
+                    <i class="bi bi-search fs-5 text-muted ms-3 me-2"></i>
+                    <input type="text" class="form-control border-0 shadow-none bg-transparent fs-6" placeholder="Busca cualquier puesto de trabajo">
+                    <button class="btn btn-primary rounded-pill px-4 py-2 fw-semibold" onclick="window.location.href='usuario-buscarempleo.html'">Buscar empleo</button>
+                </div>
+            </section>
+
+            <section class="mb-5">
+                <h5 class="fw-bold text-dark mb-3">Encuentra tu trabajo ideal</h5>
+                <div class="card bg-white border-0 rounded-4 shadow-sm p-4 p-md-5">
+                    <div class="row g-4">
+                        <div class="col-12 col-md-4">
+                            <label class="form-label text-dark fs-6">Palabra clave</label>
+                            <input type="text" class="form-control bg-secondary-subtle border-0" placeholder="Puesto, empresa o palabra clave">
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label text-white d-none d-md-block">Ubicación</label> <div class="input-group">
+                                <span class="input-group-text bg-secondary-subtle border-0"><i class="bi bi-geo-alt"></i></span>
+                                <input type="text" class="form-control bg-secondary-subtle border-0" placeholder="Ciudad o región">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label text-white d-none d-md-block">Tipo</label>
+                            <select class="form-select bg-secondary-subtle border-0 text-muted">
+                                <option selected>Todos los tipos</option>
+                                <option value="1">Tiempo completo</option>
+                                <option value="2">Medio tiempo</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label text-dark fs-6">Salario mínimo</label>
+                            <select class="form-select bg-secondary-subtle border-0 text-muted">
+                                <option selected>Cualquier salario</option>
+                                <option value="1">$500+</option>
+                                <option value="2">$1000+</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label text-dark fs-6">Nivel de experiencia</label>
+                            <select class="form-select bg-secondary-subtle border-0 text-muted">
+                                <option selected>Todos los niveles</option>
+                                <option value="1">Junior</option>
+                                <option value="2">Senior</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="text-center mt-5">
+                        <button class="btn btn-primary px-5 py-2 fw-semibold rounded-3">Buscar empleo</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5">
+                <div class="row g-4">
+                    <div class="col-6 col-md-3">
+                        <div class="card bg-white border-0 rounded-4 shadow-sm text-center p-4 h-100">
+                            <i class="bi bi-building fs-1 text-dark mb-2"></i>
+                            <h3 class="fw-bold text-dark mb-0">2,500+</h3>
+                            <p class="text-dark mb-0">Empresas</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="card bg-white border-0 rounded-4 shadow-sm text-center p-4 h-100">
+                            <i class="bi bi-people-fill fs-1 text-dark mb-2"></i>
+                            <h3 class="fw-bold text-dark mb-0">150,000+</h3>
+                            <p class="text-dark mb-0">Usuarios</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="card bg-white border-0 rounded-4 shadow-sm text-center p-4 h-100">
+                            <i class="bi bi-briefcase-fill fs-1 text-dark mb-2"></i>
+                            <h3 class="fw-bold text-dark mb-0">10,000+</h3>
+                            <p class="text-dark mb-0">Vacantes Activas</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="card bg-white border-0 rounded-4 shadow-sm text-center p-4 h-100">
+                            <i class="bi bi-file-earmark-text-fill fs-1 text-dark mb-2"></i>
+                            <h3 class="fw-bold text-dark mb-0">75,000+</h3>
+                            <p class="text-dark mb-0">Contrataciones</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5">
+                <h5 class="fw-bold text-dark mb-3">Empleos Destacados</h5>
+                <div class="row g-4">
+                    
+                    <div class="col-12 col-md-4">
+                        <div class="card bg-white border-0 rounded-4 shadow-sm p-4 h-100">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <i class="bi bi-pencil-square fs-2 text-dark"></i>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">Nuevo</span>
+                            </div>
+                            <h6 class="fw-bold text-dark">Desarrollador Full Stack</h6>
+                            <ul class="list-unstyled text-dark mb-4 fs-6">
+                                <li class="mb-1"><i class="bi bi-building me-2"></i>TechSolutions</li>
+                                <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>Ciudad de México</li>
+                                <li><i class="bi bi-cash me-2"></i>$1,000 - $1,500</li>
+                            </ul>
+                            <div class="d-flex flex-wrap gap-2 mt-auto">
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">Tiempo Completo</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">React</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">Node.js</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="card bg-white border-0 rounded-4 shadow-sm p-4 h-100">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <i class="bi bi-c-square fs-2 text-dark"></i>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">Destacado</span>
+                            </div>
+                            <h6 class="fw-bold text-dark">Diseñador UX/UI Senior</h6>
+                            <ul class="list-unstyled text-dark mb-4 fs-6">
+                                <li class="mb-1"><i class="bi bi-building me-2"></i>CreativeLabs</li>
+                                <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>Remoto</li>
+                                <li><i class="bi bi-cash me-2"></i>$800 - $1,000</li>
+                            </ul>
+                            <div class="d-flex flex-wrap gap-2 mt-auto">
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">Remoto</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">Figma</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">Adobe XD</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="card bg-white border-0 rounded-4 shadow-sm p-4 h-100">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <i class="bi bi-graph-up-arrow fs-2 text-dark"></i>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">Popular</span>
+                            </div>
+                            <h6 class="fw-bold text-dark">Analista de Marketing Digital</h6>
+                            <ul class="list-unstyled text-dark mb-4 fs-6">
+                                <li class="mb-1"><i class="bi bi-building me-2"></i>MarketPro</li>
+                                <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>Guadalajara</li>
+                                <li><i class="bi bi-cash me-2"></i>$1,000 - $1,2000</li>
+                            </ul>
+                            <div class="d-flex flex-wrap gap-2 mt-auto">
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">Tiempo Completo</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">SEO</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">Google Analytics</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="mb-5">
+                <h5 class="fw-bold text-dark mb-3">Consejos de carrera</h5>
+                <div class="card bg-white border-0 rounded-4 shadow-sm p-4">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center gap-4">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-lightbulb fs-1 text-dark"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold text-dark mb-2">Cómo destacar tu CV</h6>
+                            <p class="text-dark mb-0">Aprende a crear un currículum que capture la atención de los reclutadores y aumente tus probabilidades de conseguir entrevistas.</p>
+                        </div>
+                        <div class="flex-shrink-0 mt-3 mt-md-0">
+                            <button class="btn bg-primary-subtle text-primary fw-semibold px-4 py-2 border-0">
+                                Leer más <i class="bi bi-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="py-4 mt-auto bg-secondary">
+        <div class="container text-center">
+            <div class="d-flex justify-content-center gap-5">
+                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
+                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
+                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2024</span>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </main>
+    </footer>
 
-  <script type="module" src="./app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

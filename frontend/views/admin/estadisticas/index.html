@@ -1,67 +1,276 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Estadísticas | Workly Admin</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../assets/css/global.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly - Estadísticas del Sistema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .cursor-pointer { cursor: pointer; }
+        .hover-primary:hover { color: #0d6efd !important; text-decoration: underline; }
+    </style>
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="../principal/index.html">Workly Admin</a>
-      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
+<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+
+    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+                <span class="display-5 me-3 lh-1">💼</span> 
+                <div class="lh-sm">
+                    <span class="text-white fw-bold d-block fs-3">Workly</span>
+                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                    
+                </div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <a href="#" onclick="lanzarToast('info', 'Accediendo al perfil administrativo...')" class="text-dark"><i class="bi bi-person-circle fs-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow-1 py-4">
+        <div class="container-fluid px-4 px-lg-5">
+            <div class="row g-4 mt-1">
+                
+                <aside class="col-12 col-lg-2">
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-3 mb-4">
+                        <h6 class="fw-bold text-dark mb-3 ps-2">Menú Admin</h6>
+                        <div class="d-grid gap-2">
+                            <button onclick="window.location.href='dashboard-principal.html'" class="btn btn-primary fw-bold py-2">Dashboard</button>
+                            <button onclick="window.location.href='dashboard-gestionusuaios.html'" class="btn btn-primary fw-bold py-2">Gestión de Usuarios</button>
+                            <button onclick="window.location.href='dashboard-gestionempresas.html'" class="btn btn-primary fw-bold py-2">Gestión de Empresas</button>
+                            <button onclick="window.location.href='dashboard-gestionvacantes.html'" class="btn btn-primary fw-bold py-2">Gestión de Vacantes</button>
+                            <button onclick="lanzarToast('info', 'Accediendo a las configuraciones de seguridad y sistema...')" class="btn btn-primary fw-bold py-2">Configuración</button>
+                            <button onclick="window.location.href='dashboard-estadisticas.html'" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold shadow-none py-2">Estadísticas del Sistema</button>
+                            <button onclick="window.location.href='dashboard-moderacion.html'" class="btn btn-primary fw-bold py-2">Moderación de Contenido</button>
+                        </div>
+                    </div>
+                </aside>
+
+                <section class="col-12 col-lg-7">
+                    <div class="card bg-white border-0 shadow-sm rounded-3 p-3 mb-4">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                            <h5 class="fw-bold text-dark mb-0 ps-2">Estadísticas del sistema</h5>
+                            <div class="d-flex gap-3">
+                                <button onclick="lanzarToast('exito', 'Exportando estadísticas a formato Excel...')" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold px-4">Exportar reporte</button>
+                                <button onclick="lanzarToast('info', 'Generando informe gráfico detallado. Espere un momento...')" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold px-4">Generar informe</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4 text-center text-dark">
+                        <div class="col-6 col-md-3">
+                            <div class="card bg-white border-0 shadow-sm rounded-4 p-3 h-100">
+                                <h3 class="fw-bold mb-1">1,240</h3>
+                                <div class="small fw-bold mb-1">Usuarios nuevos</div>
+                                <div class="text-secondary small opacity-75">Últimos 30 días</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="card bg-white border-0 shadow-sm rounded-4 p-3 h-100">
+                                <h3 class="fw-bold mb-1">165</h3>
+                                <div class="small fw-bold mb-1">Empresas nuevas</div>
+                                <div class="text-secondary small opacity-75">Últimos 30 días</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="card bg-white border-0 shadow-sm rounded-4 p-3 h-100">
+                                <h3 class="fw-bold mb-1">2,870</h3>
+                                <div class="small fw-bold mb-1">Vacantes hoy</div>
+                                <div class="text-secondary small opacity-75">Este mes</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="card bg-white border-0 shadow-sm rounded-4 p-3 h-100">
+                                <h3 class="fw-bold mb-1">24,870</h3>
+                                <div class="small fw-bold mb-1">Postulaciones</div>
+                                <div class="text-secondary small opacity-75">Actividad general</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-4">Crecimiento de Tráfico Mensual</h6>
+                        <div class="bg-secondary bg-opacity-10 rounded-4 p-5 d-flex align-items-end justify-content-around gap-4" style="height: 250px;">
+                            <div class="bg-warning bg-opacity-50 w-25 h-50 rounded-1 d-flex align-items-end justify-content-center pb-2 text-dark small fw-bold opacity-50">Ene</div>
+                            <div class="bg-warning bg-opacity-50 w-25 h-75 rounded-1 d-flex align-items-end justify-content-center pb-2 text-dark small fw-bold opacity-50">Feb</div>
+                            <div class="bg-warning bg-opacity-50 w-25 h-100 rounded-1 d-flex align-items-end justify-content-center pb-2 text-dark small fw-bold opacity-50">Mar</div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4">
+                        <h6 class="fw-bold text-dark mb-4">Vacantes con más vistas</h6>
+                        <div class="row fw-bold text-dark mb-2 px-2 small border-bottom pb-2">
+                            <div class="col-4">Vacante</div>
+                            <div class="col-5">Empresa</div>
+                            <div class="col-3 text-end">Acciones</div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 mt-3">
+                            <div class="row align-items-center bg-secondary bg-opacity-10 p-2 rounded-2 mx-0 small">
+                                <div class="col-4 fw-bold text-dark text-truncate">Backend Developer</div>
+                                <div class="col-5 text-dark">TechSolutions</div>
+                                <div class="col-3 text-end">
+                                    <span class="fw-bold text-dark me-3">2,430</span>
+                                    <span class="fw-bold text-primary cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalDetalleEstadistica" data-titulo="Backend Developer">Ver</span>
+                                </div>
+                            </div>
+                            <div class="row align-items-center bg-secondary bg-opacity-10 p-2 rounded-2 mx-0 small">
+                                <div class="col-4 fw-bold text-dark text-truncate">Frontend Developer</div>
+                                <div class="col-5 text-dark">InnovaCorp</div>
+                                <div class="col-3 text-end">
+                                    <span class="fw-bold text-dark me-3">1,980</span>
+                                    <span class="fw-bold text-primary cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalDetalleEstadistica" data-titulo="Frontend Developer">Ver</span>
+                                </div>
+                            </div>
+                            <div class="row align-items-center bg-secondary bg-opacity-10 p-2 rounded-2 mx-0 small mt-1">
+                                <div class="col-4 fw-bold text-dark text-truncate">Diseñador UI/UX</div>
+                                <div class="col-5 text-dark">Creative Studio</div>
+                                <div class="col-3 text-end">
+                                    <span class="fw-bold text-dark me-3">1,740</span>
+                                    <span class="fw-bold text-primary cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalDetalleEstadistica" data-titulo="Diseñador UI/UX">Ver</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <aside class="col-12 col-lg-3">
+                    
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 mb-4 text-center">
+                        <h6 class="fw-bold text-dark mb-4">Categorías más usadas</h6>
+                        
+                        <div class="d-flex justify-content-center mb-4">
+                            <div class="rounded-circle d-inline-block position-relative border border-secondary border-opacity-10 bg-body-secondary" 
+                                 style="width: 150px; height: 150px; background-image: conic-gradient(
+                                     #ffc107 0% 40%,        /* Tecnología (Amarillo) - 40% */
+                                     #0d6efd 40% 65%,       /* Administración (Azul) - 25% */
+                                     #6c757d 65% 85%,       /* Diseño (Gris) - 20% */
+                                     #f8f9fa 85% 100%       /* Ventas (Blanco) - 15% */
+                                 );">
+                                <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle" style="border: 15px solid rgba(0,0,0,0.03);"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="list-unstyled small fw-bold text-dark text-start ps-4">
+                            <div class="mb-1 d-flex align-items-center"><i class="bi bi-circle-fill text-warning opacity-75 me-2 fs-6"></i>Tecnología (40%)</div>
+                            <div class="mb-1 d-flex align-items-center"><i class="bi bi-circle-fill text-primary opacity-75 me-2 fs-6"></i>Administración (25%)</div>
+                            <div class="mb-1 d-flex align-items-center"><i class="bi bi-circle-fill text-secondary opacity-75 me-2 fs-6"></i>Diseño (20%)</div>
+                            <div class="d-flex align-items-center"><i class="bi bi-circle-fill text-light border border-secondary border-opacity-50 me-2 fs-6"></i>Ventas (15%)</div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-2 small">Indicadores de Salud</h6>
+                        <hr class="mt-0 mb-3 border-dark border-1 opacity-10">
+                        <div class="list-unstyled small fw-bold text-dark lh-lg">
+                            <div class="d-flex justify-content-between"><span>Postulaciones/Día</span><span class="text-success">829</span></div>
+                            <div class="d-flex justify-content-between"><span>Empresas Activas</span><span>2,430</span></div>
+                            <div class="d-flex justify-content-between"><span>Tiempo medio cierre</span><span>22 días</span></div>
+                            <div class="d-flex justify-content-between"><span>Tasa de aprobación</span><span class="text-primary">91%</span></div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-dark text-white border-0 shadow-sm rounded-4 p-4">
+                        <h6 class="fw-bold mb-2 small text-primary">Resumen operativo</h6>
+                        <hr class="mt-0 mb-3 border-primary border-1 opacity-25">
+                        <div class="list-unstyled small fw-bold lh-lg">
+                            <div class="d-flex justify-content-between"><span>Usuarios Activos</span><span>14,870</span></div>
+                            <div class="d-flex justify-content-between"><span>Vacantes Activas</span><span>8,950</span></div>
+                            <div class="d-flex justify-content-between text-warning"><span>Reportes Pendientes</span><span>48</span></div>
+                        </div>
+                    </div>
+
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="modalDetalleEstadistica" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-bottom-0 pt-4 px-4 text-center d-block">
+                    <h5 class="modal-title fw-bold text-dark">Análisis de Tráfico</h5>
+                    <button type="button" class="btn-close shadow-none position-absolute end-0 top-0 m-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 pt-0 text-center">
+                    <i class="bi bi-graph-up-arrow display-1 text-primary opacity-25"></i>
+                    <h4 class="fw-bold mt-2" id="vacanteModalNombre">Nombre Vacante</h4>
+                    <p class="text-muted small">Métricas detalladas de los últimos 7 días</p>
+                    
+                    <div class="bg-light p-3 rounded-3 text-start mt-3">
+                        <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                            <span class="small fw-bold text-muted">Vistas Únicas</span>
+                            <span class="fw-bold text-dark">1,120</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                            <span class="small fw-bold text-muted">Click Rate (CTR)</span>
+                            <span class="fw-bold text-success">14.5%</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="small fw-bold text-muted">Postulaciones Directas</span>
+                            <span class="fw-bold text-dark">342</span>
+                        </div>
+                    </div>
+                    <div class="d-grid mt-4">
+                        <button class="btn btn-primary fw-bold py-2 shadow-sm rounded-3" data-bs-dismiss="modal">Cerrar Análisis</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </nav>
 
-  <main class="py-4">
-    <div class="container">
-      <div class="mb-3">
-        <a href="../principal/index.html" class="btn btn-outline-secondary btn-sm">← Volver al panel</a>
-      </div>
-
-      <div class="mb-4">
-        <h1 class="page-title mb-1">Estadísticas</h1>
-        <p class="text-muted mb-0">Resumen estadístico de la plataforma</p>
-      </div>
-
-      <div id="alertContainer"></div>
-
-      <div class="row g-4">
-        <div class="col-lg-6">
-          <div class="card card-custom p-3">
-            <h5 class="mb-3">Vacantes por categoría</h5>
-            <div id="vacantesPorCategoria"></div>
-          </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastAdmin" class="toast align-items-center text-white border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-bold" id="mensajeToast">Acción realizada</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
         </div>
-
-        <div class="col-lg-6">
-          <div class="card card-custom p-3">
-            <h5 class="mb-3">Vacantes por modalidad</h5>
-            <div id="vacantesPorModalidad"></div>
-          </div>
-        </div>
-
-        <div class="col-lg-6">
-          <div class="card card-custom p-3">
-            <h5 class="mb-3">Postulaciones por estado</h5>
-            <div id="postulacionesPorEstado"></div>
-          </div>
-        </div>
-
-        <div class="col-lg-6">
-          <div class="card card-custom p-3">
-            <h5 class="mb-3">Empresas con más vacantes</h5>
-            <div id="empresasConMasVacantes"></div>
-          </div>
-        </div>
-      </div>
     </div>
-  </main>
 
-  <script type="module" src="./app.js"></script>
+    <footer class="py-4 mt-auto bg-secondary text-white-50 text-center small fw-bold">
+        <div class="container">
+            <div class="d-flex justify-content-center gap-5 mb-1">
+                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
+                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
+            </div>
+            <span>Workly Global Stats &copy; 2026</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Lógica de Toasts Dinámicos
+        function lanzarToast(tipo, mensaje) {
+            const toastEl = document.getElementById('toastAdmin');
+            const textoEl = document.getElementById('mensajeToast');
+            textoEl.textContent = mensaje;
+            
+            toastEl.classList.remove('bg-info', 'bg-success');
+            toastEl.classList.add(tipo === 'exito' ? 'bg-success' : 'bg-info');
+            
+            new bootstrap.Toast(toastEl).show();
+        }
+
+        // Lógica para el modal de detalles de vacante
+        const modalDetalle = document.getElementById('modalDetalleEstadistica');
+        modalDetalle.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget;
+            const nombre = button.getAttribute('data-titulo');
+            document.getElementById('vacanteModalNombre').textContent = nombre;
+        });
+    </script>
 </body>
 </html>

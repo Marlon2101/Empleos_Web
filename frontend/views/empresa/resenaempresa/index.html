@@ -1,51 +1,387 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reseñas de Empresa | Workly</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../assets/css/global.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly - Reseñas de Postulantes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .cursor-pointer { cursor: pointer; }
+    </style>
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="../principal/index.html">Workly Empresa</a>
-      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
-    </div>
-  </nav>
+<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
 
-  <main class="py-4">
-    <div class="container">
-      <div class="mb-3">
-        <a href="../principal/index.html" class="btn btn-outline-secondary btn-sm">← Volver al panel</a>
-      </div>
+    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+                <span class="display-5 me-3 lh-1">💼</span> 
+                <div class="lh-sm">
+                    <span class="text-white fw-bold d-block fs-3">Workly</span>
+                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
 
-      <div class="mb-4">
-        <h1 class="page-title mb-1">Reseñas de mi empresa</h1>
-        <p class="text-muted mb-0">Consulta la valoración que han dejado los usuarios</p>
-      </div>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-      <div id="alertContainer"></div>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                    <a href="empresa-publicarvacante.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Publicar vacante</a>
+                    <a href="empresa-misvacantes.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Mis vacantes</a>
+                    <a href="empresa-postulaciones.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Ver postulaciones</a>
+                    <a href="empresa-foro.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Foro</a>
+                    <a href="empresa-resenaempresa.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Reseñas de postulantes</a>
+                </div>
 
-      <div class="card card-custom p-4 mb-4">
-        <h5 class="mb-3">Resumen general</h5>
-        <div id="resumenEmpresa">
-          <p class="text-muted mb-0">Cargando resumen...</p>
+                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                    
+                    <a href="empresa-notificaciones.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
+                        <i class="bi bi-bell-fill fs-3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
+                            2
+                            <span class="visually-hidden">notificaciones no leídas</span>
+                        </span>
+                    </a>
+                    
+                    <a href="empresa-perfil.html" class="text-dark text-decoration-none d-inline-block">
+                        <i class="bi bi-person-circle fs-2"></i>
+                    </a>
+
+                </div>
+            </div>
         </div>
-      </div>
+    </nav>
 
-      <div class="card card-custom p-4">
-        <h5 class="mb-3">Listado de reseñas</h5>
-        <div id="listaValoraciones">
-          <p class="text-muted mb-0">Cargando valoraciones...</p>
+    <main class="flex-grow-1 py-4">
+        <div class="container-fluid px-4 px-lg-5">
+            
+            <div class="card bg-white border-0 rounded-4 shadow-sm p-4 mb-4 mt-2">
+                <h5 class="fw-bold text-dark mb-4">Valoraciones de postulantes</h5>
+                
+                <div class="row g-3 align-items-center">
+                    <div class="col-12 col-md-7">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                            <input type="text" class="form-control border-start-0 shadow-none ps-0" placeholder="Buscar postulante por nombre">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <select class="form-select shadow-none fw-semibold text-dark border-0">
+                            <option selected>Todos los postulantes</option>
+                            <option value="1">Candidatos activos</option>
+                            <option value="2">Ex candidatos</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <button type="button" class="btn btn-primary w-100 fw-semibold rounded-3 py-2 btn-accion" data-mensaje="Búsqueda de postulantes realizada.">Buscar</button>
+                    </div>
+                </div>
+            </div>
+
+            <h6 class="fw-bold text-dark mb-3 mt-4">Postulantes mejor valorados</h6>
+            <div class="row g-4 mb-5">
+                
+                <div class="col-12 col-md-4">
+                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 h-100 d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h6 class="fw-bold text-dark mb-0">Desarrollador Full Stack</h6>
+                            <div class="d-flex align-items-center gap-1">
+                                <span class="small text-dark me-1">3.0</span>
+                                <i class="bi bi-star-fill text-warning small"></i>
+                                <i class="bi bi-star-fill text-warning small"></i>
+                                <i class="bi bi-star-fill text-warning small"></i>
+                                <i class="bi bi-star text-warning small"></i>
+                                <i class="bi bi-star text-warning small"></i>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled text-dark fs-6 mb-4">
+                            <li class="mb-1"><i class="bi bi-person me-2"></i>Carlos Ruiz</li>
+                            <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>San Salvador</li>
+                            <li class="fw-bold"><i class="bi bi-cash me-2"></i>$800 - $900</li>
+                        </ul>
+                        <button type="button" class="btn btn-primary w-100 fw-semibold mt-auto rounded-3 btn-ver-perfil" data-nombre="Carlos Ruiz" data-puesto="Desarrollador Full Stack" data-bs-toggle="modal" data-bs-target="#modalPerfilCandidato">Ver Perfil</button>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 h-100 d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h6 class="fw-bold text-dark mb-0">Lead Developer</h6>
+                            <div class="d-flex align-items-center gap-1">
+                                <span class="small text-dark me-1">4.0</span>
+                                <i class="bi bi-star-fill text-warning small"></i>
+                                <i class="bi bi-star-fill text-warning small"></i>
+                                <i class="bi bi-star-fill text-warning small"></i>
+                                <i class="bi bi-star-fill text-warning small"></i>
+                                <i class="bi bi-star text-warning small"></i>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled text-dark fs-6 mb-4">
+                            <li class="mb-1"><i class="bi bi-person me-2"></i>Maria Portillo</li>
+                            <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>Santa Ana</li>
+                            <li class="fw-bold"><i class="bi bi-cash me-2"></i>$500 - $700</li>
+                        </ul>
+                        <button type="button" class="btn btn-primary w-100 fw-semibold mt-auto rounded-3 btn-ver-perfil" data-nombre="Maria Portillo" data-puesto="Lead Developer" data-bs-toggle="modal" data-bs-target="#modalPerfilCandidato">Ver Perfil</button>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 h-100 d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h6 class="fw-bold text-dark mb-0">Arquitecto de Software</h6>
+                            <div class="d-flex align-items-center gap-1">
+                                <span class="small text-dark me-1">5.0</span>
+                                <i class="bi bi-star-fill text-warning small"></i>
+                                <i class="bi bi-star-fill text-warning small"></i>
+                                <i class="bi bi-star-fill text-warning small"></i>
+                                <i class="bi bi-star-fill text-warning small"></i>
+                                <i class="bi bi-star-fill text-warning small"></i>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled text-dark fs-6 mb-4">
+                            <li class="mb-1"><i class="bi bi-person me-2"></i>Juan Perez</li>
+                            <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>La Libertad</li>
+                            <li class="fw-bold"><i class="bi bi-cash me-2"></i>$1,000 - $2,000</li>
+                        </ul>
+                        <button type="button" class="btn btn-primary w-100 fw-semibold mt-auto rounded-3 btn-ver-perfil" data-nombre="Juan Perez" data-puesto="Arquitecto de Software" data-bs-toggle="modal" data-bs-target="#modalPerfilCandidato">Ver Perfil</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <h6 class="fw-bold text-dark mb-3">Compartir tu experiencia</h6>
+            <div class="card bg-white border-0 rounded-4 shadow-sm p-4 p-lg-5 mb-5">
+                <form id="formValoracion">
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-dark">Postulante*</label>
+                        <input type="text" class="form-control bg-secondary-subtle border-0 rounded-3 py-2 text-muted" placeholder="Nombre del postulante" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-dark">Puesto*</label>
+                        <input type="text" class="form-control bg-secondary-subtle border-0 rounded-3 py-2 text-muted" placeholder="Rol en la empresa" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-dark">Estado*</label>
+                        <select class="form-select bg-secondary-subtle border-0 rounded-3 py-2 text-muted shadow-none">
+                            <option selected>Selecciona una opción</option>
+                            <option value="1">Contratado</option>
+                            <option value="2">En proceso</option>
+                            <option value="3">Finalizado</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-dark d-block">Valoración general*</label>
+                        <div class="d-flex align-items-center gap-2" id="contenedorEstrellas">
+                            <i class="bi bi-star text-muted fs-5 cursor-pointer estrella-valoracion" data-valor="1" style="cursor: pointer;"></i>
+                            <i class="bi bi-star text-muted fs-5 cursor-pointer estrella-valoracion" data-valor="2" style="cursor: pointer;"></i>
+                            <i class="bi bi-star text-muted fs-5 cursor-pointer estrella-valoracion" data-valor="3" style="cursor: pointer;"></i>
+                            <i class="bi bi-star text-muted fs-5 cursor-pointer estrella-valoracion" data-valor="4" style="cursor: pointer;"></i>
+                            <i class="bi bi-star text-muted fs-5 cursor-pointer estrella-valoracion" data-valor="5" style="cursor: pointer;"></i>
+                            <span class="text-muted small ms-2" id="textoValoracion">Selecciona una calificación</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-dark">Título de la valoración*</label>
+                        <input type="text" class="form-control bg-secondary-subtle border-0 rounded-3 py-2 text-muted" placeholder="Resume tu experiencia con el postulante en una frase" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-dark">Tu opinión*</label>
+                        <textarea class="form-control bg-secondary-subtle border-0 rounded-3 py-2 text-muted" rows="3" placeholder="Comparte tu experiencia con el postulante" required></textarea>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-bold text-dark">Tu opinión* (Pros)</label>
+                            <textarea class="form-control bg-secondary-subtle border-0 rounded-3 py-2 text-muted" rows="4" placeholder="Aspectos positivos de trabajar con el postulante" required></textarea>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-bold text-dark">Contras*</label>
+                            <textarea class="form-control bg-secondary-subtle border-0 rounded-3 py-2 text-muted" rows="4" placeholder="Aspectos que podrían mejorar..." required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-start">
+                        <button type="button" class="btn btn-primary px-5 py-2 fw-semibold rounded-3" id="btnEnviarValoracion">Enviar valoración</button>
+                    </div>
+                </form>
+            </div>
+
         </div>
-      </div>
-    </div>
-  </main>
+    </main>
 
-  <script type="module" src="./app.js"></script>
+    <div class="modal fade" id="modalPerfilCandidato" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                    <h5 class="modal-title fw-bold text-dark">Perfil del Candidato</h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 py-4">
+                    
+                    <div class="d-flex align-items-center mb-4 pb-4 border-bottom border-secondary border-opacity-10">
+                        <div class="bg-secondary-subtle p-4 rounded-circle d-flex align-items-center justify-content-center me-4">
+                            <i class="bi bi-person display-4 text-dark"></i>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold mb-1 text-dark" id="perfilNombre">Nombre Candidato</h4>
+                            <p class="text-primary fw-bold mb-1" id="perfilPuesto">Vacante Solicitada</p>
+                            <p class="text-muted fw-semibold small mb-0"><i class="bi bi-geo-alt me-1"></i> El Salvador • <i class="bi bi-envelope ms-2 me-1"></i> candidato@email.com</p>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-12 col-md-6">
+                            <h6 class="fw-bold text-dark mb-3">Habilidades Técnicas</h6>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2">JavaScript</span>
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2">React</span>
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2">Node.js</span>
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2">SQL</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <h6 class="fw-bold text-dark mb-3">Educación</h6>
+                            <div class="bg-secondary-subtle p-3 rounded-3 text-dark small fw-semibold">
+                                <i class="bi bi-mortarboard-fill me-2"></i> Ingeniería en Sistemas<br>
+                                <span class="text-muted ms-4">Universidad Nacional (2018 - 2023)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold text-dark mb-3">Experiencia Laboral (Resumen)</h6>
+                    <div class="border-start border-2 border-primary border-opacity-50 ps-3 py-1 mb-4">
+                        <div class="fw-bold text-dark small mb-1">Desarrollador Web Jr. - Empresa Tech XYZ</div>
+                        <div class="text-muted small fw-semibold">Ene 2024 - Presente (Remoto)</div>
+                    </div>
+                    <div class="border-start border-2 border-secondary border-opacity-25 ps-3 py-1">
+                        <div class="fw-bold text-dark small mb-1">Pasante de Desarrollo - Startup ABC</div>
+                        <div class="text-muted small fw-semibold">Jun 2023 - Dic 2023 (Presencial)</div>
+                    </div>
+
+                </div>
+                <div class="modal-footer border-top-0 px-4 pb-4 justify-content-between">
+                    <button class="btn btn-primary bg-opacity-75 text-white fw-bold px-4 rounded-3 d-flex align-items-center gap-2"><i class="bi bi-file-earmark-pdf-fill"></i> Descargar CV</button>
+                    <button type="button" class="btn btn-primary fw-bold px-4 rounded-3" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        
+        <div id="toastAccion" class="toast align-items-center text-white bg-info bg-opacity-75 border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-bold text-dark" id="toastTexto">
+                    <i class="bi bi-info-circle-fill me-2 fs-5"></i> Acción realizada.
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div id="toastExito" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold">
+                    <i class="bi bi-check-circle-fill me-2 fs-5"></i> ¡Valoración enviada correctamente!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="py-4 mt-auto bg-secondary">
+        <div class="container text-center">
+            <div class="d-flex justify-content-center gap-5">
+                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
+                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
+                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // 1. Toast Genérico para botones Buscar
+        const botonesAccion = document.querySelectorAll('.btn-accion');
+        const toastAccionEl = document.getElementById('toastAccion');
+        const toastTexto = document.getElementById('toastTexto');
+        const toastAccion = new bootstrap.Toast(toastAccionEl);
+
+        botonesAccion.forEach(function(boton) {
+            boton.addEventListener('click', function(e) {
+                e.preventDefault();
+                const mensaje = this.getAttribute('data-mensaje');
+                toastTexto.innerHTML = `<i class="bi bi-info-circle-fill me-2 fs-5"></i> ${mensaje}`;
+                toastAccion.show();
+            });
+        });
+
+        // 2. Llenar Modal de Perfil dinámicamente
+        const botonesPerfil = document.querySelectorAll('.btn-ver-perfil');
+        botonesPerfil.forEach(function(boton) {
+            boton.addEventListener('click', function() {
+                const nombre = this.getAttribute('data-nombre');
+                const puesto = this.getAttribute('data-puesto');
+                
+                document.getElementById('perfilNombre').textContent = nombre;
+                document.getElementById('perfilPuesto').textContent = puesto;
+            });
+        });
+
+        // 3. Interacción de Estrellas en el Formulario
+        const estrellas = document.querySelectorAll('.estrella-valoracion');
+        const textoValoracion = document.getElementById('textoValoracion');
+
+        estrellas.forEach(function(estrella) {
+            estrella.addEventListener('click', function() {
+                const valorSeleccionado = this.getAttribute('data-valor');
+                
+                // Actualiza el texto
+                textoValoracion.textContent = `${valorSeleccionado} estrella(s)`;
+                textoValoracion.classList.remove('text-muted');
+                textoValoracion.classList.add('text-dark', 'fw-bold');
+
+                // Pinta las estrellas
+                estrellas.forEach(function(e) {
+                    const valorEstrella = e.getAttribute('data-valor');
+                    if (valorEstrella <= valorSeleccionado) {
+                        e.classList.remove('bi-star', 'text-muted');
+                        e.classList.add('bi-star-fill', 'text-warning');
+                    } else {
+                        e.classList.remove('bi-star-fill', 'text-warning');
+                        e.classList.add('bi-star', 'text-muted');
+                    }
+                });
+            });
+        });
+
+        // 4. Enviar Formulario
+        document.getElementById('btnEnviarValoracion').addEventListener('click', function() {
+            // Mostrar Toast de Éxito
+            const toastExitoEl = document.getElementById('toastExito');
+            const toastExito = new bootstrap.Toast(toastExitoEl);
+            toastExito.show();
+
+            // Limpiar el formulario
+            document.getElementById('formValoracion').reset();
+            
+            // Reiniciar las estrellas
+            textoValoracion.textContent = 'Selecciona una calificación';
+            textoValoracion.classList.remove('text-dark', 'fw-bold');
+            textoValoracion.classList.add('text-muted');
+            estrellas.forEach(function(e) {
+                e.classList.remove('bi-star-fill', 'text-warning');
+                e.classList.add('bi-star', 'text-muted');
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,115 +1,187 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recursos | Workly Usuario</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../assets/css/global.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly - Recursos y Consejos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="../principal/index.html">Workly Usuario</a>
-      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
-    </div>
-  </nav>
+<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
 
-  <main class="py-4">
-    <div class="container">
-      <div class="mb-3">
-        <a href="../principal/index.html" class="btn btn-outline-secondary btn-sm">← Volver al panel</a>
-      </div>
+    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+                <span class="display-5 me-3 lh-1">💼</span> 
+                <div class="lh-sm">
+                    <span class="text-white fw-bold d-block fs-3">Workly</span>
+                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
 
-      <div class="mb-4">
-        <h1 class="page-title mb-1">Recursos para tu crecimiento</h1>
-        <p class="text-muted mb-0">Material y consejos para mejorar tu perfil profesional</p>
-      </div>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-      <div class="row g-4">
-        <div class="col-md-6 col-xl-4">
-          <div class="card card-custom recurso-card h-100">
-            <div class="card-body">
-              <span class="badge bg-primary-subtle text-primary mb-2">CV</span>
-              <h5 class="card-title">Cómo mejorar tu currículum</h5>
-              <p class="card-text text-muted">
-                Aprende a redactar un CV claro, profesional y adaptado al puesto que deseas.
-              </p>
-              <a href="#" class="btn btn-outline-primary btn-sm">Ver guía</a>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                    <a href="usuario-buscarempleo.html" class="btn btn-primary btn-sm px-3 fw-semibold">Búsqueda de empleo</a>
+                    <a href="usuario-recursos.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Recursos</a>
+                    <a href="usuario-valoracionempresa.html" class="btn btn-primary btn-sm px-3 fw-semibold">Valoraciones de empresas</a>
+                    <a href="usuario-miperfil.html" class="btn btn-primary btn-sm px-3 fw-semibold">Mi Perfil</a>
+                </div>
+
+               <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                    
+                    <a href="usuario-notificaciones.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
+                        <i class="bi bi-bell-fill fs-3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
+                            5
+                            <span class="visually-hidden">notificaciones no leídas</span>
+                        </span>
+                    </a>
+                    
+                    <a href="usuario-miperfil.html" class="text-dark text-decoration-none d-inline-block">
+                        <i class="bi bi-person-circle fs-2"></i>
+                    </a>
+
+                </div>
             </div>
-          </div>
         </div>
+    </nav>
 
-        <div class="col-md-6 col-xl-4">
-          <div class="card card-custom recurso-card h-100">
-            <div class="card-body">
-              <span class="badge bg-success-subtle text-success mb-2">Entrevistas</span>
-              <h5 class="card-title">Preparación para entrevistas</h5>
-              <p class="card-text text-muted">
-                Revisa preguntas comunes, consejos de comunicación y errores que debes evitar.
-              </p>
-              <a href="#" class="btn btn-outline-success btn-sm">Ver guía</a>
+    <main class="flex-grow-1 py-4">
+        <div class="container-fluid px-4 px-lg-5">
+            
+            <div class="card bg-white border-0 rounded-4 shadow-sm p-4 p-lg-5 mb-5 mt-2">
+                
+                <h4 class="fw-bold text-dark mb-5">Recursos y consejos de carrera</h4>
+
+                <section class="mb-5">
+                    <h6 class="fw-bold text-dark mb-4">Recursos destacados</h6>
+                    <div class="row g-4">
+                        
+                        <div class="col-12 col-md-4">
+                            <div class="card bg-light border-0 rounded-4 h-100 overflow-hidden shadow-sm">
+                                <div class="ratio ratio-16x9">
+                                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80" class="object-fit-cover" alt="Entrevista técnica">
+                                </div>
+                                <div class="card-body p-4 d-flex flex-column text-center">
+                                    <h6 class="fw-bold text-dark mb-3">Guía completa para entrevistas técnicas</h6>
+                                    <p class="text-dark small mb-4">Aprende a prepararte para entrevistas técnicas con consejos prácticos, preguntas comunes y ejercicios para practicar.</p>
+                                    <button class="btn bg-white text-dark fw-bold w-100 mt-auto shadow-sm">Leer más</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <div class="card bg-light border-0 rounded-4 h-100 overflow-hidden shadow-sm">
+                                <div class="ratio ratio-16x9">
+                                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80" class="object-fit-cover" alt="Habilidades blandas">
+                                </div>
+                                <div class="card-body p-4 d-flex flex-column text-center">
+                                    <h6 class="fw-bold text-dark mb-3">Habilidades blandas para profesionales tech</h6>
+                                    <p class="text-dark small mb-4">Desarrolla habilidades de comunicación, trabajo en equipo y liderazgo que complementen tus conocimientos técnicos.</p>
+                                    <button class="btn bg-white text-dark fw-bold w-100 mt-auto shadow-sm">Leer más</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <div class="card bg-light border-0 rounded-4 h-100 overflow-hidden shadow-sm">
+                                <div class="ratio ratio-16x9">
+                                    <img src="https://www.icesusa.org/wp-content/uploads/2021/03/entrepreneur-593358_1920-edit-2.jpg" class="object-fit-cover" alt="Plantillas CV">
+                                </div>
+                                <div class="card-body p-4 d-flex flex-column text-center">
+                                    <h6 class="fw-bold text-dark mb-3">10 plantillas de CV optimizadas para 2026</h6>
+                                    <p class="text-dark small mb-4">Descarga plantillas modernas de CV diseñadas para destacar tus habilidades y pasar los filtros de ATS.</p>
+                                    <button class="btn bg-white text-dark fw-bold w-100 mt-auto shadow-sm">Leer más</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section class="mb-5">
+                    <h6 class="fw-bold text-dark mb-4">Explora por categoría</h6>
+                    <div class="row g-4">
+                        
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="card bg-light border-0 rounded-4 h-100 p-4 text-center d-flex flex-column shadow-sm">
+                                <i class="bi bi-file-earmark-text display-5 text-dark mb-3"></i>
+                                <h6 class="fw-bold text-dark mb-3">CV y Carta de Presentación</h6>
+                                <p class="text-dark small mb-4">Guías y plantillas para crear documentos profesionales.</p>
+                                <button class="btn bg-white text-dark fw-bold w-100 mt-auto shadow-sm">Leer más</button>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="card bg-light border-0 rounded-4 h-100 p-4 text-center d-flex flex-column shadow-sm">
+                                <i class="bi bi-chat-dots display-5 text-dark mb-3"></i>
+                                <h6 class="fw-bold text-dark mb-3">Entrevistas</h6>
+                                <p class="text-dark small mb-4">Prepárate para brillar en tus entrevistas laborales.</p>
+                                <button class="btn bg-white text-dark fw-bold w-100 mt-auto shadow-sm">Leer más</button>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="card bg-light border-0 rounded-4 h-100 p-4 text-center d-flex flex-column shadow-sm">
+                                <i class="bi bi-easel display-5 text-dark mb-3"></i>
+                                <h6 class="fw-bold text-dark mb-3">Desarrollo profesional</h6>
+                                <p class="text-dark small mb-4">Estrategias para impulsar tu carrera al siguiente nivel.</p>
+                                <button class="btn bg-white text-dark fw-bold w-100 mt-auto shadow-sm">Leer más</button>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="card bg-light border-0 rounded-4 h-100 p-4 text-center d-flex flex-column shadow-sm">
+                                <i class="bi bi-pc-display-horizontal display-5 text-dark mb-3"></i>
+                                <h6 class="fw-bold text-dark mb-3">Habilidades técnicas</h6>
+                                <p class="text-dark small mb-4">Recursos para mejorar tus competencias específicas.</p>
+                                <button class="btn bg-white text-dark fw-bold w-100 mt-auto shadow-sm">Leer más</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section>
+                    <h6 class="fw-bold text-dark mb-4">Artículos recientes</h6>
+                    
+                    <div class="card bg-light border-0 rounded-4 overflow-hidden shadow-sm">
+                        <div class="row g-0">
+                            <div class="col-md-4 col-lg-3">
+                                <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600&q=80" class="img-fluid w-100 h-100 object-fit-cover" alt="Trabajo en equipo">
+                            </div>
+                            <div class="col-md-8 col-lg-9 p-4 p-lg-5 d-flex flex-column justify-content-center">
+                                <h6 class="fw-bold text-dark mb-2">Cómo la IA está transformando el mercado laboral en 2026</h6>
+                                <div class="text-dark small mb-3">
+                                    <i class="bi bi-calendar3 me-2"></i>22/02/2026
+                                </div>
+                                <p class="text-dark small mb-4">Descubre cómo la inteligencia artificial está cambiando las habilidades demandadas por las empresas y cómo puedes prepararte para los trabajos del futuro en este entorno cada vez más automatizado.</p>
+                                <div class="mt-auto">
+                                    <button class="btn bg-white text-dark fw-bold px-4 shadow-sm">Leer más</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </div>
-          </div>
         </div>
+    </main>
 
-        <div class="col-md-6 col-xl-4">
-          <div class="card card-custom recurso-card h-100">
-            <div class="card-body">
-              <span class="badge bg-warning-subtle text-warning mb-2">Perfil</span>
-              <h5 class="card-title">Cómo destacar tu perfil</h5>
-              <p class="card-text text-muted">
-                Mejora tu resumen profesional, habilidades y forma de presentarte ante empresas.
-              </p>
-              <a href="#" class="btn btn-outline-warning btn-sm">Ver consejos</a>
+    <footer class="py-4 mt-auto bg-secondary">
+        <div class="container text-center">
+            <div class="d-flex justify-content-center gap-5">
+                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
+                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
+                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2024</span>
             </div>
-          </div>
         </div>
+    </footer>
 
-        <div class="col-md-6 col-xl-4">
-          <div class="card card-custom recurso-card h-100">
-            <div class="card-body">
-              <span class="badge bg-info-subtle text-info mb-2">Postulación</span>
-              <h5 class="card-title">Cómo postularte mejor</h5>
-              <p class="card-text text-muted">
-                Aprende a elegir vacantes, personalizar tu perfil y dar seguimiento a tus procesos.
-              </p>
-              <a href="#" class="btn btn-outline-info btn-sm">Ver recomendaciones</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-xl-4">
-          <div class="card card-custom recurso-card h-100">
-            <div class="card-body">
-              <span class="badge bg-danger-subtle text-danger mb-2">Errores</span>
-              <h5 class="card-title">Errores comunes al buscar empleo</h5>
-              <p class="card-text text-muted">
-                Evita fallos frecuentes en tu perfil, tus aplicaciones y tu comunicación profesional.
-              </p>
-              <a href="#" class="btn btn-outline-danger btn-sm">Ver lista</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-xl-4">
-          <div class="card card-custom recurso-card h-100">
-            <div class="card-body">
-              <span class="badge bg-secondary-subtle text-secondary mb-2">Desarrollo</span>
-              <h5 class="card-title">Fortalece tus habilidades</h5>
-              <p class="card-text text-muted">
-                Identifica áreas de mejora y trabaja en habilidades que te ayuden a crecer laboralmente.
-              </p>
-              <a href="#" class="btn btn-outline-secondary btn-sm">Ver recursos</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <script type="module" src="./app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

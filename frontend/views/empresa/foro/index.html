@@ -1,124 +1,359 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Foro | Workly Empresa</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../assets/css/global.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly - Foro de Empresas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        /* Pequeña utilidad para los enlaces del sidebar */
+        .hover-primary:hover { color: #0d6efd !important; text-decoration: underline !important; }
+        .cursor-pointer { cursor: pointer; }
+    </style>
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="../principal/index.html">Workly Empresa</a>
-      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
-    </div>
-  </nav>
+<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
 
-  <main class="py-4">
-    <div class="container">
-      <div class="mb-3">
-        <a href="../principal/index.html" class="btn btn-outline-secondary btn-sm">← Volver al panel</a>
-      </div>
+    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+                <span class="display-5 me-3 lh-1">💼</span> 
+                <div class="lh-sm">
+                    <span class="text-white fw-bold d-block fs-3">Workly</span>
+                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
 
-      <div class="mb-4">
-        <h1 class="page-title mb-1">Foro empresarial</h1>
-        <p class="text-muted mb-0">Un espacio para compartir ideas, prácticas y dudas comunes</p>
-      </div>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-      <div class="row g-4">
-        <div class="col-lg-4">
-          <div class="card card-custom p-4">
-            <h5 class="mb-3">Nueva publicación</h5>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                    <a href="empresa-publicarvacante.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Publicar vacante</a>
+                    <a href="empresa-misvacantes.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Mis vacantes</a>
+                    <a href="empresa-postulaciones.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Ver postulaciones</a>
+                    <a href="empresa-foro.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Foro</a>
+                    <a href="empresa-resenaempresa.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Reseñas de postulantes</a>
+                </div>
 
-            <form id="formForo">
-              <div class="mb-3">
-                <label for="tituloPost" class="form-label">Título</label>
-                <input type="text" id="tituloPost" class="form-control" placeholder="Escribe un título">
-              </div>
-
-              <div class="mb-3">
-                <label for="contenidoPost" class="form-label">Contenido</label>
-                <textarea id="contenidoPost" class="form-control" rows="5" placeholder="Comparte una idea o experiencia"></textarea>
-              </div>
-
-              <button type="submit" class="btn btn-primary w-100">Publicar</button>
-            </form>
-
-            <div class="alert alert-info mt-3 mb-0 small">
-              Esta vista está preparada visualmente. Cuando quieras, después conectamos un backend real de foro.
+                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                    <a href="empresa-notificaciones.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
+                        <i class="bi bi-bell-fill fs-3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
+                            2
+                            <span class="visually-hidden">notificaciones no leídas</span>
+                        </span>
+                    </a>
+                    
+                    <a href="empresa-perfil.html" class="text-dark text-decoration-none d-inline-block">
+                        <i class="bi bi-person-circle fs-2"></i>
+                    </a>
+                </div>
             </div>
-          </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow-1 py-4">
+        <div class="container-fluid px-4 px-lg-5">
+            
+            <div class="card bg-white border-0 shadow-sm p-3 mb-4 rounded-3 mt-2">
+                <div class="row g-3 align-items-center">
+                    <div class="col-12 col-md-auto">
+                        <button class="btn bg-info text-white bg-opacity-50 border-0 fw-bold px-5 py-2 rounded-3 w-100 shadow-none pointer-events-none">Foro</button>
+                    </div>
+                    <div class="col-12 col-md">
+                        <div class="input-group">
+                            <span class="input-group-text bg-secondary-subtle border-0 ps-4"><i class="bi bi-search text-muted"></i></span>
+                            <input type="text" class="form-control bg-secondary-subtle border-0 shadow-none py-2 text-muted fw-semibold" placeholder="Buscar tema, pregunta o publicación..." id="inputBuscarForo">
+                            <button class="btn bg-secondary-subtle text-dark border-0 fw-bold px-4 btn-accion" data-mensaje="Buscando en el foro...">Buscar</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-auto">
+                        <select class="form-select bg-primary-subtle text-dark fw-bold border-0 px-4 py-2 rounded-3 shadow-none w-100 text-center cursor-pointer btn-accion" data-mensaje="Filtro de categoría aplicado">
+                            <option selected>Todas las categorias</option>
+                            <option>Reclutamiento</option>
+                            <option>Consejos</option>
+                            <option>Networking</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-auto">
+                        <button class="btn btn-primary text-white fw-bold px-4 py-2 rounded-3 w-100 shadow-sm" id="btnNuevoTema">Nuevo tema <i class="bi bi-plus-circle ms-1"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                
+                <section class="col-12 col-lg-8">
+                    
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 mb-4 border-top border-4 border-primary">
+                        <h5 class="fw-bold text-dark mb-3">Crear publicación</h5>
+                        <textarea id="textoPublicacion" class="form-control border bg-secondary-subtle bg-opacity-10 shadow-none p-3 mb-4 text-dark fw-semibold rounded-3" rows="3" placeholder="Comparte una pregunta, consejo o tema con la comunidad..."></textarea>
+                        
+                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="badge bg-primary-subtle text-dark rounded-3 px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer hover-primary">Reclutamiento</span>
+                                <span class="badge bg-primary-subtle text-dark rounded-3 px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer hover-primary">Vacantes</span>
+                                <span class="badge bg-primary-subtle text-dark rounded-3 px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer hover-primary">Consejos</span>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="button" id="btnGuardarTema" class="btn btn-light bg-secondary-subtle border-0 text-dark fw-bold px-4 py-2 rounded-3">Guardar Borrador</button>
+                                <button type="button" id="btnPublicarTema" class="btn btn-primary fw-bold px-5 py-2 rounded-3 shadow-sm">Publicar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 p-lg-5 mb-4">
+                        <div class="d-flex gap-3 mb-3">
+                            <div class="bg-secondary-subtle rounded-circle p-2 d-inline-flex align-items-center justify-content-center flex-shrink-0" style="width: 45px; height: 45px;">
+                                <i class="bi bi-building fs-5 text-dark"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-0">TechSolutions</h6>
+                                <span class="text-muted small fw-semibold">Hace 10 horas · Reclutamiento</span>
+                            </div>
+                        </div>
+                        
+                        <h5 class="fw-bold text-dark mb-3">¿Qué preguntas recomiendan para una entrevista técnica?</h5>
+                        <p class="text-dark mb-4 lh-lg">Estamos contratando desarrolladores backend y queremos mejorar nuestro proceso de selección. ¿Qué preguntas técnicas o situacionales consideran útiles para evaluar experiencia real en APIs, bases de datos y resolución de problemas? Agradezco cualquier plantilla o consejo.</p>
+                        
+                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-3 border-top border-secondary border-opacity-10">
+                            <div class="text-muted small fw-bold d-flex gap-3">
+                                <span><i class="bi bi-chat-left-text me-1"></i> 15 respuestas</span>
+                                <span><i class="bi bi-eye me-1"></i> 42 vistas</span>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-primary fw-bold px-4 py-1 rounded-3 btn-responder" data-titulo="¿Qué preguntas recomiendan para una entrevista técnica?" data-bs-toggle="modal" data-bs-target="#modalResponder"><i class="bi bi-reply-fill me-1"></i> Responder</button>
+                                <button class="btn btn-light bg-secondary-subtle border-0 text-dark fw-bold px-4 py-1 rounded-3" id="btnGuardarPost"><i class="bi bi-bookmark me-1" id="iconoGuardarPost"></i> <span id="textoGuardarPost">Guardar</span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 p-lg-5 mb-4">
+                        <div class="d-flex gap-3 mb-3">
+                            <div class="bg-primary-subtle rounded-circle p-2 d-inline-flex align-items-center justify-content-center flex-shrink-0" style="width: 45px; height: 45px;">
+                                <i class="bi bi-briefcase fs-5 text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-0">Innovate El Salvador</h6>
+                                <span class="text-muted small fw-semibold">Ayer · Cultura Laboral</span>
+                            </div>
+                        </div>
+                        
+                        <h5 class="fw-bold text-dark mb-3">Beneficios que realmente valoran los desarrolladores hoy en día</h5>
+                        <p class="text-dark mb-4 lh-lg">Más allá del salario competitivo, hemos notado que ofrecer modalidad híbrida y seguro médico ha incrementado nuestra retención de talento en un 40%. ¿Qué otros beneficios no tradicionales les han funcionado a ustedes para fidelizar a su equipo tech?</p>
+                        
+                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-3 border-top border-secondary border-opacity-10">
+                            <div class="text-muted small fw-bold d-flex gap-3">
+                                <span><i class="bi bi-chat-left-text me-1"></i> 32 respuestas</span>
+                                <span><i class="bi bi-eye me-1"></i> 156 vistas</span>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-primary fw-bold px-4 py-1 rounded-3 btn-responder" data-titulo="Beneficios que realmente valoran los desarrolladores hoy en día" data-bs-toggle="modal" data-bs-target="#modalResponder"><i class="bi bi-reply-fill me-1"></i> Responder</button>
+                                <button class="btn btn-light bg-secondary-subtle border-0 text-dark fw-bold px-4 py-1 rounded-3 btn-accion" data-mensaje="Tema guardado en favoritos"><i class="bi bi-bookmark me-1"></i> Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <aside class="col-12 col-lg-4">
+                    
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-2">Categorías populares</h6>
+                        <hr class="mt-0 mb-3 border-dark border-1 opacity-10">
+                        <div class="list-group list-group-flush small fw-bold text-dark lh-lg">
+                            <a href="#" class="list-group-item list-group-item-action border-0 d-flex justify-content-between px-0 hover-primary btn-accion" data-mensaje="Filtrando por: Reclutamiento"><span>Reclutamiento</span><span class="badge bg-secondary-subtle text-dark rounded-pill">24</span></a>
+                            <a href="#" class="list-group-item list-group-item-action border-0 d-flex justify-content-between px-0 hover-primary btn-accion" data-mensaje="Filtrando por: Vacantes"><span>Vacantes</span><span class="badge bg-secondary-subtle text-dark rounded-pill">18</span></a>
+                            <a href="#" class="list-group-item list-group-item-action border-0 d-flex justify-content-between px-0 hover-primary btn-accion" data-mensaje="Filtrando por: Entrevistas"><span>Entrevistas</span><span class="badge bg-secondary-subtle text-dark rounded-pill">13</span></a>
+                            <a href="#" class="list-group-item list-group-item-action border-0 d-flex justify-content-between px-0 hover-primary btn-accion" data-mensaje="Filtrando por: Consejos"><span>Consejos</span><span class="badge bg-secondary-subtle text-dark rounded-pill">11</span></a>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-2">Temas recientes</h6>
+                        <hr class="mt-0 mb-3 border-dark border-1 opacity-10">
+                        <div class="list-group list-group-flush small fw-bold text-dark lh-lg">
+                            <a href="#" class="list-group-item list-group-item-action border-0 px-0 text-truncate hover-primary btn-accion" data-mensaje="Cargando tema...">Mejores preguntas para entrevista técnica</a>
+                            <a href="#" class="list-group-item list-group-item-action border-0 px-0 text-truncate hover-primary btn-accion" data-mensaje="Cargando tema...">Cómo redactar vacantes más claras</a>
+                            <a href="#" class="list-group-item list-group-item-action border-0 px-0 text-truncate hover-primary btn-accion" data-mensaje="Cargando tema...">Filtros para revisar postulantes</a>
+                            <a href="#" class="list-group-item list-group-item-action border-0 px-0 text-truncate hover-primary btn-accion" data-mensaje="Cargando tema...">Consejos para marca empleadora</a>
+                        </div>
+                    </div>
+
+                    <div class="card bg-primary text-white border-0 shadow-sm rounded-4 p-4 mb-4 text-center">
+                        <i class="bi bi-chat-quote-fill display-4 mb-2 opacity-75"></i>
+                        <h6 class="fw-bold mb-2">Actividad del foro</h6>
+                        <div class="d-flex justify-content-between small fw-semibold border-bottom border-light border-opacity-25 pb-2 mb-2 mt-3">
+                            <span>Publicaciones hoy</span><span class="badge bg-white text-primary rounded-pill">12</span>
+                        </div>
+                        <div class="d-flex justify-content-between small fw-semibold border-bottom border-light border-opacity-25 pb-2 mb-2">
+                            <span>Respuestas nuevas</span><span class="badge bg-white text-primary rounded-pill">37</span>
+                        </div>
+                        <div class="d-flex justify-content-between small fw-semibold">
+                            <span>Temas guardados</span><span class="badge bg-white text-primary rounded-pill">9</span>
+                        </div>
+                    </div>
+
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="modalResponder" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                    <h5 class="modal-title fw-bold text-dark">Responder al tema</h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 py-4">
+                    
+                    <div class="bg-secondary-subtle p-3 rounded-3 border border-secondary border-opacity-10 mb-4">
+                        <span class="text-dark small fw-bold">Respondiendo a:</span>
+                        <p class="text-muted small fw-semibold mb-0 fst-italic" id="tituloTemaResponder">Cargando título...</p>
+                    </div>
+
+                    <form>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-dark">Tu respuesta:</label>
+                            <div class="border border-secondary border-opacity-25 rounded-3 overflow-hidden">
+                                <div class="bg-light border-bottom border-secondary border-opacity-25 p-2 d-flex gap-3 flex-wrap text-dark">
+                                    <i class="bi bi-type-bold fs-5 cursor-pointer"></i>
+                                    <i class="bi bi-type-italic fs-5 cursor-pointer"></i>
+                                    <span class="border-end border-secondary border-opacity-25 mx-1"></span>
+                                    <i class="bi bi-list-ul fs-5 cursor-pointer"></i>
+                                    <i class="bi bi-list-ol fs-5 cursor-pointer"></i>
+                                    <i class="bi bi-link-45deg fs-5 cursor-pointer"></i>
+                                </div>
+                                <textarea class="form-control border-0 shadow-none p-3 text-muted" rows="5" placeholder="Comparte tu experiencia o consejo aquí..."></textarea>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-light bg-secondary-subtle border-0 text-dark fw-bold px-4" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary fw-bold px-4 shadow-sm" data-bs-dismiss="modal" id="btnEnviarRespuesta">Publicar respuesta</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        
+        <div id="toastAccion" class="toast align-items-center text-white bg-info bg-opacity-75 border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-bold text-dark" id="toastTexto">
+                    <i class="bi bi-info-circle-fill me-2 fs-5"></i> Acción realizada.
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
         </div>
 
-        <div class="col-lg-8">
-          <div class="card card-custom p-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <h5 class="mb-0">Temas recientes</h5>
-              <span class="badge text-bg-light">Demo visual</span>
+        <div id="toastExito" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold" id="toastExitoTexto">
+                    <i class="bi bi-check-circle-fill me-2 fs-5"></i> ¡Realizado con éxito!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-
-            <div id="listaTemas">
-              <div class="foro-item">
-                <div class="d-flex justify-content-between align-items-start gap-3">
-                  <div>
-                    <h6 class="foro-titulo">¿Qué buscan más los candidatos hoy?</h6>
-                    <p class="text-muted mb-2">
-                      Buenas prácticas para redactar vacantes más atractivas y realistas.
-                    </p>
-                    <div class="foro-meta">Publicado por Empresa Demo · Hace 2 días</div>
-                  </div>
-                  <span class="badge text-bg-primary">Tendencias</span>
-                </div>
-              </div>
-
-              <div class="foro-item">
-                <div class="d-flex justify-content-between align-items-start gap-3">
-                  <div>
-                    <h6 class="foro-titulo">Cómo mejorar el proceso de entrevistas</h6>
-                    <p class="text-muted mb-2">
-                      Ideas para que la experiencia del candidato sea más clara y profesional.
-                    </p>
-                    <div class="foro-meta">Publicado por Empresa Demo · Hace 4 días</div>
-                  </div>
-                  <span class="badge text-bg-success">Selección</span>
-                </div>
-              </div>
-
-              <div class="foro-item">
-                <div class="d-flex justify-content-between align-items-start gap-3">
-                  <div>
-                    <h6 class="foro-titulo">Errores comunes al publicar vacantes</h6>
-                    <p class="text-muted mb-2">
-                      Títulos poco claros, descripciones ambiguas y requisitos excesivos.
-                    </p>
-                    <div class="foro-meta">Publicado por Empresa Demo · Hace 1 semana</div>
-                  </div>
-                  <span class="badge text-bg-warning">Vacantes</span>
-                </div>
-              </div>
-
-              <div class="foro-item">
-                <div class="d-flex justify-content-between align-items-start gap-3">
-                  <div>
-                    <h6 class="foro-titulo">¿Cómo destacar la cultura de empresa?</h6>
-                    <p class="text-muted mb-2">
-                      Consejos para presentar mejor tu marca empleadora dentro de la plataforma.
-                    </p>
-                    <div class="foro-meta">Publicado por Empresa Demo · Hace 1 semana</div>
-                  </div>
-                  <span class="badge text-bg-info">Marca</span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </main>
 
-  <script type="module" src="./app.js"></script>
+    </div>
+
+    <footer class="py-4 mt-auto bg-secondary">
+        <div class="container text-center">
+            <div class="d-flex justify-content-center gap-5">
+                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
+                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
+                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // 1. Funcionalidad genérica para botones y enlaces de acción rápida
+        const botonesAccion = document.querySelectorAll('.btn-accion');
+        const toastElement = document.getElementById('toastAccion');
+        const toastTexto = document.getElementById('toastTexto');
+        const toastGen = new bootstrap.Toast(toastElement);
+
+        botonesAccion.forEach(function(boton) {
+            boton.addEventListener('click', function(e) {
+                e.preventDefault();
+                const mensaje = this.getAttribute('data-mensaje');
+                toastTexto.innerHTML = `<i class="bi bi-info-circle-fill me-2 fs-5"></i> ${mensaje}`;
+                toastGen.show();
+            });
+        });
+
+        // 2. Scroll al hacer clic en "Nuevo tema"
+        document.getElementById('btnNuevoTema').addEventListener('click', function() {
+            const textarea = document.getElementById('textoPublicacion');
+            textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            textarea.focus();
+        });
+
+        // 3. Guardar Borrador Tema
+        document.getElementById('btnGuardarTema').addEventListener('click', function() {
+            const toastExitoEl = document.getElementById('toastExito');
+            document.getElementById('toastExitoTexto').innerHTML = `<i class="bi bi-floppy-fill me-2 fs-5"></i> Borrador guardado correctamente.`;
+            const toastEx = new bootstrap.Toast(toastExitoEl);
+            toastEx.show();
+        });
+
+        // 4. Publicar Tema (Limpia la caja)
+        document.getElementById('btnPublicarTema').addEventListener('click', function() {
+            const textarea = document.getElementById('textoPublicacion');
+            if(textarea.value.trim() === '') {
+                toastTexto.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i> Escribe algo antes de publicar.`;
+                toastGen.show();
+                return;
+            }
+            
+            textarea.value = '';
+            const toastExitoEl = document.getElementById('toastExito');
+            document.getElementById('toastExitoTexto').innerHTML = `<i class="bi bi-send-check-fill me-2 fs-5"></i> ¡Tema publicado con éxito en el foro!`;
+            const toastEx = new bootstrap.Toast(toastExitoEl);
+            toastEx.show();
+        });
+
+        // 5. Llenar Modal de Responder dinámicamente
+        const botonesResponder = document.querySelectorAll('.btn-responder');
+        botonesResponder.forEach(function(boton) {
+            boton.addEventListener('click', function() {
+                const titulo = this.getAttribute('data-titulo');
+                document.getElementById('tituloTemaResponder').textContent = `"${titulo}"`;
+            });
+        });
+
+        // 6. Publicar Respuesta desde el Modal
+        document.getElementById('btnEnviarRespuesta').addEventListener('click', function() {
+            const toastExitoEl = document.getElementById('toastExito');
+            document.getElementById('toastExitoTexto').innerHTML = `<i class="bi bi-reply-all-fill me-2 fs-5"></i> ¡Respuesta publicada con éxito!`;
+            const toastEx = new bootstrap.Toast(toastExitoEl);
+            toastEx.show();
+        });
+
+        // 7. Guardar Post específico (SOLO cambia ícono y texto)
+        document.getElementById('btnGuardarPost').addEventListener('click', function() {
+            const icono = document.getElementById('iconoGuardarPost');
+            const texto = document.getElementById('textoGuardarPost');
+            
+            icono.classList.remove('bi-bookmark');
+            icono.classList.add('bi-bookmark-check-fill');
+            texto.textContent = 'Guardado';
+            
+            // Lanza toast
+            const toastExitoEl = document.getElementById('toastExito');
+            document.getElementById('toastExitoTexto').innerHTML = `<i class="bi bi-bookmark-check-fill me-2 fs-5"></i> Tema guardado en tus favoritos.`;
+            const toastEx = new bootstrap.Toast(toastExitoEl);
+            toastEx.show();
+        });
+    </script>
 </body>
 </html>

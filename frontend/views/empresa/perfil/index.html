@@ -1,79 +1,366 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfil de Empresa | Workly</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../assets/css/global.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly - Perfil de Empresa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .hover-primary:hover { color: #0d6efd !important; text-decoration: underline !important; }
+        .cursor-pointer { cursor: pointer; }
+    </style>
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="../principal/index.html">Workly Empresa</a>
-      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
+<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+
+    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+                <span class="display-5 me-3 lh-1">💼</span> 
+                <div class="lh-sm">
+                    <span class="text-white fw-bold d-block fs-3">Workly</span>
+                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                    <a href="empresa-publicarvacante.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Publicar vacante</a>
+                    <a href="empresa-misvacantes.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Mis vacantes</a>
+                    <a href="empresa-postulaciones.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Ver postulaciones</a>
+                    <a href="empresa-foro.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Foro</a>
+                    <a href="empresa-resenaempresa.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Reseñas de postulantes</a>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                    <a href="empresa-notificaciones.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
+                        <i class="bi bi-bell-fill fs-3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
+                            2
+                            <span class="visually-hidden">notificaciones no leídas</span>
+                        </span>
+                    </a>
+                    
+                    <a href="empresa-perfil.html" class="text-info text-decoration-none d-inline-block">
+                        <i class="bi bi-person-circle fs-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow-1 py-4">
+        <div class="container-fluid px-4 px-lg-5">
+            <div class="row g-4 mt-1">
+                
+                <aside class="col-12 col-lg-4">
+                    
+                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 text-center mb-4">
+                        <div class="mb-3 position-relative d-inline-block mx-auto">
+                            <i class="bi bi-person-circle text-dark" style="font-size: 8rem; line-height: 1;"></i>
+                            <button class="btn btn-primary rounded-circle position-absolute bottom-0 end-0 mb-3 shadow-sm btn-sm" data-bs-toggle="tooltip" data-bs-title="Cambiar logo">
+                                <i class="bi bi-camera-fill"></i>
+                            </button>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-1">TechSolutions</h4>
+                        <p class="text-dark fw-bold small mb-4">El Salvador</p>
+
+                        <ul class="list-unstyled text-start text-dark small ms-md-4 ms-lg-2 ms-xl-4 mb-0 lh-lg">
+                            <li class="mb-2"><i class="bi bi-envelope me-3 text-primary"></i>Tech.Solutions@email.com</li>
+                            <li class="mb-2"><i class="bi bi-telephone-fill me-3 text-primary"></i>+503 1234 5678</li>
+                            <li class="mb-2"><i class="bi bi-geo-alt-fill me-3 text-primary"></i>San Salvador, El Salvador</li>
+                            <li><i class="bi bi-globe me-3 text-primary"></i>techsolutions.sv</li>
+                        </ul>
+                    </div>
+
+                    <div class="card bg-white border-0 rounded-4 shadow-sm overflow-hidden mb-4">
+                        <div class="bg-primary-subtle text-dark fw-bold px-4 py-3">
+                            Menú de perfil
+                        </div>
+                        <div class="list-group list-group-flush">
+                            <a href="empresa-perfil.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-primary fw-bold bg-light">
+                                <i class="bi bi-person-circle fs-5"></i> Información personal
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary btn-accion" data-mensaje="Sección en desarrollo">
+                                <i class="bi bi-file-earmark-text-fill fs-5"></i> Documentos legales
+                            </a>
+                            <a href="empresa-misvacantes.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary">
+                                <i class="bi bi-briefcase-fill fs-5"></i> Mis Vacantes
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary btn-accion" data-mensaje="Abriendo lista de postulantes guardados...">
+                                <i class="bi bi-bookmark-fill fs-5"></i> Postulantes guardados
+                            </a>
+                            <a href="empresa-notificaciones.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary">
+                                <i class="bi bi-bell-fill fs-5"></i> Alertas y notificaciones
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary btn-accion" data-mensaje="Abriendo panel de configuraciones...">
+                                <i class="bi bi-gear-fill fs-5"></i> Configuraciones
+                            </a>
+                        </div>
+                    </div>
+
+                </aside>
+
+                <section class="col-12 col-lg-8">
+                    
+                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 p-lg-5 mb-4 position-relative">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="fw-bold text-dark mb-0">Detalles de la empresa</h5>
+                            <button class="btn btn-outline-primary btn-sm fw-bold border-0" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Editar <i class="bi bi-pencil-square ms-1"></i></button>
+                        </div>
+                        
+                        <div class="row g-4">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Nombre completo de la empresa</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 text-muted shadow-none cursor-pointer" value="TechSolutions" readonly data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Tipo de Empresa</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 text-muted shadow-none cursor-pointer" value="Privada" readonly data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Email Corporativo</label>
+                                <input type="email" class="form-control bg-secondary-subtle border-0 text-muted shadow-none cursor-pointer" value="Tech.Solutions@email.com" readonly data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Teléfono</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 text-muted shadow-none cursor-pointer" value="+503 1234 5678" readonly data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Ciudad</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 text-muted shadow-none cursor-pointer" value="San Salvador, El Salvador" readonly data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Sitio Web</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 text-muted shadow-none cursor-pointer" value="techsolutions.sv" readonly data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold text-dark small">Resumen profesional</label>
+                                <textarea class="form-control bg-secondary-subtle border-0 text-muted shadow-none cursor-pointer" rows="4" readonly data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Somos una empresa salvadoreña dedicada a crear productos digitales de alto impacto. En TechSolutions creemos firmemente que nuestro mayor activo es nuestra gente. Por eso, ofrecemos un ambiente de trabajo donde la creatividad, la innovación y el trabajo en equipo son la base de todo. Si buscas retos técnicos, un excelente clima laboral y oportunidades reales de desarrollo, este es tu lugar.</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 p-lg-5 mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="fw-bold text-dark mb-0">Habilidades que buscas en los postulantes</h5>
+                            <button class="btn btn-outline-primary btn-sm fw-bold border-0" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Editar <i class="bi bi-pencil-square ms-1"></i></button>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6 class="fw-bold text-dark small mb-3">Habilidades técnicas</h6>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">JavaScript</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">React</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Node.js</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">MongoDB</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">SQL</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Git</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">HTML5</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">CSS3</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h6 class="fw-bold text-dark small mb-3">Habilidades blandas</h6>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Trabajo en equipo</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Resolución de problemas</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Comunicación efectiva</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Gestión del tiempo</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Adaptabilidad</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 p-lg-5 mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="fw-bold text-dark mb-0">Lo que buscas en los postulantes</h5>
+                            <button class="btn btn-outline-primary btn-sm fw-bold border-0" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Editar <i class="bi bi-pencil-square ms-1"></i></button>
+                        </div>
+                        
+                        <div class="row g-4 mb-4">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Puesto deseado predominante</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 text-muted shadow-none cursor-pointer" value="Desarrolladores Full Stack / Backend" readonly data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Modalidad preferida</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 text-muted shadow-none cursor-pointer" value="Híbrido / Remoto" readonly data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Tipo de contratación principal</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 text-muted shadow-none cursor-pointer" value="Tiempo completo indefinido" readonly data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Disponibilidad requerida</label>
+                                <input type="text" class="form-control bg-secondary-subtle border-0 text-muted shadow-none cursor-pointer" value="Inmediata" readonly data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">
+                            </div>
+                        </div>
+
+                        <div>
+                            <h6 class="fw-bold text-dark small mb-3">Categorías de interés</h6>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Programación</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Diseño web</span>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer" data-bs-toggle="modal" data-bs-target="#modalEditarPerfil">Soporte TI</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="modalEditarPerfil" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                    <h5 class="modal-title fw-bold text-dark">Editar Información del Perfil</h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 py-4">
+                    <form id="formEditarPerfil">
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <h6 class="fw-bold text-primary mb-0 border-bottom pb-2">Datos Básicos</h6>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Nombre de la empresa</label>
+                                <input type="text" class="form-control border-dark-subtle shadow-none" value="TechSolutions">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Tipo de Empresa</label>
+                                <select class="form-select border-dark-subtle shadow-none">
+                                    <option selected>Privada</option>
+                                    <option>Pública</option>
+                                    <option>ONG / Sin fines de lucro</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Email Corporativo</label>
+                                <input type="email" class="form-control border-dark-subtle shadow-none" value="Tech.Solutions@email.com">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Teléfono</label>
+                                <input type="text" class="form-control border-dark-subtle shadow-none" value="+503 1234 5678">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Ciudad</label>
+                                <input type="text" class="form-control border-dark-subtle shadow-none" value="San Salvador, El Salvador">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Sitio Web</label>
+                                <input type="text" class="form-control border-dark-subtle shadow-none" value="techsolutions.sv">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold text-dark small">Resumen profesional</label>
+                                <textarea class="form-control border-dark-subtle shadow-none" rows="4">Somos una empresa salvadoreña dedicada a crear productos digitales de alto impacto. En TechSolutions creemos firmemente que nuestro mayor activo es nuestra gente. Por eso, ofrecemos un ambiente de trabajo donde la creatividad, la innovación y el trabajo en equipo son la base de todo. Si buscas retos técnicos, un excelente clima laboral y oportunidades reales de desarrollo, este es tu lugar.</textarea>
+                            </div>
+
+                            <div class="col-12 mt-5">
+                                <h6 class="fw-bold text-primary mb-0 border-bottom pb-2">Preferencias de Contratación</h6>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold text-dark small">Habilidades técnicas que buscas (Separadas por comas)</label>
+                                <input type="text" class="form-control border-dark-subtle shadow-none" value="JavaScript, React, Node.js, MongoDB, SQL, Git, HTML5, CSS3">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold text-dark small">Habilidades blandas requeridas (Separadas por comas)</label>
+                                <input type="text" class="form-control border-dark-subtle shadow-none" value="Trabajo en equipo, Resolución de problemas, Comunicación efectiva, Gestión del tiempo, Adaptabilidad">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Modalidad de trabajo ofrecida</label>
+                                <select class="form-select border-dark-subtle shadow-none">
+                                    <option>Presencial</option>
+                                    <option selected>Híbrido / Remoto</option>
+                                    <option>100% Remoto</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label fw-bold text-dark small">Disponibilidad requerida</label>
+                                <select class="form-select border-dark-subtle shadow-none">
+                                    <option selected>Inmediata</option>
+                                    <option>En 15 días</option>
+                                    <option>En 1 mes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-top-0 px-4 pb-4">
+                    <button type="button" class="btn btn-light bg-secondary-subtle border-0 text-dark fw-bold px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary fw-bold px-5 shadow-sm" data-bs-dismiss="modal" id="btnGuardarCambios">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </nav>
 
-  <main class="py-4">
-    <div class="container">
-      <div class="mb-3">
-        <a href="../principal/index.html" class="btn btn-outline-secondary btn-sm">← Volver al panel</a>
-      </div>
-
-      <div class="mb-4">
-        <h1 class="page-title mb-1">Perfil de empresa</h1>
-        <p class="text-muted mb-0">Actualiza la información pública de tu empresa</p>
-      </div>
-
-      <div id="alertContainer"></div>
-
-      <div class="card card-custom p-4">
-        <form id="formPerfilEmpresa">
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="nombre_comercial" class="form-label">Nombre comercial</label>
-              <input type="text" id="nombre_comercial" class="form-control" required>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        
+        <div id="toastAccion" class="toast align-items-center text-white bg-info bg-opacity-75 border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-bold text-dark" id="toastTexto">
+                    <i class="bi bi-info-circle-fill me-2 fs-5"></i> Acción realizada.
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
+        </div>
 
-            <div class="col-md-6">
-              <label for="razon_social" class="form-label">Razón social</label>
-              <input type="text" id="razon_social" class="form-control" required>
+        <div id="toastExito" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold">
+                    <i class="bi bi-check-circle-fill me-2 fs-5"></i> ¡Perfil actualizado correctamente!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
+        </div>
 
-            <div class="col-md-6">
-              <label for="correo_electronico" class="form-label">Correo electrónico</label>
-              <input type="email" id="correo_electronico" class="form-control" disabled>
-            </div>
-
-            <div class="col-md-6">
-              <label for="sitio_web" class="form-label">Sitio web</label>
-              <input type="text" id="sitio_web" class="form-control" placeholder="www.ejemplo.com">
-            </div>
-
-            <div class="col-md-6">
-              <label for="id_municipio_fk" class="form-label">Municipio</label>
-              <select id="id_municipio_fk" class="form-select" required>
-                <option value="">Selecciona un municipio</option>
-              </select>
-            </div>
-
-            <div class="col-12">
-              <label for="descripcion_empresa" class="form-label">Descripción de la empresa</label>
-              <textarea id="descripcion_empresa" class="form-control" rows="6" required></textarea>
-            </div>
-
-            <div class="col-12">
-              <button type="submit" class="btn btn-primary">Guardar cambios</button>
-            </div>
-          </div>
-        </form>
-      </div>
     </div>
-  </main>
 
-  <script type="module" src="./app.js"></script>
+    <footer class="py-4 mt-auto bg-secondary">
+        <div class="container text-center">
+            <div class="d-flex justify-content-center gap-5">
+                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
+                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
+                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2026</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // 1. Toast Genérico para botones del Menú Lateral
+        const botonesAccion = document.querySelectorAll('.btn-accion');
+        const toastAccionEl = document.getElementById('toastAccion');
+        const toastTexto = document.getElementById('toastTexto');
+        const toastAccion = new bootstrap.Toast(toastAccionEl);
+
+        botonesAccion.forEach(function(boton) {
+            boton.addEventListener('click', function(e) {
+                e.preventDefault();
+                const mensaje = this.getAttribute('data-mensaje');
+                toastTexto.innerHTML = `<i class="bi bi-info-circle-fill me-2 fs-5"></i> ${mensaje}`;
+                toastAccion.show();
+            });
+        });
+
+        // 2. Tooltip para el botón de la cámara (Logo)
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+        // 3. Funcionalidad de Guardar Cambios del Perfil
+        document.getElementById('btnGuardarCambios').addEventListener('click', function() {
+            const toastExitoEl = document.getElementById('toastExito');
+            const toastExito = new bootstrap.Toast(toastExitoEl);
+            toastExito.show();
+        });
+    </script>
 </body>
 </html>

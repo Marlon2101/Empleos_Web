@@ -1,60 +1,378 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestión de Vacantes | Workly Admin</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../assets/css/global.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly - Gestión de Vacantes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .cursor-pointer { cursor: pointer; }
+        .hover-primary:hover { color: #0d6efd !important; text-decoration: underline; }
+    </style>
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="../principal/index.html">Workly Admin</a>
-      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
-    </div>
-  </nav>
+<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
 
-  <main class="py-4">
-    <div class="container">
-      <div class="mb-3">
-        <a href="../principal/index.html" class="btn btn-outline-secondary btn-sm">← Volver al panel</a>
-      </div>
+    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+                <span class="display-5 me-3 lh-1">💼</span> 
+                <div class="lh-sm">
+                    <span class="text-white fw-bold d-block fs-3">Workly</span>
+                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
 
-      <div class="mb-4">
-        <h1 class="page-title mb-1">Gestión de vacantes</h1>
-        <p class="text-muted mb-0">Administra las vacantes publicadas en la plataforma</p>
-      </div>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-      <div id="alertContainer"></div>
-
-      <div class="card card-custom p-3 p-md-4">
-        <div class="table-responsive">
-          <table class="table align-middle">
-            <thead>
-              <tr>
-                <th>Puesto</th>
-                <th>Empresa</th>
-                <th>Categoría</th>
-                <th>Modalidad</th>
-                <th>Salario</th>
-                <th>Fecha</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="tablaVacantes">
-              <tr>
-                <td colspan="7" class="text-muted">Cargando vacantes...</td>
-              </tr>
-            </tbody>
-          </table>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                </div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <a href="#" onclick="lanzarToast('info', 'Accediendo a perfil de administrador...')" class="text-dark"><i class="bi bi-person-circle fs-1"></i></a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </main>
+    </nav>
 
-  <script type="module" src="./app.js"></script>
+    <main class="flex-grow-1 py-4">
+        <div class="container-fluid px-4 px-lg-5">
+            <div class="row g-4 mt-1">
+                
+                <aside class="col-12 col-lg-2">
+                    <div class="card bg-white border-0 shadow-sm rounded-4 p-3 mb-4">
+                        <h6 class="fw-bold text-dark mb-3 ps-2">Menú Admin</h6>
+                        <div class="d-grid gap-2">
+                            <button onclick="window.location.href='dashboard-principal.html'" class="btn btn-primary fw-bold py-2">Dashboard</button>
+                            <button onclick="window.location.href='dashboard-gestionusuaios.html'" class="btn btn-primary fw-bold py-2">Gestión de Usuarios</button>
+                            <button onclick="window.location.href='dashboard-gestionempresas.html'" class="btn btn-primary fw-bold py-2">Gestión de Empresas</button>
+                            <button onclick="window.location.href='dashboard-gestionvacantes.html'" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold shadow-none py-2">Gestión de Vacantes</button>
+                            <button onclick="lanzarToast('info', 'Abriendo configuraciones de sistema...')" class="btn btn-primary fw-bold py-2">Configuración</button>
+                            <button onclick="window.location.href='dashboard-estadisticas.html'" class="btn btn-primary fw-bold py-2">Estadísticas del Sistema</button>
+                            <button onclick="window.location.href='dashboard-moderacion.html'" class="btn btn-primary fw-bold py-2">Moderación de Contenido</button>
+                        </div>
+                    </div>
+                </aside>
+
+                <section class="col-12 col-lg-10">
+                    <div class="card bg-white border-0 shadow-sm rounded-3 p-3 mb-4">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                            <h5 class="fw-bold text-dark mb-0 ps-2">Gestión de Vacantes</h5>
+                            <div class="d-flex gap-3">
+                                <button onclick="lanzarToast('exito', 'Lista de vacantes exportada.')" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold px-4">Exportar lista</button>
+                                <button class="btn btn-info text-white bg-opacity-50 border-0 fw-bold px-4" data-bs-toggle="modal" data-bs-target="#modalNuevaVacante">Nueva Vacante</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-3 p-2 mb-4">
+                        <div class="row g-2 align-items-center">
+                            <div class="col">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-secondary bg-opacity-10 border-0"><i class="bi bi-search text-muted small"></i></span>
+                                    <input type="text" class="form-control bg-secondary bg-opacity-10 border-0 shadow-none small py-2" placeholder="Buscar por puesto, empresa o etiquetas...">
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <select class="form-select bg-primary-subtle border-0 fw-bold text-dark cursor-pointer shadow-none px-4 text-center">
+                                    <option selected disabled>Estados</option>
+                                    <option>Activa</option>
+                                    <option>Pausada</option>
+                                    <option>Reportada</option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <button onclick="lanzarToast('info', 'Filtros aplicados a las vacantes.')" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold px-4">Filtrar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-0 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-4">Lista de vacantes activas</h6>
+                        
+                        <div class="row fw-bold text-dark border-bottom border-dark border-opacity-25 pb-2 mb-3 px-2 text-center">
+                            <div class="col-3 text-start">Vacante</div>
+                            <div class="col-2 text-start">Empresa</div>
+                            <div class="col-2">Estado</div>
+                            <div class="col-2">Registro</div>
+                            <div class="col-3">Acciones</div>
+                        </div>
+
+                        <div class="row align-items-center mb-3 px-2 small text-center">
+                            <div class="col-3 text-start">
+                                <div class="fw-bold text-dark lh-sm">Backend Developer</div>
+                                <div class="text-muted small lh-sm fw-bold">Tiempo completo · Híbrido</div>
+                            </div>
+                            <div class="col-2 text-dark fw-bold text-start">TechSolutions</div>
+                            <div class="col-2"><span class="badge bg-success px-3 py-2 w-75 rounded-pill shadow-sm">Activa</span></div>
+                            <div class="col-2 text-dark fw-bold">12/03/2026</div>
+                            <div class="col-3 d-flex justify-content-center align-items-center gap-3">
+                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerVacante" data-titulo="Backend Developer">Ver</span>
+                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarVacante" data-titulo="Backend Developer">Editar</button>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center mb-3 px-2 small text-center">
+                            <div class="col-3 text-start">
+                                <div class="fw-bold text-dark lh-sm">Frontend Developer</div>
+                                <div class="text-muted small lh-sm fw-bold">Remoto · Tiempo completo</div>
+                            </div>
+                            <div class="col-2 text-dark fw-bold text-start">InnovaCorp</div>
+                            <div class="col-2"><span class="badge bg-warning text-dark px-3 py-2 w-75 rounded-pill shadow-sm">Pausada</span></div>
+                            <div class="col-2 text-dark fw-bold">12/03/2026</div>
+                            <div class="col-3 d-flex justify-content-center align-items-center gap-3">
+                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerVacante" data-titulo="Frontend Developer">Ver</span>
+                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarVacante" data-titulo="Frontend Developer">Editar</button>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center mb-3 px-2 small text-center">
+                            <div class="col-3 text-start">
+                                <div class="fw-bold text-dark lh-sm">Diseñador UI/UX</div>
+                                <div class="text-muted small lh-sm fw-bold">Presencial · Freelance</div>
+                            </div>
+                            <div class="col-2 text-dark fw-bold text-start">Creative Studio</div>
+                            <div class="col-2"><span class="badge bg-success px-3 py-2 w-75 rounded-pill shadow-sm">Activa</span></div>
+                            <div class="col-2 text-dark fw-bold">12/03/2026</div>
+                            <div class="col-3 d-flex justify-content-center align-items-center gap-3">
+                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerVacante" data-titulo="Diseñador UI/UX">Ver</span>
+                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarVacante" data-titulo="Diseñador UI/UX">Editar</button>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center mb-3 px-2 small text-center">
+                            <div class="col-3 text-start">
+                                <div class="fw-bold text-dark lh-sm">Analista de Soporte</div>
+                                <div class="text-muted small lh-sm fw-bold">Turno fijo · Presencial</div>
+                            </div>
+                            <div class="col-2 text-dark fw-bold text-start">HR Global</div>
+                            <div class="col-2"><span class="badge bg-danger px-3 py-2 w-75 rounded-pill shadow-sm">Reportada</span></div>
+                            <div class="col-2 text-dark fw-bold">12/03/2026</div>
+                            <div class="col-3 d-flex justify-content-center align-items-center gap-3">
+                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerVacante" data-titulo="Analista de Soporte">Ver</span>
+                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarVacante" data-titulo="Analista de Soporte">Editar</button>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center mb-3 px-2 small text-center">
+                            <div class="col-3 text-start">
+                                <div class="fw-bold text-dark lh-sm">Fullstack Engineer</div>
+                                <div class="text-muted small lh-sm fw-bold">Híbrido · Tiempo completo</div>
+                            </div>
+                            <div class="col-2 text-dark fw-bold text-start">DataCore SV</div>
+                            <div class="col-2"><span class="badge bg-success px-3 py-2 w-75 rounded-pill shadow-sm">Activa</span></div>
+                            <div class="col-2 text-dark fw-bold">11/03/2026</div>
+                            <div class="col-3 d-flex justify-content-center align-items-center gap-3">
+                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerVacante" data-titulo="Fullstack Engineer">Ver</span>
+                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarVacante" data-titulo="Fullstack Engineer">Editar</button>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center px-2 small text-center">
+                            <div class="col-3 text-start">
+                                <div class="fw-bold text-dark lh-sm">QA Automation Tester</div>
+                                <div class="text-muted small lh-sm fw-bold">Remoto · Tiempo parcial</div>
+                            </div>
+                            <div class="col-2 text-dark fw-bold text-start">BlueSky Agency</div>
+                            <div class="col-2"><span class="badge bg-warning text-dark px-3 py-2 w-75 rounded-pill shadow-sm">Pausada</span></div>
+                            <div class="col-2 text-dark fw-bold">10/03/2026</div>
+                            <div class="col-3 d-flex justify-content-center align-items-center gap-3">
+                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerVacante" data-titulo="QA Automation Tester">Ver</span>
+                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalEditarVacante" data-titulo="QA Automation Tester">Editar</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-12 col-md-5">
+                            <div class="card bg-white border-0 shadow-sm rounded-4 p-4 h-100">
+                                <h6 class="fw-bold text-dark mb-4">Resumen</h6>
+                                <div class="d-flex justify-content-between mb-3 fw-bold text-dark border-bottom pb-2 border-light">
+                                    <span>Total vacantes</span>
+                                    <span>10,320</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-3 fw-bold text-dark border-bottom pb-2 border-light">
+                                    <span>Activas</span>
+                                    <span>8,950</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-3 fw-bold text-dark border-bottom pb-2 border-light">
+                                    <span>Pausadas</span>
+                                    <span>420</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-1 fw-bold text-dark">
+                                    <span>Reportadas</span>
+                                    <span>48</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-7">
+                            <div class="card bg-white border-0 shadow-sm rounded-4 p-4 h-100">
+                                <h6 class="fw-bold text-dark mb-4">Actividad reciente</h6>
+                                <div class="bg-secondary bg-opacity-10 p-3 rounded-3 mb-3 border-start border-3 border-primary">
+                                    <div class="fw-bold text-dark small">Nueva vacante publicada</div>
+                                    <div class="text-dark small">“QA Tester” fue publicada por TechSolutions.</div>
+                                    <div class="text-muted small fw-bold mt-1">Hace 30 minutos</div>
+                                </div>
+                                <div class="bg-secondary bg-opacity-10 p-3 rounded-3 mb-3 border-start border-3 border-danger">
+                                    <div class="fw-bold text-dark small">Vacante reportada</div>
+                                    <div class="text-dark small">Se reportó una vacante por información engañosa.</div>
+                                    <div class="text-muted small fw-bold mt-1">Hace 1 hora</div>
+                                </div>
+                                <div class="bg-secondary bg-opacity-10 p-3 rounded-3 border-start border-3 border-warning">
+                                    <div class="fw-bold text-dark small">Vacante pausada</div>
+                                    <div class="text-dark small">InnovaCorp pausó temporalmente 2 vacantes.</div>
+                                    <div class="text-muted small fw-bold mt-1">Hace 2 horas</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="modalVerVacante" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-bottom-0 pt-4 px-4">
+                    <h5 class="modal-title fw-bold text-dark">Detalle de la Publicación</h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 pt-0">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-briefcase display-1 text-primary opacity-25"></i>
+                        <h4 class="fw-bold mt-2" id="vacanteTitulo">Título de Vacante</h4>
+                        <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-4 py-2 border border-primary border-opacity-25">ID: #JOB-9923</span>
+                    </div>
+                    <div class="bg-light p-3 rounded-3 mb-4">
+                        <div class="row g-3 text-start">
+                            <div class="col-12 border-bottom pb-2">
+                                <span class="text-muted small d-block">Descripción resumida</span>
+                                <span class="fw-semibold text-dark">Buscamos profesional con experiencia en lenguajes modernos para integrarse a proyectos escalables.</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="text-muted small d-block">Salario Ofrecido</span>
+                                <span class="fw-bold text-dark">$1,200 - $1,800</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="text-muted small d-block">Postulaciones recibidas</span>
+                                <span class="fw-bold text-dark">45 candidatos</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-grid mt-4">
+                        <button class="btn btn-primary fw-bold py-2 rounded-3 shadow-sm" data-bs-dismiss="modal">Cerrar Detalle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEditarVacante" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-bottom-0 pt-4 px-4">
+                    <h5 class="modal-title fw-bold text-dark">Gestionar Vacante</h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 pt-0">
+                    <p class="text-muted small mb-4">Selecciona el nuevo estado para <strong id="nombreVacanteEdit" class="text-dark">Vacante</strong>.</p>
+                    <form>
+                        <div class="d-grid gap-3 text-start">
+                            <div class="form-check p-3 border rounded-3 bg-light">
+                                <input class="form-check-input ms-0 me-3" type="radio" name="stVacante" id="stActiva" checked>
+                                <label class="form-check-label fw-bold text-success" for="stActiva">Aprobar / Mantener Activa</label>
+                            </div>
+                            <div class="form-check p-3 border rounded-3 bg-light">
+                                <input class="form-check-input ms-0 me-3" type="radio" name="stVacante" id="stPausar">
+                                <label class="form-check-label fw-bold text-warning" for="stPausar">Pausar Publicación</label>
+                            </div>
+                            <div class="form-check p-3 border rounded-3 bg-light">
+                                <input class="form-check-input ms-0 me-3" type="radio" name="stVacante" id="stEliminar">
+                                <label class="form-check-label fw-bold text-danger" for="stEliminar">Eliminar Permanentemente</label>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button type="button" onclick="lanzarToast('exito', 'Estado de la vacante actualizado.');" data-bs-dismiss="modal" class="btn btn-primary w-100 fw-bold py-2 rounded-3">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalNuevaVacante" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-bottom-0 pt-4 px-4 text-center d-block">
+                    <h5 class="modal-title fw-bold text-dark">Registrar Nueva Vacante</h5>
+                    <button type="button" class="btn-close shadow-none position-absolute end-0 top-0 m-4" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 pt-0">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Título del Puesto</label>
+                            <input type="text" class="form-control bg-light border-0 shadow-none" placeholder="Ej: Mobile Developer">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Empresa Solicitante</label>
+                            <select class="form-select bg-light border-0 shadow-none">
+                                <option>TechSolutions</option>
+                                <option>InnovaCorp</option>
+                                <option>Creative Studio</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold">Salario base (Opcional)</label>
+                            <input type="text" class="form-control bg-light border-0 shadow-none" placeholder="$0.00">
+                        </div>
+                        <button type="button" onclick="lanzarToast('exito', 'Vacante publicada en el sistema.')" data-bs-dismiss="modal" class="btn btn-primary w-100 fw-bold py-2 rounded-3">Confirmar Registro</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastAdmin" class="toast align-items-center text-white border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-bold" id="mensajeToast">Acción realizada</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="py-4 mt-auto bg-secondary text-white-50 text-center small">
+        <div class="container">
+            <span>Workly Dashboard &copy; 2026 - Administración de Contenido</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function lanzarToast(tipo, mensaje) {
+            const toastEl = document.getElementById('toastAdmin');
+            const textoEl = document.getElementById('mensajeToast');
+            textoEl.textContent = mensaje;
+            toastEl.classList.remove('bg-info', 'bg-success');
+            toastEl.classList.add(tipo === 'exito' ? 'bg-success' : 'bg-info');
+            new bootstrap.Toast(toastEl).show();
+        }
+
+        const modalVer = document.getElementById('modalVerVacante');
+        modalVer.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget;
+            document.getElementById('vacanteTitulo').textContent = button.getAttribute('data-titulo');
+        });
+
+        const modalEdit = document.getElementById('modalEditarVacante');
+        modalEdit.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget;
+            document.getElementById('nombreVacanteEdit').textContent = button.getAttribute('data-titulo');
+        });
+    </script>
 </body>
 </html>
