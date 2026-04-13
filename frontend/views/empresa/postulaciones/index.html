@@ -1,18 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workly - Postulaciones</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .aside-divider {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            border-top: 2px solid #000 !important;
+            opacity: 1;
+        }
+        /* Estilo para las filas de la API con fondo blanco */
+        .postulante-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
+
 <body class="d-flex flex-column min-vh-100 bg-primary-subtle">
 
     <nav class="navbar navbar-expand-lg py-3 bg-secondary">
         <div class="container-fluid px-4 px-lg-5">
             <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
-                <span class="display-5 me-3 lh-1">💼</span> 
+                <span class="display-5 me-3 lh-1">💼</span>
                 <div class="lh-sm">
                     <span class="text-white fw-bold d-block fs-3">Workly</span>
                     <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
@@ -24,21 +41,20 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarContent">
-                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                <div class="navbar-nav mx-auto gap-2">
                     <a href="../publicarvacante/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Publicar vacante</a>
                     <a href="../misvacantes/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Mis vacantes</a>
-                    <a href="../postulaciones/index.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Ver postulaciones</a>
+                    <a href="../postulaciones/index.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold">Ver postulaciones</a>
                     <a href="../foro/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Foro</a>
-                    <a href="../resenaempresa/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Reseñas de postulantes</a>
                 </div>
 
                 <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
                     <a href="../notificaciones/index.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
-                        <i class="bi bi-bell-fill fs-3"></i>
+                        <i class="bi bi-bell-fill fs-3 text-grey"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">2</span>
                     </a>
                     <a href="../perfil/index.html" class="text-dark text-decoration-none d-inline-block">
-                        <i class="bi bi-person-circle fs-2"></i>
+                        <i class="bi bi-person-circle fs-2 text-grey"></i>
                     </a>
                 </div>
             </div>
@@ -47,75 +63,61 @@
 
     <main class="flex-grow-1 py-4">
         <div class="container-fluid px-4 px-lg-5">
-            
+
             <div class="card bg-white border-0 shadow-sm p-3 mb-4 rounded-4 mt-2">
                 <div class="row g-3 align-items-center">
                     <div class="col-12 col-md-auto">
-                        <button class="btn bg-primary-subtle text-dark fw-bold px-4 py-2 rounded-3 w-100 fs-6 pointer-events-none border-0 shadow-none">Ver Postulantes</button>
+                        <button class="btn bg-primary-subtle text-dark fw-bold px-4 py-2 rounded-3 border-0 shadow-none">Ver Postulantes</button>
                     </div>
                     <div class="col-12 col-md">
                         <div class="input-group">
-                            <span class="input-group-text bg-secondary-subtle border-0 ps-4"><i class="bi bi-search text-muted"></i></span>
-                            <input type="text" class="form-control bg-secondary-subtle border-0 shadow-none py-2 text-muted fw-semibold" placeholder="Buscar candidato por nombre, vacante o correo...">
+                            <span class="input-group-text bg-secondary-subtle border-0 ps-4"><i class="bi bi-search"></i></span>
+                            <input type="text" class="form-control bg-secondary-subtle border-0 py-2 fw-semibold" placeholder="Buscar candidato...">
                         </div>
-                    </div>
-                    <div class="col-12 col-md-auto">
-                        <select class="form-select bg-primary-subtle text-dark fw-bold border-0 px-4 py-2 rounded-3 shadow-none w-100 text-center cursor-pointer">
-                            <option selected>Vacantes</option>
-                            <option value="1">Backend Developer</option>
-                            <option value="2">Frontend Developer</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-auto">
-                        <select class="form-select bg-primary-subtle text-dark fw-bold border-0 px-4 py-2 rounded-3 shadow-none w-100 text-center cursor-pointer">
-                            <option selected>Estado</option>
-                            <option value="1">En revisión</option>
-                            <option value="2">Entrevista</option>
-                            <option value="3">Aprobado</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-auto">
-                        <button type="button" id="btnFiltrar" class="btn btn-primary bg-primary-subtle text-dark fw-bold px-4 py-2 rounded-3 w-100 shadow-sm border-0">Filtrar</button>
                     </div>
                 </div>
             </div>
 
             <div class="row g-4">
                 <section class="col-12 col-xl-8">
-                    <div class="card bg-white border-0 shadow-sm rounded-0 mb-4 p-4">
-                        <h5 class="fw-bold text-dark mb-4">Lista de postulantes</h5>
-                        
-                        <div class="row fw-bold text-dark border-bottom border-dark border-2 pb-2 mb-4 px-2 d-none d-md-flex">
-                            <div class="col-3">Candidato</div>
-                            <div class="col-3">Vacante</div>
-                            <div class="col-2">Estado</div>
-                            <div class="col-2">Fecha</div>
-                            <div class="col-2 text-center">Acciones</div>
-                        </div>
-
-                        <div id="contenedorPostulaciones">
-                            <div class="text-center p-5 text-muted">Cargando postulantes...</div>
-                        </div>
-
+                    <div class="row fw-bold text-dark border-bottom border-dark border-2 pb-2 mb-3 d-none d-md-flex px-2">
+                        <div class="col-3">Candidato</div>
+                        <div class="col-3">Vacante</div>
+                        <div class="col-2">Estado</div>
+                        <div class="col-2">Fecha</div>
+                        <div class="col-2 text-center">Acciones</div>
                     </div>
+                    <div id="contenedorPostulaciones">
+                        </div>
                 </section>
 
                 <aside class="col-12 col-xl-4">
                     <div class="card bg-white border-0 shadow-sm rounded-0 p-4 mb-4">
                         <h6 class="fw-bold text-dark mb-1">Resumen</h6>
                         <div class="fw-bold text-dark small mb-2">Total postulantes</div>
-                        <hr class="mt-0 mb-3 border-dark border-2 opacity-100">
-                        <div class="d-flex justify-content-between mb-3">
-                            <span class="text-dark fw-bold small">En revisión</span>
-                            <span class="text-dark fw-bold small">18</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span class="text-dark fw-bold small">Entrevistas</span>
-                            <span class="text-dark fw-bold small">9</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-1">
-                            <span class="text-dark fw-bold small">Aprobados</span>
-                            <span class="text-dark fw-bold small">6</span>
+                        <hr class="aside-divider">
+                        <div class="d-flex justify-content-between mb-3 fw-bold small"><span>En revisión</span> <span>18</span></div>
+                        <div class="d-flex justify-content-between mb-3 fw-bold small"><span>Entrevistas</span> <span>9</span></div>
+                        <div class="d-flex justify-content-between mb-1 fw-bold small"><span>Aprobados</span> <span>6</span></div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-0 p-4 mb-4">
+                        <h6 class="fw-bold text-dark mb-2">Vacantes más activas</h6>
+                        <hr class="aside-divider">
+                        <div class="d-flex justify-content-between mb-3 fw-bold small"><span>Backend Developer</span> <span>16</span></div>
+                        <div class="d-flex justify-content-between mb-3 fw-bold small"><span>Frontend Developer</span> <span>12</span></div>
+                        <div class="d-flex justify-content-between mb-1 fw-bold small"><span>Diseñador UI/UX</span> <span>8</span></div>
+                    </div>
+
+                    <div class="card bg-white border-0 shadow-sm rounded-0 p-4">
+                        <h6 class="fw-bold text-dark mb-2">Postulantes recientes</h6>
+                        <hr class="aside-divider">
+                        <div class="fw-bold small text-dark">
+                            <div class="mb-3">Carlos Ruiz</div>
+                            <div class="mb-3">Maria Garcia</div>
+                            <div class="mb-3">Pepe Lopez</div>
+                            <div class="mb-3">José Méndez</div>
+                            <div class="mb-1">Ana López</div>
                         </div>
                     </div>
                 </aside>
@@ -128,21 +130,20 @@
             <div class="modal-content border-0 rounded-4 shadow-lg">
                 <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
                     <h5 class="modal-title fw-bold text-dark">Perfil del Candidato</h5>
-                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body px-4 py-4">
-                    <div class="d-flex align-items-center mb-4 pb-4 border-bottom border-secondary border-opacity-10">
-                        <div class="bg-secondary-subtle p-4 rounded-circle d-flex align-items-center justify-content-center me-4">
-                            <i class="bi bi-person display-4 text-dark"></i>
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-primary-subtle p-4 rounded-circle me-4">
+                            <i class="bi bi-person display-4 text-primary"></i>
                         </div>
                         <div>
-                            <h4 class="fw-bold mb-1 text-dark" id="perfilNombre">Nombre Candidato</h4>
-                            <p class="text-primary fw-bold mb-1" id="perfilPuesto">Vacante Solicitada</p>
+                            <h4 class="fw-bold mb-1 text-dark" id="perfilNombre">Cargando...</h4>
+                            <p class="text-primary fw-bold mb-0" id="perfilPuesto">Cargando...</p>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer border-top-0 px-4 pb-4 justify-content-between">
-                    <button class="btn btn-primary bg-opacity-75 text-white fw-bold px-4 rounded-3"><i class="bi bi-file-earmark-pdf-fill"></i> Descargar CV</button>
+                <div class="modal-footer border-top-0 px-4 pb-4">
                     <button type="button" class="btn btn-primary fw-bold px-4 rounded-3" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -154,7 +155,7 @@
             <div class="modal-content border-0 rounded-4 shadow-lg">
                 <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
                     <h5 class="modal-title fw-bold text-dark">Contactar Candidato</h5>
-                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body px-4 py-4">
                     <form>
@@ -164,10 +165,10 @@
                         </div>
                         <div class="mb-4">
                             <label class="form-label small fw-bold text-dark">Mensaje:</label>
-                            <textarea class="form-control bg-secondary-subtle border-0 shadow-none py-2 text-muted" rows="5" placeholder="Escribe tu mensaje aquí..."></textarea>
+                            <textarea class="form-control bg-secondary-subtle border-0 shadow-none py-2 text-muted" rows="5" placeholder="Escribe tu mensaje..."></textarea>
                         </div>
-                        <div class="d-flex justify-content-end gap-2">
-                            <button type="button" class="btn btn-primary fw-bold px-4 shadow-sm" data-bs-dismiss="modal" id="btnEnviarMensaje">Enviar</button>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary fw-bold px-4 shadow-sm" data-bs-dismiss="modal">Enviar</button>
                         </div>
                     </form>
                 </div>

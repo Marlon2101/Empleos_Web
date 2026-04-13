@@ -1,9 +1,5 @@
 import { API_URL } from "../../../assets/js/shared/config.js";
 
-// ❌ BYPASS: Comentamos la seguridad temporalmente para hacer pruebas rápidas
-// import { requireAuth, logout } from "../../../assets/js/shared/auth.js";
-// requireAuth(["empresa"]);
-
 const contenedorPostulaciones = document.getElementById("contenedorPostulaciones");
 
 const formatearFecha = (fecha) => {
@@ -11,12 +7,37 @@ const formatearFecha = (fecha) => {
     return new Date(fecha).toLocaleDateString("es-SV");
 };
 
-// --- ⚙️ FUNCIÓN PARA CAMBIAR EL ESTADO ---
-window.actualizarEstado = async (idPostulacion, nuevoEstadoId) => {
+// --- 👤 FUNCIÓN: ABRIR PERFIL CON INFORMACIÓN COMPLETA ---
+window.abrirPerfil = (itemString) => {
+    // Decodificamos el objeto que pasamos como string
+    const item = JSON.parse(decodeURIComponent(itemString));
+    
+    // Rellenamos el Modal de Perfil con los datos de la base de datos
+    document.getElementById('perfilNombre').textContent = `${item.nombres} ${item.apellidos}`;
+    document.getElementById('perfilPuesto').textContent = item.titulo_puesto;
+    
+    // Si tienes campos adicionales en tu modal de perfil, agrégalos aquí:
+    // Ejemplo: document.getElementById('perfilCorreo').textContent = item.correo_electronico;
+
+    const modalPerfil = new bootstrap.Modal(document.getElementById('modalPerfilCandidato'));
+    modalPerfil.show();
+};
+
+// --- ✉️ FUNCIÓN: ABRIR FORMULARIO DE CONTACTO ---
+window.abrirContacto = (nombre, apellidos, correo) => {
+    const inputDestino = document.getElementById('contactoDestino');
+    if (inputDestino) {
+        // Rellenamos el campo "Para:" automáticamente
+        inputDestino.value = `${nombre} ${apellidos} (${correo})`;
+    }
+    
+    const modalContacto = new bootstrap.Modal(document.getElementById('modalContactar'));
+    modalContacto.show();
+};
+
+// --- ⚙️ FUNCIÓN: ACTUALIZAR ESTADO ---
+window.actualizarEstado = async (idPostulacion, nuevoEstadoId, elementoSelect) => {
     try {
-        console.log(`Enviando cambio: Postulación ${idPostulacion} -> Estado ${nuevoEstadoId}`);
-        
-        // Esta es la ruta que tu Node.js debe tener para recibir la actualización
         const response = await fetch(`${API_URL}/postulaciones/${idPostulacion}/estado`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -24,115 +45,85 @@ window.actualizarEstado = async (idPostulacion, nuevoEstadoId) => {
         });
 
         if (response.ok) {
-            alert("¡Estado del candidato actualizado correctamente!");
-        } else {
-            alert("Error al actualizar el estado. Verifica la consola de Node.js.");
+            elementoSelect.className = "form-select form-select-sm rounded-pill shadow-sm fw-bold px-3 py-1 border-0";
+            if (nuevoEstadoId == 1) elementoSelect.classList.add('bg-warning', 'text-dark');
+            else if (nuevoEstadoId == 2) elementoSelect.classList.add('bg-primary-subtle', 'text-primary'); 
+            else if (nuevoEstadoId == 3) elementoSelect.classList.add('bg-success', 'text-white');
+            else if (nuevoEstadoId == 4) elementoSelect.classList.add('bg-danger', 'text-white');
         }
     } catch (error) {
-        console.error("Error al hacer el PUT:", error);
-        alert("Error de conexión al intentar cambiar el estado.");
+        console.error("Error al actualizar estado:", error);
     }
 };
 
-// --- 🎨 FUNCIÓN PARA DIBUJAR LOS CANDIDATOS ---
+// --- 🎨 RENDERIZADO DE LA LISTA ---
 const renderPostulaciones = (items) => {
-    if (!items || items.length === 0) {
-        contenedorPostulaciones.innerHTML = `
-            <div class="text-center p-5 text-muted fw-bold border border-secondary border-opacity-25 rounded-3 bg-light m-3">
-                <i class="bi bi-inbox fs-1 d-block mb-2"></i>
-                Aún no tienes postulantes para tus vacantes.
-            </div>
-        `;
+    if (!items.length) {
+        contenedorPostulaciones.innerHTML = `<div class="text-center p-5 fw-bold text-muted">No hay postulantes registrados.</div>`;
         return;
     }
 
-    // Inyectamos el diseño por cada postulante
-    contenedorPostulaciones.innerHTML = items.map(item => `
-        <div class="row align-items-center border-bottom pb-3 mb-3 px-2 g-3">
-            <div class="col-12 col-md-3 d-flex align-items-center gap-3">
-                <div class="bg-secondary-subtle rounded-circle p-2 d-inline-flex align-items-center justify-content-center flex-shrink-0">
-                    <i class="bi bi-person fs-5 text-dark"></i>
+    contenedorPostulaciones.innerHTML = items.map(item => {
+        let colorClase = "bg-warning text-dark"; 
+        if (item.id_estado_fk == 2) colorClase = "bg-primary-subtle text-primary";
+        if (item.id_estado_fk == 3) colorClase = "bg-success text-white";
+        if (item.id_estado_fk == 4) colorClase = "bg-danger text-white";
+
+        const nombreCompleto = `${item.nombres} ${item.apellidos}`;
+        // Convertimos el objeto item a string para pasarlo a la función de Perfil
+        const itemData = encodeURIComponent(JSON.stringify(item));
+
+        return `
+        <div class="row align-items-center bg-white py-3 mb-2 px-2 shadow-sm rounded-2 g-3 mx-0">
+            <div class="col-12 col-md-3 d-flex align-items-center gap-2">
+                <div class="bg-primary-subtle rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <i class="bi bi-person-fill text-primary fs-5"></i>
                 </div>
-                <div>
-                    <div class="fw-bold text-dark small lh-sm">${item.nombres || 'Candidato'} ${item.apellidos || ''}</div>
-                    <div class="small text-dark fw-bold lh-sm text-truncate" style="max-width: 150px;">
-                        ${item.correo_electronico || 'Sin correo'}
-                    </div>
-                </div>
+                <div class="fw-bold small text-dark">${nombreCompleto}</div>
             </div>
-            
-            <div class="col-12 col-md-3 fw-bold text-dark small">
-                <span class="d-md-none text-muted me-2">Vacante:</span>
-                ${item.titulo_puesto || 'Puesto Desconocido'}
+
+            <div class="col-12 col-md-3 fw-bold small text-dark">
+                <i class="bi bi-briefcase me-2 text-muted"></i>${item.titulo_puesto}
             </div>
             
             <div class="col-12 col-md-2">
-                <select class="form-select form-select-sm shadow-sm rounded-pill border-secondary border-opacity-25 fw-bold text-dark" 
-                        onchange="actualizarEstado(${item.id_postulacion || item.id}, this.value)">
-                    <option value="1" ${item.id_estado_fk == 1 ? 'selected' : ''}>En Revisión</option>
+                <select class="form-select form-select-sm rounded-pill fw-bold ${colorClase} border-0 shadow-none cursor-pointer" 
+                        onchange="actualizarEstado(${item.id_postulacion}, this.value, this)">
+                    <option value="1" ${item.id_estado_fk == 1 ? 'selected' : ''}>En revisión</option>
                     <option value="2" ${item.id_estado_fk == 2 ? 'selected' : ''}>Entrevista</option>
                     <option value="3" ${item.id_estado_fk == 3 ? 'selected' : ''}>Aprobado</option>
                     <option value="4" ${item.id_estado_fk == 4 ? 'selected' : ''}>Rechazado</option>
                 </select>
             </div>
 
-            <div class="col-12 col-md-2 fw-bold text-dark small">
-                <span class="d-md-none text-muted me-2">Fecha:</span>
-                ${formatearFecha(item.fecha_postulacion)}
+            <div class="col-12 col-md-2 fw-bold small text-dark">
+                <i class="bi bi-calendar3 me-2 text-muted"></i>${formatearFecha(item.fecha_postulacion)}
             </div>
             
-            <div class="col-12 col-md-2 d-flex justify-content-md-center gap-2">
-                <button type="button" class="btn bg-primary-subtle text-dark fw-bold btn-sm px-3 rounded-pill shadow-sm btn-ver-perfil" 
-                    data-nombre="${item.nombres || 'Candidato'} ${item.apellidos || ''}" 
-                    data-puesto="${item.titulo_puesto || 'Puesto'}" 
-                    data-bs-toggle="modal" data-bs-target="#modalPerfilCandidato">
-                    Ver perfil
+            <div class="col-12 col-md-2 d-flex justify-content-center gap-2">
+                <button onclick="abrirPerfil('${itemData}')" 
+                    class="btn btn-sm bg-primary-subtle text-dark fw-bold rounded-pill px-2 border-0 shadow-sm" 
+                    style="font-size: 0.75rem; min-width: 65px;">
+                    Ver<br>perfil
+                </button>
+                
+                <button onclick="abrirContacto('${item.nombres}', '${item.apellidos}', '${item.correo_electronico}')" 
+                    class="btn btn-sm bg-primary-subtle text-dark fw-bold rounded-pill px-3 border-0 shadow-sm">
+                    Contactar
                 </button>
             </div>
-        </div>
-    `).join("");
-
-    // Reactivamos los botones de los modales después de inyectar el HTML
-    vincularModales();
+        </div>`;
+    }).join("");
 };
 
-// --- 📡 FUNCIÓN PARA TRAER LOS DATOS DE NODE.JS ---
-const cargarPostulaciones = async () => {
+const cargarLista = async () => {
     try {
-        // 🚨 Fetch SIN TOKEN. (Node.js no debe pedirlo por ahora)
-        const response = await fetch(`${API_URL}/empresa/postulaciones`);
-        
-        if (!response.ok) {
-            // Si el error es 401, te aviso de inmediato en la pantalla
-            if(response.status === 401) {
-                throw new Error("🚨 Error 401: Tu servidor Node.js sigue pidiendo Token. Tienes que quitarle el 'verificarToken' a la ruta.");
-            }
-            throw new Error("Error al cargar los datos desde la base de datos.");
-        }
-        
+        const response = await fetch(`${API_URL}/postulaciones/empresa`);
         const data = await response.json();
         renderPostulaciones(data);
-
-    } catch (error) {
-        console.error(error);
-        contenedorPostulaciones.innerHTML = `
-            <div class="alert alert-danger shadow-sm m-3 fw-bold">
-                ${error.message}
-            </div>
-        `;
+    } catch (e) {
+        console.error("Error al cargar lista:", e);
     }
 };
 
-// --- 🖱️ PASAR DATOS AL MODAL ---
-const vincularModales = () => {
-    const botonesPerfil = document.querySelectorAll('.btn-ver-perfil');
-    botonesPerfil.forEach(boton => {
-        boton.addEventListener('click', function() {
-            document.getElementById('perfilNombre').textContent = this.getAttribute('data-nombre');
-            document.getElementById('perfilPuesto').textContent = this.getAttribute('data-puesto');
-        });
-    });
-};
-
-// Iniciar
-cargarPostulaciones();
+cargarLista();
