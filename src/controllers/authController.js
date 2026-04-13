@@ -92,6 +92,7 @@ export const iniciarSesion = async (req, res) => {
   }
 };
 
+// Asegúrate de que los nombres coincidan con las rutas
 export const registrarUsuario = async (req, res) => {
   try {
     const {
@@ -104,6 +105,7 @@ export const registrarUsuario = async (req, res) => {
       resumen_profesional
     } = req.body;
 
+    // Llamamos al modelo que tú ya tienes bien escrito
     const nuevoUsuario = await registerUsuarioAuth({
       nombres,
       apellidos,
@@ -119,6 +121,7 @@ export const registrarUsuario = async (req, res) => {
       data: nuevoUsuario
     });
   } catch (error) {
+    // Si hay un error de MySQL (como correo duplicado), saldrá aquí
     res.status(500).json({
       mensaje: "Error al registrar usuario",
       error: error.message
