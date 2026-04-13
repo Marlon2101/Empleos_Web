@@ -43,65 +43,62 @@
                             <p class="fs-6 text-dark">Accede a tu cuenta de Workly</p>
                         </div>
 
+                        <div id="alertContainer"></div>
+
                         <div class="row justify-content-center">
                             <div class="col-12 col-md-10">
 
-                                <div class="mb-4">
-                                    <label class="form-label fw-bold text-dark">Correo electrónico</label>
-                                    <div class="input-group">
-                                        <input type="email" id="emailInput"
-                                            class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent">
-                                        <span class="input-group-text bg-transparent border-start-0 border-dark-subtle">
-                                            <i class="bi bi-envelope-fill text-dark"></i>
-                                        </span>
-                                    </div>
-                                    <div id="emailError" class="text-danger small mt-1 d-none fw-semibold">Este campo es
-                                        obligatorio.</div>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="form-label fw-bold text-dark">Contraseña</label>
-                                    <div class="input-group">
-                                        <input type="password" id="passInput"
-                                            class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent">
-                                        <span class="input-group-text bg-transparent border-start-0 border-dark-subtle">
-                                            <i class="bi bi-lock-fill text-dark"></i>
-                                        </span>
-                                    </div>
-                                    <div id="passError" class="text-danger small mt-1 d-none fw-semibold">Este campo es
-                                        obligatorio.</div>
-                                </div>
-
-                                <div class="d-flex justify-content-between align-items-center mb-5">
-                                    <div class="form-check mb-0">
-                                        <input class="form-check-input bg-dark border-dark" type="checkbox"
-                                            id="recordarme" checked>
-                                        <label class="form-check-label text-dark" for="recordarme">Recordarme</label>
-                                    </div>
-                                    <a href="#" class="text-dark text-decoration-underline">¿Olvidaste tu
-                                        contraseña?</a>
-                                </div>
-
-                                <div class="row g-3 mb-4">
-                                    <div class="col-12 col-sm-6 d-grid">
-                                        <button type="button" id="btnIniciarSesion"
-                                            class="btn btn-primary text-white py-2 shadow-sm rounded-3">
-                                            Iniciar Sesión
-                                        </button>
-                                    </div>
-                                    <div class="col-12 col-sm-6 d-grid">
-                                        <button type="button"
-                                            class="btn btn-primary text-white py-2 shadow-sm rounded-3 d-flex justify-content-center align-items-center gap-2">
-                                            <span
-                                                class="bg-white rounded-circle d-flex align-items-center justify-content-center p-1">
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
-                                                    alt="Google" width="16" height="16">
+                                <form id="formLogin">
+                                    
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold text-dark">Correo electrónico</label>
+                                        <div class="input-group">
+                                            <input type="email" id="correo"
+                                                class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent" required>
+                                            <span class="input-group-text bg-transparent border-start-0 border-dark-subtle">
+                                                <i class="bi bi-envelope-fill text-dark"></i>
                                             </span>
-                                            Continuar con Google
-                                        </button>
+                                        </div>
                                     </div>
-                                </div>
 
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold text-dark">Contraseña</label>
+                                        <div class="input-group">
+                                            <input type="password" id="password"
+                                                class="form-control form-control-lg border-end-0 border-dark-subtle bg-transparent" required>
+                                            <span class="input-group-text bg-transparent border-start-0 border-dark-subtle">
+                                                <i class="bi bi-lock-fill text-dark"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between align-items-center mb-5">
+                                        <div class="form-check mb-0">
+                                            <input class="form-check-input bg-dark border-dark" type="checkbox"
+                                                id="recordarme" checked>
+                                            <label class="form-check-label text-dark" for="recordarme">Recordarme</label>
+                                        </div>
+                                        <a href="#" class="text-dark text-decoration-underline">¿Olvidaste tu
+                                            contraseña?</a>
+                                    </div>
+
+                                    <div class="row g-3 mb-4">
+                                        <div class="col-12 col-sm-6 d-grid">
+                                            <button type="submit"
+                                                class="btn btn-primary text-white py-2 shadow-sm rounded-3">
+                                                Iniciar Sesión
+                                            </button>
+                                        </div>
+                                        <div class="col-12 col-sm-6 d-grid">
+                                            <button type="button"
+                                                class="btn btn-light border text-dark py-2 shadow-sm rounded-3 d-flex justify-content-center align-items-center gap-2">
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
+                                                        alt="Google" width="16" height="16">
+                                                Continuar con Google
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                                 <div class="text-center mt-3">
                                     <span class="text-dark">¿Aún no tienes cuenta?</span>
                                     <a href="../registro/index.html"
@@ -116,106 +113,68 @@
         </div>
     </main>
 
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-
-        <div id="errorToast" class="toast align-items-center text-white bg-danger border-0 rounded-3 shadow mb-2"
-            role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body fs-6 py-3 fw-semibold">
-                    <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i> ¡Error! Por favor, completa todos los
-                    campos.
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-            </div>
-        </div>
-
-        <div id="successToast" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow"
-            role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body fs-6 py-3 fw-semibold">
-                    <i class="bi bi-check-circle-fill me-2 fs-5"></i> ¡Inicio de sesión exitoso! Redirigiendo...
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-            </div>
-        </div>
-
-    </div>
-
     <footer class="py-4 mt-auto bg-secondary">
         <div class="container text-center">
             <div class="d-flex justify-content-center gap-5">
                 <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
                 <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
-                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2024</span>
+                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2026</span>
             </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./app.js"></script>
     <script>
-        document.getElementById('btnIniciarSesion').addEventListener('click', function (event) {
-            event.preventDefault(); // Evita recargar la página
+    document.getElementById('formLogin').addEventListener('submit', function(event) {
+        event.preventDefault(); // Evita recargar la página y evita buscar el backend
 
-            // Obtenemos los valores
-            const emailInput = document.getElementById('emailInput');
-            const passInput = document.getElementById('passInput');
-            const emailValue = emailInput.value.trim().toLowerCase();
-            const passValue = passInput.value.trim();
+        // Obtenemos los valores de los inputs
+        const emailInput = document.getElementById('correo');
+        const passInput = document.getElementById('password');
 
-            const emailError = document.getElementById('emailError');
-            const passError = document.getElementById('passError');
+        const emailValue = emailInput.value.trim().toLowerCase();
+        const passValue = passInput.value.trim();
 
-            let isValid = true;
+        // Validación visual simple
+        if (emailValue === '' || passValue === '') {
+            alert("Por favor, completa todos los campos.");
+            return;
+        }
 
-            // Validar Correo
-            if (emailValue === '') {
-                emailError.classList.remove('d-none');
-                emailInput.classList.add('is-invalid');
-                isValid = false;
+        // Determinar el tipo automáticamente según el correo para el ruteo de prueba
+        let tipoValue = 'usuario';
+        if (emailValue.includes('@empresa')) {
+            tipoValue = 'empresa';
+        }
+
+        // --- INICIO DE LA SIMULACIÓN ---
+        const alertContainer = document.getElementById('alertContainer');
+        if(alertContainer) {
+            alertContainer.innerHTML = `
+                <div class="alert alert-success shadow-sm" role="alert">
+                    ¡Simulación de inicio de sesión exitosa! Redirigiendo...
+                </div>
+            `;
+        }
+
+        // CREAR EL TOKEN FALSO
+        const fakeData = {
+            token: "token_simulado_12345",
+            tipo: tipoValue,
+            data: { nombre: "Usuario de Prueba", correo: emailValue }
+        };
+        localStorage.setItem("session", JSON.stringify(fakeData));
+
+        // LÓGICA DE RUTEO AUTOMÁTICA
+        setTimeout(() => {
+            if (tipoValue === 'empresa') {
+                window.location.href = '../../empresa/principal/index.html'; 
             } else {
-                emailError.classList.add('d-none');
-                emailInput.classList.remove('is-invalid');
+                window.location.href = '../../usuario/principal/index.html';
             }
-
-            // Validar Contraseña
-            if (passValue === '') {
-                passError.classList.remove('d-none');
-                passInput.classList.add('is-invalid');
-                isValid = false;
-            } else {
-                passError.classList.add('d-none');
-                passInput.classList.remove('is-invalid');
-            }
-
-            if (isValid) {
-                // Mostrar Toast de Éxito
-                const successToast = new bootstrap.Toast(document.getElementById('successToast'));
-                successToast.show();
-
-                // LÓGICA DE RUTEO CORREGIDA CON ../../
-                // LÓGICA DE RUTEO BASADA EN ROLES (Corregida)
-                setTimeout(() => {
-                    if (emailValue.includes('@empresa')) {
-                        // Redirección para Empresa (¡Ojo a los dos ../../!)
-                        localStorage.setItem('userRole', 'empresa');
-                        window.location.href = '../../empresa/principal/index.html';
-
-                    } else {
-                        // Redirección para Usuario Normal (¡Ojo a los dos ../../!)
-                        localStorage.setItem('userRole', 'usuario');
-                        window.location.href = '../../usuario/principal/index.html';
-                    }
-                }, 1500);
-            } else {
-                // Mostrar Toast de Error si falta un campo
-                const errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
-                errorToast.show();
-            }
-        });
-    </script>
-</body>
+        }, 1500);
+    });
+</script>
+    </body>
 
 </html>

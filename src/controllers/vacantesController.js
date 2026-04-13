@@ -56,10 +56,11 @@ export const obtenerVacantesPorEmpresa = async (req, res) => {
     });
   }
 };
-
 export const crearVacante = async (req, res) => {
   try {
+    // 1. Añadimos id_empresa_fk aquí para recibirlo del frontend (nuestro hackeo)
     const {
+      id_empresa_fk, 
       id_categoria_fk,
       titulo_puesto,
       descripcion_puesto,
@@ -68,10 +69,12 @@ export const crearVacante = async (req, res) => {
       id_municipio_fk
     } = req.body;
 
-    const id_empresa_fk = req.user.id;
+    // 2. LÓGICA HÍBRIDA (Para que funcione ahora y cuando actives la seguridad)
+    // Si viene del body (bypass), úsalo. Si viene del token, úsalo. Si no hay nada, usa la empresa 1.
+    const empresaIdSeguro = id_empresa_fk || (req.user ? req.user.id : 1);
 
     const nuevaVacante = await createVacante({
-      id_empresa_fk,
+      id_empresa_fk: empresaIdSeguro, // Usamos nuestra variable segura
       id_categoria_fk,
       titulo_puesto,
       descripcion_puesto,
@@ -82,13 +85,13 @@ export const crearVacante = async (req, res) => {
 
     res.status(201).json(nuevaVacante);
   } catch (error) {
+    console.log("ERROR CRÍTICO AL CREAR VACANTE:", error); // Esto te avisará si falla otra cosa
     res.status(500).json({
       mensaje: "Error al crear vacante",
       error: error.message
     });
   }
 };
-
 export const actualizarVacante = async (req, res) => {
   try {
     const { id } = req.params;

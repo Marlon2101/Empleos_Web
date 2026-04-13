@@ -12,33 +12,25 @@ export const iniciarSesion = async (req, res) => {
     const { correo_electronico, contrasena, tipo } = req.body;
 
     if (!correo_electronico || !contrasena || !tipo) {
-      return res.status(400).json({
-        mensaje: "Debes enviar correo_electronico, contrasena y tipo"
-      });
+      return res.status(400).json({ mensaje: "Faltan datos obligatorios" });
     }
 
+    // ================= LOGIN USUARIO =================
     if (tipo === "usuario") {
       const usuario = await loginUsuario(correo_electronico);
 
-      if (!usuario) {
-        return res.status(401).json({
-          mensaje: "Credenciales inválidas para usuario"
-        });
+      // Si no existe el usuario o la contraseña es nula
+      if (!usuario || !usuario.contrasena) {
+        return res.status(401).json({ mensaje: "Credenciales inválidas para usuario" });
       }
 
       const passwordValida = await bcrypt.compare(contrasena, usuario.contrasena);
 
       if (!passwordValida) {
-        return res.status(401).json({
-          mensaje: "Credenciales inválidas para usuario"
-        });
+        return res.status(401).json({ mensaje: "Credenciales inválidas para usuario" });
       }
 
-      const token = generarToken({
-        id: usuario.id_usuario,
-        tipo: "usuario"
-      });
-
+      const token = generarToken({ id: usuario.id_usuario, tipo: "usuario" });
       const { contrasena: _, ...usuarioSinPassword } = usuario;
 
       return res.json({
@@ -49,28 +41,22 @@ export const iniciarSesion = async (req, res) => {
       });
     }
 
+    // ================= LOGIN EMPRESA =================
     if (tipo === "empresa") {
       const empresa = await loginEmpresa(correo_electronico);
 
-      if (!empresa) {
-        return res.status(401).json({
-          mensaje: "Credenciales inválidas para empresa"
-        });
+      // Si no existe la empresa o la contraseña es nula
+      if (!empresa || !empresa.contrasena) {
+        return res.status(401).json({ mensaje: "Credenciales inválidas para empresa" });
       }
 
       const passwordValida = await bcrypt.compare(contrasena, empresa.contrasena);
 
       if (!passwordValida) {
-        return res.status(401).json({
-          mensaje: "Credenciales inválidas para empresa"
-        });
+        return res.status(401).json({ mensaje: "Credenciales inválidas para empresa" });
       }
 
-      const token = generarToken({
-        id: empresa.id_empresa,
-        tipo: "empresa"
-      });
-
+      const token = generarToken({ id: empresa.id_empresa, tipo: "empresa" });
       const { contrasena: _, ...empresaSinPassword } = empresa;
 
       return res.json({
@@ -81,66 +67,55 @@ export const iniciarSesion = async (req, res) => {
       });
     }
 
-    return res.status(400).json({
-      mensaje: "Tipo no válido. Usa 'usuario' o 'empresa'"
-    });
+    return res.status(400).json({ mensaje: "Tipo no válido. Usa 'usuario' o 'empresa'" });
+
   } catch (error) {
+    console.log("ERROR EN LOGIN:", error); // Esto te dirá el error exacto en la consola de Node
     res.status(500).json({
-      mensaje: "Error al iniciar sesión",
+      mensaje: "Error interno del servidor al iniciar sesión",
       error: error.message
     });
   }
 };
 
-// Asegúrate de que los nombres coincidan con las rutas
+
+// ================= REGISTRO DE USUARIO =================
 export const registrarUsuario = async (req, res) => {
   try {
-    const {
-      nombres,
-      apellidos,
-      correo_electronico,
-      contrasena,
-      telefono,
-      id_municipio_fk,
-      resumen_profesional
-    } = req.body;
+    const { nombres, apellidos, correo_electronico, contrasena, telefono, id_municipio_fk, resumen_profesional } = req.body;
 
-    // Llamamos al modelo que tú ya tienes bien escrito
+    // 1. ENCRIPTAR LA CONTRASEÑA AQUÍ
+    const salt = await bcrypt.genSalt(10);
+    const passwordEncriptada = await bcrypt.hash(contrasena, salt);
+
     const nuevoUsuario = await registerUsuarioAuth({
       nombres,
       apellidos,
       correo_electronico,
-      contrasena,
+      contrasena: passwordEncriptada, // Mandamos la clave ya encriptada a la DB
       telefono,
       id_municipio_fk,
       resumen_profesional
     });
 
-    res.status(201).json({
-      mensaje: "Usuario registrado correctamente",
-      data: nuevoUsuario
-    });
+    res.status(201).json({ mensaje: "Usuario registrado correctamente", data: nuevoUsuario });
   } catch (error) {
-    // Si hay un error de MySQL (como correo duplicado), saldrá aquí
-    res.status(500).json({
-      mensaje: "Error al registrar usuario",
-      error: error.message
-    });
+    res.status(500).json({ mensaje: "Error al registrar usuario", error: error.message });
   }
 };
 
+
+// ================= REGISTRO DE EMPRESA =================
 export const registrarEmpresa = async (req, res) => {
   try {
-    const {
-      nombre_comercial,
-      razon_social,
-      sitio_web,
-      descripcion_empresa,
-      id_municipio_fk,
-      correo_electronico,
-      contrasena
-    } = req.body;
+    const { nombre_comercial, razon_social, sitio_web, descripcion_empresa, id_municipio_fk, correo_electronico, contrasena } = req.body;
 
+    // 1. ENCRIPTAR LA CONTRASEÑA AQUÍ
+    const salt = await bcrypt.genSalt(10);
+    const passwordEncriptada = await bcrypt.hash(contrasena, salt);
+console.log("--- DEBUG LOGIN EMPRESA ---");
+console.log("Clave escrita en navegador:", contrasena);
+console.log("Hash guardado en DB:", empresa.contrasena);
     const nuevaEmpresa = await registerEmpresaAuth({
       nombre_comercial,
       razon_social,
@@ -148,17 +123,11 @@ export const registrarEmpresa = async (req, res) => {
       descripcion_empresa,
       id_municipio_fk,
       correo_electronico,
-      contrasena
+      contrasena: passwordEncriptada // Mandamos la clave ya encriptada a la DB
     });
 
-    res.status(201).json({
-      mensaje: "Empresa registrada correctamente",
-      data: nuevaEmpresa
-    });
+    res.status(201).json({ mensaje: "Empresa registrada correctamente", data: nuevaEmpresa });
   } catch (error) {
-    res.status(500).json({
-      mensaje: "Error al registrar empresa",
-      error: error.message
-    });
+    res.status(500).json({ mensaje: "Error al registrar empresa", error: error.message });
   }
 };

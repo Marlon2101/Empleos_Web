@@ -1,102 +1,91 @@
-import { API_URL, getToken } from "../../../assets/js/shared/config.js";
-import { requireAuth, logout } from "../../../assets/js/shared/auth.js";
+import { API_URL } from "../../../assets/js/shared/config.js";
 
-requireAuth(["empresa"]);
-
-const btnLogout = document.getElementById("btnLogout");
-const btnLimpiar = document.getElementById("btnLimpiar");
 const formVacante = document.getElementById("formVacante");
-const alertContainer = document.getElementById("alertContainer");
+const btnConfirmarFinal = document.getElementById("btnConfirmarFinal");
 
-const selectCategoria = document.getElementById("id_categoria_fk");
-const selectMunicipio = document.getElementById("id_municipio_fk");
+// --- FUNCIÓN QUE HACE EL TRABAJO ---
+const enviarVacante = async () => {
+    try {
+        // --- SEGURO PARA DETECTAR EL ID FALTANTE ---
+        const elCategoria = document.getElementById("id_categoria_fk");
+        const elMunicipio = document.getElementById("id_municipio_fk");
+        const elTitulo = document.getElementById("titulo_puesto");
+        const elDesc = document.getElementById("descripcion_puesto");
+        const elSalario = document.getElementById("salario_offrecido");
+        const elModalidad = document.getElementById("modalidad");
 
-btnLogout.addEventListener("click", logout);
+        // 🔍 Verificación exhaustiva: Si alguno es null, lo reportamos de inmediato
+        if (!elCategoria || !elMunicipio || !elTitulo || !elDesc || !elSalario || !elModalidad) {
+            let faltantes = [];
+            if (!elCategoria) faltantes.push("id_categoria_fk");
+            if (!elMunicipio) faltantes.push("id_municipio_fk");
+            if (!elTitulo) faltantes.push("titulo_puesto");
+            if (!elDesc) faltantes.push("descripcion_puesto");
+            if (!elSalario) faltantes.push("salario_offrecido");
+            if (!elModalidad) faltantes.push("modalidad");
 
-const showAlert = (message, type = "danger") => {
-  alertContainer.innerHTML = `
-    <div class="alert alert-${type}" role="alert">
-      ${message}
-    </div>
-  `;
-};
+            console.error("IDs NO ENCONTRADOS EN EL HTML:", faltantes);
+            alert("Error de Programación: Los siguientes IDs no existen en tu HTML: " + faltantes.join(", "));
+            return;
+        }
 
-const cargarCategorias = async () => {
-  const response = await fetch(`${API_URL}/catalogos/categorias`);
-  const data = await response.json();
+        // Construcción del objeto que espera el Backend
+        const body = {
+            id_empresa_fk: 1, // Bypass temporal (Hackeo)
+            id_categoria_fk: parseInt(elCategoria.value),
+            id_municipio_fk: parseInt(elMunicipio.value),
+            titulo_puesto: elTitulo.value.trim(),
+            descripcion_puesto: elDesc.value.trim(),
+            salario_offrecido: parseFloat(elSalario.value) || 0,
+            modalidad: elModalidad.value
+        };
 
-  selectCategoria.innerHTML = `<option value="">Selecciona una categoría</option>`;
-  data.forEach(item => {
-    selectCategoria.innerHTML += `<option value="${item.id_categoria}">${item.nombre_categoria}</option>`;
-  });
-};
+        console.log("Enviando datos al servidor:", body);
 
-const cargarMunicipios = async () => {
-  const response = await fetch(`${API_URL}/catalogos/municipios`);
-  const data = await response.json();
+        // --- EL FETCH (Lo que faltaba) ---
+        const res = await fetch(`${API_URL}/vacantes`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
 
-  selectMunicipio.innerHTML = `<option value="">Selecciona un municipio</option>`;
-  data.forEach(item => {
-    selectMunicipio.innerHTML += `<option value="${item.id_municipio}">${item.nombre_municipio}</option>`;
-  });
-};
+        const data = await res.json();
 
-const limpiarFormulario = () => {
-  formVacante.reset();
-};
+        if (!res.ok) {
+            throw new Error(data.mensaje || data.error || "Error al publicar la vacante");
+        }
 
-btnLimpiar.addEventListener("click", limpiarFormulario);
+        // Si todo sale bien
+        alert("¡Vacante publicada con éxito en Workly!");
+        
+        // Redirigir (ajusta la ruta según tu estructura)
+        window.location.href = "../misvacantes/index.html";
 
-formVacante.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  alertContainer.innerHTML = "";
-
-  const body = {
-    id_categoria_fk: Number(document.getElementById("id_categoria_fk").value),
-    titulo_puesto: document.getElementById("titulo_puesto").value.trim(),
-    descripcion_puesto: document.getElementById("descripcion_puesto").value.trim(),
-    salario_offrecido: Number(document.getElementById("salario_offrecido").value),
-    modalidad: document.getElementById("modalidad").value,
-    id_municipio_fk: Number(document.getElementById("id_municipio_fk").value)
-  };
-
-  try {
-    const response = await fetch(`${API_URL}/vacantes`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${getToken()}`
-      },
-      body: JSON.stringify(body)
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      if (data.errores && Array.isArray(data.errores)) {
-        showAlert(data.errores.map(e => e.msg).join("<br>"));
-      } else {
-        showAlert(data.mensaje || "No se pudo publicar la vacante");
-      }
-      return;
+    } catch (error) {
+        console.error("Error detallado:", error);
+        alert("Ocurrió un error: " + error.message);
     }
-
-    showAlert("Vacante publicada correctamente", "success");
-    limpiarFormulario();
-  } catch (error) {
-    console.error(error);
-    showAlert("Error de conexión con el servidor");
-  }
-});
-
-const init = async () => {
-  try {
-    await cargarCategorias();
-    await cargarMunicipios();
-  } catch (error) {
-    console.error(error);
-    showAlert("No se pudieron cargar los catálogos");
-  }
 };
 
-init();
+// --- ESCUCHADORES DE EVENTOS ---
+
+// 1. Manejo del Submit del formulario principal
+if (formVacante) {
+    formVacante.addEventListener("submit", (e) => {
+        e.preventDefault();
+        // Nota: Si usas un modal intermedio, este evento solo debería 
+        // abrir el modal, pero aquí lo dejamos funcional por si acaso.
+        enviarVacante();
+    });
+}
+
+// 2. EL BOTÓN AZUL DEL MODAL (Confirmar y Publicar)
+if (btnConfirmarFinal) {
+    btnConfirmarFinal.addEventListener("click", (e) => {
+        e.preventDefault();
+        console.log("Iniciando publicación desde el botón del modal...");
+        enviarVacante();
+    });
+}

@@ -100,9 +100,10 @@
                         </div>
                     </div>
                 </aside>
+
                 <section class="col-12 col-lg-9">
                     
-                    <div class="card bg-white border-0 shadow-sm rounded-4 mb-4 position-relative hover-shadow transition-all cursor-pointer">
+                    <div class="card bg-white border-0 shadow-sm rounded-4 mb-4 position-relative">
                         <div class="card-header bg-secondary bg-opacity-10 border-0 pt-3 pb-2 px-4 rounded-top-4">
                             <div class="row fw-bold text-dark fs-5">
                                 <div class="col-12 col-md-6 mb-2 mb-md-0">Puesto</div>
@@ -110,62 +111,10 @@
                                 <div class="col-6 col-md-3 text-md-center">Fecha</div>
                             </div>
                         </div>
-                        
-                        <div class="card-body p-4 p-md-5">
-                            <div class="row align-items-center g-3">
-                                <div class="col-12 col-md-6">
-                                    <a href="../postulaciones/index.html" class="text-decoration-none stretched-link">
-                                        <h4 class="fw-bold text-dark mb-3">Desarrollador Frontend</h4>
-                                    </a>
-                                    <p class="text-dark fw-bold small mb-2">Contrato: Tiempo Completo</p>
-                                    <p class="text-primary fw-bold small mb-0"><i class="bi bi-person-lines-fill me-1"></i> 15 Postulantes nuevos</p>
-                                </div>
-                                <div class="col-6 col-md-3 text-md-center">
-                                    <span class="badge bg-success rounded-pill px-4 py-2 fs-6 shadow-sm">Activa</span>
-                                </div>
-                                <div class="col-6 col-md-3 text-md-center">
-                                    <span class="text-dark fw-bold small">23/Abril/2026</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
-                    <div class="card bg-white border-0 shadow-sm rounded-4 mb-4 position-relative hover-shadow transition-all cursor-pointer">
-                        <div class="card-body p-4 p-md-5">
-                            <div class="row align-items-center g-3">
-                                <div class="col-12 col-md-6">
-                                    <a href="../postulaciones/index.html" class="text-decoration-none stretched-link">
-                                        <h4 class="fw-bold text-dark mb-3">UX/UI Designer</h4>
-                                    </a>
-                                    <p class="text-dark fw-bold small mb-2">Contrato: Tiempo Completo</p>
-                                    <p class="text-dark fw-bold small mb-0 opacity-75"><i class="bi bi-person-check-fill me-1"></i> 8 Postulantes en revisión</p>
-                                </div>
-                                <div class="col-6 col-md-3 text-md-center">
-                                    <span class="badge bg-success rounded-pill px-4 py-2 fs-6 shadow-sm">Activa</span>
-                                </div>
-                                <div class="col-6 col-md-3 text-md-center">
-                                    <span class="text-dark fw-bold small">20/Abril/2026</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card bg-white border-0 shadow-sm rounded-4 mb-4 opacity-75">
-                        <div class="card-body p-4 p-md-5">
-                            <div class="row align-items-center g-3">
-                                <div class="col-12 col-md-6">
-                                    <h4 class="fw-bold text-dark mb-3">Analista de Datos</h4>
-                                    <p class="text-dark fw-bold small mb-2">Contrato: Tiempo Completo</p>
-                                    <p class="text-dark fw-bold small mb-0"><i class="bi bi-archive-fill me-1"></i> 5 Postulantes archivados</p>
-                                </div>
-                                <div class="col-6 col-md-3 text-md-center">
-                                    <span class="badge bg-danger rounded-pill px-4 py-2 fs-6 shadow-sm">Cerrada</span>
-                                </div>
-                                <div class="col-6 col-md-3 text-md-center">
-                                    <span class="text-dark fw-bold small">10/Marzo/2026</span>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="contenedorVacantes">
+                        <div class="text-center p-5 text-muted">Cargando vacantes...</div>
                     </div>
 
                 </section>
@@ -173,6 +122,7 @@
             </div>
         </div>
     </main>
+
     <div class="modal fade" id="modalEstadisticas" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 rounded-4 shadow-lg">
@@ -251,6 +201,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./app.js"></script>
     
     <style>
         .hover-shadow:hover {
