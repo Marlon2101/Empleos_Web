@@ -3,7 +3,9 @@ import dotenv from "dotenv";
 import { pool } from "./config/db.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import cors from "cors"; // UN SOLO IMPORT AQUÍ AL INICIO
 
+// Importación de rutas
 import authRoutes from "./routes/authRoutes.js";
 import catalogosRoutes from "./routes/catalogosRoutes.js";
 import usersRoutes from "./routes/usersRoutes.js";
@@ -26,17 +28,22 @@ import valoracionesRoutes from "./routes/valoracionesRoutes.js";
 dotenv.config();
 
 const app = express();
-// 1. Configuramos las rutas (necesario cuando usamos 'import' en Node)
+
+// 1. Configuramos __dirname (necesario en ES Modules)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 2. LA SOLUCIÓN: Le decimos a Node que toda tu carpeta 'frontend' es pública
+// 2. Middlewares Globales
+app.use(cors()); // Habilita CORS para que el Front (Live Server) pueda entrar
+app.use(express.json()); // Necesario para leer los datos que envías en POST/PUT
+
+// 3. Servir archivos estáticos del frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
+
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
-
-app.get("/", (req, res) => {
+// Rutas de prueba para verificar salud del sistema
+app.get("/test", (req, res) => {
   res.send("API Workly funcionando correctamente");
 });
 
@@ -52,6 +59,8 @@ app.get("/db", async (req, res) => {
   }
 });
 
+// 4. Definición de Endpoints de la API
+// Asegúrate de que tu Front pida a http://localhost:3000/vacantes (sin /api)
 app.use("/auth", authRoutes);
 app.use("/catalogos", catalogosRoutes);
 app.use("/users", usersRoutes);

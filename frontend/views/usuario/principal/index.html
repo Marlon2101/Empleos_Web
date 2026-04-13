@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,44 +8,47 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
+
 <body class="d-flex flex-column min-vh-100 bg-primary-subtle">
 
     <nav class="navbar navbar-expand-lg py-3 bg-secondary">
         <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../../public/paginainicial/index.html">
-                <span class="display-5 me-3 lh-1">💼</span> 
+            <a class="navbar-brand d-flex align-items-center text-decoration-none"
+                href="../../public/paginainicial/index.html">
+                <span class="display-5 me-3 lh-1">💼</span>
                 <div class="lh-sm">
                     <span class="text-white fw-bold d-block fs-3">Workly</span>
                     <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
                 </div>
             </a>
 
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarContent">
                 <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                    <a href="../buscarempleo/index.html" class="btn btn-primary btn-sm px-3 fw-semibold">Búsqueda de empleo</a>
+                    <a href="../buscarempleo/index.html" class="btn btn-primary btn-sm px-3 fw-semibold">Búsqueda de
+                        empleo</a>
                     <a href="../recursos/index.html" class="btn btn-primary btn-sm px-3 fw-semibold">Recursos</a>
-                    <a href="../valoracionempresa/index.html" class="btn btn-primary btn-sm px-3 fw-semibold">Valoraciones de empresas</a>
+                    <a href="../valoracionempresa/index.html"
+                        class="btn btn-primary btn-sm px-3 fw-semibold">Valoraciones de empresas</a>
                     <a href="../miperfil/index.html" class="btn btn-primary btn-sm px-3 fw-semibold">Mi Perfil</a>
                 </div>
 
                 <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                    
-                    <a href="../notificaciones/index.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
+                    <a href="../notificaciones/index.html"
+                        class="text-dark text-decoration-none position-relative d-inline-block mt-1">
                         <i class="bi bi-bell-fill fs-3"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
                             5
-                            <span class="visually-hidden">notificaciones no leídas</span>
                         </span>
                     </a>
-                    
                     <a href="../miperfil/index.html" class="text-dark text-decoration-none d-inline-block">
                         <i class="bi bi-person-circle fs-2"></i>
                     </a>
-
                 </div>
             </div>
         </div>
@@ -52,13 +56,17 @@
 
     <main class="flex-grow-1 py-4">
         <div class="container px-4 px-lg-5">
-            
+
             <section class="mb-5 mt-3">
                 <h5 class="fw-bold text-dark mb-3">Explora ofertas de trabajo</h5>
                 <div class="bg-white p-2 rounded-pill shadow-sm d-flex align-items-center">
                     <i class="bi bi-search fs-5 text-muted ms-3 me-2"></i>
-                    <input type="text" class="form-control border-0 shadow-none bg-transparent fs-6" placeholder="Busca cualquier puesto de trabajo">
-                    <button class="btn btn-primary rounded-pill px-4 py-2 fw-semibold" onclick="window.location.href='../buscarempleo/index.html'">Buscar empleo</button>
+                    <input type="text" id="inputBusquedaRapida" class="form-control border-0 shadow-none bg-transparent fs-6"
+                        placeholder="Busca cualquier puesto de trabajo">
+                    <button class="btn btn-primary rounded-pill px-4 py-2 fw-semibold"
+                        onclick="const q = document.getElementById('inputBusquedaRapida').value; window.location.href='../buscarempleo/index.html' + (q ? '?q=' + encodeURIComponent(q) : '');">
+                        Buscar empleo
+                    </button>
                 </div>
             </section>
 
@@ -68,26 +76,48 @@
                     <div class="row g-4">
                         <div class="col-12 col-md-4">
                             <label class="form-label text-dark fs-6">Palabra clave</label>
-                            <input type="text" class="form-control bg-secondary-subtle border-0" placeholder="Puesto, empresa o palabra clave">
+                            <input type="text" class="form-control bg-secondary-subtle border-0"
+                                placeholder="Puesto, empresa o palabra clave">
                         </div>
                         <div class="col-12 col-md-4">
-                            <label class="form-label text-dark fs-6">Ubicación</label> 
+                            <label class="form-label text-white d-none d-md-block">Ubicación</label>
                             <div class="input-group">
-                                <span class="input-group-text bg-secondary-subtle border-0"><i class="bi bi-geo-alt"></i></span>
-                                <input type="text" class="form-control bg-secondary-subtle border-0" placeholder="Ciudad o región">
+                                <span class="input-group-text bg-secondary-subtle border-0"><i
+                                        class="bi bi-geo-alt"></i></span>
+                                <input type="text" class="form-control bg-secondary-subtle border-0"
+                                    placeholder="Ciudad o región">
                             </div>
                         </div>
                         <div class="col-12 col-md-4">
-                            <label class="form-label text-dark fs-6">Tipo</label>
+                            <label class="form-label text-white d-none d-md-block">Tipo</label>
                             <select class="form-select bg-secondary-subtle border-0 text-muted">
                                 <option selected>Todos los tipos</option>
                                 <option value="1">Tiempo completo</option>
                                 <option value="2">Medio tiempo</option>
                             </select>
                         </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label text-dark fs-6">Salario mínimo</label>
+                            <select class="form-select bg-secondary-subtle border-0 text-muted">
+                                <option selected>Cualquier salario</option>
+                                <option value="1">$500+</option>
+                                <option value="2">$1000+</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label text-dark fs-6">Nivel de experiencia</label>
+                            <select class="form-select bg-secondary-subtle border-0 text-muted">
+                                <option selected>Todos los niveles</option>
+                                <option value="1">Junior</option>
+                                <option value="2">Senior</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="text-center mt-5">
-                        <button class="btn btn-primary px-5 py-2 fw-semibold rounded-3" onclick="window.location.href='../buscarempleo/index.html'">Buscar empleo</button>
+                        <button class="btn btn-primary px-5 py-2 fw-semibold rounded-3" 
+                            onclick="window.location.href='../buscarempleo/index.html'">
+                            Buscar empleo
+                        </button>
                     </div>
                 </div>
             </section>
@@ -125,24 +155,14 @@
                 </div>
             </section>
 
-            <section class="mb-5">
-                <h5 class="fw-bold text-dark mb-3">Empleos Destacados</h5>
-                <div class="row g-4">
-                    <div class="col-12 col-md-4">
-                        <div class="card bg-white border-0 rounded-4 shadow-sm p-4 h-100 d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <i class="bi bi-pencil-square fs-2 text-dark"></i>
-                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">Nuevo</span>
-                            </div>
-                            <h6 class="fw-bold text-dark">Desarrollador Full Stack</h6>
-                            <ul class="list-unstyled text-dark mb-4 fs-6">
-                                <li class="mb-1"><i class="bi bi-building me-2"></i>TechSolutions</li>
-                                <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>San Salvador</li>
-                            </ul>
-                            <button class="btn btn-outline-primary w-100 rounded-3 mt-auto" onclick="window.location.href='../detalleempleo/index.html'">Ver detalles</button>
-                        </div>
+            <section class="container py-5">
+                <h2 class="fw-bold mb-4">Empleos Destacados</h2>
+                <div class="row g-4" id="contenedor-destacados">
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status"></div>
+                        <p class="mt-2 text-muted">Cargando las mejores ofertas...</p>
                     </div>
-                    </div>
+                </div>
             </section>
 
             <section class="mb-5">
@@ -154,10 +174,12 @@
                         </div>
                         <div class="flex-grow-1">
                             <h6 class="fw-bold text-dark mb-2">Cómo destacar tu CV</h6>
-                            <p class="text-dark mb-0">Aprende a crear un currículum que capture la atención de los reclutadores y aumente tus probabilidades de conseguir entrevistas.</p>
+                            <p class="text-dark mb-0">Aprende a crear un currículum que capture la atención de los
+                                reclutadores y aumente tus probabilidades de conseguir entrevistas.</p>
                         </div>
                         <div class="flex-shrink-0 mt-3 mt-md-0">
-                            <button class="btn bg-primary-subtle text-primary fw-semibold px-4 py-2 border-0" onclick="window.location.href='../recursos/index.html'">
+                            <button class="btn bg-primary-subtle text-primary fw-semibold px-4 py-2 border-0"
+                                onclick="window.location.href='../recursos/index.html'">
                                 Ver recursos <i class="bi bi-arrow-right ms-1"></i>
                             </button>
                         </div>
@@ -171,13 +193,15 @@
     <footer class="py-4 mt-auto bg-secondary">
         <div class="container text-center">
             <div class="d-flex justify-content-center gap-5">
-                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
-                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
-                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2026</span>
+                <a href="#" class="text-white-50 text-decoration-none small">Ayuda</a>
+                <a href="#" class="text-white-50 text-decoration-none small">Privacidad</a>
+                <span class="text-white-50 small">Workly &nbsp;&nbsp;&nbsp; 2026</span>
             </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./app.js"></script>
 </body>
+
 </html>

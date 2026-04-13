@@ -156,3 +156,30 @@ const postularme = async (idVacante) => {
 };
 
 cargarDetalle();
+
+import { API_URL, getToken, getUsuario } from "../../../assets/js/shared/config.js";
+
+const btnPostular = document.getElementById("btnPostularme");
+
+btnPostular.addEventListener("click", async () => {
+    const params = new URLSearchParams(window.location.search);
+    const idVacante = params.get("id");
+    const usuario = getUsuario();
+
+    const dataPostulacion = {
+        id_usuario_fk: usuario.id_usuario,
+        id_vacante_fk: idVacante,
+        id_estado_fk: 1 // Estado 'Recibida' según tu SQL
+    };
+
+    const res = await fetch(`${API_URL}/api/postulaciones`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${getToken()}` // Autorización con tu token
+        },
+        body: JSON.stringify(dataPostulacion)
+    });
+
+    if (res.ok) alert("¡Postulación enviada con éxito!");
+});

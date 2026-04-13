@@ -1,147 +1,62 @@
-import { API_URL } from "../../../assets/js/shared/config.js";
-import { requireAuth, logout } from "../../../assets/js/shared/auth.js";
-
-requireAuth(["usuario"]);
-
-const btnLogout = document.getElementById("btnLogout");
-const btnBuscar = document.getElementById("btnBuscar");
-const btnLimpiar = document.getElementById("btnLimpiar");
-
-const filtroTitulo = document.getElementById("filtroTitulo");
-const filtroCategoria = document.getElementById("filtroCategoria");
-const filtroMunicipio = document.getElementById("filtroMunicipio");
-const filtroModalidad = document.getElementById("filtroModalidad");
-
-const contenedorVacantes = document.getElementById("contenedorVacantes");
-const contadorResultados = document.getElementById("contadorResultados");
-const alertContainer = document.getElementById("alertContainer");
-
-btnLogout.addEventListener("click", logout);
-
-const showAlert = (message, type = "danger") => {
-  alertContainer.innerHTML = `
-    <div class="alert alert-${type}" role="alert">
-      ${message}
-    </div>
-  `;
-};
-
-const cargarCategorias = async () => {
-  const response = await fetch(`${API_URL}/catalogos/categorias`);
-  const data = await response.json();
-
-  filtroCategoria.innerHTML = `<option value="">Todas las categorías</option>`;
-  data.forEach(item => {
-    filtroCategoria.innerHTML += `<option value="${item.id_categoria}">${item.nombre_categoria}</option>`;
-  });
-};
-
-const cargarMunicipios = async () => {
-  const response = await fetch(`${API_URL}/catalogos/municipios`);
-  const data = await response.json();
-
-  filtroMunicipio.innerHTML = `<option value="">Todos los municipios</option>`;
-  data.forEach(item => {
-    filtroMunicipio.innerHTML += `<option value="${item.id_municipio}">${item.nombre_municipio}</option>`;
-  });
-};
-
-const renderVacantes = (items) => {
-  contadorResultados.textContent = `${items.length} vacante(s)`;
-
-  if (!items || items.length === 0) {
-    contenedorVacantes.innerHTML = `
-      <div class="col-12">
-        <div class="alert alert-light border">No se encontraron vacantes con esos filtros.</div>
-      </div>
-    `;
-    return;
-  }
-
-  contenedorVacantes.innerHTML = items.map(item => `
-    <div class="col-md-6 col-xl-4">
-      <div class="card card-custom vacante-card">
-        <div class="card-body">
-          <span class="badge bg-primary-subtle text-primary mb-2">${item.nombre_categoria}</span>
-          <h5 class="card-title">${item.titulo_puesto}</h5>
-          <p class="text-muted mb-2">${item.nombre_comercial}</p>
-
-          <div class="vacante-meta mb-3">
-            <div><strong>Municipio:</strong> ${item.nombre_municipio ?? "No definido"}</div>
-            <div><strong>Modalidad:</strong> ${item.modalidad}</div>
-            <div><strong>Salario:</strong> $${Number(item.salario_offrecido ?? 0).toFixed(2)}</div>
-          </div>
-
-          <p class="card-text">${(item.descripcion_puesto ?? "").slice(0, 120)}...</p>
-
-          <div class="vacante-footer mt-3">
-            <a href="../detalleempleo/index.html?id=${item.id_vacante}" class="btn btn-primary btn-sm">
-              Ver detalle
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  `).join("");
-};
+import { API_URL, getToken, getUsuario } from "../../../assets/js/shared/config.js";
+const contenedor = document.getElementById("contenedor-vacantes");
 
 const cargarVacantes = async () => {
-  try {
-    alertContainer.innerHTML = "";
+    try {
+        // Asegúrate de que la ruta coincida con tu backend (ej. /vacantes)
+        const response = await fetch(`${API_URL}/vacantes`); 
+        const vacantes = await response.json();
 
-    const params = new URLSearchParams();
+        if (vacantes.length === 0) {
+            contenedor.innerHTML = `
+                <div class="alert alert-info border-0 rounded-4 text-center p-5">
+                    No hay vacantes disponibles que coincidan con tu búsqueda.
+                </div>`;
+            return;
+        }
 
-    if (filtroTitulo.value.trim()) {
-      params.append("titulo", filtroTitulo.value.trim());
+        renderizarTarjetas(vacantes);
+    } catch (error) {
+        console.error("Error al conectar:", error);
+        contenedor.innerHTML = "<p class='text-center py-5'>Error al cargar vacantes. Verifica que el servidor esté activo.</p>";
     }
-
-    if (filtroCategoria.value) {
-      params.append("id_categoria", filtroCategoria.value);
-    }
-
-    if (filtroMunicipio.value) {
-      params.append("id_municipio", filtroMunicipio.value);
-    }
-
-    if (filtroModalidad.value) {
-      params.append("modalidad", filtroModalidad.value);
-    }
-
-    const url = `${API_URL}/vacantes/busqueda/filtros?${params.toString()}`;
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (!response.ok) {
-      showAlert(data.mensaje || "No se pudieron cargar las vacantes");
-      return;
-    }
-
-    renderVacantes(data);
-  } catch (error) {
-    console.error(error);
-    showAlert("Error de conexión con el servidor");
-  }
 };
 
-btnBuscar.addEventListener("click", cargarVacantes);
+const renderizarTarjetas = (vacantes) => {
+    contenedor.innerHTML = ""; // Esto quita el spinner de carga
+    vacantes.forEach(item => {
+        contenedor.innerHTML += `
+            <div class="card bg-white border-0 rounded-4 shadow-sm p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-pencil-square fs-2 text-dark me-3"></i>
+                        <div>
+                            <h5 class="fw-bold text-dark mb-0">${item.titulo_puesto}</h5>
+                        </div>
+                    </div>
+                    <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">Nuevo</span>
+                </div>
 
-btnLimpiar.addEventListener("click", () => {
-  filtroTitulo.value = "";
-  filtroCategoria.value = "";
-  filtroMunicipio.value = "";
-  filtroModalidad.value = "";
-  cargarVacantes();
-});
+                <div class="ms-5 ps-2">
+                    <ul class="list-unstyled d-flex gap-4 text-secondary mb-3 small">
+                        <li><i class="bi bi-building me-2"></i>${item.nombre_comercial}</li>
+                        <li><i class="bi bi-geo-alt me-2"></i>${item.nombre_municipio || 'El Salvador'}</li>
+                        <li class="fw-bold text-dark"><i class="bi bi-cash me-2"></i>$${item.salario_offrecido}</li>
+                    </ul>
 
-const init = async () => {
-  try {
-    await cargarCategorias();
-    await cargarMunicipios();
-    await cargarVacantes();
-  } catch (error) {
-    console.error(error);
-    showAlert("No se pudo inicializar la vista");
-  }
+                    <p class="text-muted small mb-3">
+                        ${item.descripcion_puesto ? item.descripcion_puesto.substring(0, 150) + '...' : 'Sin descripción.'}
+                    </p>
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <span class="badge bg-primary-subtle text-primary rounded-pill px-3">${item.nombre_categoria || 'Tecnología'}</span>
+                        <a href="../detalleempleo/index.html?id=${item.id_vacante}" class="btn btn-primary px-4 py-2 fw-semibold rounded-3">
+                            Ver Detalles
+                        </a>
+                    </div>
+                </div>
+            </div>`;
+    });
 };
 
-init();
+document.addEventListener("DOMContentLoaded", cargarVacantes);

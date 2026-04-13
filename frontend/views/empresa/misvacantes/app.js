@@ -89,3 +89,16 @@ const cargarMisVacantes = async () => {
 };
 
 cargarMisVacantes();
+
+import { API_URL, getToken } from "../../../assets/js/shared/config.js";
+
+window.eliminarVacante = async (id) => {
+    if (!confirm("¿Seguro que quieres eliminar esta vacante?")) return;
+
+    const res = await fetch(`${API_URL}/api/vacantes/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${getToken()}` }
+    });
+
+    if (res.ok) location.reload(); // Refresca la lista de la base de datos
+};

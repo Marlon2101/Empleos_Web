@@ -227,3 +227,5 @@ export const obtenerDetalleVacante = async (req, res) => {
 };
 
 
+
+
