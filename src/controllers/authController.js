@@ -15,7 +15,7 @@ export const iniciarSesion = async (req, res) => {
       return res.status(400).json({ mensaje: "Faltan datos obligatorios" });
     }
 
-    // ================= LOGIN USUARIO =================
+
     if (tipo === "usuario") {
       const usuario = await loginUsuario(correo_electronico);
 
@@ -41,7 +41,7 @@ export const iniciarSesion = async (req, res) => {
       });
     }
 
-    // ================= LOGIN EMPRESA =================
+   
     if (tipo === "empresa") {
       const empresa = await loginEmpresa(correo_electronico);
 
@@ -70,7 +70,7 @@ export const iniciarSesion = async (req, res) => {
     return res.status(400).json({ mensaje: "Tipo no válido. Usa 'usuario' o 'empresa'" });
 
   } catch (error) {
-    console.log("ERROR EN LOGIN:", error); // Esto te dirá el error exacto en la consola de Node
+    console.log("ERROR EN LOGIN:", error); 
     res.status(500).json({
       mensaje: "Error interno del servidor al iniciar sesión",
       error: error.message
@@ -79,7 +79,6 @@ export const iniciarSesion = async (req, res) => {
 };
 
 
-// ================= REGISTRO DE USUARIO =================
 export const registrarUsuario = async (req, res) => {
   try {
     const { nombres, apellidos, correo_electronico, contrasena, telefono, id_municipio_fk, resumen_profesional } = req.body;
@@ -92,7 +91,7 @@ export const registrarUsuario = async (req, res) => {
       nombres,
       apellidos,
       correo_electronico,
-      contrasena: passwordEncriptada, // Mandamos la clave ya encriptada a la DB
+      contrasena: passwordEncriptada, 
       telefono,
       id_municipio_fk,
       resumen_profesional
@@ -105,12 +104,11 @@ export const registrarUsuario = async (req, res) => {
 };
 
 
-// ================= REGISTRO DE EMPRESA =================
+
 export const registrarEmpresa = async (req, res) => {
   try {
     const { nombre_comercial, razon_social, sitio_web, descripcion_empresa, id_municipio_fk, correo_electronico, contrasena } = req.body;
 
-    // 1. ENCRIPTAR LA CONTRASEÑA AQUÍ
     const salt = await bcrypt.genSalt(10);
     const passwordEncriptada = await bcrypt.hash(contrasena, salt);
 console.log("--- DEBUG LOGIN EMPRESA ---");
@@ -123,7 +121,7 @@ console.log("Hash guardado en DB:", empresa.contrasena);
       descripcion_empresa,
       id_municipio_fk,
       correo_electronico,
-      contrasena: passwordEncriptada // Mandamos la clave ya encriptada a la DB
+      contrasena: passwordEncriptada 
     });
 
     res.status(201).json({ mensaje: "Empresa registrada correctamente", data: nuevaEmpresa });

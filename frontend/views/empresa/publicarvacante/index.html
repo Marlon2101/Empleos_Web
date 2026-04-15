@@ -115,38 +115,20 @@
                         <h5 class="fw-bold text-dark mb-4">Detalles del Puesto</h5>
 
                         <div class="mb-4">
-                            <label class="form-label fw-bold text-dark">Descripción de la vacante</label>
-                            <div class="border border-secondary border-opacity-25 rounded-3 overflow-hidden">
-                                <div class="bg-light border-bottom border-secondary border-opacity-25 p-2 d-flex gap-3 flex-wrap text-dark">
-                                    <i class="bi bi-type-bold fs-5 cursor-pointer"></i>
-                                    <i class="bi bi-type-italic fs-5 cursor-pointer"></i>
-                                    <i class="bi bi-list-ul fs-5 cursor-pointer"></i>
-                                </div>
-                                <textarea id="descripcion_puesto" class="form-control border-0 shadow-none p-3 text-muted" rows="4" placeholder="Añade una descripción general del puesto..." required></textarea>
-                            </div>
-                        </div>
+    <label class="form-label fw-bold text-dark">Descripción general del puesto</label>
+    <textarea id="descripcion_puesto" class="form-control bg-light border-0 shadow-sm" rows="4" placeholder="Describe brevemente el rol..."></textarea>
+</div>
 
-                        <div class="mb-4">
-                            <label class="form-label fw-bold text-dark">Responsabilidades Clave</label>
-                            <div class="border border-secondary border-opacity-25 rounded-3 overflow-hidden">
-                                <div class="bg-light border-bottom border-secondary border-opacity-25 p-2 d-flex gap-3 flex-wrap text-dark">
-                                    <i class="bi bi-type-bold fs-5 cursor-pointer"></i>
-                                    <i class="bi bi-list-ul fs-5 cursor-pointer text-primary"></i>
-                                </div>
-                                <textarea id="responsabilidades" class="form-control border-0 shadow-none p-3 text-muted" rows="4" placeholder="• Desarrollar y mantener aplicaciones web..."></textarea>
-                            </div>
-                        </div>
+<div class="mb-4">
+    <label class="form-label fw-bold text-dark">Responsabilidades (separa cada punto con un punto ".")</label>
+    <textarea id="responsabilidades" class="form-control bg-light border-0 shadow-sm" rows="4" placeholder="Ej: Diseñar arquitecturas. Mentorear juniors. Optimizar código."></textarea>
+    <div class="form-text">Para que aparezcan como viñetas en el detalle, termina cada frase con un punto.</div>
+</div>
 
-                        <div class="mb-5">
-                            <label class="form-label fw-bold text-dark">Requisitos y Experiencia</label>
-                            <div class="border border-secondary border-opacity-25 rounded-3 overflow-hidden">
-                                <div class="bg-light border-bottom border-secondary border-opacity-25 p-2 d-flex gap-3 flex-wrap text-dark">
-                                    <i class="bi bi-type-bold fs-5 cursor-pointer"></i>
-                                    <i class="bi bi-list-ul fs-5 cursor-pointer text-primary"></i>
-                                </div>
-                                <textarea id="requisitos" class="form-control border-0 shadow-none p-3 text-muted" rows="4" placeholder="• 5+ años de experiencia en desarrollo..."></textarea>
-                            </div>
-                        </div>
+<div class="mb-4">
+    <label class="form-label fw-bold text-dark">Requisitos (separa cada punto con un punto ".")</label>
+    <textarea id="requisitos" class="form-control bg-light border-0 shadow-sm" rows="4" placeholder="Ej: 5 años de experiencia. Conocimiento en React. Inglés avanzado."></textarea>
+</div>
 
                         <div class="row justify-content-between mt-5 pt-3">
                             <div class="col-12 col-sm-auto mb-3 mb-sm-0">

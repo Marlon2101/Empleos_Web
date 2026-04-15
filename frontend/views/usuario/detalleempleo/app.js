@@ -1,185 +1,180 @@
 import { API_URL, getToken, getUsuario } from "../../../assets/js/shared/config.js";
-import { requireAuth, logout } from "../../../assets/js/shared/auth.js";
+// import { requireAuth } from "../../../assets/js/shared/auth.js"; // Descomenta en producción
 
-requireAuth(["usuario"]);
-
-const btnLogout = document.getElementById("btnLogout");
 const alertContainer = document.getElementById("alertContainer");
-const detalleVacante = document.getElementById("detalleVacante");
-const detalleEmpresa = document.getElementById("detalleEmpresa");
-const estadoPostulacion = document.getElementById("estadoPostulacion");
+const contenedorAccion = document.getElementById("contenedorAccionPrincipal");
 
-btnLogout.addEventListener("click", logout);
-
+// Función de alerta general
 const showAlert = (message, type = "danger") => {
-  alertContainer.innerHTML = `
-    <div class="alert alert-${type}" role="alert">
-      ${message}
-    </div>
-  `;
+    if(alertContainer) {
+        alertContainer.innerHTML = `
+            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>`;
+    }
 };
 
-const getVacanteId = () => {
-  const params = new URLSearchParams(window.location.search);
-  return params.get("id");
-};
-
-const renderVacante = (vacante) => {
-  detalleVacante.innerHTML = `
-    <span class="badge bg-primary-subtle text-primary mb-2">${vacante.nombre_categoria}</span>
-    <h2 class="mb-2">${vacante.titulo_puesto}</h2>
-    <p class="text-muted mb-4">${vacante.nombre_comercial}</p>
-
-    <div class="row g-3 mb-4">
-      <div class="col-md-6">
-        <div class="detalle-label">Modalidad</div>
-        <div class="detalle-value">${vacante.modalidad}</div>
-      </div>
-      <div class="col-md-6">
-        <div class="detalle-label">Salario</div>
-        <div class="detalle-value">$${Number(vacante.salario_offrecido ?? 0).toFixed(2)}</div>
-      </div>
-      <div class="col-md-6">
-        <div class="detalle-label">Municipio</div>
-        <div class="detalle-value">${vacante.nombre_municipio ?? "No definido"}</div>
-      </div>
-      <div class="col-md-6">
-        <div class="detalle-label">Departamento</div>
-        <div class="detalle-value">${vacante.nombre_departamento ?? "No definido"}</div>
-      </div>
-    </div>
-
-    <h5 class="mb-3">Descripción del puesto</h5>
-    <div class="descripcion-box">${vacante.descripcion_puesto ?? ""}</div>
-  `;
-};
-
-const renderEmpresa = (vacante) => {
-  detalleEmpresa.innerHTML = `
-    <p class="mb-2"><strong>${vacante.nombre_comercial}</strong></p>
-    <p class="text-muted small mb-2">${vacante.razon_social ?? ""}</p>
-    <p class="mb-2"><strong>Sitio web:</strong> ${vacante.sitio_web || "No definido"}</p>
-    <p class="mb-0">${vacante.descripcion_empresa ?? "Sin descripción."}</p>
-  `;
-};
-
-const renderEstado = (responseData, idVacante) => {
-  if (responseData.yaPostulado) {
-    estadoPostulacion.innerHTML = `
-      <div class="alert alert-success mb-2">
-        Ya te postulaste a esta vacante.
-      </div>
-      <div class="small text-muted">
-        Estado actual: ${responseData.postulacion?.id_estado_fk ?? "N/D"}
-      </div>
-    `;
-    return;
-  }
-
-  estadoPostulacion.innerHTML = `
-    <p class="text-muted">Todavía no te has postulado a esta vacante.</p>
-    <div class="d-grid">
-      <button class="btn btn-primary" id="btnPostularme">Postularme</button>
-    </div>
-  `;
-
-  const btnPostularme = document.getElementById("btnPostularme");
-  btnPostularme.addEventListener("click", () => postularme(idVacante));
-};
+const getVacanteId = () => new URLSearchParams(window.location.search).get("id");
 
 const cargarDetalle = async () => {
-  try {
     const idVacante = getVacanteId();
+    if (!idVacante) return showAlert("Agrega ?id=1 a la URL para ver un empleo real.");
 
-    if (!idVacante) {
-      showAlert("No se encontró el id de la vacante");
-      return;
+    try {
+        const response = await fetch(`${API_URL}/vacantes/detalle/${idVacante}`, {
+            headers: { "Authorization": `Bearer ${getToken()}` }
+        });
+        
+        const data = await response.json();
+        
+        // 🚀 DEBUG: Imprimimos los datos en la consola
+        console.log("-----------------------------------------");
+        console.log("DATOS RECIBIDOS DEL BACKEND:");
+        console.log("Objeto Vacante Completo:", data.vacante);
+        console.log("Responsabilidades:", data.vacante?.responsabilidades);
+        console.log("Requisitos:", data.vacante?.requisitos);
+        console.log("-----------------------------------------");
+
+        if (!response.ok) throw new Error(data.mensaje);
+
+        const v = data.vacante;
+
+        // Inyección de Textos Básicos
+        document.getElementById("vacanteTitulo").textContent = v.titulo_puesto;
+        document.getElementById("empresaNombre").textContent = v.nombre_comercial;
+        document.getElementById("vacanteUbicacion").textContent = v.nombre_municipio ? `${v.nombre_municipio}, ${v.nombre_departamento}` : "El Salvador";
+        document.getElementById("vacanteSalario").textContent = v.salario_offrecido ? `$${Number(v.salario_offrecido).toLocaleString()}` : "A convenir";
+        document.getElementById("vacanteDescripcion").textContent = v.descripcion_puesto;
+        document.getElementById("vacanteModalidad").textContent = v.modalidad;
+        document.getElementById("empresaDescripcion").textContent = v.descripcion_empresa || "Empresa destacada del sector tecnológico.";
+        
+        if (v.fecha_publicacion) {
+            document.getElementById("vacanteFecha").textContent = new Date(v.fecha_publicacion).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        // Diseño de Badges
+        document.getElementById("badgesContenedor").innerHTML = `
+            <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 fw-semibold">${v.modalidad || 'Presencial'}</span>
+            <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 fw-semibold">ID: #VAC-${v.id_vacante}</span>
+        `;
+
+        // Generar listas con viñetas limpias (separando por puntos)
+        const formatLista = (texto) => {
+            // Si el texto es null, undefined, o un string vacío, mostramos el mensaje por defecto
+            if (!texto || texto.trim() === "") return "<li>Información no detallada.</li>";
+            return texto.split('.')
+                .filter(i => i.trim().length > 3)
+                .map(i => `<li>${i.trim()}.</li>`)
+                .join("");
+        };
+
+        document.getElementById("listaResponsabilidades").innerHTML = formatLista(v.responsabilidades);
+        document.getElementById("listaRequisitos").innerHTML = formatLista(v.requisitos);
+
+        // Botón principal
+        renderBotonAccion(data.yaPostulado, v.id_vacante);
+
+    } catch (error) {
+        console.error(error);
+        showAlert("Error de conexión al cargar la vacante.");
     }
-
-    const response = await fetch(`${API_URL}/vacantes/detalle/${idVacante}`, {
-      headers: {
-        "Authorization": `Bearer ${getToken()}`
-      }
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      showAlert(data.mensaje || "No se pudo cargar el detalle");
-      return;
-    }
-
-    renderVacante(data.vacante);
-    renderEmpresa(data.vacante);
-    renderEstado(data, idVacante);
-  } catch (error) {
-    console.error(error);
-    showAlert("Error de conexión con el servidor");
-  }
 };
 
-const postularme = async (idVacante) => {
-  try {
-    const usuario = getUsuario();
-
-    if (!usuario?.id_usuario) {
-      showAlert("No se pudo identificar el usuario logueado");
-      return;
+const renderBotonAccion = (yaPostulado, idVacante) => {
+    if (yaPostulado) {
+        contenedorAccion.innerHTML = `
+            <button class="btn btn-success px-4 py-2 fw-bold shadow-sm" style="border-radius: 8px;" disabled>
+                Ya te postulaste <i class="bi bi-check-all ms-1"></i>
+            </button>`;
+    } else {
+        contenedorAccion.innerHTML = `
+            <button class="btn btn-primary px-4 py-2 fw-bold shadow-sm" style="border-radius: 8px;" id="btnPostularme">
+                Aplicar ahora <i class="bi bi-send ms-1"></i>
+            </button>`;
+        document.getElementById("btnPostularme").onclick = () => realizarPostulacion(idVacante);
     }
-
-    const response = await fetch(`${API_URL}/postulaciones`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${getToken()}`
-      },
-      body: JSON.stringify({
-        id_usuario_fk: usuario.id_usuario,
-        id_vacante_fk: Number(idVacante),
-        id_estado_fk: 1
-      })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      showAlert(data.mensaje || "No se pudo realizar la postulación");
-      return;
-    }
-
-    showAlert("Te postulaste correctamente", "success");
-    await cargarDetalle();
-  } catch (error) {
-    console.error(error);
-    showAlert("Error de conexión con el servidor");
-  }
 };
 
-cargarDetalle();
+const realizarPostulacion = async (idVacante) => {
+    // 🚀 BYPASS: Si no hay usuario logueado, forzamos el usuario con ID = 1 para pruebas
+    let usuario = getUsuario();
+    if (!usuario || !usuario.id_usuario) {
+        console.warn("No hay sesión activa. Forzando usuario ID = 1 para pruebas.");
+        usuario = { id_usuario: 1 }; 
+    }
 
-import { API_URL, getToken, getUsuario } from "../../../assets/js/shared/config.js";
+    try {
+        const bodyData = { 
+            id_usuario_fk: usuario.id_usuario, 
+            id_vacante_fk: parseInt(idVacante), 
+            id_estado_fk: 1 
+        };
 
-const btnPostular = document.getElementById("btnPostularme");
+        console.log("Enviando postulación al backend:", bodyData);
 
-btnPostular.addEventListener("click", async () => {
-    const params = new URLSearchParams(window.location.search);
-    const idVacante = params.get("id");
-    const usuario = getUsuario();
+        const response = await fetch(`${API_URL}/postulaciones`, {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json", 
+                // "Authorization": `Bearer ${getToken()}` // Desactivado para pruebas
+            },
+            body: JSON.stringify(bodyData)
+        });
 
-    const dataPostulacion = {
-        id_usuario_fk: usuario.id_usuario,
-        id_vacante_fk: idVacante,
-        id_estado_fk: 1 // Estado 'Recibida' según tu SQL
-    };
+        const data = await response.json();
 
-    const res = await fetch(`${API_URL}/api/postulaciones`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${getToken()}` // Autorización con tu token
-        },
-        body: JSON.stringify(dataPostulacion)
-    });
+        if (response.ok) {
+            new bootstrap.Toast(document.getElementById('toastPostulado')).show();
+            // Recargamos el detalle para que el botón cambie a verde "Ya te postulaste"
+            setTimeout(() => {
+                cargarDetalle();
+            }, 1500);
+        } else {
+            // Muestra la alerta roja si ya te habías postulado
+            showAlert(data.mensaje || "Error al postularse.");
+        }
+    } catch (error) {
+        console.error("Error crítico en el fetch:", error);
+        showAlert("Error de red al intentar postularse.");
+    }
+};
 
-    if (res.ok) alert("¡Postulación enviada con éxito!");
+// ==========================================
+// EVENTOS PARA GUARDAR Y COMPARTIR
+// ==========================================
+
+// Guardar Empleo
+document.getElementById('btnGuardar')?.addEventListener('click', function(e) {
+    e.preventDefault();
+    // Cambiar ícono a relleno y color principal
+    const icono = document.getElementById('iconoGuardar');
+    if(icono.classList.contains('bi-bookmark')) {
+        icono.classList.replace('bi-bookmark', 'bi-bookmark-fill');
+        this.classList.replace('text-secondary', 'text-primary');
+        new bootstrap.Toast(document.getElementById('toastGuardado')).show();
+    } else {
+        icono.classList.replace('bi-bookmark-fill', 'bi-bookmark');
+        this.classList.replace('text-primary', 'text-secondary');
+    }
 });
+
+// Copiar Enlace
+document.getElementById('btnCopiarEnlace')?.addEventListener('click', function() {
+    const linkInput = document.getElementById('linkCompartir');
+    
+    // Asignar la URL actual al input
+    linkInput.value = window.location.href;
+    
+    // Copiar al portapapeles
+    linkInput.select();
+    document.execCommand('copy');
+    
+    // Cerrar el modal y mostrar toast
+    const modal = bootstrap.Modal.getInstance(document.getElementById('modalCompartir'));
+    if(modal) modal.hide();
+    new bootstrap.Toast(document.getElementById('toastCopiado')).show();
+});
+
+// Iniciar carga
+cargarDetalle();

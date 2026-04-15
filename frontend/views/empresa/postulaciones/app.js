@@ -7,27 +7,22 @@ const formatearFecha = (fecha) => {
     return new Date(fecha).toLocaleDateString("es-SV");
 };
 
-// --- 👤 FUNCIÓN: ABRIR PERFIL CON INFORMACIÓN COMPLETA ---
 window.abrirPerfil = (itemString) => {
-    // Decodificamos el objeto que pasamos como string
     const item = JSON.parse(decodeURIComponent(itemString));
     
-    // Rellenamos el Modal de Perfil con los datos de la base de datos
+   
     document.getElementById('perfilNombre').textContent = `${item.nombres} ${item.apellidos}`;
     document.getElementById('perfilPuesto').textContent = item.titulo_puesto;
-    
-    // Si tienes campos adicionales en tu modal de perfil, agrégalos aquí:
-    // Ejemplo: document.getElementById('perfilCorreo').textContent = item.correo_electronico;
+  
 
     const modalPerfil = new bootstrap.Modal(document.getElementById('modalPerfilCandidato'));
     modalPerfil.show();
 };
 
-// --- ✉️ FUNCIÓN: ABRIR FORMULARIO DE CONTACTO ---
 window.abrirContacto = (nombre, apellidos, correo) => {
     const inputDestino = document.getElementById('contactoDestino');
     if (inputDestino) {
-        // Rellenamos el campo "Para:" automáticamente
+        
         inputDestino.value = `${nombre} ${apellidos} (${correo})`;
     }
     
@@ -35,7 +30,6 @@ window.abrirContacto = (nombre, apellidos, correo) => {
     modalContacto.show();
 };
 
-// --- ⚙️ FUNCIÓN: ACTUALIZAR ESTADO ---
 window.actualizarEstado = async (idPostulacion, nuevoEstadoId, elementoSelect) => {
     try {
         const response = await fetch(`${API_URL}/postulaciones/${idPostulacion}/estado`, {
@@ -56,7 +50,7 @@ window.actualizarEstado = async (idPostulacion, nuevoEstadoId, elementoSelect) =
     }
 };
 
-// --- 🎨 RENDERIZADO DE LA LISTA ---
+
 const renderPostulaciones = (items) => {
     if (!items.length) {
         contenedorPostulaciones.innerHTML = `<div class="text-center p-5 fw-bold text-muted">No hay postulantes registrados.</div>`;
@@ -70,7 +64,6 @@ const renderPostulaciones = (items) => {
         if (item.id_estado_fk == 4) colorClase = "bg-danger text-white";
 
         const nombreCompleto = `${item.nombres} ${item.apellidos}`;
-        // Convertimos el objeto item a string para pasarlo a la función de Perfil
         const itemData = encodeURIComponent(JSON.stringify(item));
 
         return `

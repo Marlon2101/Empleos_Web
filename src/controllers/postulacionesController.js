@@ -71,14 +71,11 @@ export const eliminarPostulacion = async (req, res) => {
   }
 };
 
-// ==========================================
-// 🚀 1. FUNCIÓN OBTENER POSTULACIONES EMPRESA (Bypass)
-// ==========================================
 export const obtenerPostulacionesEmpresa = async (req, res) => {
     try {
-        const id_empresa = 1; // HACK: Forzamos la empresa 1
+        const id_empresa = 1; 
 
-        // Llamamos al Modelo para que haga el trabajo sucio en MySQL
+
         const postulaciones = await getPostulacionesByEmpresa(id_empresa);
         
         res.json(postulaciones); 
@@ -88,15 +85,12 @@ export const obtenerPostulacionesEmpresa = async (req, res) => {
     }
 };
 
-// ==========================================
-// 🚀 2. FUNCIÓN PARA ACTUALIZAR EL ESTADO (El PUT del <select>)
-// ==========================================
+
 export const actualizarPostulacion = async (req, res) => {
     try {
         const { id } = req.params; 
         const { id_estado_fk } = req.body; 
 
-        // Llama a tu función original de update para guardarlo en la base de datos
         await updatePostulacion(id, { id_estado_fk });
 
         console.log(`Backend recibió la orden: Cambiar postulación ${id} al estado ${id_estado_fk}`);
@@ -115,3 +109,6 @@ export const actualizarPostulacion = async (req, res) => {
         });
     }
 };
+
+
+

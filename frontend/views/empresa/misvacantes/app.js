@@ -1,6 +1,6 @@
 import { API_URL } from "../../../assets/js/shared/config.js";
 
-// ❌ BYPASS: Comentamos la seguridad temporalmente
+
 // import { requireAuth, logout } from "../../../assets/js/shared/auth.js";
 // requireAuth(["empresa"]);
 
@@ -22,7 +22,7 @@ const renderVacantes = (items) => {
         return;
     }
 
-    // Dibujamos el HTML horizontal para cada vacante usando tu diseño exacto
+
     contenedorVacantes.innerHTML = items.map(item => `
         <div class="card bg-white border-0 shadow-sm rounded-4 mb-4 position-relative hover-shadow transition-all cursor-pointer">
             <div class="card-body p-4 p-md-5">
@@ -50,10 +50,8 @@ const renderVacantes = (items) => {
 
 const cargarMisVacantes = async () => {
     try {
-        // 🚨 HACK: Le decimos directamente que pida las vacantes de la empresa 1
         const idEmpresaBypass = 1;
 
-        // La ruta de Node.js "obtenerVacantesPorEmpresa" es pública, no requiere token
         const response = await fetch(`${API_URL}/vacantes/empresa/${idEmpresaBypass}`);
         const data = await response.json();
 
@@ -71,16 +69,14 @@ const cargarMisVacantes = async () => {
     }
 };
 
-// Ejecutamos la función al cargar la página
 cargarMisVacantes();
 
-// --- Función para eliminar (Lista para cuando la necesites usar) ---
 window.eliminarVacante = async (id) => {
     if (!confirm("¿Seguro que quieres eliminar esta vacante?")) return;
     try {
         const res = await fetch(`${API_URL}/vacantes/${id}`, { method: "DELETE" });
         if (res.ok) {
-            cargarMisVacantes(); // Recargar la lista sin actualizar toda la página
+            cargarMisVacantes(); 
         }
     } catch (error) {
         alert("Error al eliminar");

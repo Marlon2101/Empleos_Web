@@ -270,37 +270,34 @@ export const buscarVacantesConFiltros = async (filtros) => {
   return rows;
 };
 
-export const getDetalleVacanteById = async (id_vacante) => {
-  const [rows] = await pool.query(
-    `
-    SELECT
-      v.id_vacante,
-      v.id_empresa_fk,
-      e.nombre_comercial,
-      e.razon_social,
-      e.sitio_web,
-      e.descripcion_empresa,
-      e.correo_electronico,
-      v.id_categoria_fk,
-      c.nombre_categoria,
-      v.titulo_puesto,
-      v.descripcion_puesto,
-      v.salario_offrecido,
-      v.modalidad,
-      v.id_municipio_fk,
-      m.nombre_municipio,
-      d.id_departamento,
-      d.nombre_departamento,
-      v.fecha_publicacion
-    FROM Vacantes v
-    INNER JOIN Empresas e ON v.id_empresa_fk = e.id_empresa
-    INNER JOIN Categorias c ON v.id_categoria_fk = c.id_categoria
-    LEFT JOIN Municipios m ON v.id_municipio_fk = m.id_municipio
-    LEFT JOIN Departamentos d ON m.id_departamento_fk = d.id_departamento
-    WHERE v.id_vacante = ?
-    `,
-    [id_vacante]
-  );
+// models/vacantesModel.js
 
-  return rows[0];
+export const getDetalleVacanteById = async (id) => {
+    
+    const query = `
+        SELECT 
+            v.id_vacante,
+            v.titulo_puesto,
+            v.descripcion_puesto,
+            v.responsabilidades, /* ¡DEBEN ESTAR AQUÍ! */
+            v.requisitos,        /* ¡DEBEN ESTAR AQUÍ! */
+            v.salario_offrecido,
+            v.modalidad,
+            v.fecha_publicacion,
+            c.nombre_categoria, 
+            m.nombre_municipio, 
+            d.nombre_departamento,
+            e.nombre_comercial,
+            e.descripcion_empresa,
+            e.sitio_web
+        FROM Vacantes v
+        LEFT JOIN Categorias c ON v.id_categoria_fk = c.id_categoria
+        LEFT JOIN Municipios m ON v.id_municipio_fk = m.id_municipio
+        LEFT JOIN Departamentos d ON m.id_departamento_fk = d.id_departamento
+        LEFT JOIN Empresas e ON v.id_empresa_fk = e.id_empresa
+        WHERE v.id_vacante = ?
+    `;
+    
+    const [rows] = await pool.query(query, [id]);
+    return rows[0];
 };

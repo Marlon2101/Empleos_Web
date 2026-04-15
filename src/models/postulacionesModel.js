@@ -183,9 +183,6 @@ export const usuarioYaPostulado = async (id_usuario, id_vacante) => {
   return rows[0];
 };
 
-// ==========================================
-// 🚀 NUEVA FUNCIÓN: Obtener postulaciones por Empresa
-// ==========================================
 export const getPostulacionesByEmpresa = async (id_empresa) => {
   const [rows] = await pool.query(
     `
@@ -208,3 +205,14 @@ export const getPostulacionesByEmpresa = async (id_empresa) => {
   
   return rows;
 };
+
+export const insertPostulacion = async (id_usuario, id_vacante) => {
+    const query = `
+        INSERT INTO Postulaciones (id_usuario_fk, id_vacante_fk, id_estado_fk, fecha_postulacion)
+        VALUES (?, ?, 1, NOW())
+    `;
+    
+    const [result] = await pool.query(query, [id_usuario, id_vacante]);
+    return result;
+};
+

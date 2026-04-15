@@ -1,5 +1,16 @@
 import { API_URL, getToken, clearSession } from "../../../assets/js/shared/config.js";
 
+const requireAdmin = () => {
+  const token = localStorage.getItem("token");
+  const tipo = localStorage.getItem("userRole");
+console.log("Token:", token);
+console.log("Tipo:", tipo);
+  if (!token || tipo !== "admin") {
+    window.location.href = "../../public/login/index.html";
+  }
+};
+
+requireAdmin();
 const btnLogout = document.getElementById("btnLogout");
 const alertContainer = document.getElementById("alertContainer");
 
@@ -12,16 +23,6 @@ const ultimosUsuarios = document.getElementById("ultimosUsuarios");
 const ultimasEmpresas = document.getElementById("ultimasEmpresas");
 const ultimasVacantes = document.getElementById("ultimasVacantes");
 
-const requireAdmin = () => {
-  const token = localStorage.getItem("token");
-  const tipo = localStorage.getItem("tipo");
-
-  if (!token || tipo !== "admin") {
-    window.location.href = "../../public/login/index.html";
-  }
-};
-
-requireAdmin();
 
 btnLogout.addEventListener("click", () => {
   clearSession();

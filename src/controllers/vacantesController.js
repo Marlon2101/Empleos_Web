@@ -58,7 +58,6 @@ export const obtenerVacantesPorEmpresa = async (req, res) => {
 };
 export const crearVacante = async (req, res) => {
   try {
-    // 1. Añadimos id_empresa_fk aquí para recibirlo del frontend (nuestro hackeo)
     const {
       id_empresa_fk, 
       id_categoria_fk,
@@ -69,12 +68,11 @@ export const crearVacante = async (req, res) => {
       id_municipio_fk
     } = req.body;
 
-    // 2. LÓGICA HÍBRIDA (Para que funcione ahora y cuando actives la seguridad)
-    // Si viene del body (bypass), úsalo. Si viene del token, úsalo. Si no hay nada, usa la empresa 1.
+   
     const empresaIdSeguro = id_empresa_fk || (req.user ? req.user.id : 1);
 
     const nuevaVacante = await createVacante({
-      id_empresa_fk: empresaIdSeguro, // Usamos nuestra variable segura
+      id_empresa_fk: empresaIdSeguro, 
       id_categoria_fk,
       titulo_puesto,
       descripcion_puesto,
@@ -85,7 +83,7 @@ export const crearVacante = async (req, res) => {
 
     res.status(201).json(nuevaVacante);
   } catch (error) {
-    console.log("ERROR CRÍTICO AL CREAR VACANTE:", error); // Esto te avisará si falla otra cosa
+    console.log("ERROR CRÍTICO AL CREAR VACANTE:", error); 
     res.status(500).json({
       mensaje: "Error al crear vacante",
       error: error.message
@@ -195,10 +193,14 @@ export const buscarVacantes = async (req, res) => {
     });
   }
 };
-
 export const obtenerDetalleVacante = async (req, res) => {
   try {
     const { id } = req.params;
+
+    
+    if (isNaN(id)) {
+        return res.status(400).json({ mensaje: "ID de vacante inválido" });
+    }
 
     const vacante = await getDetalleVacanteById(id);
 
@@ -211,9 +213,16 @@ export const obtenerDetalleVacante = async (req, res) => {
     let postulacion = null;
     let yaPostulado = false;
 
-    if (req.user && req.user.tipo === "usuario") {
-      postulacion = await usuarioYaPostulado(req.user.id, id);
-      yaPostulado = !!postulacion;
+
+    try {
+        if (req.user && req.user.tipo === "usuario") {
+          postulacion = await usuarioYaPostulado(req.user.id, id);
+          yaPostulado = !!postulacion; 
+        }
+    } catch (dbError) {
+
+        console.error(`Error verificando postulación para usuario ${req.user?.id} en vacante ${id}:`, dbError);
+        yaPostulado = false; 
     }
 
     res.json({
@@ -222,13 +231,10 @@ export const obtenerDetalleVacante = async (req, res) => {
       postulacion
     });
   } catch (error) {
+    console.error("Error fatal en obtenerDetalleVacante:", error);
     res.status(500).json({
       mensaje: "Error al obtener detalle de vacante",
       error: error.message
     });
   }
 };
-
-
-
-
