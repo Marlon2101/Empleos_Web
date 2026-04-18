@@ -1,18 +1,18 @@
 import { API_URL } from "../../../assets/js/shared/config.js";
 
-// DOM - Pestañas y Contenedores
+
 const tabUsuario = document.getElementById("tabUsuario");
 const tabEmpresa = document.getElementById("tabEmpresa");
 const camposUsuario = document.getElementById("camposUsuario");
 const camposEmpresa = document.getElementById("camposEmpresa");
 
-// DOM - Formulario
+
 const formRegistro = document.getElementById("formRegistro");
 const alertContainer = document.getElementById("alertContainer");
 
 let tipoRegistro = "usuario";
 
-// --- CAMBIO DE VISTA (TABS) ---
+
 tabUsuario.addEventListener("click", () => {
     tipoRegistro = "usuario";
     camposUsuario.classList.remove("d-none");
@@ -29,7 +29,7 @@ tabEmpresa.addEventListener("click", () => {
     tabUsuario.classList.remove("active");
 });
 
-// --- ALERTAS ---
+
 const showAlert = (message, type = "danger") => {
     alertContainer.innerHTML = `
         <div class="alert alert-${type} alert-dismissible fade show" role="alert">
@@ -39,13 +39,14 @@ const showAlert = (message, type = "danger") => {
     `;
 };
 
-// --- CARGAR MUNICIPIOS ---
+
+
 const cargarMunicipios = async () => {
     try {
         const response = await fetch(`${API_URL}/catalogos/municipios`);
         const data = await response.json();
         
-        console.log("Datos recibidos de municipios:", data); // 👀 Mira esto en la consola
+        console.log("Datos recibidos de municipios:", data); 
 
         if (!data || data.length === 0) {
             console.error("La API devolvió un arreglo vacío");
@@ -63,7 +64,7 @@ const cargarMunicipios = async () => {
     }
 };
 
-// --- ENVÍO DE DATOS (CREATE) ---
+
 formRegistro.addEventListener("submit", async (e) => {
     e.preventDefault();
     let url = "";
