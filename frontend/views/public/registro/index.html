@@ -3,127 +3,415 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly - Registro</title>
+    <title>Workly · Crear cuenta</title>
+    <!-- Bootstrap + Iconos -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Fuente Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        :root {
+            --primary-deep: #3f51b5;
+            --nav-bg: #011671;
+            --soft-accent: #f1ebd9;
+            --light-text: #e2e4e8;
+        }
+        body {
+            background: linear-gradient(145deg, #f4f7fc 0%, #eef1f9 100%);
+        }
+        /* Navbar personalizado */
+        .navbar-custom {
+            background-color: var(--nav-bg) !important;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+        }
+        .navbar-brand .brand-icon {
+            font-size: 3.5rem;
+            color: white;
+            margin-right: 0.75rem;
+        }
+        .navbar-brand .brand-text {
+            color: white;
+            font-weight: 700;
+            font-size: 2rem;
+            line-height: 1.2;
+        }
+        .navbar-brand .brand-sub {
+            color: var(--light-text);
+            font-size: 0.95rem;
+        }
+        .btn-primary-deep {
+            background-color: var(--primary-deep);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-primary-deep:hover {
+            background-color: #2c3e8f;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(63, 81, 181, 0.25);
+            color: white;
+        }
+        /* tarjeta de registro */
+        .register-card {
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.7);
+            border-radius: 2.5rem;
+            box-shadow: 0 30px 40px -15px rgba(1, 22, 113, 0.15);
+            transition: transform 0.25s ease;
+        }
+        .register-card:hover {
+            transform: translateY(-4px);
+        }
+        /* Pestañas personalizadas */
+        .nav-pills .nav-link {
+            color: #1e1f22 !important;
+            background-color: transparent;
+            border-radius: 40px !important;
+            padding: 0.6rem 1.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .nav-pills .nav-link.active {
+            background-color: var(--primary-deep) !important;
+            color: white !important;
+            box-shadow: 0 6px 12px rgba(63, 81, 181, 0.2);
+        }
+        .nav-pills .nav-link:not(.active):hover {
+            background-color: rgba(63, 81, 181, 0.08);
+        }
+        /* Estilos de formulario */
+        .form-control-custom, .form-select-custom {
+            border: 1.5px solid #e0e4eb;
+            border-radius: 16px;
+            padding: 0.75rem 1.2rem;
+            font-size: 1rem;
+            background-color: white;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-control-custom:focus, .form-select-custom:focus {
+            border-color: var(--primary-deep);
+            box-shadow: 0 0 0 4px rgba(63, 81, 181, 0.1);
+            outline: none;
+        }
+        .input-label {
+            font-weight: 600;
+            color: #1e1f22;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .footer-custom {
+            background-color: var(--nav-bg);
+            color: var(--light-text);
+        }
+        .footer-custom a {
+            color: var(--light-text) !important;
+            text-decoration: none;
+        }
+        .footer-custom a:hover {
+            color: white !important;
+            text-decoration: underline;
+        }
+        /* separador visual */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+        .section-divider hr {
+            flex: 1;
+            border-top: 1px solid #cdd2dc;
+        }
+        .section-divider span {
+            background: white;
+            padding: 0 1rem;
+            color: #5a6275;
+            font-weight: 500;
+        }
+    </style>
 </head>
+<body class="d-flex flex-column min-vh-100">
 
-<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+<!-- ========== NAVBAR MEJORADO (mismo estilo que homepage/login) ========== -->
+<nav class="navbar navbar-expand-lg py-3 navbar-custom">
+    <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand d-flex align-items-center text-decoration-none" href="index.html">
+            <i class="bi bi-briefcase-fill brand-icon"></i>
+            <div class="lh-sm ms-2">
+                <span class="brand-text">Workly</span>
+                <span class="brand-sub">Tu búsqueda de trabajo profesional</span>
+            </div>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false">
+            <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+        </button>
 
-    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
-        <div class="container-fluid px-4 px-lg-5 text-white">
-            <span class="fw-bold fs-3">Workly</span>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+            <div class="d-flex gap-3 mt-3 mt-lg-0 align-items-center">
+                <a href="../login/index.html" class="btn btn-outline-light px-4 py-2 fw-semibold" style="border-color: rgba(255,255,255,0.5); color: white;">
+                    <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar sesión
+                </a>
+            </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-10 col-xl-8">
-                    <div class="card bg-white border-0 p-4 p-md-5 rounded-5 shadow-lg">
+<!-- ========== MAIN: REGISTRO ========== -->
+<main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-9">
+                <!-- Tarjeta con glassmorphism -->
+                <div class="register-card p-4 p-md-5">
+
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex bg-white p-3 rounded-4 shadow-sm mb-3">
+                            <i class="bi bi-person-plus-fill fs-1" style="color: var(--primary-deep);"></i>
+                        </div>
+                        <h1 class="display-6 fw-bold" style="color: #121826;">Crear cuenta</h1>
+                        <p class="text-secondary">Únete a Workly y descubre miles de oportunidades</p>
                         
-                        <div class="text-center mb-4">
-                            <h1 class="display-6 fw-normal text-dark mb-4">Registro</h1>
-                            
-                            <ul class="nav nav-pills justify-content-center bg-secondary-subtle rounded-pill p-1 d-inline-flex mx-auto" id="registroTabs">
-                                <li class="nav-item">
-                                    <button class="nav-link active rounded-pill px-4 text-dark fw-semibold" id="tabUsuario" type="button">Usuario</button>
-                                </li>
-                                <li class="nav-item">
-                                    <button class="nav-link rounded-pill px-4 text-dark fw-semibold" id="tabEmpresa" type="button">Empresa</button>
-                                </li>
-                            </ul>
+                        <!-- Pestañas (IDs y estructura conservada) -->
+                        <ul class="nav nav-pills justify-content-center bg-light p-1 rounded-pill d-inline-flex mx-auto mt-3" id="registroTabs" style="background: #f2f4f8 !important;">
+                            <li class="nav-item">
+                                <button class="nav-link active rounded-pill px-4 py-2 fw-semibold" id="tabUsuario" type="button">
+                                    <i class="bi bi-person me-1"></i> Usuario
+                                </button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link rounded-pill px-4 py-2 fw-semibold" id="tabEmpresa" type="button">
+                                    <i class="bi bi-building me-1"></i> Empresa
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Contenedor de alertas (id original) -->
+                    <div id="alertContainer"></div>
+
+                    <!-- FORMULARIO (id formRegistro conservado) -->
+                    <form id="formRegistro">
+                        
+                        <!-- CAMPOS USUARIO (id 'camposUsuario' conservado) -->
+                        <div id="camposUsuario">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="input-label"><i class="bi bi-person"></i> Nombres</div>
+                                    <input type="text" id="nombreUsuario" class="form-control-custom w-100" placeholder="ej. Juan Carlos">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-label"><i class="bi bi-person"></i> Apellidos</div>
+                                    <input type="text" id="apellidosUsuario" class="form-control-custom w-100" placeholder="ej. Pérez López">
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-6">
+                                    <div class="input-label"><i class="bi bi-envelope"></i> Correo Electrónico</div>
+                                    <input type="email" id="emailUsuario" class="form-control-custom w-100" placeholder="tu@email.com">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-label"><i class="bi bi-telephone"></i> Teléfono</div>
+                                    <input type="text" id="telefonoUsuario" class="form-control-custom w-100" placeholder="+503 1234 5678">
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-6">
+                                    <div class="input-label"><i class="bi bi-lock"></i> Contraseña</div>
+                                    <input type="password" id="passUsuario" class="form-control-custom w-100" placeholder="••••••••">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-label"><i class="bi bi-lock-fill"></i> Confirmar Contraseña</div>
+                                    <input type="password" id="passConfUsuario" class="form-control-custom w-100" placeholder="••••••••">
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-6">
+                                    <div class="input-label"><i class="bi bi-geo-alt"></i> Municipio</div>
+                                    <select id="municipioUsuario" class="form-select-custom w-100">
+                                        <option value="" disabled selected>Selecciona tu municipio</option>
+                                        <!-- Opciones se llenan vía JS -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="input-label"><i class="bi bi-file-text"></i> Resumen Profesional</div>
+                                <textarea id="resumenProfesional" class="form-control-custom w-100" rows="3" placeholder="Cuéntanos sobre tu experiencia..."></textarea>
+                            </div>
                         </div>
 
-                        <div id="alertContainer"></div>
-
-                        <form id="formRegistro">
-                            
-                            <div id="camposUsuario">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Nombres</label>
-                                    <input type="text" id="nombreUsuario" class="form-control form-control-lg border-dark-subtle">
+                        <!-- CAMPOS EMPRESA (id 'camposEmpresa' conservado, inicialmente d-none) -->
+                        <div id="camposEmpresa" class="d-none">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="input-label"><i class="bi bi-shop"></i> Nombre Comercial</div>
+                                    <input type="text" id="nombreComercial" class="form-control-custom w-100" placeholder="ej. TechNova S.A.">
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Apellidos</label>
-                                    <input type="text" id="apellidosUsuario" class="form-control form-control-lg border-dark-subtle">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Correo Electrónico</label>
-                                    <input type="email" id="emailUsuario" class="form-control form-control-lg border-dark-subtle">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Teléfono</label>
-                                    <input type="text" id="telefonoUsuario" class="form-control form-control-lg border-dark-subtle">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Contraseña</label>
-                                    <input type="password" id="passUsuario" class="form-control form-control-lg border-dark-subtle">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Confirmar Contraseña</label>
-                                    <input type="password" id="passConfUsuario" class="form-control form-control-lg border-dark-subtle">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Municipio</label>
-                                    <select id="municipioUsuario" class="form-select form-select-lg border-dark-subtle"></select>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Resumen Profesional</label>
-                                    <textarea id="resumenProfesional" class="form-control border-dark-subtle" rows="3"></textarea>
+                                <div class="col-md-6">
+                                    <div class="input-label"><i class="bi bi-building"></i> Razón Social</div>
+                                    <input type="text" id="razonSocial" class="form-control-custom w-100" placeholder="Razón social legal">
                                 </div>
                             </div>
-
-                            <div id="camposEmpresa" class="d-none">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Nombre Comercial</label>
-                                    <input type="text" id="nombreComercial" class="form-control form-control-lg border-dark-subtle">
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-6">
+                                    <div class="input-label"><i class="bi bi-envelope"></i> Correo Corporativo</div>
+                                    <input type="email" id="emailEmpresa" class="form-control-custom w-100" placeholder="contacto@empresa.com">
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Razón Social</label>
-                                    <input type="text" id="razonSocial" class="form-control form-control-lg border-dark-subtle">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Correo Corporativo</label>
-                                    <input type="email" id="emailEmpresa" class="form-control form-control-lg border-dark-subtle">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Teléfono Empresa</label>
-                                    <input type="text" id="telefonoEmpresa" class="form-control form-control-lg border-dark-subtle">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Contraseña</label>
-                                    <input type="password" id="passEmpresa" class="form-control form-control-lg border-dark-subtle">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Confirmar Contraseña</label>
-                                    <input type="password" id="passConfEmpresa" class="form-control form-control-lg border-dark-subtle">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Municipio</label>
-                                    <select id="municipioEmpresa" class="form-select form-select-lg border-dark-subtle"></select>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Descripción de la Empresa</label>
-                                    <textarea id="descEmpresa" class="form-control border-dark-subtle" rows="3"></textarea>
+                                <div class="col-md-6">
+                                    <div class="input-label"><i class="bi bi-telephone"></i> Teléfono Empresa</div>
+                                    <input type="text" id="telefonoEmpresa" class="form-control-custom w-100" placeholder="+503 2222 3333">
                                 </div>
                             </div>
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-6">
+                                    <div class="input-label"><i class="bi bi-lock"></i> Contraseña</div>
+                                    <input type="password" id="passEmpresa" class="form-control-custom w-100" placeholder="••••••••">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-label"><i class="bi bi-lock-fill"></i> Confirmar Contraseña</div>
+                                    <input type="password" id="passConfEmpresa" class="form-control-custom w-100" placeholder="••••••••">
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-6">
+                                    <div class="input-label"><i class="bi bi-geo-alt"></i> Municipio</div>
+                                    <select id="municipioEmpresa" class="form-select-custom w-100">
+                                        <option value="" disabled selected>Selecciona municipio</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <div class="input-label"><i class="bi bi-info-circle"></i> Descripción de la Empresa</div>
+                                <textarea id="descEmpresa" class="form-control-custom w-100" rows="3" placeholder="Describe tu empresa, sector, etc."></textarea>
+                            </div>
+                        </div>
 
-                            <button type="submit" class="btn btn-primary w-100 text-white py-3 shadow-sm rounded-3 mt-3 fw-bold">
-                                REGISTRARSE
-                            </button>
-                        </form>
+                        <!-- Botón de envío -->
+                        <button type="submit" class="btn btn-primary-deep w-100 py-3 rounded-pill shadow-sm mt-4 fw-bold fs-5">
+                            <i class="bi bi-check2-circle me-2"></i> REGISTRARSE
+                        </button>
 
-                    </div>
+                        <div class="section-divider">
+                            <hr>
+                            <span>o regístrate con</span>
+                            <hr>
+                        </div>
+
+                        <button type="button" class="btn btn-light w-100 py-3 rounded-pill shadow-sm d-flex align-items-center justify-content-center gap-2 border">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" width="20" height="20">
+                            Continuar con Google
+                        </button>
+
+                    </form>
+
+                    <p class="text-center mt-4 mb-0 text-secondary">
+                        ¿Ya tienes una cuenta? 
+                        <a href="../login/index.html" class="fw-bold text-decoration-none" style="color: var(--primary-deep);">
+                            Inicia sesión <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </p>
+
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
-    <footer class="py-4 mt-auto bg-secondary text-center text-white-50">
-        Workly &copy; 2026
-    </footer>
+<!-- ========== FOOTER (mismo color #011671) ========== -->
+<footer class="py-4 mt-auto footer-custom">
+    <div class="container text-center">
+        <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
+            <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
+            <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
+            <a href="#">Términos</a>
+            <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
+        </div>
+        <div class="mt-3 small opacity-75">
+            <i class="bi bi-geo-alt"></i> Presente en +15 países
+        </div>
+    </div>
+</footer>
 
-    <script type="module" src="./app.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- SCRIPT DE CAMBIO DE PESTAÑAS (compatible con IDs originales) -->
+<script>
+    (function() {
+        // Mantener funcionalidad de cambio de pestañas sin romper app.js
+        const tabUsuario = document.getElementById('tabUsuario');
+        const tabEmpresa = document.getElementById('tabEmpresa');
+        const camposUsuario = document.getElementById('camposUsuario');
+        const camposEmpresa = document.getElementById('camposEmpresa');
+
+        function setActiveTab(active) {
+            if (active === 'usuario') {
+                tabUsuario.classList.add('active');
+                tabEmpresa.classList.remove('active');
+                camposUsuario.classList.remove('d-none');
+                camposEmpresa.classList.add('d-none');
+            } else {
+                tabEmpresa.classList.add('active');
+                tabUsuario.classList.remove('active');
+                camposEmpresa.classList.remove('d-none');
+                camposUsuario.classList.add('d-none');
+            }
+        }
+
+        tabUsuario.addEventListener('click', (e) => {
+            e.preventDefault();
+            setActiveTab('usuario');
+        });
+        tabEmpresa.addEventListener('click', (e) => {
+            e.preventDefault();
+            setActiveTab('empresa');
+        });
+
+        // Asegurar que los campos de municipio tengan opciones de ejemplo (opcional)
+        // Esto no interfiere con app.js, solo agrega placeholders visuales.
+        const municipios = ['San Salvador', 'Santa Ana', 'San Miguel', 'La Libertad', 'Soyapango'];
+        const selectUsuario = document.getElementById('municipioUsuario');
+        const selectEmpresa = document.getElementById('municipioEmpresa');
+        function poblarSelect(selectEl) {
+            if (selectEl && selectEl.options.length <= 1) {
+                municipios.forEach(muni => {
+                    const option = document.createElement('option');
+                    option.value = muni.toLowerCase().replace(/ /g, '_');
+                    option.textContent = muni;
+                    selectEl.appendChild(option);
+                });
+            }
+        }
+        poblarSelect(selectUsuario);
+        poblarSelect(selectEmpresa);
+    })();
+</script>
+
+<!-- Nota: El archivo app.js se carga después y debe manejar la lógica de envío -->
+<script type="module" src="./app.js"></script>
+
+<!-- Estilo adicional para navbar toggler -->
+<style>
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+    /* Ajuste para selects */
+    .form-select-custom {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%233f51b5' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 1.2rem center;
+        background-size: 16px 12px;
+        appearance: none;
+    }
+    .btn-outline-light:hover {
+        background-color: rgba(255,255,255,0.15) !important;
+    }
+</style>
+
 </body>
 </html>

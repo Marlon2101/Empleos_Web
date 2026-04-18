@@ -1,91 +1,492 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly - Inicio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workly · Encuentra tu próximo reto profesional</title>
+  <!-- Bootstrap + Iconos -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Fuente suave -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    :root {
+      --primary-deep: #3f51b5;      /* botones principales, acentos */
+      --nav-bg: #011671;            /* navbar y footer (exacto de la imagen) */
+      --soft-accent: #f1ebd9;       /* botón secundario */
+      --light-text: #e2e4e8;
+      --dark-text: #1e1f22;
+      --card-radius: 1.75rem;
+    }
+    body {
+      background-color: #f9fafc;
+    }
+    /* Navbar personalizado — igual que la imagen */
+    .navbar-custom {
+      background-color: var(--nav-bg) !important;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.03);
+    }
+    .navbar-brand .brand-icon {
+      font-size: 3.5rem;
+      color: white;
+      line-height: 1;
+      margin-right: 1rem;
+    }
+    .navbar-brand .brand-text {
+      color: white;
+      font-weight: 700;
+      font-size: 2rem;
+      display: block;
+      line-height: 1.2;
+    }
+    .navbar-brand .brand-sub {
+      color: var(--light-text);
+      font-size: 0.95rem;
+    }
+    .btn-primary-deep {
+      background-color: var(--primary-deep);
+      border: none;
+      color: white;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn-primary-deep:hover {
+      background-color: #2c3e8f;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(63, 81, 181, 0.25);
+      color: white;
+    }
+    .btn-soft {
+      background-color: var(--soft-accent);
+      border: none;
+      color: #1e1f22;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-soft:hover {
+      background-color: #e6dcc4;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+    }
+    /* Hero con overlay sutil */
+    .hero-wrapper {
+      background: linear-gradient(145deg, #f0f3fa 0%, #e9ecf5 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 2.5rem;
+      box-shadow: 0 25px 40px -12px rgba(0,0,0,0.12);
+    }
+    /* Estadísticas tipo "dashboard" */
+    .stat-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.5rem 1rem;
+      transition: all 0.2s;
+      border: 1px solid rgba(146, 154, 169, 0.15);
+    }
+    .stat-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 18px 30px -8px rgba(63, 81, 181, 0.12);
+      border-color: var(--primary-deep);
+    }
+    .stat-number {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--primary-deep);
+      line-height: 1.1;
+    }
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(63, 81, 181, 0.08);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-deep);
+      font-size: 2rem;
+    }
+    /* Footer */
+    .footer-custom {
+      background-color: var(--nav-bg);
+      color: var(--light-text);
+    }
+    .footer-custom a {
+      color: var(--light-text) !important;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .footer-custom a:hover {
+      color: white !important;
+      text-decoration: underline;
+    }
+    /* badges / etiquetas */
+    .badge-growth {
+      background: #e9ecf9;
+      color: #2c3e8f;
+      font-weight: 500;
+      padding: 0.25rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+    }
+    /* animación sutil */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
-
 <body class="d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg py-3" style="background-color: #929aa9;">
-        <div class="container-fluid px-4 px-lg-5"> <a class="navbar-brand d-flex align-items-center" href="index.html">
-                <span class="me-3" style="font-size: 3.5rem; line-height: 1;">💼</span>
-                <div class="lh-sm">
-                    <span class="text-white fw-bold d-block" style="font-size: 2rem;">Workly</span>
-                    <span style="color: #e2e4e8; font-size: 0.95rem;">Tu búsqueda de trabajo profesional</span>
-                </div>
-            </a>
 
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
+<!-- ========== NAVBAR (EXACTAMENTE COMO LA IMAGEN: fondo #929aa9, ícono vectorial) ========== -->
+<nav class="navbar navbar-expand-lg py-3 navbar-custom">
+  <div class="container-fluid px-4 px-lg-5">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <!-- Ícono vectorial profesional (reemplaza el emoji) -->
+      <i class="bi bi-briefcase-fill brand-icon"></i>
+      <div class="lh-sm ms-2">
+        <span class="brand-text">Workly</span>
+        <span class="brand-sub">Tu búsqueda de trabajo profesional</span>
+      </div>
+    </a>
+
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- CONTENEDOR CON ID ORIGINAL (navbarContent) -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+      <div class="d-flex gap-2 mt-3 mt-lg-0">
+        <!-- onclick originales conservados -->
+        <button class="btn px-4 fw-semibold border-0 text-white btn-primary-deep"
+                onclick="window.location.href='../login/index.html'">
+          Iniciar sesión
+        </button>
+        <button class="btn px-4 fw-semibold border-0 text-white btn-primary-deep"
+                onclick="window.location.href='../registro/index.html'">
+          Registrarse
+        </button>
+        <!-- ícono de menú (decorativo, sin acción) -->
+        <button class="btn border-0 text-white fs-3 d-none d-lg-block ms-3">
+          <i class="bi bi-list"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== MAIN CONTENT ========== -->
+<main class="flex-grow-1">
+
+  <!-- HERO SECTION: más creativa, con glassmorphism y estadísticas visuales -->
+  <section class="hero-wrapper py-5 py-lg-6">
+    <div class="container py-3">
+      <div class="hero-card p-4 p-xl-5">
+        <div class="row align-items-center g-5">
+          <!-- columna izquierda -->
+          <div class="col-lg-7">
+            <div class="d-inline-block mb-3 px-3 py-1 bg-white rounded-pill shadow-sm border" style="border-color: #cdd2dc !important;">
+              <span class="fw-semibold" style="color: var(--primary-deep);"><i class="bi bi-stars me-1"></i>Más de 15k talentos conectados</span>
+            </div>
+            <h1 class="display-4 fw-bold mb-3" style="color: #121826; line-height: 1.2;">
+              El lugar donde <br>
+              <span style="color: var(--primary-deep);">el talento</span> encuentra <br>
+              su próximo reto
+            </h1>
+            <p class="fs-5 text-secondary mb-4" style="max-width: 90%;">
+              Accede a oportunidades verificadas, empresas de primer nivel y un proceso seguro. 
+              Workly conecta profesionales con el futuro.
+            </p>
+
+            <!-- Botones con eventos originales -->
+            <div class="d-flex flex-wrap gap-3 mt-4">
+              <button class="btn btn-primary-deep px-4 py-3 fw-semibold d-flex align-items-center gap-2 shadow-sm"
+                      style="border-radius: 60px; font-size: 1.1rem;"
+                      onclick="window.location.href='../registro/index.html'">
+                Quiero trabajar <i class="bi bi-arrow-right"></i>
+              </button>
+              <button class="btn btn-soft px-4 py-3 fw-semibold d-flex align-items-center gap-2 border-0 shadow-sm"
+                      style="border-radius: 60px; font-size: 1.1rem;"
+                      onclick="window.location.href='../registro/index.html'">
+                ¿Quieres contratar? <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+
+            <!-- Mini estadísticas de confianza (estilo dashboard) -->
+            <div class="row mt-5 g-3">
+              <div class="col-4">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-shield-check fs-2 me-2" style="color: var(--primary-deep);"></i>
+                  <div><span class="fw-bold d-block" style="font-size: 1.5rem;">+98%</span><small class="text-secondary">verificados</small></div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-building fs-2 me-2" style="color: var(--primary-deep);"></i>
+                  <div><span class="fw-bold d-block" style="font-size: 1.5rem;">2.5k</span><small class="text-secondary">empresas</small></div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-briefcase fs-2 me-2" style="color: var(--primary-deep);"></i>
+                  <div><span class="fw-bold d-block" style="font-size: 1.5rem;">8.9k</span><small class="text-secondary">vacantes</small></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- columna derecha: imagen + elementos flotantes decorativos -->
+          <div class="col-lg-5 text-center position-relative">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" 
+                 alt="Conexiones profesionales" 
+                 class="img-fluid rounded-4 shadow-lg" 
+                 style="border-radius: 2rem !important; border: 4px solid white;">
+            <!-- Elemento flotante decorativo -->
+            <div class="position-absolute bottom-0 start-0 bg-white p-3 rounded-4 shadow d-none d-md-block" style="transform: translate(-10px, 20px);">
+              <div class="d-flex align-items-center gap-2">
+                <div class="bg-success bg-opacity-10 p-2 rounded-3"><i class="bi bi-graph-up-arrow fs-4" style="color: #3f51b5;"></i></div>
+                <div><span class="fw-bold">+240</span> <span class="text-secondary">nuevas hoy</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN DE ESTADÍSTICAS PRINCIPALES  -->
+  <section class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="badge-growth mb-2"><i class="bi bi-bar-chart-line me-1"></i> Cifras en tiempo real</span>
+        <h2 class="fw-bold display-6">Workly en números</h2>
+        <p class="text-secondary">La comunidad profesional que no para de crecer</p>
+      </div>
+
+      <div class="row g-4 justify-content-center">
+        <!-- Usuarios -->
+        <div class="col-md-6 col-lg-3">
+          <div class="stat-card text-center h-100">
+            <div class="feature-icon mx-auto mb-3">
+              <i class="bi bi-people-fill"></i>
+            </div>
+            <div class="stat-number"><span class="counter" data-target="15240">0</span></div>
+            <h5 class="fw-semibold">Usuarios</h5>
+            <span class="badge-growth"><i class="bi bi-arrow-up-short"></i> +120 este mes</span>
+            <p class="text-secondary small mt-2">Profesionales activos</p>
+          </div>
+        </div>
+        <!-- Empresas -->
+        <div class="col-md-6 col-lg-3">
+          <div class="stat-card text-center h-100">
+            <div class="feature-icon mx-auto mb-3">
+              <i class="bi bi-building"></i>
+            </div>
+            <div class="stat-number"><span class="counter" data-target="2580">0</span></div>
+            <h5 class="fw-semibold">Empresas</h5>
+            <span class="badge-growth"><i class="bi bi-arrow-up-short"></i> +35 esta semana</span>
+            <p class="text-secondary small mt-2">Verificadas y activas</p>
+          </div>
+        </div>
+        <!-- Vacantes -->
+        <div class="col-md-6 col-lg-3">
+          <div class="stat-card text-center h-100">
+            <div class="feature-icon mx-auto mb-3">
+              <i class="bi bi-briefcase-fill"></i>
+            </div>
+            <div class="stat-number"><span class="counter" data-target="10320">0</span></div>
+            <h5 class="fw-semibold">Vacantes</h5>
+            <span class="badge-growth"><i class="bi bi-arrow-up-short"></i> +240 hoy</span>
+            <p class="text-secondary small mt-2">Oportunidades abiertas</p>
+          </div>
+        </div>
+        <!-- Postulaciones -->
+        <div class="col-md-6 col-lg-3">
+          <div class="stat-card text-center h-100">
+            <div class="feature-icon mx-auto mb-3">
+              <i class="bi bi-send-check"></i>
+            </div>
+            <div class="stat-number"><span class="counter" data-target="24870">0</span></div>
+            <h5 class="fw-semibold">Postulaciones/mes</h5>
+            <span class="badge-growth"><i class="bi bi-calendar-check"></i> Prom. 829/día</span>
+            <p class="text-secondary small mt-2">Conexiones reales</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN "CÓMO FUNCIONA" -->
+  <section class="py-5 bg-white">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-5">
+          <span class="badge bg-light text-dark mb-3 px-4 py-2 rounded-pill"><i class="bi bi-lightning-charge"></i> Simple y rápido</span>
+          <h2 class="fw-bold display-6 mb-4">Encuentra trabajo en <br>tres pasos</h2>
+          <div class="d-flex gap-3 mb-4">
+            <div class="bg-light rounded-4 p-3"><i class="bi bi-person-plus fs-3" style="color: #3f51b5;"></i></div>
+            <div><h5 class="fw-bold">1. Crea tu perfil</h5><p class="text-secondary">Completa tu información profesional y preferencias.</p></div>
+          </div>
+          <div class="d-flex gap-3 mb-4">
+            <div class="bg-light rounded-4 p-3"><i class="bi bi-search-heart fs-3" style="color: #3f51b5;"></i></div>
+            <div><h5 class="fw-bold">2. Explora vacantes</h5><p class="text-secondary">Filtra por sector, ubicación o modalidad.</p></div>
+          </div>
+          <div class="d-flex gap-3 mb-4">
+            <div class="bg-light rounded-4 p-3"><i class="bi bi-chat-dots fs-3" style="color: #3f51b5;"></i></div>
+            <div><h5 class="fw-bold">3. Conecta y postula</h5><p class="text-secondary">Aplica en un clic y recibe respuesta directa.</p></div>
+          </div>
+          <button class="btn btn-primary-deep px-5 py-3 mt-2 rounded-pill shadow" 
+                  onclick="window.location.href='../registro/index.html'">
+            Comienza ahora <i class="bi bi-arrow-right ms-2"></i>
+          </button>
+        </div>
+        <div class="col-lg-7">
+          <div class="bg-light p-4 p-xl-5 rounded-5" style="background: linear-gradient(145deg, #ffffff, #f4f6fd);">
+            <img src="https://dinero.com.sv/wp-content/uploads/2024/12/buscar-empleo.jpg" 
+                 alt="Workly proceso" class="img-fluid rounded-4 shadow" style="border: 2px solid white;">
+            <div class="d-flex justify-content-around mt-4">
+              <div class="text-center"><i class="bi bi-shield-check fs-1" style="color: #3f51b5;"></i><br><small>Verificación segura</small></div>
+              <div class="text-center"><i class="bi bi-megaphone fs-1" style="color: #3f51b5;"></i><br><small>Soporte 24/7</small></div>
+              <div class="text-center"><i class="bi bi-globe2 fs-1" style="color: #3f51b5;"></i><br><small>Remoto/Presencial</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION FINAL -->
+  <section class="py-5" style="background: linear-gradient(120deg, #eef1fa, #ffffff);">
+    <div class="container">
+      <div class="bg-white p-5 rounded-5 shadow-sm border" style="border-color: #d0d7e5 !important;">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <h3 class="fw-bold display-6">¿Listo para impulsar tu carrera?</h3>
+            <p class="fs-5 text-secondary">Regístrate gratis y accede a miles de oportunidades verificadas.</p>
+          </div>
+          <div class="col-md-4 text-md-end">
+            <button class="btn btn-primary-deep px-5 py-3 fw-bold rounded-pill shadow"
+                    onclick="window.location.href='../registro/index.html'">
+              Crear cuenta <i class="bi bi-chevron-right"></i>
             </button>
-
-            <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
-                <div class="d-flex gap-2 mt-3 mt-lg-0">
-                    <button class="btn px-4 fw-semibold border-0 text-white" style="background-color: #3f51b5;"
-                        onclick="window.location.href='../login/index.html'">Iniciar sesión</button>
-                    <button class="btn px-4 fw-semibold border-0 text-white" style="background-color: #3f51b5;"
-                        onclick="window.location.href='../registro/index.html'">Registrarse</button>
-                    <button class="btn border-0 text-dark fs-3 d-none d-lg-block ms-3"><i
-                            class="bi bi-list"></i></button>
-                </div>
-            </div>
-
+          </div>
         </div>
-    </nav>
+      </div>
+    </div>
+  </section>
+</main>
 
-    <main class="flex-grow-1 position-relative d-flex align-items-center justify-content-center py-5"
-        style="background: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat; min-height: 75vh;">
+<!-- ========== FOOTER (mismo color #929aa9) ========== -->
+<footer class="py-4 mt-auto footer-custom">
+  <div class="container text-center">
+    <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
+      <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
+      <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
+      <a href="#">Términos</a>
+      <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
+    </div>
+    <div class="mt-3 small opacity-75">
+      <i class="bi bi-geo-alt"></i> Presente en +15 países
+    </div>
+  </div>
+</footer>
 
-        <div class="container bg-white shadow-lg p-4 p-md-5 mx-3" style="border-radius: 2rem; max-width: 1100px;">
-            <div class="row align-items-center g-4">
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-                <div class="col-lg-7 pe-lg-5">
-                    <h1 class="display-5 fw-bold text-dark mb-3">
-                        Encuentra <span style="color: #3f51b5;">oportunidades</span> de trabajo <br> Impulsa tu carrera
-                    </h1>
-                    <p class="fs-5 text-dark mb-5" style="max-width: 90%;">
-                        Accede a oportunidades para generar ingresos de forma segura y sustentable
-                    </p>
+<!-- ========== SCRIPT DE DECORACIÓN (contadores, fade) ========== -->
+<script>
+  (function() {
+    "use strict";
 
-                    <div class="d-flex flex-wrap gap-3">
-                        <button class="btn text-white px-4 py-2 fw-semibold d-flex align-items-center gap-2"
-                            style="background-color: #3f51b5; border-radius: 0.5rem;"
-                            onclick="window.location.href='../registro/index.html'">
-                            Quiero trabajar <i class="bi bi-arrow-right"></i>
-                        </button>
-                        <button class="btn text-dark px-4 py-2 fw-semibold d-flex align-items-center gap-2 border-0"
-                            style="background-color: #f1ebd9; border-radius: 0.5rem;"
-                            onclick="window.location.href='../registro/index.html'">
-                            ¿Quieres contratar? <i class="bi bi-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
+    // 1) Animación de números (counter)
+    const counters = document.querySelectorAll('.counter');
+    
+    const animateCounter = (el) => {
+      const target = parseInt(el.getAttribute('data-target'), 10);
+      if (isNaN(target)) return;
+      let current = 0;
+      const step = Math.ceil(target / 70);
+      const updateCounter = () => {
+        current += step;
+        if (current >= target) {
+          el.innerText = target.toLocaleString();
+          return;
+        }
+        el.innerText = current.toLocaleString();
+        requestAnimationFrame(updateCounter);
+      };
+      requestAnimationFrame(updateCounter);
+    };
 
-                <div class="col-lg-5 text-center">
-                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80"
-                        alt="Red de conexiones" class="img-fluid w-100" style="border-radius: 1.5rem;">
-                </div>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const counter = entry.target;
+          if (!counter.classList.contains('counted')) {
+            counter.classList.add('counted');
+            animateCounter(counter);
+          }
+        }
+      });
+    }, { threshold: 0.3 });
 
-            </div>
-        </div>
-    </main>
+    counters.forEach(counter => observer.observe(counter));
 
-    <footer class="py-4 mt-auto" style="background-color: #929aa9;">
-        <div class="container text-center">
-            <div class="d-flex justify-content-center gap-4">
-                <a href="#" class="text-white text-decoration-none" style="color: #e2e4e8 !important;">Ayuda</a>
-                <a href="#" class="text-white text-decoration-none" style="color: #e2e4e8 !important;">Privacidad</a>
-                <span class="text-white" style="color: #e2e4e8 !important;">Workly 2026</span>
-            </div>
-        </div>
-    </footer>
+    // 2) Efecto fade-up
+    const fadeElements = document.querySelectorAll('.stat-card, .hero-card .col-lg-7, .feature-icon');
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+    
+    fadeElements.forEach(el => {
+      el.classList.add('fade-up');
+      fadeObserver.observe(el);
+    });
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    console.log('✨ Workly · Navbar & paleta exacta como la imagen.');
+  })();
+</script>
+
+<!-- Ajustes adicionales para el ícono del navbar -->
+<style>
+  /* Asegura que el ícono de briefcase se vea exactamente como se desea */
+  .navbar-brand .brand-icon {
+    font-size: 3.8rem; 
+    color: white;
+    transition: transform 0.2s;
+  }
+  .navbar-brand:hover .brand-icon {
+    transform: scale(1.02);
+  }
+  .btn-close-white {
+    filter: brightness(0) invert(1);
+  }
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+  .fade-up.visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+</style>
+
 </body>
-
 </html>
