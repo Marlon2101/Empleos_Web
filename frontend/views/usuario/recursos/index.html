@@ -3,185 +3,438 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly - Recursos y Consejos</title>
+    <title>Workly · Recursos y Consejos</title>
+    <!-- Bootstrap + Iconos -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Fuente Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        :root {
+            --primary-deep: #3f51b5;
+            --nav-bg: #011671;
+            --soft-accent: #f1ebd9;
+            --light-text: #e2e4e8;
+            --body-bg: #f5f7fc;
+        }
+        body {
+            background-color: var(--body-bg);
+        }
+        /* Navbar personalizado */
+        .navbar-custom {
+            background-color: var(--nav-bg) !important;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+        }
+        .navbar-brand .brand-icon {
+            font-size: 3.5rem;
+            color: white;
+            margin-right: 0.75rem;
+        }
+        .navbar-brand .brand-text {
+            color: white;
+            font-weight: 700;
+            font-size: 2rem;
+            line-height: 1.2;
+        }
+        .navbar-brand .brand-sub {
+            color: var(--light-text);
+            font-size: 0.95rem;
+        }
+        .nav-link-custom {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            transition: background 0.2s;
+        }
+        .nav-link-custom:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .nav-link-custom.active {
+            background: rgba(255,255,255,0.2);
+        }
+        .btn-primary-deep {
+            background-color: var(--primary-deep);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border-radius: 40px;
+            padding: 0.6rem 1.5rem;
+        }
+        .btn-primary-deep:hover {
+            background-color: #2c3e8f;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(63, 81, 181, 0.25);
+            color: white;
+        }
+        .btn-outline-primary-deep {
+            background: transparent;
+            border: 1.5px solid var(--primary-deep);
+            color: var(--primary-deep);
+            font-weight: 600;
+            border-radius: 40px;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.2s;
+        }
+        .btn-outline-primary-deep:hover {
+            background: var(--primary-deep);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(63,81,181,0.15);
+        }
+        /* Tarjeta principal */
+        .main-card {
+            background: white;
+            border: none;
+            border-radius: 36px;
+            box-shadow: 0 25px 35px -12px rgba(1, 22, 113, 0.08);
+            padding: 2rem 2.2rem;
+        }
+        /* Tarjetas de recursos */
+        .resource-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 12px 24px -8px rgba(0,0,0,0.04);
+            border: 1px solid #edf0f5;
+            transition: all 0.25s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .resource-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -10px rgba(63,81,181,0.12);
+            border-color: var(--primary-deep);
+        }
+        .resource-img {
+            border-radius: 18px;
+            overflow: hidden;
+            margin-bottom: 1.2rem;
+        }
+        .resource-img img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .resource-card:hover .resource-img img {
+            transform: scale(1.03);
+        }
+        /* Categorías */
+        .category-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.8rem 1.2rem;
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.03);
+            border: 1px solid #eef2f6;
+            transition: all 0.2s;
+            height: 100%;
+            text-align: center;
+        }
+        .category-card:hover {
+            border-color: var(--primary-deep);
+            box-shadow: 0 15px 25px -8px rgba(63,81,181,0.1);
+        }
+        .category-icon {
+            font-size: 2.8rem;
+            color: var(--primary-deep);
+            margin-bottom: 1rem;
+        }
+        /* Artículo destacado */
+        .featured-article {
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 15px 25px -8px rgba(0,0,0,0.04);
+            border: 1px solid #eef2f6;
+        }
+        .featured-article img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* Footer */
+        .footer-custom {
+            background-color: var(--nav-bg);
+            color: var(--light-text);
+        }
+        .footer-custom a {
+            color: var(--light-text) !important;
+            text-decoration: none;
+        }
+        .footer-custom a:hover {
+            color: white !important;
+            text-decoration: underline;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.4rem;
+            font-size: 0.65rem;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        /* Títulos de sección */
+        .section-title {
+            font-weight: 700;
+            color: #121826;
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+        }
+        .section-title i {
+            color: var(--primary-deep);
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+    </style>
 </head>
-<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+<body class="d-flex flex-column min-vh-100">
 
-    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
-        <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../../public/paginainicial/index.html">
-                <span class="display-5 me-3 lh-1">💼</span> 
-                <div class="lh-sm">
-                    <span class="text-white fw-bold d-block fs-3">Workly</span>
-                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
-                </div>
-            </a>
+<!-- ========== NAVBAR MEJORADO ========== -->
+<nav class="navbar navbar-expand-lg py-3 navbar-custom">
+    <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../../public/paginainicial/index.html">
+            <i class="bi bi-briefcase-fill brand-icon"></i>
+            <div class="lh-sm ms-2">
+                <span class="brand-text">Workly</span>
+                <span class="brand-sub">Tu búsqueda de trabajo profesional</span>
+            </div>
+        </a>
 
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                    <a href="../buscarempleo/index.html" class="btn btn-primary btn-sm px-3 fw-semibold">Búsqueda de empleo</a>
-                    <a href="../recursos/index.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Recursos</a>
-                    <a href="../valoracionempresa/index.html" class="btn btn-primary btn-sm px-3 fw-semibold">Valoraciones de empresas</a>
-                    <a href="../miperfil/index.html" class="btn btn-primary btn-sm px-3 fw-semibold">Mi Perfil</a>
-                </div>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                <a href="../buscarempleo/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                    <i class="bi bi-search me-1"></i> Búsqueda
+                </a>
+                <a href="../recursos/index.html" class="nav-link-custom active text-decoration-none px-3 py-2">
+                    <i class="bi bi-journal-bookmark-fill me-1"></i> Recursos
+                </a>
+                <a href="../valoracionempresa/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                    <i class="bi bi-star-fill me-1"></i> Valoraciones
+                </a>
+                <a href="../miperfil/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                    <i class="bi bi-person-badge me-1"></i> Mi Perfil
+                </a>
+            </div>
 
-                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                    
-                    <a href="../notificaciones/index.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
-                        <i class="bi bi-bell-fill fs-3"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
-                            5
-                            <span class="visually-hidden">notificaciones no leídas</span>
-                        </span>
-                    </a>
-                    
-                    <a href="../miperfil/index.html" class="text-dark text-decoration-none d-inline-block">
-                        <i class="bi bi-person-circle fs-2"></i>
-                    </a>
-
-                </div>
+            <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                <a href="../notificaciones/index.html" class="text-white position-relative d-inline-block">
+                    <i class="bi bi-bell-fill fs-3"></i>
+                    <span class="notification-badge">5</span>
+                </a>
+                <a href="../miperfil/index.html" class="text-white d-inline-block">
+                    <i class="bi bi-person-circle fs-2"></i>
+                </a>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main class="flex-grow-1 py-4">
-        <div class="container-fluid px-4 px-lg-5">
+<!-- ========== MAIN ========== -->
+<main class="flex-grow-1 py-4">
+    <div class="container-fluid px-4 px-lg-5">
+        
+        <div class="main-card mb-5 mt-2">
             
-            <div class="card bg-white border-0 rounded-4 shadow-sm p-4 p-lg-5 mb-5 mt-2">
-                
-                <h4 class="fw-bold text-dark mb-5">Recursos y consejos de carrera</h4>
+            <!-- Encabezado -->
+            <div class="d-flex align-items-center gap-3 mb-5">
+                <div class="bg-light p-3 rounded-4">
+                    <i class="bi bi-lightbulb fs-2" style="color: var(--primary-deep);"></i>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-1" style="color: #121826;">Recursos y consejos de carrera</h4>
+                    <p class="text-secondary mb-0">Impulsa tu desarrollo profesional con guías, plantillas y artículos seleccionados</p>
+                </div>
+            </div>
 
-                <section class="mb-5">
-                    <h6 class="fw-bold text-dark mb-4">Recursos destacados</h6>
-                    <div class="row g-4">
-                        
-                        <div class="col-12 col-md-4">
-                            <div class="card bg-light border-0 rounded-4 h-100 overflow-hidden shadow-sm">
-                                <div class="ratio ratio-16x9">
-                                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80" class="object-fit-cover" alt="Entrevista técnica">
-                                </div>
-                                <div class="card-body p-4 d-flex flex-column text-center">
-                                    <h6 class="fw-bold text-dark mb-3">Guía completa para entrevistas técnicas</h6>
-                                    <p class="text-dark small mb-4">Aprende a prepararte para entrevistas técnicas con consejos prácticos, preguntas comunes y ejercicios para practicar.</p>
-                                    <button class="btn bg-white text-dark fw-bold w-100 mt-auto shadow-sm">Leer más</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-4">
-                            <div class="card bg-light border-0 rounded-4 h-100 overflow-hidden shadow-sm">
-                                <div class="ratio ratio-16x9">
-                                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80" class="object-fit-cover" alt="Habilidades blandas">
-                                </div>
-                                <div class="card-body p-4 d-flex flex-column text-center">
-                                    <h6 class="fw-bold text-dark mb-3">Habilidades blandas para profesionales tech</h6>
-                                    <p class="text-dark small mb-4">Desarrolla habilidades de comunicación, trabajo en equipo y liderazgo que complementen tus conocimientos técnicos.</p>
-                                    <button class="btn bg-white text-dark fw-bold w-100 mt-auto shadow-sm">Leer más</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-4">
-                            <div class="card bg-light border-0 rounded-4 h-100 overflow-hidden shadow-sm">
-                                <div class="ratio ratio-16x9">
-                                    <img src="https://www.icesusa.org/wp-content/uploads/2021/03/entrepreneur-593358_1920-edit-2.jpg" class="object-fit-cover" alt="Plantillas CV">
-                                </div>
-                                <div class="card-body p-4 d-flex flex-column text-center">
-                                    <h6 class="fw-bold text-dark mb-3">10 plantillas de CV optimizadas para 2026</h6>
-                                    <p class="text-dark small mb-4">Descarga plantillas modernas de CV diseñadas para destacar tus habilidades y pasar los filtros de ATS.</p>
-                                    <button class="btn bg-white text-dark fw-bold w-100 mt-auto shadow-sm">Leer más</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
-
-                <section class="mb-5">
-                    <h6 class="fw-bold text-dark mb-4">Explora por categoría</h6>
-                    <div class="row g-4">
-                        
-                        <div class="col-12 col-md-6 col-lg-3">
-                            <div class="card bg-light border-0 rounded-4 h-100 p-4 text-center d-flex flex-column shadow-sm">
-                                <i class="bi bi-file-earmark-text display-5 text-dark mb-3"></i>
-                                <h6 class="fw-bold text-dark mb-3">CV y Carta de Presentación</h6>
-                                <p class="text-dark small mb-4">Guías y plantillas para crear documentos profesionales.</p>
-                                <button class="btn bg-white text-dark fw-bold w-100 mt-auto shadow-sm">Leer más</button>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-lg-3">
-                            <div class="card bg-light border-0 rounded-4 h-100 p-4 text-center d-flex flex-column shadow-sm">
-                                <i class="bi bi-chat-dots display-5 text-dark mb-3"></i>
-                                <h6 class="fw-bold text-dark mb-3">Entrevistas</h6>
-                                <p class="text-dark small mb-4">Prepárate para brillar en tus entrevistas laborales.</p>
-                                <button class="btn bg-white text-dark fw-bold w-100 mt-auto shadow-sm">Leer más</button>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-lg-3">
-                            <div class="card bg-light border-0 rounded-4 h-100 p-4 text-center d-flex flex-column shadow-sm">
-                                <i class="bi bi-easel display-5 text-dark mb-3"></i>
-                                <h6 class="fw-bold text-dark mb-3">Desarrollo profesional</h6>
-                                <p class="text-dark small mb-4">Estrategias para impulsar tu carrera al siguiente nivel.</p>
-                                <button class="btn bg-white text-dark fw-bold w-100 mt-auto shadow-sm">Leer más</button>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-lg-3">
-                            <div class="card bg-light border-0 rounded-4 h-100 p-4 text-center d-flex flex-column shadow-sm">
-                                <i class="bi bi-pc-display-horizontal display-5 text-dark mb-3"></i>
-                                <h6 class="fw-bold text-dark mb-3">Habilidades técnicas</h6>
-                                <p class="text-dark small mb-4">Recursos para mejorar tus competencias específicas.</p>
-                                <button class="btn bg-white text-dark fw-bold w-100 mt-auto shadow-sm">Leer más</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
-
-                <section>
-                    <h6 class="fw-bold text-dark mb-4">Artículos recientes</h6>
+            <!-- Recursos destacados -->
+            <section class="mb-5">
+                <div class="section-title">
+                    <i class="bi bi-stars"></i>
+                    <span>Recursos destacados</span>
+                </div>
+                <div class="row g-4">
                     
-                    <div class="card bg-light border-0 rounded-4 overflow-hidden shadow-sm">
-                        <div class="row g-0">
-                            <div class="col-md-4 col-lg-3">
-                                <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600&q=80" class="img-fluid w-100 h-100 object-fit-cover" alt="Trabajo en equipo">
+                    <div class="col-12 col-md-4">
+                        <div class="resource-card">
+                            <div class="resource-img">
+                                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80" alt="Entrevista técnica">
                             </div>
-                            <div class="col-md-8 col-lg-9 p-4 p-lg-5 d-flex flex-column justify-content-center">
-                                <h6 class="fw-bold text-dark mb-2">Cómo la IA está transformando el mercado laboral en 2026</h6>
-                                <div class="text-dark small mb-3">
-                                    <i class="bi bi-calendar3 me-2"></i>22/02/2026
-                                </div>
-                                <p class="text-dark small mb-4">Descubre cómo la inteligencia artificial está cambiando las habilidades demandadas por las empresas y cómo puedes prepararte para los trabajos del futuro en este entorno cada vez más automatizado.</p>
-                                <div class="mt-auto">
-                                    <button class="btn bg-white text-dark fw-bold px-4 shadow-sm">Leer más</button>
-                                </div>
+                            <h6 class="fw-bold mb-2">Guía completa para entrevistas técnicas</h6>
+                            <p class="text-secondary small mb-4">Aprende a prepararte para entrevistas técnicas con consejos prácticos, preguntas comunes y ejercicios.</p>
+                            <button class="btn btn-outline-primary-deep w-100 mt-auto">Leer más <i class="bi bi-arrow-right ms-1"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="resource-card">
+                            <div class="resource-img">
+                                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80" alt="Habilidades blandas">
+                            </div>
+                            <h6 class="fw-bold mb-2">Habilidades blandas para profesionales tech</h6>
+                            <p class="text-secondary small mb-4">Desarrolla comunicación, trabajo en equipo y liderazgo que complementen tus conocimientos técnicos.</p>
+                            <button class="btn btn-outline-primary-deep w-100 mt-auto">Leer más <i class="bi bi-arrow-right ms-1"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="resource-card">
+                            <div class="resource-img">
+                                <img src="https://img.salamancartvaldia.es/simg/2022-05/Paginas-web.png" alt="Plantillas CV">
+                            </div>
+                            <h6 class="fw-bold mb-2">10 plantillas de CV optimizadas para 2026</h6>
+                            <p class="text-secondary small mb-4">Descarga plantillas modernas diseñadas para destacar tus habilidades y pasar los filtros ATS.</p>
+                            <button class="btn btn-outline-primary-deep w-100 mt-auto">Leer más <i class="bi bi-arrow-right ms-1"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Explorar por categoría -->
+            <section class="mb-5">
+                <div class="section-title">
+                    <i class="bi bi-grid-3x3-gap-fill"></i>
+                    <span>Explora por categoría</span>
+                </div>
+                <div class="row g-4">
+                    
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="category-card">
+                            <i class="bi bi-file-earmark-text-fill category-icon"></i>
+                            <h6 class="fw-bold mb-2">CV y Carta de Presentación</h6>
+                            <p class="text-secondary small mb-3">Guías y plantillas profesionales</p>
+                            <button class="btn btn-link text-decoration-none fw-semibold" style="color: var(--primary-deep);">
+                                Explorar <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="category-card">
+                            <i class="bi bi-chat-dots-fill category-icon"></i>
+                            <h6 class="fw-bold mb-2">Entrevistas</h6>
+                            <p class="text-secondary small mb-3">Prepárate para brillar</p>
+                            <button class="btn btn-link text-decoration-none fw-semibold" style="color: var(--primary-deep);">
+                                Explorar <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="category-card">
+                            <i class="bi bi-easel-fill category-icon"></i>
+                            <h6 class="fw-bold mb-2">Desarrollo profesional</h6>
+                            <p class="text-secondary small mb-3">Impulsa tu carrera</p>
+                            <button class="btn btn-link text-decoration-none fw-semibold" style="color: var(--primary-deep);">
+                                Explorar <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-6 col-lg-3">
+                        <div class="category-card">
+                            <i class="bi bi-pc-display-horizontal category-icon"></i>
+                            <h6 class="fw-bold mb-2">Habilidades técnicas</h6>
+                            <p class="text-secondary small mb-3">Mejora tus competencias</p>
+                            <button class="btn btn-link text-decoration-none fw-semibold" style="color: var(--primary-deep);">
+                                Explorar <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Artículo reciente destacado -->
+            <section>
+                <div class="section-title">
+                    <i class="bi bi-newspaper"></i>
+                    <span>Artículo reciente</span>
+                </div>
+                
+                <div class="featured-article">
+                    <div class="row g-0 align-items-stretch">
+                        <div class="col-md-4 col-lg-3">
+                            <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600&q=80" 
+                                 alt="Trabajo en equipo e IA" 
+                                 style="min-height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="col-md-8 col-lg-9 p-4 p-xl-5 d-flex flex-column justify-content-center">
+                            <div class="d-flex align-items-center gap-3 mb-2">
+                                <span class="badge rounded-pill px-3 py-2" style="background: #e9ecf9; color: var(--primary-deep);">Tendencias</span>
+                                <span class="text-secondary small"><i class="bi bi-calendar3 me-1"></i>22/02/2026</span>
+                            </div>
+                            <h5 class="fw-bold mb-3" style="color: #121826;">Cómo la IA está transformando el mercado laboral en 2026</h5>
+                            <p class="text-secondary mb-4" style="max-width: 90%;">
+                                Descubre cómo la inteligencia artificial está cambiando las habilidades demandadas por las empresas 
+                                y cómo puedes prepararte para los trabajos del futuro en este entorno cada vez más automatizado.
+                            </p>
+                            <div>
+                                <button class="btn btn-primary-deep px-4 py-2 fw-semibold">
+                                    Leer artículo completo <i class="bi bi-arrow-right ms-1"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-            </div>
         </div>
-    </main>
+    </div>
+</main>
 
-    <footer class="py-4 mt-auto bg-secondary">
-        <div class="container text-center">
-            <div class="d-flex justify-content-center gap-5">
-                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
-                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
-                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2026</span>
-            </div>
+<!-- ========== FOOTER ========== -->
+<footer class="py-4 mt-auto footer-custom">
+    <div class="container text-center">
+        <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
+            <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
+            <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
+            <a href="#">Términos</a>
+            <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Ajustes adicionales -->
+<style>
+    /* Mejora visual de los botones de categoría */
+    .category-card .btn-link:hover {
+        transform: translateX(3px);
+    }
+    /* Transiciones suaves */
+    .resource-card, .category-card, .featured-article {
+        transition: all 0.25s ease;
+    }
+    /* Ajuste para la imagen del artículo */
+    .featured-article img {
+        border-top-left-radius: 28px;
+        border-bottom-left-radius: 28px;
+    }
+    @media (max-width: 767px) {
+        .featured-article img {
+            border-radius: 28px 28px 0 0;
+            max-height: 220px;
+        }
+    }
+</style>
 </body>
 </html>

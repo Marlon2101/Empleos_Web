@@ -3,283 +3,656 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly - Mi Perfil</title>
+    <title>Workly · Mi Perfil</title>
+    <!-- Bootstrap + Iconos -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Fuente Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
     <style>
-        .hover-primary:hover { color: #0d6efd !important; text-decoration: underline !important; }
+        * { font-family: 'Inter', sans-serif; }
+        :root {
+            --primary-deep: #3f51b5;
+            --nav-bg: #011671;
+            --soft-accent: #f1ebd9;
+            --light-text: #e2e4e8;
+            --body-bg: #f5f7fc;
+        }
+        body {
+            background-color: var(--body-bg);
+        }
+        /* Navbar personalizado */
+        .navbar-custom {
+            background-color: var(--nav-bg) !important;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+        }
+        .navbar-brand .brand-icon {
+            font-size: 3.5rem;
+            color: white;
+            margin-right: 0.75rem;
+        }
+        .navbar-brand .brand-text {
+            color: white;
+            font-weight: 700;
+            font-size: 2rem;
+            line-height: 1.2;
+        }
+        .navbar-brand .brand-sub {
+            color: var(--light-text);
+            font-size: 0.95rem;
+        }
+        .nav-link-custom {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            transition: background 0.2s;
+        }
+        .nav-link-custom:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .nav-link-custom.active {
+            background: rgba(255,255,255,0.2);
+        }
+        .btn-primary-deep {
+            background-color: var(--primary-deep);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border-radius: 40px;
+            padding: 0.5rem 1.5rem;
+        }
+        .btn-primary-deep:hover {
+            background-color: #2c3e8f;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(63, 81, 181, 0.25);
+            color: white;
+        }
+        .btn-outline-primary-deep {
+            background: transparent;
+            border: 1.5px solid var(--primary-deep);
+            color: var(--primary-deep);
+            font-weight: 600;
+            border-radius: 40px;
+            padding: 0.4rem 1.2rem;
+            transition: all 0.2s;
+        }
+        .btn-outline-primary-deep:hover {
+            background: var(--primary-deep);
+            color: white;
+        }
+        /* Tarjetas */
+        .profile-card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.8rem;
+            box-shadow: 0 15px 25px -8px rgba(0,0,0,0.04);
+            border: 1px solid #edf0f5;
+        }
+        .menu-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.03);
+            border: 1px solid #eef2f6;
+        }
+        .menu-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #f0f3f9;
+            color: #121826;
+            font-weight: 500;
+            transition: all 0.15s;
+            cursor: pointer;
+        }
+        .menu-item:hover {
+            background: #f8fafd;
+            color: var(--primary-deep);
+        }
+        .menu-item.active {
+            background: #eef2f9;
+            color: var(--primary-deep);
+            font-weight: 600;
+            border-left: 4px solid var(--primary-deep);
+        }
+        /* Footer */
+        .footer-custom {
+            background-color: var(--nav-bg);
+            color: var(--light-text);
+        }
+        .footer-custom a {
+            color: var(--light-text) !important;
+            text-decoration: none;
+        }
+        .footer-custom a:hover {
+            color: white !important;
+            text-decoration: underline;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.4rem;
+            font-size: 0.65rem;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        .hover-primary:hover { color: var(--primary-deep) !important; }
         .cursor-pointer { cursor: pointer; }
+        .badge-skill {
+            background: #e9ecf9;
+            color: var(--primary-deep);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        .stat-card {
+            background: #fafbff;
+            border-radius: 24px;
+            padding: 1.5rem;
+        }
     </style>
 </head>
-<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+<body class="d-flex flex-column min-vh-100">
 
-    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
-        <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../../public/paginainicial/index.html">
-                <span class="display-5 me-3 lh-1">💼</span> 
-                <div class="lh-sm">
-                    <span class="text-white fw-bold d-block fs-3">Workly</span>
-                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
-                </div>
-            </a>
+<!-- ========== NAVBAR MEJORADO ========== -->
+<nav class="navbar navbar-expand-lg py-3 navbar-custom">
+    <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../../public/paginainicial/index.html">
+            <i class="bi bi-briefcase-fill brand-icon"></i>
+            <div class="lh-sm ms-2">
+                <span class="brand-text">Workly</span>
+                <span class="brand-sub">Tu búsqueda de trabajo profesional</span>
+            </div>
+        </a>
 
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                    <a href="../buscarempleo/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Búsqueda de empleo</a>
-                    <a href="../recursos/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Recursos</a>
-                    <a href="../valoracionempresa/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Valoraciones de empresas</a>
-                    <a href="../miperfil/index.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Mi Perfil</a>
-                </div>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                <a href="../buscarempleo/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                    <i class="bi bi-search me-1"></i> Búsqueda
+                </a>
+                <a href="../recursos/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                    <i class="bi bi-journal-bookmark-fill me-1"></i> Recursos
+                </a>
+                <a href="../valoracionempresa/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                    <i class="bi bi-star-fill me-1"></i> Valoraciones
+                </a>
+                <a href="../miperfil/index.html" class="nav-link-custom active text-decoration-none px-3 py-2">
+                    <i class="bi bi-person-badge me-1"></i> Mi Perfil
+                </a>
+            </div>
 
-                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                    <a href="../notificaciones/index.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
-                        <i class="bi bi-bell-fill fs-3"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
-                            5
-                        </span>
-                    </a>
-                    
-                    <a href="../miperfil/index.html" class="text-info text-decoration-none d-inline-block">
-                        <i class="bi bi-person-circle fs-2"></i>
-                    </a>
-                </div>
+            <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                <a href="../notificaciones/index.html" class="text-white position-relative d-inline-block">
+                    <i class="bi bi-bell-fill fs-3"></i>
+                    <span class="notification-badge">5</span>
+                </a>
+                <a href="../miperfil/index.html" class="text-white d-inline-block">
+                    <i class="bi bi-person-circle fs-2"></i>
+                </a>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main class="flex-grow-1 py-4">
-        <div class="container-fluid px-4 px-lg-5">
-            <div class="row g-4 mt-1">
+<!-- ========== MAIN ========== -->
+<main class="flex-grow-1 py-4">
+    <div class="container-fluid px-4 px-lg-5">
+        <div class="row g-4 mt-1">
+            
+            <!-- Sidebar izquierdo -->
+            <aside class="col-12 col-lg-4">
                 
-                <aside class="col-12 col-lg-4">
+                <!-- Tarjeta de perfil -->
+                <div class="profile-card text-center mb-4">
+                    <div class="mb-3 position-relative d-inline-block mx-auto">
+                        <i class="bi bi-person-circle" style="font-size: 8rem; line-height: 1; color: var(--primary-deep);"></i>
+                        <button class="btn btn-primary-deep rounded-circle position-absolute bottom-0 end-0 mb-3 shadow-sm btn-sm" 
+                                data-bs-toggle="tooltip" data-bs-title="Subir nueva foto" style="width: 36px; height: 36px; padding: 0;">
+                            <i class="bi bi-camera-fill"></i>
+                        </button>
+                    </div>
+                    <h4 class="fw-bold mb-1" style="color: #121826;">Carlos Martínez</h4>
+                    <p class="mb-3" style="color: var(--primary-deep); font-weight: 600;">Desarrollador Full Stack</p>
+
+                    <ul class="list-unstyled text-start small lh-lg mb-0">
+                        <li class="mb-2"><i class="bi bi-envelope me-3" style="color: var(--primary-deep);"></i>carlos.martinez@email.com</li>
+                        <li class="mb-2"><i class="bi bi-telephone-fill me-3" style="color: var(--primary-deep);"></i>+503 1234 5678</li>
+                        <li class="mb-2"><i class="bi bi-geo-alt-fill me-3" style="color: var(--primary-deep);"></i>San Salvador, El Salvador</li>
+                        <li><i class="bi bi-globe me-3" style="color: var(--primary-deep);"></i>carlosmartinez.dev</li>
+                    </ul>
+                </div>
+
+                <!-- Menú de perfil (mejorado con modales) -->
+                <div class="menu-card mb-4">
+                    <div class="px-4 py-3 fw-bold" style="background: #f8fafd; color: #121826;">
+                        <i class="bi bi-list me-2"></i>Menú de perfil
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <a href="../miperfil/index.html" class="menu-item active d-flex align-items-center gap-3 text-decoration-none">
+                            <i class="bi bi-person-circle fs-5"></i> Información personal
+                        </a>
+                        <div class="menu-item d-flex align-items-center gap-3" data-bs-toggle="modal" data-bs-target="#modalPostulaciones">
+                            <i class="bi bi-briefcase-fill fs-5"></i> Mis postulaciones
+                        </div>
+                        <div class="menu-item d-flex align-items-center gap-3" data-bs-toggle="modal" data-bs-target="#modalGuardados">
+                            <i class="bi bi-bookmark-fill fs-5"></i> Empleos guardados
+                        </div>
+                        <div class="menu-item d-flex align-items-center gap-3" data-bs-toggle="modal" data-bs-target="#modalConfiguraciones">
+                            <i class="bi bi-gear-fill fs-5"></i> Configuraciones
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+
+            <!-- Contenido principal -->
+            <section class="col-12 col-lg-8">
+                
+                <!-- Información Profesional -->
+                <div class="profile-card mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold mb-0" style="color: #121826;">Información Profesional</h5>
+                        <button class="btn btn-outline-primary-deep btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditarPerfilUsuario">
+                            <i class="bi bi-pencil-square me-1"></i> Editar
+                        </button>
+                    </div>
                     
-                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 text-center mb-4">
-                        <div class="mb-3 position-relative d-inline-block mx-auto">
-                            <i class="bi bi-person-circle text-dark" style="font-size: 8rem; line-height: 1;"></i>
-                            <button class="btn btn-primary rounded-circle position-absolute bottom-0 end-0 mb-3 shadow-sm btn-sm" data-bs-toggle="tooltip" data-bs-title="Subir nueva foto">
-                                <i class="bi bi-camera-fill"></i>
-                            </button>
+                    <div class="row g-4">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold small text-secondary">Nombre completo</label>
+                            <input type="text" class="form-control bg-light border-0 text-dark fw-medium" value="Carlos Martínez" readonly style="border-radius: 16px;">
                         </div>
-                        <h4 class="fw-bold text-dark mb-1">Carlos Martínez</h4>
-                        <p class="text-primary fw-bold small mb-4">Desarrollador Full Stack</p>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold small text-secondary">Título profesional</label>
+                            <input type="text" class="form-control bg-light border-0 text-dark fw-medium" value="Desarrollador Full Stack" readonly style="border-radius: 16px;">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold small text-secondary">Resumen profesional</label>
+                            <textarea class="form-control bg-light border-0 text-dark fw-medium" rows="3" readonly style="border-radius: 16px;">Desarrollador Full Stack con más de 5 años de experiencia en tecnologías web modernas. Especializado en React, Node.js y bases de datos NoSQL. Apasionado por crear soluciones elegantes y eficientes.</textarea>
+                        </div>
+                    </div>
+                </div>
 
-                        <ul class="list-unstyled text-start text-dark small ms-md-4 ms-lg-2 ms-xl-4 mb-0 lh-lg">
-                            <li class="mb-2"><i class="bi bi-envelope me-3 text-primary"></i>carlos.martinez@email.com</li>
-                            <li class="mb-2"><i class="bi bi-telephone-fill me-3 text-primary"></i>+503 1234 5678</li>
-                            <li class="mb-2"><i class="bi bi-geo-alt-fill me-3 text-primary"></i>San Salvador, El Salvador</li>
-                            <li><i class="bi bi-globe me-3 text-primary"></i>carlosmartinez.dev</li>
-                        </ul>
+                <!-- Habilidades -->
+                <div class="profile-card mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold mb-0" style="color: #121826;">Habilidades</h5>
+                        <button class="btn btn-outline-primary-deep btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditarPerfilUsuario">
+                            <i class="bi bi-pencil-square me-1"></i> Editar
+                        </button>
                     </div>
 
-                    <div class="card bg-white border-0 rounded-4 shadow-sm overflow-hidden mb-4">
-                        <div class="bg-primary-subtle text-dark fw-bold px-4 py-3">
-                            Menú de perfil
-                        </div>
-                        <div class="list-group list-group-flush">
-                            <a href="../miperfil/index.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-primary fw-bold bg-light">
-                                <i class="bi bi-person-circle fs-5"></i> Información personal
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary btn-accion" data-mensaje="Cargando tus documentos...">
-                                <i class="bi bi-file-earmark-text-fill fs-5"></i> CV y documentos
-                            </a>
-                            <a href="../notificaciones/index.html" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary">
-                                <i class="bi bi-briefcase-fill fs-5"></i> Mis postulaciones
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action border-bottom py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary btn-accion" data-mensaje="Abriendo empleos guardados...">
-                                <i class="bi bi-bookmark-fill fs-5"></i> Empleos guardados
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action py-3 px-4 d-flex align-items-center gap-3 text-dark fw-semibold hover-primary btn-accion" data-mensaje="Abriendo configuraciones de cuenta...">
-                                <i class="bi bi-gear-fill fs-5"></i> Configuraciones
-                            </a>
+                    <div class="mb-4">
+                        <h6 class="fw-bold small mb-3" style="color: #121826;">Habilidades técnicas</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge-skill">JavaScript</span>
+                            <span class="badge-skill">React</span>
+                            <span class="badge-skill">Node.js</span>
+                            <span class="badge-skill">MongoDB</span>
+                            <span class="badge-skill">SQL</span>
+                            <span class="badge-skill">Python</span>
+                            <span class="badge-skill">Docker</span>
                         </div>
                     </div>
 
-                </aside>
-
-                <section class="col-12 col-lg-8">
-                    
-                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 p-lg-5 mb-4">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h5 class="fw-bold text-dark mb-0">Información Profesional</h5>
-                            <button class="btn btn-outline-primary btn-sm fw-bold border-0" data-bs-toggle="modal" data-bs-target="#modalEditarPerfilUsuario">Editar <i class="bi bi-pencil-square ms-1"></i></button>
-                        </div>
-                        
-                        <div class="row g-4">
-                            <div class="col-12 col-md-6">
-                                <label class="form-label fw-bold text-dark small">Nombre completo</label>
-                                <input type="text" class="form-control bg-secondary-subtle border-0 text-muted shadow-none" value="Carlos Martínez" readonly>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label class="form-label fw-bold text-dark small">Título profesional</label>
-                                <input type="text" class="form-control bg-secondary-subtle border-0 text-muted shadow-none" value="Desarrollador Full Stack" readonly>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-bold text-dark small">Resumen profesional</label>
-                                <textarea class="form-control bg-secondary-subtle border-0 text-muted shadow-none" rows="3" readonly>Desarrollador Full Stack con más de 5 años de experiencia en tecnologías web modernas. Especializado en React, Node.js y bases de datos NoSQL. Apasionado por crear soluciones elegantes y eficientes.</textarea>
-                            </div>
+                    <div>
+                        <h6 class="fw-bold small mb-3" style="color: #121826;">Habilidades blandas</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge-skill">Trabajo en equipo</span>
+                            <span class="badge-skill">Comunicación efectiva</span>
+                            <span class="badge-skill">Adaptabilidad</span>
+                            <span class="badge-skill">Liderazgo</span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 p-lg-5 mb-4">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h5 class="fw-bold text-dark mb-0">Habilidades</h5>
-                            <button class="btn btn-outline-primary btn-sm fw-bold border-0" data-bs-toggle="modal" data-bs-target="#modalEditarPerfilUsuario">Editar <i class="bi bi-pencil-square ms-1"></i></button>
-                        </div>
-
-                        <div class="mb-4">
-                            <h6 class="fw-bold text-dark small mb-3">Habilidades técnicas</h6>
-                            <div class="d-flex flex-wrap gap-2">
-                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">JavaScript</span>
-                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">React</span>
-                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">Node.js</span>
-                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">MongoDB</span>
-                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">SQL</span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h6 class="fw-bold text-dark small mb-3">Habilidades blandas</h6>
-                            <div class="d-flex flex-wrap gap-2">
-                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">Trabajo en equipo</span>
-                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">Comunicación efectiva</span>
-                                <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 border border-primary-subtle shadow-sm">Adaptabilidad</span>
-                            </div>
-                        </div>
+                <!-- Estadísticas -->
+                <div class="profile-card mb-5">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+                        <h5 class="fw-bold mb-0" style="color: #121826;">Estadísticas del perfil</h5>
+                        <select class="form-select form-select-sm w-auto rounded-pill px-4 py-2 fw-medium" 
+                                style="background: #f0f3fc; border: none; color: #121826;" id="selectTiempo">
+                            <option selected>Última semana</option>
+                            <option>Último mes</option>
+                            <option>Últimos 6 meses</option>
+                        </select>
                     </div>
+                    <p class="text-secondary small mb-4">Visualiza cuántas veces tu perfil ha sido visto por empresas</p>
 
-                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 p-lg-5 mb-5">
-                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-2 gap-3">
-                            <h5 class="fw-bold text-dark mb-0">Estadísticas Del Perfil</h5>
-                            <select class="form-select form-select-sm bg-secondary-subtle border-0 shadow-none text-dark fw-semibold py-2 ps-3 pe-5 w-auto rounded-pill cursor-pointer" id="selectTiempo">
-                                <option selected>Hace 1 semana</option>
-                                <option>Hace 1 mes</option>
-                                <option>Hace 6 meses</option>
-                            </select>
+                    <div class="row g-4 align-items-center">
+                        <div class="col-12 col-md-4 text-center">
+                            <div class="stat-card h-100 d-flex flex-column justify-content-center">
+                                <h1 class="display-3 fw-bold mb-0" style="color: var(--primary-deep);">245</h1>
+                                <span class="fw-medium text-secondary">Vistas totales</span>
+                            </div>
                         </div>
-                        <p class="text-dark small mb-4">Visualiza cuantas veces tu perfil ha sido visto por empresas</p>
 
-                        <div class="row g-4 align-items-center">
-                            <div class="col-12 col-md-4 text-center">
-                                <div class="bg-primary bg-opacity-10 rounded-4 p-4 shadow-sm h-100 d-flex flex-column justify-content-center">
-                                    <h1 class="display-3 fw-bold text-primary mb-0">245</h1>
-                                    <span class="text-dark fw-bold small">Vistas totales</span>
+                        <div class="col-12 col-md-8">
+                            <div class="stat-card">
+                                <div class="d-flex align-items-end justify-content-between gap-2 border-bottom pb-2" style="height: 120px;">
+                                    <div class="bg-primary-deep flex-fill rounded-top" style="height: 40%; background-color: var(--primary-deep); opacity: 0.4;"></div>
+                                    <div class="bg-primary-deep flex-fill rounded-top" style="height: 60%; background-color: var(--primary-deep); opacity: 0.5;"></div>
+                                    <div class="bg-primary-deep flex-fill rounded-top" style="height: 90%; background-color: var(--primary-deep); opacity: 0.7;"></div>
+                                    <div class="bg-primary-deep flex-fill rounded-top" style="height: 70%; background-color: var(--primary-deep); opacity: 0.6;"></div>
+                                    <div class="bg-primary-deep flex-fill rounded-top" style="height: 100%; background-color: var(--primary-deep);"></div>
+                                    <div class="bg-primary-deep flex-fill rounded-top" style="height: 30%; background-color: var(--primary-deep); opacity: 0.3;"></div>
+                                    <div class="bg-primary-deep flex-fill rounded-top" style="height: 20%; background-color: var(--primary-deep); opacity: 0.2;"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-2 opacity-50 fw-medium small">
+                                    <span>LUN</span><span>MAR</span><span>MIE</span><span>JUE</span><span>VIE</span><span>SAB</span><span>DOM</span>
                                 </div>
                             </div>
-
-                            <div class="col-12 col-md-8">
-                                <div class="bg-secondary bg-opacity-10 rounded-4 p-4">
-                                    <div class="d-flex align-items-end justify-content-between gap-2 border-bottom border-secondary border-opacity-25 pb-1" style="height: 120px;">
-                                        <div class="bg-primary flex-fill rounded-top shadow-sm" style="height: 40%;"></div>
-                                        <div class="bg-primary flex-fill rounded-top shadow-sm" style="height: 60%;"></div>
-                                        <div class="bg-primary flex-fill rounded-top shadow-sm" style="height: 90%;"></div>
-                                        <div class="bg-primary flex-fill rounded-top shadow-sm" style="height: 70%;"></div>
-                                        <div class="bg-primary flex-fill rounded-top shadow-sm" style="height: 100%;"></div>
-                                        <div class="bg-primary flex-fill rounded-top shadow-sm" style="height: 30%;"></div>
-                                        <div class="bg-primary flex-fill rounded-top shadow-sm" style="height: 20%;"></div>
-                                    </div>
-                                    <div class="d-flex justify-content-between mt-2 opacity-50 fw-bold" style="font-size: 0.65rem;">
-                                        <span>LUN</span><span>MAR</span><span>MIE</span><span>JUE</span><span>VIE</span><span>SAB</span><span>DOM</span>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
+                </div>
 
-                </section>
-            </div>
+            </section>
         </div>
-    </main>
+    </div>
+</main>
 
-    <div class="modal fade" id="modalEditarPerfilUsuario" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
-            <div class="modal-content border-0 rounded-4 shadow-lg">
-                <div class="modal-header border-bottom-0 px-4 pt-4">
-                    <h5 class="modal-title fw-bold text-dark">Editar Mi Perfil</h5>
-                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body px-4 py-4">
-                    <form>
-                        <div class="row g-4">
-                            <div class="col-12 col-md-6">
-                                <label class="form-label fw-bold text-dark small">Nombre completo</label>
-                                <input type="text" class="form-control border-dark-subtle shadow-none" value="Carlos Martínez">
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label class="form-label fw-bold text-dark small">Título profesional</label>
-                                <input type="text" class="form-control border-dark-subtle shadow-none" value="Desarrollador Full Stack">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-bold text-dark small">Resumen profesional</label>
-                                <textarea class="form-control border-dark-subtle shadow-none" rows="4">Desarrollador Full Stack con más de 5 años de experiencia en tecnologías web modernas. Especializado en React, Node.js y bases de datos NoSQL. Apasionado por crear soluciones elegantes y eficientes.</textarea>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-bold text-dark small">Habilidades técnicas (separadas por comas)</label>
-                                <input type="text" class="form-control border-dark-subtle shadow-none" value="JavaScript, React, Node.js, MongoDB, SQL">
-                            </div>
+<!-- ========== MODALES ========== -->
+
+<!-- Modal Editar Perfil (conservado) -->
+<div class="modal fade" id="modalEditarPerfilUsuario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content border-0 rounded-4 shadow-lg">
+            <div class="modal-header border-bottom-0 px-4 pt-4">
+                <h5 class="modal-title fw-bold" style="color: #121826;">Editar Mi Perfil</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-4 py-4">
+                <form>
+                    <div class="row g-4">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold small">Nombre completo</label>
+                            <input type="text" class="form-control" value="Carlos Martínez" style="border-radius: 16px;">
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer border-top-0 px-4 pb-4">
-                    <button type="button" class="btn btn-light bg-secondary-subtle border-0 text-dark fw-bold px-4" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary fw-bold px-5 shadow-sm" data-bs-dismiss="modal" id="btnGuardarPerfil">Guardar Cambios</button>
-                </div>
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-semibold small">Título profesional</label>
+                            <input type="text" class="form-control" value="Desarrollador Full Stack" style="border-radius: 16px;">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold small">Resumen profesional</label>
+                            <textarea class="form-control" rows="4" style="border-radius: 16px;">Desarrollador Full Stack con más de 5 años de experiencia en tecnologías web modernas.</textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold small">Habilidades técnicas (separadas por comas)</label>
+                            <input type="text" class="form-control" value="JavaScript, React, Node.js, MongoDB, SQL, Python, Docker" style="border-radius: 16px;">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-top-0 px-4 pb-4">
+                <button type="button" class="btn btn-light px-4 fw-medium" data-bs-dismiss="modal" style="border-radius: 40px;">Cancelar</button>
+                <button type="button" class="btn btn-primary-deep px-5 fw-semibold" data-bs-dismiss="modal" id="btnGuardarPerfil">Guardar Cambios</button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="toastExito" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body fs-6 py-3 fw-semibold">
-                    <i class="bi bi-check-circle-fill me-2 fs-5"></i> ¡Perfil actualizado correctamente!
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+<!-- Modal Configuraciones (NUEVO) -->
+<div class="modal fade" id="modalConfiguraciones" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow-lg">
+            <div class="modal-header border-bottom-0 px-4 pt-4">
+                <h5 class="modal-title fw-bold d-flex align-items-center gap-2" style="color: #121826;">
+                    <i class="bi bi-gear-fill" style="color: var(--primary-deep);"></i> Configuraciones
+                </h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
             </div>
-        </div>
-        <div id="toastInfo" class="toast align-items-center text-white bg-info bg-opacity-75 border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body fs-6 py-3 fw-bold text-dark" id="toastInfoTexto">Acción realizada.</div>
-                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            <div class="modal-body px-4 py-4">
+                <form>
+                    <h6 class="fw-bold small mb-3 text-secondary">PREFERENCIAS DE CUENTA</h6>
+                    <div class="mb-3">
+                        <label class="form-label fw-medium small">Idioma</label>
+                        <select class="form-select" style="border-radius: 16px;">
+                            <option selected>Español</option>
+                            <option>English</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-medium small">Zona horaria</label>
+                        <select class="form-select" style="border-radius: 16px;">
+                            <option selected>(GMT-6) América Central</option>
+                            <option>(GMT-5) Bogotá, Lima</option>
+                        </select>
+                    </div>
+                    
+                    <h6 class="fw-bold small mb-3 mt-4 text-secondary">NOTIFICACIONES</h6>
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="notiEmail" checked>
+                        <label class="form-check-label small" for="notiEmail">Notificaciones por correo</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="notiApp" checked>
+                        <label class="form-check-label small" for="notiApp">Notificaciones en la aplicación</label>
+                    </div>
+
+                    <h6 class="fw-bold small mb-3 text-secondary">PRIVACIDAD</h6>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="privacidad" id="publico" checked>
+                        <label class="form-check-label small" for="publico">Perfil público (recomendado)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="privacidad" id="privado">
+                        <label class="form-check-label small" for="privado">Perfil privado</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-top-0 px-4 pb-4">
+                <button type="button" class="btn btn-light px-4 fw-medium" data-bs-dismiss="modal" style="border-radius: 40px;">Cancelar</button>
+                <button type="button" class="btn btn-primary-deep px-4 fw-semibold" id="btnGuardarConfig">Guardar configuración</button>
             </div>
         </div>
     </div>
+</div>
 
-    <footer class="py-4 mt-auto bg-secondary">
-        <div class="container text-center text-white-50 small">
-            <div class="d-flex justify-content-center gap-5">
-                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
-                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
-                <span>Workly &nbsp;&nbsp;&nbsp; 2026</span>
+<!-- Modal Empleos Guardados (NUEVO) -->
+<div class="modal fade" id="modalGuardados" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 rounded-4 shadow-lg">
+            <div class="modal-header border-bottom-0 px-4 pt-4">
+                <h5 class="modal-title fw-bold d-flex align-items-center gap-2" style="color: #121826;">
+                    <i class="bi bi-bookmark-fill" style="color: var(--primary-deep);"></i> Empleos guardados
+                </h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-4 py-4">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item border-0 px-0 py-3 d-flex align-items-start gap-3">
+                        <div class="bg-light p-3 rounded-3">
+                            <i class="bi bi-briefcase-fill fs-5" style="color: var(--primary-deep);"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold mb-1">Desarrollador Frontend React</h6>
+                            <p class="text-secondary small mb-1"><i class="bi bi-building me-1"></i> TechNova · San Salvador</p>
+                            <span class="badge-skill small px-3 py-1">$1200 - $1800</span>
+                        </div>
+                        <button class="btn btn-outline-primary-deep btn-sm px-3">Ver</button>
+                    </div>
+                    <div class="list-group-item border-0 px-0 py-3 d-flex align-items-start gap-3">
+                        <div class="bg-light p-3 rounded-3">
+                            <i class="bi bi-briefcase-fill fs-5" style="color: var(--primary-deep);"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold mb-1">Diseñador UI/UX Senior</h6>
+                            <p class="text-secondary small mb-1"><i class="bi bi-building me-1"></i> CreativeMinds · Remoto</p>
+                            <span class="badge-skill small px-3 py-1">$1500 - $2200</span>
+                        </div>
+                        <button class="btn btn-outline-primary-deep btn-sm px-3">Ver</button>
+                    </div>
+                    <div class="list-group-item border-0 px-0 py-3 d-flex align-items-start gap-3">
+                        <div class="bg-light p-3 rounded-3">
+                            <i class="bi bi-briefcase-fill fs-5" style="color: var(--primary-deep);"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold mb-1">Backend Developer Node.js</h6>
+                            <p class="text-secondary small mb-1"><i class="bi bi-building me-1"></i> CodeCrafters · Santa Ana</p>
+                            <span class="badge-skill small px-3 py-1">$1000 - $1500</span>
+                        </div>
+                        <button class="btn btn-outline-primary-deep btn-sm px-3">Ver</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-top-0 px-4 pb-4">
+                <button type="button" class="btn btn-primary-deep w-100 fw-semibold" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
-    </footer>
+    </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+<!-- Modal Mis Postulaciones (NUEVO) -->
+<div class="modal fade" id="modalPostulaciones" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 rounded-4 shadow-lg">
+            <div class="modal-header border-bottom-0 px-4 pt-4">
+                <h5 class="modal-title fw-bold d-flex align-items-center gap-2" style="color: #121826;">
+                    <i class="bi bi-briefcase-fill" style="color: var(--primary-deep);"></i> Mis postulaciones
+                </h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-4 py-4">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item border-0 px-0 py-3 d-flex align-items-start gap-3">
+                        <div class="bg-light p-3 rounded-3">
+                            <i class="bi bi-hourglass-split fs-5" style="color: #ffb347;"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold mb-1">Desarrollador Full Stack</h6>
+                            <p class="text-secondary small mb-1"><i class="bi bi-building me-1"></i> TechSolutions · San Salvador</p>
+                            <span class="badge bg-warning bg-opacity-10 text-warning px-3 py-1 rounded-pill fw-medium">En revisión</span>
+                            <p class="text-secondary small mt-2 mb-0"><i class="bi bi-calendar me-1"></i> Postulado: 10/04/2026</p>
+                        </div>
+                    </div>
+                    <div class="list-group-item border-0 px-0 py-3 d-flex align-items-start gap-3">
+                        <div class="bg-light p-3 rounded-3">
+                            <i class="bi bi-check-circle fs-5" style="color: #28a745;"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold mb-1">Backend Developer Senior</h6>
+                            <p class="text-secondary small mb-1"><i class="bi bi-building me-1"></i> DataFlow · Remoto</p>
+                            <span class="badge bg-success bg-opacity-10 text-success px-3 py-1 rounded-pill fw-medium">Entrevista programada</span>
+                            <p class="text-secondary small mt-2 mb-0"><i class="bi bi-calendar me-1"></i> Postulado: 05/04/2026</p>
+                        </div>
+                    </div>
+                    <div class="list-group-item border-0 px-0 py-3 d-flex align-items-start gap-3">
+                        <div class="bg-light p-3 rounded-3">
+                            <i class="bi bi-x-circle fs-5" style="color: #dc3545;"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold mb-1">Frontend Developer Angular</h6>
+                            <p class="text-secondary small mb-1"><i class="bi bi-building me-1"></i> WebSolutions · La Libertad</p>
+                            <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-1 rounded-pill fw-medium">No seleccionado</span>
+                            <p class="text-secondary small mt-2 mb-0"><i class="bi bi-calendar me-1"></i> Postulado: 28/03/2026</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-top-0 px-4 pb-4">
+                <a href="../buscarempleo/index.html" class="btn btn-primary-deep w-100 fw-semibold">Buscar más empleos</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-        document.getElementById('btnGuardarPerfil').addEventListener('click', function() {
-            new bootstrap.Toast(document.getElementById('toastExito')).show();
-        });
+<!-- ========== TOASTS (conservados) ========== -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastExito" class="toast align-items-center text-white bg-success border-0 rounded-4 shadow mb-2" role="alert">
+        <div class="d-flex">
+            <div class="toast-body fs-6 py-3 fw-semibold">
+                <i class="bi bi-check-circle-fill me-2 fs-5"></i> ¡Perfil actualizado correctamente!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+    <div id="toastInfo" class="toast align-items-center text-white border-0 rounded-4 shadow" role="alert" style="background-color: var(--primary-deep);">
+        <div class="d-flex">
+            <div class="toast-body fs-6 py-3 fw-semibold" id="toastInfoTexto">Acción realizada.</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
 
-        document.getElementById('selectTiempo').addEventListener('change', function() {
-            const toastInfoTexto = document.getElementById('toastInfoTexto');
-            toastInfoTexto.innerHTML = `<i class="bi bi-arrow-repeat me-2"></i> Actualizando estadísticas...`;
+<!-- ========== FOOTER ========== -->
+<footer class="py-4 mt-auto footer-custom">
+    <div class="container text-center">
+        <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
+            <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
+            <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
+            <a href="#">Términos</a>
+            <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- SCRIPT ORIGINAL + NUEVAS FUNCIONALIDADES -->
+<script>
+    // Tooltips
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(el => new bootstrap.Tooltip(el));
+
+    // Guardar perfil (toast éxito)
+    document.getElementById('btnGuardarPerfil').addEventListener('click', function() {
+        new bootstrap.Toast(document.getElementById('toastExito')).show();
+    });
+
+    // Guardar configuraciones (toast éxito)
+    document.getElementById('btnGuardarConfig').addEventListener('click', function() {
+        const toastExito = document.getElementById('toastExito');
+        toastExito.querySelector('.toast-body').innerHTML = '<i class="bi bi-check-circle-fill me-2 fs-5"></i> ¡Configuración guardada!';
+        new bootstrap.Toast(toastExito).show();
+        setTimeout(() => {
+            toastExito.querySelector('.toast-body').innerHTML = '<i class="bi bi-check-circle-fill me-2 fs-5"></i> ¡Perfil actualizado correctamente!';
+        }, 500);
+    });
+
+    // Select de tiempo (toast info)
+    document.getElementById('selectTiempo').addEventListener('change', function() {
+        const toastInfoTexto = document.getElementById('toastInfoTexto');
+        toastInfoTexto.innerHTML = `<i class="bi bi-arrow-repeat me-2"></i> Actualizando estadísticas...`;
+        new bootstrap.Toast(document.getElementById('toastInfo')).show();
+    });
+
+    // Acciones rápidas del menú (toast info) - para los que no tienen modal
+    document.querySelectorAll('.btn-accion').forEach(boton => {
+        boton.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('toastInfoTexto').innerHTML = `<i class="bi bi-info-circle-fill me-2"></i> ${this.getAttribute('data-mensaje')}`;
             new bootstrap.Toast(document.getElementById('toastInfo')).show();
         });
+    });
+</script>
 
-        document.querySelectorAll('.btn-accion').forEach(boton => {
-            boton.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.getElementById('toastInfoTexto').innerHTML = `<i class="bi bi-info-circle-fill me-2"></i> ${this.getAttribute('data-mensaje')}`;
-                new bootstrap.Toast(document.getElementById('toastInfo')).show();
-            });
-        });
-    </script>
+<!-- Ajustes adicionales -->
+<style>
+    .menu-item {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+    }
+    .badge-skill {
+        display: inline-block;
+    }
+    .form-check-input:checked {
+        background-color: var(--primary-deep);
+        border-color: var(--primary-deep);
+    }
+</style>
 </body>
 </html>

@@ -1,235 +1,567 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly - Búsqueda de Empleo</title>
+    <title>Workly · Búsqueda de Empleo</title>
+    <!-- Bootstrap + Iconos -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Fuente Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        :root {
+            --primary-deep: #3f51b5;
+            --nav-bg: #011671;
+            --soft-accent: #f1ebd9;
+            --light-text: #e2e4e8;
+            --body-bg: #f5f7fc;
+        }
+        body {
+            background-color: var(--body-bg);
+        }
+        /* Navbar personalizado */
+        .navbar-custom {
+            background-color: var(--nav-bg) !important;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+        }
+        .navbar-brand .brand-icon {
+            font-size: 3.5rem;
+            color: white;
+            margin-right: 0.75rem;
+        }
+        .navbar-brand .brand-text {
+            color: white;
+            font-weight: 700;
+            font-size: 2rem;
+            line-height: 1.2;
+        }
+        .navbar-brand .brand-sub {
+            color: var(--light-text);
+            font-size: 0.95rem;
+        }
+        .nav-link-custom {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            transition: background 0.2s;
+        }
+        .nav-link-custom:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .nav-link-custom.active {
+            background: rgba(255,255,255,0.2);
+        }
+        .btn-primary-deep {
+            background-color: var(--primary-deep);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border-radius: 40px;
+            padding: 0.6rem 1.5rem;
+        }
+        .btn-primary-deep:hover {
+            background-color: #2c3e8f;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(63, 81, 181, 0.25);
+            color: white;
+        }
+        /* Barra de búsqueda principal */
+        .search-bar-wrapper {
+            background: white;
+            border-radius: 60px;
+            padding: 0.4rem 0.4rem 0.4rem 1.8rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+            border: 1px solid #e9ecf2;
+        }
+        .search-bar-wrapper input {
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+            padding: 0.7rem 0;
+        }
+        .search-bar-wrapper input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+        /* Barra de estado */
+        .status-bar {
+            background: white;
+            border-radius: 40px;
+            padding: 0.6rem 1.8rem;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.02);
+            border: 1px solid #eef2f6;
+        }
+        /* Tarjeta de filtros */
+        .filter-card {
+            background: white;
+            border: none;
+            border-radius: 28px;
+            box-shadow: 0 15px 30px -8px rgba(1, 22, 113, 0.06);
+            padding: 1.5rem;
+            border: 1px solid #edf0f5;
+            position: sticky;
+            top: 20px;
+        }
+        .filter-section-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #121826;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        .filter-section-title i {
+            color: var(--primary-deep);
+            margin-right: 8px;
+        }
+        .accordion-button {
+            padding: 0.75rem 0;
+            font-weight: 600;
+            color: #121826;
+            background: transparent;
+            box-shadow: none;
+            border-bottom: 1px solid #eef2f6;
+        }
+        .accordion-button:not(.collapsed) {
+            color: var(--primary-deep);
+            background: transparent;
+            box-shadow: none;
+        }
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: var(--primary-deep);
+        }
+        .accordion-item {
+            border: none;
+            background: transparent;
+        }
+        .form-check-input:checked {
+            background-color: var(--primary-deep);
+            border-color: var(--primary-deep);
+        }
+        .form-check-input:focus {
+            box-shadow: 0 0 0 0.2rem rgba(63, 81, 181, 0.15);
+        }
+        /* Tarjetas de vacantes (se renderizan dinámicamente) */
+        #contenedor-vacantes .card {
+            border: none;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px -8px rgba(0,0,0,0.04);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #f0f3f9;
+        }
+        #contenedor-vacantes .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -10px rgba(63,81,181,0.1);
+            border-color: var(--primary-deep);
+        }
+        /* Paginación */
+        .pagination-container {
+            background: white;
+            border-radius: 60px;
+            padding: 0.5rem 1.2rem;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.02);
+        }
+        .page-link-custom {
+            color: #5a6275;
+            background: transparent;
+            border: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 40px;
+            font-weight: 500;
+        }
+        .page-link-custom:hover {
+            background: #f0f3fc;
+            color: var(--primary-deep);
+        }
+        .page-active {
+            background: var(--primary-deep) !important;
+            color: white !important;
+        }
+        /* Footer */
+        .footer-custom {
+            background-color: var(--nav-bg);
+            color: var(--light-text);
+        }
+        .footer-custom a {
+            color: var(--light-text) !important;
+            text-decoration: none;
+        }
+        .footer-custom a:hover {
+            color: white !important;
+            text-decoration: underline;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.4rem;
+            font-size: 0.65rem;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        /* Botón de filtros sticky */
+        .sticky-apply-btn {
+            position: sticky;
+            bottom: 20px;
+            background: white;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
+<body class="d-flex flex-column min-vh-100">
 
-<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+<!-- ========== NAVBAR MEJORADO ========== -->
+<nav class="navbar navbar-expand-lg py-3 navbar-custom">
+    <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../../public/paginainicial/index.html">
+            <i class="bi bi-briefcase-fill brand-icon"></i>
+            <div class="lh-sm ms-2">
+                <span class="brand-text">Workly</span>
+                <span class="brand-sub">Tu búsqueda de trabajo profesional</span>
+            </div>
+        </a>
 
-    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
-        <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none"
-                href="../../public/paginainicial/index.html">
-                <span class="display-5 me-3 lh-1">💼</span>
-                <div class="lh-sm">
-                    <span class="text-white fw-bold d-block fs-3">Workly</span>
-                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
-                </div>
-            </a>
-
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                    <a href="../buscarempleo/index.html"
-                        class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Búsqueda
-                        de empleo</a>
-                    <a href="../recursos/index.html" class="btn btn-primary btn-sm px-3 fw-semibold">Recursos</a>
-                    <a href="../valoracionempresa/index.html"
-                        class="btn btn-primary btn-sm px-3 fw-semibold">Valoraciones de empresas</a>
-                    <a href="../miperfil/index.html" class="btn btn-primary btn-sm px-3 fw-semibold">Mi Perfil</a>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                    <div class="position-relative cursor-pointer"
-                        onclick="window.location.href='../notificaciones/index.html'">
-                        <i class="bi bi-bell-fill fs-3 text-dark"></i>
-                        <span
-                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
-                            5
-                        </span>
-                    </div>
-                    <a href="../miperfil/index.html" class="text-dark"><i class="bi bi-person-circle fs-1"></i></a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <main class="flex-grow-1 py-4">
-        <div class="container px-4 px-lg-5">
-            <div class="bg-white rounded-pill shadow-sm px-4 py-3 mb-4">
-                <p class="mb-0 text-dark small" id="barraEstado">
-                    Se encontraron resultados para tu búsqueda profesional
-                </p>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                <a href="../buscarempleo/index.html" class="nav-link-custom active text-decoration-none px-3 py-2">
+                    <i class="bi bi-search me-1"></i> Búsqueda
+                </a>
+                <a href="../recursos/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                    <i class="bi bi-journal-bookmark-fill me-1"></i> Recursos
+                </a>
+                <a href="../valoracionempresa/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                    <i class="bi bi-star-fill me-1"></i> Valoraciones
+                </a>
+                <a href="../miperfil/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                    <i class="bi bi-person-badge me-1"></i> Mi Perfil
+                </a>
             </div>
 
-            <div class="row g-4">
-                <aside class="col-12 col-lg-3">
-                    <div class="card bg-white border-0 rounded-4 shadow-sm p-4 h-100">
-                        <h6 class="fw-bold text-dark mb-4">Filtros</h6>
-
-                        <div class="mb-4">
-                            <h6 class="fw-bold text-dark small mb-3">Fecha de publicación</h6>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input border-dark-subtle shadow-none" type="checkbox"
-                                    id="fecha1">
-                                <label class="form-check-label text-secondary small fw-semibold" for="fecha1">Cualquier
-                                    fecha</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input border-dark-subtle shadow-none" type="checkbox"
-                                    id="fecha2">
-                                <label class="form-check-label text-secondary small fw-semibold" for="fecha2">Últimas 24
-                                    horas</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input border-dark-subtle shadow-none" type="checkbox"
-                                    id="fecha3">
-                                <label class="form-check-label text-secondary small fw-semibold" for="fecha3">Última
-                                    semana</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input border-dark-subtle shadow-none" type="checkbox"
-                                    id="fecha4">
-                                <label class="form-check-label text-secondary small fw-semibold" for="fecha4">Último
-                                    mes</label>
-                            </div>
-                        </div>
-
-                        <hr class="text-secondary opacity-25 mb-4">
-
-                        <div class="mb-4">
-                            <h6 class="fw-bold text-dark small mb-3">Nivel de experiencia</h6>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input border-dark-subtle shadow-none" type="checkbox"
-                                    id="nivel1">
-                                <label class="form-check-label text-secondary small fw-semibold"
-                                    for="nivel1">Practicante</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input border-dark-subtle shadow-none" type="checkbox"
-                                    id="nivel2">
-                                <label class="form-check-label text-secondary small fw-semibold"
-                                    for="nivel2">Junior</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input border-dark-subtle shadow-none" type="checkbox"
-                                    id="nivel3">
-                                <label class="form-check-label text-secondary small fw-semibold"
-                                    for="nivel3">Semi-senior</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input border-dark-subtle shadow-none" type="checkbox"
-                                    id="nivel4">
-                                <label class="form-check-label text-secondary small fw-semibold"
-                                    for="nivel4">Senior</label>
-                            </div>
-                        </div>
-
-                        <hr class="text-secondary opacity-25 mb-4">
-
-                        <div class="mb-4">
-                            <h6 class="fw-bold text-dark small mb-3">Rango salarial</h6>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input border-dark-subtle shadow-none" type="checkbox"
-                                    id="salario1">
-                                <label class="form-check-label text-secondary small fw-semibold" for="salario1">$0 -
-                                    $500</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input border-dark-subtle shadow-none" type="checkbox"
-                                    id="salario2">
-                                <label class="form-check-label text-secondary small fw-semibold" for="salario2">$500 -
-                                    $800</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input border-dark-subtle shadow-none" type="checkbox"
-                                    id="salario3">
-                                <label class="form-check-label text-secondary small fw-semibold" for="salario3">$800 -
-                                    $1,000</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input border-dark-subtle shadow-none" type="checkbox"
-                                    id="salario4">
-                                <label class="form-check-label text-secondary small fw-semibold" for="salario4">$1,000 -
-                                    $1,500</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input border-dark-subtle shadow-none" type="checkbox"
-                                    id="salario5">
-                                <label class="form-check-label text-secondary small fw-semibold"
-                                    for="salario5">$2,000+</label>
-                            </div>
-                        </div>
-
-                        <div class="d-grid mt-auto">
-                            <button type="button" id="btnAplicarFiltros"
-                                class="btn btn-primary py-2 fw-semibold rounded-3">Aplicar filtros</button>
-                        </div>
-                    </div>
-                </aside>
-                <section class="col-12 col-lg-9">
-                    <div id="contenedor-vacantes">
-                        <div class="text-center py-5">
-                            <div class="spinner-border text-primary" role="status"></div>
-                            <p class="mt-2 text-muted">Buscando vacantes reales...</p>
-                        </div>
-                    </div>
-
-                    <nav class="d-flex justify-content-center mt-5">
-                        <div class="bg-white rounded-pill shadow-sm px-4 py-2 d-flex align-items-center gap-3">
-                            <button class="btn btn-link text-secondary text-decoration-none small"><i
-                                    class="bi bi-arrow-left me-1"></i> Anterior</button>
-                            <div class="d-flex gap-2">
-                                <span
-                                    class="badge bg-dark rounded-circle d-flex align-items-center justify-content-center"
-                                    style="width: 32px; height: 32px;">1</span>
-                                <button class="btn btn-link text-secondary text-decoration-none p-0 mx-1">2</button>
-                                <button class="btn btn-link text-secondary text-decoration-none p-0 mx-1">3</button>
-                                <span class="text-secondary">...</span>
-                                <button class="btn btn-link text-secondary text-decoration-none p-0 mx-1">10</button>
-                            </div>
-                            <button class="btn btn-link text-secondary text-decoration-none small">Next <i
-                                    class="bi bi-arrow-right ms-1"></i></button>
-                        </div>
-                    </nav>
-                </section>
-            </div>
-        </div>
-    </main>
-
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="toastFiltros" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow mb-2"
-            role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body fs-6 py-3 fw-semibold">
-                    <i class="bi bi-funnel-fill me-2 fs-5"></i> ¡Filtros aplicados correctamente!
+            <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                <div class="position-relative cursor-pointer" onclick="window.location.href='../notificaciones/index.html'">
+                    <i class="bi bi-bell-fill fs-3 text-white"></i>
+                    <span class="notification-badge">5</span>
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
+                <a href="../miperfil/index.html" class="text-white"><i class="bi bi-person-circle fs-2"></i></a>
             </div>
         </div>
     </div>
+</nav>
 
-    <footer class="py-4 mt-auto bg-secondary text-center text-white-50">
-        <div class="container">
-            <div class="d-flex justify-content-center gap-5">
-                <a href="#" class="text-white-50 text-decoration-none small">Ayuda</a>
-                <a href="#" class="text-white-50 text-decoration-none small">Privacidad</a>
-                <span class="small">Workly &nbsp;&nbsp;&nbsp; 2026</span>
-            </div>
+<!-- ========== MAIN ========== -->
+<main class="flex-grow-1 py-4">
+    <div class="container px-4 px-lg-5">
+        
+        <!-- BARRA DE BÚSQUEDA PRINCIPAL FUNCIONAL -->
+        <div class="search-bar-wrapper mb-4 d-flex align-items-center">
+            <i class="bi bi-search fs-5 text-muted me-2"></i>
+            <input type="text" id="inputBusquedaPrincipal" class="form-control border-0 shadow-none bg-transparent py-2"
+                   placeholder="Puesto, empresa o palabra clave...">
+            <button class="btn btn-primary-deep px-4 py-2 fw-semibold" id="btnBuscarPrincipal">
+                Buscar empleo <i class="bi bi-arrow-right ms-1"></i>
+            </button>
         </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="./app.js"></script>
-    <script>
-        document.getElementById('btnAplicarFiltros')?.addEventListener('click', function () {
+        <!-- Barra de estado (ID conservado) -->
+        <div class="status-bar mb-4">
+            <p class="mb-0 text-secondary small fw-medium" id="barraEstado">
+                <i class="bi bi-info-circle me-1" style="color: var(--primary-deep);"></i>
+                <span id="textoBarraEstado">Se encontraron resultados para tu búsqueda profesional</span>
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Aside: Filtros mejorados con acordeones y botón sticky -->
+            <aside class="col-12 col-lg-3">
+                <div class="filter-card">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h6 class="fw-bold mb-0 d-flex align-items-center" style="color: #121826;">
+                            <i class="bi bi-funnel-fill me-2" style="color: var(--primary-deep);"></i>Filtros
+                        </h6>
+                        <!-- Botón aplicar filtros ahora está justo al lado del título para acceso rápido -->
+                        <button type="button" id="btnAplicarFiltros" class="btn btn-primary-deep btn-sm px-4 py-2 fw-semibold">
+                            Aplicar <i class="bi bi-check2 ms-1"></i>
+                        </button>
+                    </div>
+
+                    <!-- Acordeón de filtros -->
+                    <div class="accordion" id="accordionFiltros">
+                        <!-- Fecha de publicación -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFecha">
+                                    <i class="bi bi-calendar3 me-2"></i> Fecha de publicación
+                                </button>
+                            </h2>
+                            <div id="collapseFecha" class="accordion-collapse collapse show" data-bs-parent="#accordionFiltros">
+                                <div class="accordion-body pt-2">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="fecha1">
+                                        <label class="form-check-label text-secondary small fw-medium" for="fecha1">Cualquier fecha</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="fecha2">
+                                        <label class="form-check-label text-secondary small fw-medium" for="fecha2">Últimas 24 horas</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="fecha3">
+                                        <label class="form-check-label text-secondary small fw-medium" for="fecha3">Última semana</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="fecha4">
+                                        <label class="form-check-label text-secondary small fw-medium" for="fecha4">Último mes</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nivel de experiencia -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNivel">
+                                    <i class="bi bi-bar-chart-steps me-2"></i> Nivel de experiencia
+                                </button>
+                            </h2>
+                            <div id="collapseNivel" class="accordion-collapse collapse" data-bs-parent="#accordionFiltros">
+                                <div class="accordion-body pt-2">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="nivel1">
+                                        <label class="form-check-label text-secondary small fw-medium" for="nivel1">Practicante</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="nivel2">
+                                        <label class="form-check-label text-secondary small fw-medium" for="nivel2">Junior</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="nivel3">
+                                        <label class="form-check-label text-secondary small fw-medium" for="nivel3">Semi-senior</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="nivel4">
+                                        <label class="form-check-label text-secondary small fw-medium" for="nivel4">Senior</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rango salarial -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSalario">
+                                    <i class="bi bi-cash-stack me-2"></i> Rango salarial
+                                </button>
+                            </h2>
+                            <div id="collapseSalario" class="accordion-collapse collapse" data-bs-parent="#accordionFiltros">
+                                <div class="accordion-body pt-2">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="salario1">
+                                        <label class="form-check-label text-secondary small fw-medium" for="salario1">$0 - $500</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="salario2">
+                                        <label class="form-check-label text-secondary small fw-medium" for="salario2">$500 - $800</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="salario3">
+                                        <label class="form-check-label text-secondary small fw-medium" for="salario3">$800 - $1,000</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="salario4">
+                                        <label class="form-check-label text-secondary small fw-medium" for="salario4">$1,000 - $1,500</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="salario5">
+                                        <label class="form-check-label text-secondary small fw-medium" for="salario5">$2,000+</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón adicional sticky (opcional) pero ya tenemos uno arriba -->
+                    <div class="sticky-apply-btn d-lg-none">
+                        <button type="button" class="btn btn-primary-deep w-100 py-3 fw-semibold" id="btnAplicarFiltrosMobile">
+                            <i class="bi bi-funnel me-2"></i>Aplicar filtros
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Sección principal: Vacantes -->
+            <section class="col-12 col-lg-9">
+                <!-- Contenedor de vacantes (ID conservado) -->
+                <div id="contenedor-vacantes">
+                    <div class="text-center py-5">
+                        <div class="spinner-border" style="color: var(--primary-deep);" role="status"></div>
+                        <p class="mt-2 text-secondary">Buscando vacantes reales...</p>
+                    </div>
+                </div>
+
+                <!-- Paginación -->
+                <nav class="d-flex justify-content-center mt-5">
+                    <div class="pagination-container d-flex align-items-center gap-3">
+                        <button class="btn btn-link text-secondary text-decoration-none small fw-medium">
+                            <i class="bi bi-arrow-left me-1"></i> Anterior
+                        </button>
+                        <div class="d-flex gap-2">
+                            <span class="badge page-active d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">1</span>
+                            <button class="btn btn-link text-secondary text-decoration-none p-0 mx-1 page-link-custom">2</button>
+                            <button class="btn btn-link text-secondary text-decoration-none p-0 mx-1 page-link-custom">3</button>
+                            <span class="text-secondary align-self-center">...</span>
+                            <button class="btn btn-link text-secondary text-decoration-none p-0 mx-1 page-link-custom">10</button>
+                        </div>
+                        <button class="btn btn-link text-secondary text-decoration-none small fw-medium">Siguiente <i class="bi bi-arrow-right ms-1"></i></button>
+                    </div>
+                </nav>
+            </section>
+        </div>
+    </div>
+</main>
+
+<!-- ========== TOAST ========== -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastFiltros" class="toast align-items-center text-white border-0 rounded-4 shadow mb-2" role="alert" style="background-color: var(--primary-deep);">
+        <div class="d-flex">
+            <div class="toast-body fs-6 py-3 fw-semibold">
+                <i class="bi bi-funnel-fill me-2 fs-5"></i> ¡Filtros aplicados correctamente!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer class="py-4 mt-auto footer-custom">
+    <div class="container text-center">
+        <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
+            <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
+            <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
+            <a href="#">Términos</a>
+            <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Script de la API (conservado) -->
+<script type="module" src="./app.js"></script>
+
+<!-- Script para la barra de búsqueda y filtros -->
+<script>
+    (function() {
+        // 1. Barra de búsqueda principal funcional
+        const inputBusqueda = document.getElementById('inputBusquedaPrincipal');
+        const btnBuscar = document.getElementById('btnBuscarPrincipal');
+        
+        function ejecutarBusqueda() {
+            const query = inputBusqueda.value.trim();
+            // Actualizar barra de estado
+            const textoEstado = document.getElementById('textoBarraEstado');
+            if (query) {
+                textoEstado.textContent = `Resultados para: "${query}"`;
+            } else {
+                textoEstado.textContent = 'Mostrando todas las vacantes disponibles';
+            }
+            // Redirigir con parámetro (simulación)
+            // En un entorno real, aquí se haría fetch o se recargaría con ?q=
+            // Pero para no interferir con app.js, solo simulamos cambio visual.
+            // También podríamos llamar a una función global de app.js si existe.
+            if (typeof window.actualizarVacantes === 'function') {
+                window.actualizarVacantes(query);
+            } else {
+                console.log('Búsqueda simulada:', query);
+            }
+        }
+        
+        if (btnBuscar) {
+            btnBuscar.addEventListener('click', ejecutarBusqueda);
+            inputBusqueda.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    ejecutarBusqueda();
+                }
+            });
+        }
+
+        // 2. Botón de aplicar filtros (ya existente, añadimos también funcionalidad extra)
+        const btnAplicar = document.getElementById('btnAplicarFiltros');
+        const btnMobile = document.getElementById('btnAplicarFiltrosMobile');
+        
+        function aplicarFiltros() {
+            // Mostrar toast
             const toastElement = document.getElementById('toastFiltros');
             if (toastElement) {
                 const toast = new bootstrap.Toast(toastElement);
                 toast.show();
             }
-        });
-    </script>
-</body>
+            // Actualizar barra de estado con resumen de filtros (opcional)
+            const filtrosActivos = [];
+            document.querySelectorAll('.accordion-body .form-check-input:checked').forEach(cb => {
+                const label = cb.closest('.form-check')?.querySelector('.form-check-label')?.textContent;
+                if (label) filtrosActivos.push(label.trim());
+            });
+            const textoEstado = document.getElementById('textoBarraEstado');
+            if (filtrosActivos.length > 0) {
+                textoEstado.textContent = `Filtros aplicados: ${filtrosActivos.join(', ')}`;
+            } else {
+                textoEstado.textContent = 'Se encontraron resultados para tu búsqueda profesional';
+            }
+            // Simular actualización de vacantes (si existe función global)
+            if (typeof window.aplicarFiltrosAPI === 'function') {
+                window.aplicarFiltrosAPI();
+            }
+        }
 
+        if (btnAplicar) btnAplicar.addEventListener('click', aplicarFiltros);
+        if (btnMobile) btnMobile.addEventListener('click', aplicarFiltros);
+
+        // 3. Sincronizar ambos botones de filtro (por si acaso)
+        // El original ya está manejado, el mobile es adicional.
+    })();
+</script>
+
+<!-- Ajustes adicionales -->
+<style>
+    .cursor-pointer { cursor: pointer; }
+    .accordion-button::after {
+        background-size: 1rem;
+    }
+    .form-check-input {
+        cursor: pointer;
+        border: 1.5px solid #cdd2dc;
+    }
+    .form-check-label {
+        cursor: pointer;
+    }
+    .page-active {
+        background-color: var(--primary-deep) !important;
+        color: white !important;
+        font-weight: 600;
+    }
+    /* Para que el botón sticky no tape contenido */
+    .sticky-apply-btn {
+        background: white;
+        padding-top: 15px;
+        margin-top: 15px;
+        border-top: 1px solid #edf0f5;
+    }
+</style>
+</body>
 </html>
