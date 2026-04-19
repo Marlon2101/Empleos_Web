@@ -22,7 +22,16 @@ export const getEmpresasValorables = async (id_usuario = null) => {
           WHERE p.id_usuario_fk = ? AND vac.id_empresa_fk = e.id_empresa
         ) THEN 1
         ELSE 0
-      END AS puede_valorar
+      END AS puede_valorar,
+      CASE
+        WHEN ? IS NULL THEN 0
+        WHEN EXISTS (
+          SELECT 1
+          FROM Valoraciones_Empresas ve
+          WHERE ve.id_usuario_fk = ? AND ve.id_empresa_fk = e.id_empresa
+        ) THEN 1
+        ELSE 0
+      END AS ya_valoro
     FROM Empresas e
     LEFT JOIN Municipios m ON e.id_municipio_fk = m.id_municipio
     LEFT JOIN Departamentos d ON m.id_departamento_fk = d.id_departamento
@@ -35,9 +44,12 @@ export const getEmpresasValorables = async (id_usuario = null) => {
       e.correo_electronico,
       m.nombre_municipio,
       d.nombre_departamento
-    ORDER BY e.nombre_comercial ASC
+    ORDER BY
+      puede_valorar DESC,
+      ya_valoro ASC,
+      e.nombre_comercial ASC
     `,
-    [id_usuario, id_usuario]
+    [id_usuario, id_usuario, id_usuario, id_usuario]
   );
 
   return rows;
@@ -63,6 +75,26 @@ export const getValoracionesByEmpresa = async (id_empresa) => {
   );
 
   return rows;
+};
+
+export const getValoracionUsuarioEmpresa = async (id_usuario, id_empresa) => {
+  const [rows] = await pool.query(
+    `
+    SELECT
+      id_valoracion,
+      id_usuario_fk,
+      id_empresa_fk,
+      puntuacion,
+      comentario,
+      fecha_valoracion
+    FROM Valoraciones_Empresas
+    WHERE id_usuario_fk = ? AND id_empresa_fk = ?
+    LIMIT 1
+    `,
+    [id_usuario, id_empresa]
+  );
+
+  return rows[0] || null;
 };
 
 export const getEmpresaValoracionDetalle = async (id_empresa, id_usuario = null) => {
@@ -197,6 +229,31 @@ export const createValoracion = async (data) => {
     puntuacion,
     comentario
   };
+};
+
+export const updateValoracionUsuarioEmpresa = async (id_usuario, id_empresa, data) => {
+  const {
+    puntuacion,
+    comentario
+  } = data;
+
+  const [result] = await pool.query(
+    `
+    UPDATE Valoraciones_Empresas
+    SET
+      puntuacion = ?,
+      comentario = ?,
+      fecha_valoracion = CURRENT_TIMESTAMP
+    WHERE id_usuario_fk = ? AND id_empresa_fk = ?
+    `,
+    [puntuacion, comentario, id_usuario, id_empresa]
+  );
+
+  if (result.affectedRows === 0) {
+    return null;
+  }
+
+  return await getValoracionUsuarioEmpresa(id_usuario, id_empresa);
 };
 
 export const getPromedioEmpresa = async (id_empresa) => {

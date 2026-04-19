@@ -3,12 +3,35 @@ import {
   getValoracionesByEmpresa,
   getEmpresaValoracionDetalle,
   getValoracionesUsuario,
+  getValoracionUsuarioEmpresa,
   existeValoracionUsuarioEmpresa,
   usuarioPuedeValorarEmpresa,
   createValoracion,
+  updateValoracionUsuarioEmpresa,
   getPromedioEmpresa
 } from "../models/valoracionesModel.js";
 import { crearNotificacion } from "../models/notificacionesModel.js";
+
+const cargarDetalleEmpresa = async (idEmpresa, idUsuario = null) => {
+  const empresa = await getEmpresaValoracionDetalle(idEmpresa, idUsuario);
+
+  if (!empresa) {
+    return null;
+  }
+
+  const [valoraciones, resumen, miValoracion] = await Promise.all([
+    getValoracionesByEmpresa(idEmpresa),
+    getPromedioEmpresa(idEmpresa),
+    idUsuario ? getValoracionUsuarioEmpresa(idUsuario, idEmpresa) : null
+  ]);
+
+  return {
+    empresa,
+    resumen,
+    valoraciones,
+    mi_valoracion: miValoracion
+  };
+};
 
 export const obtenerEmpresasValorables = async (req, res) => {
   try {
@@ -27,22 +50,15 @@ export const obtenerValoracionesEmpresa = async (req, res) => {
   try {
     const { id_empresa } = req.params;
     const idUsuario = req.user?.tipo === "usuario" ? req.user.id : null;
+    const detalle = await cargarDetalleEmpresa(id_empresa, idUsuario);
 
-    const empresa = await getEmpresaValoracionDetalle(id_empresa, idUsuario);
-    const valoraciones = await getValoracionesByEmpresa(id_empresa);
-    const resumen = await getPromedioEmpresa(id_empresa);
-
-    if (!empresa) {
+    if (!detalle) {
       return res.status(404).json({
         mensaje: "Empresa no encontrada"
       });
     }
 
-    res.json({
-      empresa,
-      resumen,
-      valoraciones
-    });
+    res.json(detalle);
   } catch (error) {
     res.status(500).json({
       mensaje: "Error al obtener valoraciones de la empresa",
@@ -79,7 +95,7 @@ export const crearValoracion = async (req, res) => {
 
     if (existe) {
       return res.status(400).json({
-        mensaje: "Ya valoraste a esta empresa"
+        mensaje: "Ya valoraste a esta empresa. Puedes editar tu valoración."
       });
     }
 
@@ -106,6 +122,36 @@ export const crearValoracion = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       mensaje: "Error al crear valoracion",
+      error: error.message
+    });
+  }
+};
+
+export const actualizarMiValoracion = async (req, res) => {
+  try {
+    const { id_empresa } = req.params;
+    const { puntuacion, comentario } = req.body;
+
+    const existente = await getValoracionUsuarioEmpresa(req.user.id, id_empresa);
+
+    if (!existente) {
+      return res.status(404).json({
+        mensaje: "No tienes una valoracion previa para esta empresa"
+      });
+    }
+
+    const data = await updateValoracionUsuarioEmpresa(req.user.id, id_empresa, {
+      puntuacion,
+      comentario
+    });
+
+    res.json({
+      mensaje: "Valoracion actualizada correctamente",
+      data
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: "Error al actualizar la valoracion",
       error: error.message
     });
   }

@@ -17,6 +17,7 @@ const starRating = document.getElementById("starRating");
 
 let empresas = [];
 let empresaSeleccionada = null;
+let miValoracion = null;
 
 const authHeaders = () => ({
   Authorization: `Bearer ${getToken()}`
@@ -51,7 +52,7 @@ const buildStars = (value) => {
 
 const renderStarSelector = () => {
   starRating.innerHTML = Array.from({ length: 5 }, (_, index) => `
-    <button class="star-option ${index < Number(inputPuntuacion.value) ? "active" : ""}" type="button" data-value="${index + 1}">
+    <button class="star-option ${index < Number(inputPuntuacion.value) ? "active" : ""}" type="button" data-value="${index + 1}" ${btnEnviarValoracion.disabled ? "disabled" : ""}>
       <i class="bi bi-star-fill"></i>
     </button>
   `).join("");
@@ -64,15 +65,29 @@ const renderStarSelector = () => {
   });
 };
 
+const hydrateForm = () => {
+  if (miValoracion) {
+    inputPuntuacion.value = String(miValoracion.puntuacion || 0);
+    inputComentario.value = miValoracion.comentario || "";
+  } else {
+    inputPuntuacion.value = "0";
+    inputComentario.value = "";
+  }
+
+  renderStarSelector();
+};
+
 const updateReviewAvailability = (empresa) => {
   const puedeValorar = Number(empresa?.puede_valorar || 0) === 1;
   const yaValoro = Number(empresa?.ya_valoro || 0) === 1;
 
   if (yaValoro) {
-    estadoPermiso.className = "badge rounded-pill text-bg-secondary";
-    estadoPermiso.textContent = "Ya dejaste tu valoración";
-    btnEnviarValoracion.disabled = true;
-    inputComentario.disabled = true;
+    estadoPermiso.className = "badge rounded-pill text-bg-info";
+    estadoPermiso.textContent = "Ya valoraste esta empresa. Puedes editar tu comentario.";
+    btnEnviarValoracion.disabled = false;
+    btnEnviarValoracion.innerHTML = '<i class="bi bi-pencil-square me-2"></i>Actualizar valoración';
+    inputComentario.disabled = false;
+    hydrateForm();
     return;
   }
 
@@ -80,14 +95,20 @@ const updateReviewAvailability = (empresa) => {
     estadoPermiso.className = "badge rounded-pill text-bg-success";
     estadoPermiso.textContent = "Puedes valorar esta empresa";
     btnEnviarValoracion.disabled = false;
+    btnEnviarValoracion.innerHTML = '<i class="bi bi-send me-2"></i>Enviar valoración';
     inputComentario.disabled = false;
+    hydrateForm();
     return;
   }
 
   estadoPermiso.className = "badge rounded-pill text-bg-warning";
   estadoPermiso.textContent = "Solo puedes valorar si postulaste o trabajaste aquí";
   btnEnviarValoracion.disabled = true;
+  btnEnviarValoracion.innerHTML = '<i class="bi bi-lock me-2"></i>Valoración bloqueada';
   inputComentario.disabled = true;
+  inputPuntuacion.value = miValoracion ? String(miValoracion.puntuacion || 0) : "0";
+  inputComentario.value = miValoracion?.comentario || "";
+  renderStarSelector();
 };
 
 const renderEmpresas = () => {
@@ -103,7 +124,11 @@ const renderEmpresas = () => {
     <article class="empresa-card p-3 ${Number(empresaSeleccionada?.id_empresa) === Number(empresa.id_empresa) ? "active" : ""}" data-id="${empresa.id_empresa}">
       <div class="d-flex justify-content-between gap-3">
         <div>
-          <h3 class="h6 fw-bold mb-1">${empresa.nombre_comercial}</h3>
+          <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+            <h3 class="h6 fw-bold mb-0">${empresa.nombre_comercial}</h3>
+            ${Number(empresa.puede_valorar) === 1 ? '<span class="badge text-bg-success">Valorable</span>' : ""}
+            ${Number(empresa.ya_valoro) === 1 ? '<span class="badge text-bg-info">Ya valorada</span>' : ""}
+          </div>
           <p class="text-muted small mb-2">${[empresa.nombre_municipio, empresa.nombre_departamento].filter(Boolean).join(", ") || "El Salvador"}</p>
           <div class="small text-muted">${empresa.descripcion_empresa || "Empresa activa en Workly."}</div>
         </div>
@@ -123,8 +148,9 @@ const renderEmpresas = () => {
 };
 
 const renderResumen = (payload) => {
-  const { empresa, resumen } = payload;
+  const { empresa, resumen, mi_valoracion } = payload;
   empresaSeleccionada = empresa;
+  miValoracion = mi_valoracion || null;
 
   resumenEmpresa.innerHTML = `
     <div class="d-flex flex-column flex-lg-row justify-content-between gap-4">
@@ -169,6 +195,26 @@ const renderValoraciones = (items) => {
   `).join("");
 };
 
+const getPreferredEmpresaId = () => {
+  const urlId = Number(new URLSearchParams(window.location.search).get("id_empresa"));
+
+  if (urlId) {
+    return urlId;
+  }
+
+  const editable = empresas.find((empresa) => Number(empresa.puede_valorar) === 1 && Number(empresa.ya_valoro) === 0);
+  if (editable) {
+    return Number(editable.id_empresa);
+  }
+
+  const alreadyRated = empresas.find((empresa) => Number(empresa.ya_valoro) === 1);
+  if (alreadyRated) {
+    return Number(alreadyRated.id_empresa);
+  }
+
+  return Number(empresas[0]?.id_empresa);
+};
+
 const cargarEmpresas = async () => {
   const response = await fetch(`${API_URL}/valoraciones/empresas`, {
     headers: authHeaders()
@@ -182,7 +228,7 @@ const cargarEmpresas = async () => {
 
   empresas = data;
 
-  const initialId = Number(new URLSearchParams(window.location.search).get("id_empresa")) || Number(empresas[0]?.id_empresa);
+  const initialId = getPreferredEmpresaId();
   if (initialId) {
     await seleccionarEmpresa(initialId, false);
   }
@@ -219,6 +265,10 @@ formValoracion.addEventListener("submit", async (event) => {
       throw new Error("Selecciona una empresa para valorar.");
     }
 
+    if (btnEnviarValoracion.disabled) {
+      throw new Error("No tienes permiso para valorar esta empresa.");
+    }
+
     if (Number(inputPuntuacion.value) < 1) {
       throw new Error("Selecciona una puntuación de 1 a 5 estrellas.");
     }
@@ -227,8 +277,13 @@ formValoracion.addEventListener("submit", async (event) => {
       throw new Error("Escribe un comentario antes de enviar.");
     }
 
-    const response = await fetch(`${API_URL}/valoraciones`, {
-      method: "POST",
+    const isEditing = Boolean(miValoracion?.id_valoracion);
+    const endpoint = isEditing
+      ? `${API_URL}/valoraciones/empresa/${empresaSeleccionada.id_empresa}`
+      : `${API_URL}/valoraciones`;
+
+    const response = await fetch(endpoint, {
+      method: isEditing ? "PUT" : "POST",
       headers: {
         "Content-Type": "application/json",
         ...authHeaders()
@@ -247,9 +302,7 @@ formValoracion.addEventListener("submit", async (event) => {
     }
 
     showAlert(data.mensaje, "success");
-    inputComentario.value = "";
-    inputPuntuacion.value = "0";
-    renderStarSelector();
+    await cargarEmpresas();
     await seleccionarEmpresa(Number(empresaSeleccionada.id_empresa));
   } catch (error) {
     console.error(error);
