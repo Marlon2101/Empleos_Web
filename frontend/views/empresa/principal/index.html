@@ -315,14 +315,18 @@
                     <span class="input-group-text bg-transparent border-0 text-muted">
                         <i class="bi bi-search"></i>
                     </span>
-                    <input type="text" class="form-control bg-transparent border-0 shadow-none" 
-                           placeholder="Buscar...">
+                    <input type="text" id="inputBusquedaDashboard" class="form-control bg-transparent border-0 shadow-none" 
+                           placeholder="Buscar vacantes o postulantes...">
                 </div>
-                <button type="button" class="btn btn-primary-deep px-4" onclick="window.location.href='../publicarvacante/index.html'">
+                <button type="button" id="btnBuscarDashboard" class="btn btn-outline-primary-deep px-4">
+                    <i class="bi bi-search me-1"></i> Buscar
+                </button>
+                <button type="button" id="btnIrPublicarVacante" class="btn btn-primary-deep px-4">
                     <i class="bi bi-plus-lg me-1"></i> Publicar Vacante
                 </button>
             </div>
         </div>
+        <div id="alertContainer"></div>
 
         <!-- Métricas rápidas (nuevas tarjetas creativas) -->
         <div class="row g-4 mb-5">
@@ -341,9 +345,9 @@
                     <div class="bg-light rounded-4 p-3 d-inline-flex mb-3">
                         <i class="bi bi-people-fill fs-1" style="color: var(--primary-deep);"></i>
                     </div>
-                    <h2 class="fw-bold mb-1 counter" data-target="48">0</h2>
+                    <h2 class="fw-bold mb-1" id="totalPostulaciones">0</h2>
                     <p class="text-secondary small fw-medium mb-0">Postulantes</p>
-                    <small class="text-success"><i class="bi bi-arrow-up-short"></i> +8 nuevos</small>
+                    <small class="text-success" id="textoPostulacionesResumen"><i class="bi bi-arrow-up-short"></i> Datos en vivo</small>
                 </div>
             </div>
             <div class="col-6 col-md-3">
@@ -351,9 +355,9 @@
                     <div class="bg-light rounded-4 p-3 d-inline-flex mb-3">
                         <i class="bi bi-briefcase-fill fs-1" style="color: var(--primary-deep);"></i>
                     </div>
-                    <h2 class="fw-bold mb-1">12</h2>
+                    <h2 class="fw-bold mb-1" id="totalVacantes">0</h2>
                     <p class="text-secondary small fw-medium mb-0">Vacantes activas</p>
-                    <small class="text-warning"><i class="bi bi-clock"></i> 3 por cerrar</small>
+                    <small class="text-warning" id="textoVacantesResumen"><i class="bi bi-clock"></i> Datos en vivo</small>
                 </div>
             </div>
             <div class="col-6 col-md-3">
@@ -740,5 +744,6 @@
     setTimeout(animateCounters, 300);
 </script>
 <script type="module" src="../../../assets/js/shared/notificaciones.js"></script>
+<script type="module" src="./app.js"></script>
 </body>
 </html>
