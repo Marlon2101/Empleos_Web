@@ -1,4 +1,5 @@
 
+import { resolveViewPath } from "./config.js";
 
 const verificarAcceso = () => {
    
@@ -41,7 +42,7 @@ const expulsarUsuario = () => {
     localStorage.removeItem("usuario");
     
     
-    window.location.href = "/views/public/login/index.html"; 
+    window.location.href = resolveViewPath("public/login/index.html");
 };
 
 verificarAcceso();

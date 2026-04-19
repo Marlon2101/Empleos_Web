@@ -14,6 +14,13 @@ export const getUsuario = () => {
   return data ? JSON.parse(data) : null;
 };
 
+export const resolveViewPath = (relativeViewPath) => {
+  const cleanPath = String(relativeViewPath || "").replace(/^\/+/, "");
+  const currentPath = window.location.pathname || "";
+  const prefix = currentPath.startsWith("/frontend/") ? "/frontend/views/" : "/views/";
+  return `${prefix}${cleanPath}`;
+};
+
 export const clearSession = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("tipo");

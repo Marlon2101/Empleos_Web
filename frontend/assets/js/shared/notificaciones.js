@@ -1,17 +1,17 @@
-import { API_URL, getToken, getTipo } from "./config.js";
+import { API_URL, getToken, getTipo, resolveViewPath } from "./config.js";
 
 const getNotificationsPage = () => {
   const tipo = getTipo();
 
   if (tipo === "empresa") {
-    return "/views/empresa/notificaciones/index.html";
+    return resolveViewPath("empresa/notificaciones/index.html");
   }
 
   if (tipo === "admin") {
-    return "/views/admin/principal/index.html";
+    return resolveViewPath("admin/principal/index.html");
   }
 
-  return "/views/usuario/notificaciones/index.html";
+  return resolveViewPath("usuario/notificaciones/index.html");
 };
 
 const updateBadge = (badge, count) => {
