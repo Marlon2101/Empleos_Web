@@ -294,6 +294,25 @@ CREATE TABLE Usuarios_Perfil_Detalle (
         ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
+CREATE TABLE Vacantes_Guardadas (
+    id_guardado INT NOT NULL AUTO_INCREMENT,
+    id_usuario_fk INT NOT NULL,
+    id_vacante_fk INT NOT NULL,
+    fecha_guardado DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id_guardado),
+    UNIQUE KEY uq_guardado_usuario_vacante (id_usuario_fk, id_vacante_fk),
+    CONSTRAINT fk_guardados_usuario
+        FOREIGN KEY (id_usuario_fk)
+        REFERENCES Usuarios(id_usuario)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT fk_guardados_vacante
+        FOREIGN KEY (id_vacante_fk)
+        REFERENCES Vacantes(id_vacante)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+) ENGINE=InnoDB;
+
 
 
 ALTER TABLE Empresas

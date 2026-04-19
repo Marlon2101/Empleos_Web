@@ -23,11 +23,13 @@ const ICONOS = {
   comentario: "bi-chat-left-text-fill"
 };
 
-const authHeaders = {
+const authHeaders = () => ({
   Authorization: `Bearer ${getToken()}`
-};
+});
 
 const showAlert = (message, type = "danger") => {
+  if (!alertContainer) return;
+
   alertContainer.innerHTML = `
     <div class="alert alert-${type} alert-dismissible fade show rounded-4" role="alert">
       ${message}
@@ -37,9 +39,7 @@ const showAlert = (message, type = "danger") => {
 };
 
 const formatearFecha = (fecha) => {
-  if (!fecha) {
-    return "Reciente";
-  }
+  if (!fecha) return "Reciente";
 
   const date = new Date(fecha);
   return Number.isNaN(date.getTime())
@@ -50,24 +50,16 @@ const formatearFecha = (fecha) => {
 const obtenerFiltros = () => {
   const params = new URLSearchParams();
 
-  if (filtroTipo.value) {
-    params.set("tipo_notificacion", filtroTipo.value);
-  }
-
-  if (filtroLeida.value) {
-    params.set("leida", filtroLeida.value);
-  }
-
-  if (inputBuscar.value.trim()) {
-    params.set("search", inputBuscar.value.trim());
-  }
+  if (filtroTipo?.value) params.set("tipo_notificacion", filtroTipo.value);
+  if (filtroLeida?.value) params.set("leida", filtroLeida.value);
+  if (inputBuscar?.value.trim()) params.set("search", inputBuscar.value.trim());
 
   return params.toString();
 };
 
 const actualizarResumen = async () => {
   const response = await fetch(`${API_URL}/notificaciones/resumen`, {
-    headers: authHeaders
+    headers: authHeaders()
   });
 
   const data = await response.json();
@@ -76,13 +68,15 @@ const actualizarResumen = async () => {
     throw new Error(data.mensaje || "No se pudo cargar el resumen");
   }
 
-  resumenNoLeidas.textContent = data.no_leidas ?? 0;
-  resumenPostulaciones.textContent = data.postulaciones ?? 0;
-  resumenEstado.textContent = data.cambios_estado ?? 0;
-  resumenSistema.textContent = data.sistema ?? 0;
+  if (resumenNoLeidas) resumenNoLeidas.textContent = data.no_leidas ?? 0;
+  if (resumenPostulaciones) resumenPostulaciones.textContent = data.postulaciones ?? 0;
+  if (resumenEstado) resumenEstado.textContent = data.cambios_estado ?? 0;
+  if (resumenSistema) resumenSistema.textContent = data.sistema ?? 0;
 };
 
 const renderNotificaciones = (items) => {
+  if (!listaNotificaciones) return;
+
   if (!items.length) {
     listaNotificaciones.innerHTML = `
       <div class="text-center py-5 text-muted border rounded-4 bg-light">
@@ -110,7 +104,7 @@ const renderNotificaciones = (items) => {
           <div class="d-flex flex-wrap gap-2">
             <button class="btn btn-sm ${Number(item.leida) === 0 ? "btn-outline-primary" : "btn-outline-secondary"} rounded-pill" data-action="toggle" data-id="${item.id_notificacion}" data-leida="${item.leida}">
               <i class="bi ${Number(item.leida) === 0 ? "bi-check2" : "bi-envelope"} me-1"></i>
-              ${Number(item.leida) === 0 ? "Marcar leída" : "Marcar no leída"}
+              ${Number(item.leida) === 0 ? "Marcar leida" : "Marcar no leida"}
             </button>
             ${item.enlace ? `
               <a class="btn btn-sm btn-light rounded-pill" href="${item.enlace}">
@@ -126,13 +120,13 @@ const renderNotificaciones = (items) => {
     </article>
   `).join("");
 
-  document.querySelectorAll("[data-action='toggle']").forEach((button) => {
+  listaNotificaciones.querySelectorAll("[data-action='toggle']").forEach((button) => {
     button.addEventListener("click", async () => {
       await toggleLeida(button.dataset.id, button.dataset.leida);
     });
   });
 
-  document.querySelectorAll("[data-action='delete']").forEach((button) => {
+  listaNotificaciones.querySelectorAll("[data-action='delete']").forEach((button) => {
     button.addEventListener("click", async () => {
       await eliminarNotificacion(button.dataset.id);
     });
@@ -142,7 +136,7 @@ const renderNotificaciones = (items) => {
 const cargarNotificaciones = async () => {
   const query = obtenerFiltros();
   const response = await fetch(`${API_URL}/notificaciones${query ? `?${query}` : ""}`, {
-    headers: authHeaders
+    headers: authHeaders()
   });
 
   const data = await response.json();
@@ -151,20 +145,20 @@ const cargarNotificaciones = async () => {
     throw new Error(data.mensaje || "No se pudieron cargar las notificaciones");
   }
 
-  renderNotificaciones(data);
+  renderNotificaciones(Array.isArray(data) ? data : []);
 };
 
 const toggleLeida = async (id, leida) => {
   const path = Number(leida) === 0 ? "leer" : "no-leida";
   const response = await fetch(`${API_URL}/notificaciones/${id}/${path}`, {
     method: "PUT",
-    headers: authHeaders
+    headers: authHeaders()
   });
 
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.mensaje || "No se pudo actualizar la notificación");
+    throw new Error(data.mensaje || "No se pudo actualizar la notificacion");
   }
 
   showAlert(data.mensaje, "success");
@@ -174,24 +168,24 @@ const toggleLeida = async (id, leida) => {
 const eliminarNotificacion = async (id) => {
   const response = await fetch(`${API_URL}/notificaciones/${id}`, {
     method: "DELETE",
-    headers: authHeaders
+    headers: authHeaders()
   });
 
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.mensaje || "No se pudo eliminar la notificación");
+    throw new Error(data.mensaje || "No se pudo eliminar la notificacion");
   }
 
   showAlert(data.mensaje, "success");
   await init();
 };
 
-btnMarcarTodas.addEventListener("click", async () => {
+btnMarcarTodas?.addEventListener("click", async () => {
   try {
     const response = await fetch(`${API_URL}/notificaciones/marcar-todas/leidas`, {
       method: "PUT",
-      headers: authHeaders
+      headers: authHeaders()
     });
 
     const data = await response.json();
@@ -207,7 +201,18 @@ btnMarcarTodas.addEventListener("click", async () => {
   }
 });
 
-btnFiltrar.addEventListener("click", async () => {
+btnFiltrar?.addEventListener("click", async () => {
+  try {
+    await init();
+  } catch (error) {
+    showAlert(error.message);
+  }
+});
+
+inputBuscar?.addEventListener("keydown", async (event) => {
+  if (event.key !== "Enter") return;
+
+  event.preventDefault();
   try {
     await init();
   } catch (error) {
@@ -223,4 +228,3 @@ init().catch((error) => {
   console.error(error);
   showAlert(error.message || "No se pudo cargar la vista de notificaciones");
 });
-

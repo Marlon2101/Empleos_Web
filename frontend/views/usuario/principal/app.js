@@ -115,6 +115,21 @@ const cargarEmpleosDestacados = async () => {
   }
 };
 
+const normalizarTexto = (value = "") =>
+  value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+
+const obtenerModalidades = () => {
+  const modalidades = [];
+  if (document.getElementById("filtroRemoto")?.checked) modalidades.push("Remoto");
+  if (document.getElementById("filtroPresencial")?.checked) modalidades.push("Presencial");
+  if (document.getElementById("filtroHibrido")?.checked) modalidades.push("Hibrido");
+  return modalidades;
+};
+
 const construirFiltros = () => {
   const params = new URLSearchParams();
 
@@ -124,19 +139,30 @@ const construirFiltros = () => {
   const experiencia = document.getElementById("filtroExperiencia")?.value || "";
   const salarioMin = document.getElementById("filtroSalarioMin")?.value || "";
   const salarioMax = document.getElementById("filtroSalarioMax")?.value || "";
-
-  const modalidades = [];
-  if (document.getElementById("filtroRemoto")?.checked) modalidades.push("Remoto");
-  if (document.getElementById("filtroPresencial")?.checked) modalidades.push("Presencial");
-  if (document.getElementById("filtroHibrido")?.checked) modalidades.push("Hibrido");
+  const modalidades = obtenerModalidades();
 
   if (palabra) params.set("q", palabra);
   if (ubicacion) params.set("ubicacion", ubicacion);
-  if (tipo && !tipo.toLowerCase().includes("todos")) params.set("tipo", tipo);
-  if (experiencia && !experiencia.toLowerCase().includes("todos")) params.set("experiencia", experiencia);
-  if (salarioMin && !salarioMin.toLowerCase().includes("min")) params.set("min", salarioMin);
-  if (salarioMax && !salarioMax.toLowerCase().includes("max")) params.set("max", salarioMax);
-  if (modalidades.length > 0) params.set("tipo", modalidades[0]);
+
+  if (tipo && !normalizarTexto(tipo).includes("todos")) {
+    params.set("tipo", tipo);
+  }
+
+  if (experiencia && !normalizarTexto(experiencia).includes("todos")) {
+    params.set("experiencia", experiencia);
+  }
+
+  if (salarioMin && !normalizarTexto(salarioMin).includes("min")) {
+    params.set("min", salarioMin);
+  }
+
+  if (salarioMax && !normalizarTexto(salarioMax).includes("max")) {
+    params.set("max", salarioMax);
+  }
+
+  if (modalidades.length > 0) {
+    params.set("modalidad", modalidades.join(","));
+  }
 
   return params;
 };
@@ -153,8 +179,18 @@ const buscarConFiltros = async () => {
     const response = await fetch(`${API_URL}/vacantes/busqueda/filtros?${params.toString()}`);
     if (!response.ok) throw new Error("No se pudieron filtrar las vacantes");
 
-    const vacantes = await response.json();
-    renderResultados(Array.isArray(vacantes) ? vacantes : []);
+    let vacantes = await response.json();
+    vacantes = Array.isArray(vacantes) ? vacantes : [];
+
+    const modalidades = obtenerModalidades().map(normalizarTexto);
+    if (modalidades.length > 0) {
+      vacantes = vacantes.filter((vacante) => {
+        const modalidadVacante = normalizarTexto(vacante.modalidad || "");
+        return modalidades.some((modalidad) => modalidadVacante.includes(modalidad));
+      });
+    }
+
+    renderResultados(vacantes);
   } catch (error) {
     console.error("Error filtrando vacantes:", error);
     contenedorResultados.innerHTML = `<div class="col-12 text-center text-danger"><i class="bi bi-x-circle fs-3"></i><p>Hubo un problema al buscar vacantes.</p></div>`;

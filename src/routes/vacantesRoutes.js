@@ -7,7 +7,8 @@ import {
   actualizarVacante,
   eliminarVacante,
   buscarVacantes,
-  obtenerDetalleVacante
+  obtenerDetalleVacante,
+  obtenerVacantesSimilares
 } from "../controllers/vacantesController.js";
 
 import {
@@ -25,6 +26,7 @@ router.post('/', crearVacante);
 router.get("/", obtenerVacantes);
 router.get("/busqueda/filtros", buscarVacantes);
 router.get("/detalle/:id", verificarTokenOpcional, obtenerDetalleVacante);
+router.get("/:id/similares", obtenerVacantesSimilares);
 router.get("/empresa/:id_empresa", obtenerVacantesPorEmpresa);
 
 router.get("/destacadas", async (req, res) => {

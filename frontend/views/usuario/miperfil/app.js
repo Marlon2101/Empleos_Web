@@ -3,12 +3,13 @@ import { requireAuth } from "../../../assets/js/shared/auth.js";
 
 requireAuth(["usuario"]);
 
-const formPerfil = document.getElementById("formPerfil");
 const btnGuardarPerfil = document.getElementById("btnGuardarPerfil");
 const alertContainer = document.getElementById("alertContainer");
 const selectMunicipio = document.getElementById("id_municipio_fk");
 const inputFoto = document.getElementById("foto_perfil_input");
 const previewFoto = document.getElementById("previewFoto");
+const cardRoot = document.querySelector(".surface-card.p-4.h-100");
+const panelRoot = document.querySelector(".surface-card.p-4.p-lg-5");
 
 let fotoPerfilBase64 = "";
 
@@ -18,6 +19,8 @@ const authHeaders = () => ({
 });
 
 const showAlert = (message, type = "danger") => {
+  if (!alertContainer) return;
+
   alertContainer.innerHTML = `
     <div class="alert alert-${type} alert-dismissible fade show rounded-4" role="alert">
       ${message}
@@ -50,6 +53,14 @@ const serializeExperiencias = (items = []) =>
 const serializeEducacion = (items = []) =>
   items.map((item) => [item.titulo, item.institucion, item.periodo].filter(Boolean).join(" | ")).join("\n");
 
+const formatearSalario = (salario) => {
+  if (salario === null || salario === undefined || salario === "") {
+    return "A convenir";
+  }
+
+  return `$${Number(salario).toFixed(2)}`;
+};
+
 const setCardData = (perfil) => {
   document.getElementById("cardNombre").textContent = perfil.nombre_completo || "Mi perfil";
   document.getElementById("cardTitulo").textContent = perfil.titulo_profesional || "Completa tu perfil profesional";
@@ -57,6 +68,109 @@ const setCardData = (perfil) => {
   document.getElementById("cardTelefono").textContent = perfil.telefono || "--";
   document.getElementById("cardUbicacion").textContent = [perfil.nombre_municipio, perfil.nombre_departamento].filter(Boolean).join(", ") || perfil.direccion || "--";
   previewFoto.src = perfil.foto_perfil || "https://placehold.co/240x240/eef2ff/3f51b5?text=Perfil";
+};
+
+const ensureExtrasLayout = () => {
+  if (cardRoot && !document.getElementById("quickActionsPerfil")) {
+    const hr = cardRoot.querySelector("hr");
+    hr?.insertAdjacentHTML("afterend", `
+      <div class="d-grid gap-3 mb-4" id="quickActionsPerfil">
+        <a class="text-decoration-none text-dark border rounded-4 p-3" href="../notificaciones/index.html">
+          <div class="d-flex align-items-center justify-content-between gap-3">
+            <div>
+              <div class="text-uppercase small fw-bold text-secondary">Acceso rapido</div>
+              <div class="fw-semibold">Ver notificaciones</div>
+            </div>
+            <i class="bi bi-bell fs-4 text-primary"></i>
+          </div>
+        </a>
+        <a class="text-decoration-none text-dark border rounded-4 p-3" href="../buscarempleo/index.html">
+          <div class="d-flex align-items-center justify-content-between gap-3">
+            <div>
+              <div class="text-uppercase small fw-bold text-secondary">Acceso rapido</div>
+              <div class="fw-semibold">Buscar nuevas vacantes</div>
+            </div>
+            <i class="bi bi-search fs-4 text-primary"></i>
+          </div>
+        </a>
+      </div>
+    `);
+  }
+
+  if (panelRoot && !document.getElementById("listaGuardadosPerfil")) {
+    const form = document.getElementById("formPerfil");
+    form?.insertAdjacentHTML("afterend", `
+      <hr class="my-5">
+      <div class="row g-4">
+        <div class="col-12 col-lg-6">
+          <div class="border rounded-4 p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <h3 class="h5 fw-bold mb-1">Empleos guardados</h3>
+                <p class="text-muted small mb-0">Vacantes que apartaste para revisar despues.</p>
+              </div>
+              <span class="badge text-bg-light rounded-pill" id="contadorGuardados">0</span>
+            </div>
+            <div class="d-grid gap-3" id="listaGuardadosPerfil"></div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="border rounded-4 p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <h3 class="h5 fw-bold mb-1">Mis postulaciones</h3>
+                <p class="text-muted small mb-0">Seguimiento rapido de tu actividad reciente.</p>
+              </div>
+              <span class="badge text-bg-light rounded-pill" id="contadorPostulaciones">0</span>
+            </div>
+            <div class="d-grid gap-3" id="listaPostulacionesPerfil"></div>
+          </div>
+        </div>
+      </div>
+    `);
+  }
+};
+
+const renderGuardados = (items = []) => {
+  const root = document.getElementById("listaGuardadosPerfil");
+  const contador = document.getElementById("contadorGuardados");
+  if (!root || !contador) return;
+
+  contador.textContent = String(items.length);
+
+  if (!items.length) {
+    root.innerHTML = `<p class="text-muted mb-0">Todavia no has guardado vacantes.</p>`;
+    return;
+  }
+
+  root.innerHTML = items.slice(0, 4).map((item) => `
+    <a class="text-decoration-none text-dark border rounded-4 p-3" href="../detalleempleo/index.html?id=${item.id_vacante}">
+      <div class="fw-semibold">${item.titulo_puesto}</div>
+      <div class="small text-muted">${item.nombre_comercial || "Empresa"} · ${item.nombre_municipio || "El Salvador"}</div>
+      <div class="small text-primary mt-1">${formatearSalario(item.salario_offrecido)}</div>
+    </a>
+  `).join("");
+};
+
+const renderPostulaciones = (items = []) => {
+  const root = document.getElementById("listaPostulacionesPerfil");
+  const contador = document.getElementById("contadorPostulaciones");
+  if (!root || !contador) return;
+
+  contador.textContent = String(items.length);
+
+  if (!items.length) {
+    root.innerHTML = `<p class="text-muted mb-0">Aun no tienes postulaciones registradas.</p>`;
+    return;
+  }
+
+  root.innerHTML = items.slice(0, 4).map((item) => `
+    <a class="text-decoration-none text-dark border rounded-4 p-3" href="../detalleempleo/index.html?id=${item.id_vacante}">
+      <div class="fw-semibold">${item.titulo_puesto}</div>
+      <div class="small text-muted">${item.nombre_comercial || "Empresa"}</div>
+      <div class="small mt-1"><span class="badge text-bg-light">${item.nombre_estado || "En proceso"}</span></div>
+    </a>
+  `).join("");
 };
 
 const cargarMunicipios = async () => {
@@ -71,9 +185,7 @@ const cargarMunicipios = async () => {
 
 const cargarPerfil = async () => {
   const response = await fetch(`${API_URL}/api/usuarios/perfil`, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`
-    }
+    headers: { Authorization: `Bearer ${getToken()}` }
   });
 
   const data = await response.json();
@@ -99,6 +211,29 @@ const cargarPerfil = async () => {
   setCardData(data);
 };
 
+const cargarActividadPerfil = async () => {
+  const headers = { Authorization: `Bearer ${getToken()}` };
+  const [guardadosResponse, postulacionesResponse] = await Promise.all([
+    fetch(`${API_URL}/guardados`, { headers }),
+    fetch(`${API_URL}/usuario/postulaciones`, { headers })
+  ]);
+
+  const guardadosData = await guardadosResponse.json();
+  const postulacionesData = await postulacionesResponse.json();
+
+  if (guardadosResponse.ok) {
+    renderGuardados(Array.isArray(guardadosData) ? guardadosData : []);
+  } else {
+    renderGuardados([]);
+  }
+
+  if (postulacionesResponse.ok) {
+    renderPostulaciones(Array.isArray(postulacionesData) ? postulacionesData : []);
+  } else {
+    renderPostulaciones([]);
+  }
+};
+
 const validarFormulario = () => {
   const nombres = document.getElementById("nombres").value.trim();
   const apellidos = document.getElementById("apellidos").value.trim();
@@ -110,7 +245,7 @@ const validarFormulario = () => {
   }
 
   if (!/^[0-9+\-\s]{8,20}$/.test(telefono)) {
-    throw new Error("Ingresa un número de teléfono válido.");
+    throw new Error("Ingresa un numero de telefono valido.");
   }
 
   if (!municipio) {
@@ -152,15 +287,13 @@ const guardarPerfil = async () => {
   showAlert(data.mensaje, "success");
 };
 
-inputFoto.addEventListener("change", async (event) => {
+inputFoto?.addEventListener("change", async (event) => {
   const file = event.target.files?.[0];
 
-  if (!file) {
-    return;
-  }
+  if (!file) return;
 
   if (!file.type.startsWith("image/")) {
-    showAlert("Selecciona una imagen válida.");
+    showAlert("Selecciona una imagen valida.");
     inputFoto.value = "";
     return;
   }
@@ -181,7 +314,7 @@ inputFoto.addEventListener("change", async (event) => {
   previewFoto.src = fotoPerfilBase64;
 });
 
-btnGuardarPerfil.addEventListener("click", async () => {
+btnGuardarPerfil?.addEventListener("click", async () => {
   try {
     await guardarPerfil();
   } catch (error) {
@@ -191,12 +324,13 @@ btnGuardarPerfil.addEventListener("click", async () => {
 });
 
 const init = async () => {
+  ensureExtrasLayout();
   await cargarMunicipios();
   await cargarPerfil();
+  await cargarActividadPerfil();
 };
 
 init().catch((error) => {
   console.error(error);
   showAlert(error.message || "No se pudo cargar el perfil");
 });
-

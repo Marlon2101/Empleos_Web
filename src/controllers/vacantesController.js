@@ -7,10 +7,11 @@ import {
   deleteVacante,
   getVacanteSimpleById,
   buscarVacantesConFiltros,
-  getDetalleVacanteById
+  getDetalleVacanteById,
+  getVacantesSimilaresById
 } from "../models/vacantesModel.js";
 import { usuarioYaPostulado } from "../models/postulacionesModel.js";
-
+import { getGuardadoByUsuarioVacante } from "../models/guardadosModel.js";
 
 export const obtenerVacantes = async (req, res) => {
   try {
@@ -56,10 +57,11 @@ export const obtenerVacantesPorEmpresa = async (req, res) => {
     });
   }
 };
+
 export const crearVacante = async (req, res) => {
   try {
     const {
-      id_empresa_fk, 
+      id_empresa_fk,
       id_categoria_fk,
       titulo_puesto,
       descripcion_puesto,
@@ -68,11 +70,10 @@ export const crearVacante = async (req, res) => {
       id_municipio_fk
     } = req.body;
 
-   
     const empresaIdSeguro = id_empresa_fk || (req.user ? req.user.id : 1);
 
     const nuevaVacante = await createVacante({
-      id_empresa_fk: empresaIdSeguro, 
+      id_empresa_fk: empresaIdSeguro,
       id_categoria_fk,
       titulo_puesto,
       descripcion_puesto,
@@ -83,17 +84,17 @@ export const crearVacante = async (req, res) => {
 
     res.status(201).json(nuevaVacante);
   } catch (error) {
-    console.log("ERROR CRÍTICO AL CREAR VACANTE:", error); 
+    console.log("ERROR CRITICO AL CREAR VACANTE:", error);
     res.status(500).json({
       mensaje: "Error al crear vacante",
       error: error.message
     });
   }
 };
+
 export const actualizarVacante = async (req, res) => {
   try {
     const { id } = req.params;
-
     const vacante = await getVacanteSimpleById(id);
 
     if (!vacante) {
@@ -140,7 +141,6 @@ export const actualizarVacante = async (req, res) => {
 export const eliminarVacante = async (req, res) => {
   try {
     const { id } = req.params;
-
     const vacante = await getVacanteSimpleById(id);
 
     if (!vacante) {
@@ -168,13 +168,13 @@ export const eliminarVacante = async (req, res) => {
     });
   }
 };
+
 export const buscarVacantes = async (req, res) => {
   try {
-    // Atrapamos TODOS los filtros que manda el Frontend
     const { q, ubicacion, tipo, experiencia, min, max, fecha } = req.query;
 
     const data = await buscarVacantesConFiltros({
-      titulo: q, 
+      titulo: q,
       ubicacion,
       tipo,
       experiencia,
@@ -186,7 +186,10 @@ export const buscarVacantes = async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error("Error en buscarVacantes:", error);
-    res.status(500).json({ mensaje: "Error al buscar vacantes", error: error.message });
+    res.status(500).json({
+      mensaje: "Error al buscar vacantes",
+      error: error.message
+    });
   }
 };
 
@@ -194,9 +197,8 @@ export const obtenerDetalleVacante = async (req, res) => {
   try {
     const { id } = req.params;
 
-    
     if (isNaN(id)) {
-        return res.status(400).json({ mensaje: "ID de vacante inválido" });
+      return res.status(400).json({ mensaje: "ID de vacante invalido" });
     }
 
     const vacante = await getDetalleVacanteById(id);
@@ -209,28 +211,43 @@ export const obtenerDetalleVacante = async (req, res) => {
 
     let postulacion = null;
     let yaPostulado = false;
-
+    let yaGuardado = false;
 
     try {
-        if (req.user && req.user.tipo === "usuario") {
-          postulacion = await usuarioYaPostulado(req.user.id, id);
-          yaPostulado = !!postulacion; 
-        }
+      if (req.user && req.user.tipo === "usuario") {
+        postulacion = await usuarioYaPostulado(req.user.id, id);
+        yaPostulado = Boolean(postulacion);
+        yaGuardado = Boolean(await getGuardadoByUsuarioVacante(req.user.id, id));
+      }
     } catch (dbError) {
-
-        console.error(`Error verificando postulación para usuario ${req.user?.id} en vacante ${id}:`, dbError);
-        yaPostulado = false; 
+      console.error(`Error verificando interacciones del usuario ${req.user?.id} en vacante ${id}:`, dbError);
+      yaPostulado = false;
+      yaGuardado = false;
     }
 
     res.json({
       vacante,
       yaPostulado,
+      yaGuardado,
       postulacion
     });
   } catch (error) {
     console.error("Error fatal en obtenerDetalleVacante:", error);
     res.status(500).json({
       mensaje: "Error al obtener detalle de vacante",
+      error: error.message
+    });
+  }
+};
+
+export const obtenerVacantesSimilares = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await getVacantesSimilaresById(id, req.query.limit || 3);
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({
+      mensaje: "Error al obtener vacantes similares",
       error: error.message
     });
   }

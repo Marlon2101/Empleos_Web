@@ -29,6 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return `$${Number(vacante.salario_offrecido).toFixed(2)}`;
   };
 
+  const normalizarTexto = (value = "") =>
+    value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+
   const tarjetaVacante = (vacante) => `
     <div class="card mb-4 p-4 border-0 shadow-sm" style="border-radius: 20px; transition: transform 0.2s;">
       <div class="row align-items-center">
@@ -60,6 +67,11 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     </div>
   `;
+
+  const getCheckedValues = (ids) =>
+    ids
+      .map((id) => document.getElementById(id))
+      .filter((input) => input?.checked);
 
   const obtenerParametrosFiltros = () => {
     const params = new URLSearchParams();
@@ -170,6 +182,20 @@ document.addEventListener("DOMContentLoaded", () => {
     renderPaginacion();
   };
 
+  const aplicarFiltroLocalModalidad = (vacantes) => {
+    const modalidadesSeleccionadas = getCheckedValues(["modalidadRemoto", "modalidadPresencial", "modalidadHibrido"]);
+
+    if (!modalidadesSeleccionadas.length) {
+      return vacantes;
+    }
+
+    const modalidades = modalidadesSeleccionadas.map((input) => normalizarTexto(input.value));
+    return vacantes.filter((vacante) => {
+      const modalidadVacante = normalizarTexto(vacante.modalidad || "");
+      return modalidades.some((modalidad) => modalidadVacante.includes(modalidad));
+    });
+  };
+
   const cargarVacantes = async (params = new URLSearchParams()) => {
     if (!contenedorVacantes) return;
 
@@ -186,8 +212,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const response = await fetch(url);
       if (!response.ok) throw new Error("Error al consultar la API");
 
-      const vacantes = await response.json();
-      resultadosActuales = Array.isArray(vacantes) ? vacantes : [];
+      let vacantes = await response.json();
+      vacantes = Array.isArray(vacantes) ? vacantes : [];
+      vacantes = aplicarFiltroLocalModalidad(vacantes);
+
+      resultadosActuales = vacantes;
       paginaActual = 1;
 
       if (textoBarraEstado) {
@@ -233,7 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
     else if (fecha === "semana") document.getElementById("fecha3").checked = true;
     else if (fecha === "mes") document.getElementById("fecha4").checked = true;
 
-    const experiencia = (params.get("experiencia") || "").toLowerCase();
+    const experiencia = normalizarTexto(params.get("experiencia") || "");
     if (experiencia.includes("practic")) document.getElementById("nivel1").checked = true;
     if (experiencia.includes("junior")) document.getElementById("nivel2").checked = true;
     if (experiencia.includes("semi")) document.getElementById("nivel3").checked = true;
@@ -250,6 +279,26 @@ document.addEventListener("DOMContentLoaded", () => {
     return params;
   };
 
+  const configurarGruposExclusivos = () => {
+    [
+      ["fecha1", "fecha2", "fecha3", "fecha4"],
+      ["salario1", "salario2", "salario3", "salario4", "salario5"]
+    ].forEach((group) => {
+      group.forEach((id) => {
+        const input = document.getElementById(id);
+        input?.addEventListener("change", () => {
+          if (!input.checked) return;
+          group
+            .filter((otherId) => otherId !== id)
+            .forEach((otherId) => {
+              const otherInput = document.getElementById(otherId);
+              if (otherInput) otherInput.checked = false;
+            });
+        });
+      });
+    });
+  };
+
   btnBuscar?.addEventListener("click", aplicarFiltros);
   inputBusqueda?.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
@@ -260,6 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
   btnAplicarFiltros?.addEventListener("click", aplicarFiltros);
   btnAplicarMobile?.addEventListener("click", aplicarFiltros);
 
+  configurarGruposExclusivos();
   const paramsIniciales = hidratarDesdeUrl();
   cargarVacantes(paramsIniciales);
 });

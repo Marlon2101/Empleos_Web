@@ -282,6 +282,7 @@ export const getDetalleVacanteById = async (id) => {
   const query = `
     SELECT
       v.id_vacante,
+      v.id_empresa_fk,
       v.titulo_puesto,
       v.descripcion_puesto,
       v.responsabilidades,
@@ -289,12 +290,35 @@ export const getDetalleVacanteById = async (id) => {
       v.salario_offrecido,
       v.modalidad,
       v.fecha_publicacion,
+      v.id_categoria_fk,
       c.nombre_categoria,
       m.nombre_municipio,
       d.nombre_departamento,
+      e.id_empresa,
       e.nombre_comercial,
       e.descripcion_empresa,
-      e.sitio_web
+      e.sitio_web,
+      CASE
+        WHEN LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%practic%' OR
+             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%becari%' OR
+             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%trainee%' OR
+             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%intern%'
+          THEN 'Practicante'
+        WHEN LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%junior%' OR
+             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '% jr %' OR
+             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE 'jr %' OR
+             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '% jr'
+          THEN 'Junior'
+        WHEN LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%semi%' OR
+             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%mid%'
+          THEN 'Semi-senior'
+        WHEN LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%senior%' OR
+             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '% lead %' OR
+             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE 'lead %' OR
+             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '% principal %'
+          THEN 'Senior'
+        ELSE 'No especificado'
+      END AS experiencia_nivel
     FROM Vacantes v
     LEFT JOIN Categorias c ON v.id_categoria_fk = c.id_categoria
     LEFT JOIN Municipios m ON v.id_municipio_fk = m.id_municipio
@@ -305,4 +329,41 @@ export const getDetalleVacanteById = async (id) => {
 
   const [rows] = await pool.query(query, [id]);
   return rows[0];
+};
+
+export const getVacantesSimilaresById = async (id, limit = 3) => {
+  const query = `
+    SELECT
+      similares.id_vacante,
+      similares.id_empresa_fk,
+      similares.id_empresa,
+      similares.nombre_empresa,
+      similares.nombre_comercial,
+      similares.titulo_puesto,
+      similares.salario_offrecido,
+      similares.modalidad,
+      similares.nombre_municipio,
+      similares.fecha_publicacion,
+      similares.experiencia_nivel
+    FROM Vacantes base
+    INNER JOIN (
+      ${BASE_VACANTES_SELECT}
+    ) AS similares
+      ON similares.id_vacante <> base.id_vacante
+      AND (
+        similares.id_categoria_fk = base.id_categoria_fk OR
+        similares.id_empresa_fk = base.id_empresa_fk OR
+        similares.id_municipio_fk = base.id_municipio_fk
+      )
+    WHERE base.id_vacante = ?
+    ORDER BY
+      (similares.id_categoria_fk = base.id_categoria_fk) DESC,
+      (similares.id_empresa_fk = base.id_empresa_fk) DESC,
+      similares.fecha_publicacion DESC,
+      similares.id_vacante DESC
+    LIMIT ?
+  `;
+
+  const [rows] = await pool.query(query, [id, Number(limit)]);
+  return rows;
 };
