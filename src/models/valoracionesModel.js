@@ -1,5 +1,48 @@
 import { pool } from "../config/db.js";
 
+export const getEmpresasValorables = async (id_usuario = null) => {
+  const [rows] = await pool.query(
+    `
+    SELECT
+      e.id_empresa,
+      e.nombre_comercial,
+      e.descripcion_empresa,
+      e.sitio_web,
+      e.correo_electronico,
+      m.nombre_municipio,
+      d.nombre_departamento,
+      ROUND(AVG(vr.puntuacion), 2) AS promedio,
+      COUNT(vr.id_valoracion) AS total_valoraciones,
+      CASE
+        WHEN ? IS NULL THEN 0
+        WHEN EXISTS (
+          SELECT 1
+          FROM Postulaciones p
+          INNER JOIN Vacantes vac ON p.id_vacante_fk = vac.id_vacante
+          WHERE p.id_usuario_fk = ? AND vac.id_empresa_fk = e.id_empresa
+        ) THEN 1
+        ELSE 0
+      END AS puede_valorar
+    FROM Empresas e
+    LEFT JOIN Municipios m ON e.id_municipio_fk = m.id_municipio
+    LEFT JOIN Departamentos d ON m.id_departamento_fk = d.id_departamento
+    LEFT JOIN Valoraciones_Empresas vr ON vr.id_empresa_fk = e.id_empresa
+    GROUP BY
+      e.id_empresa,
+      e.nombre_comercial,
+      e.descripcion_empresa,
+      e.sitio_web,
+      e.correo_electronico,
+      m.nombre_municipio,
+      d.nombre_departamento
+    ORDER BY e.nombre_comercial ASC
+    `,
+    [id_usuario, id_usuario]
+  );
+
+  return rows;
+};
+
 export const getValoracionesByEmpresa = async (id_empresa) => {
   const [rows] = await pool.query(
     `
@@ -20,6 +63,59 @@ export const getValoracionesByEmpresa = async (id_empresa) => {
   );
 
   return rows;
+};
+
+export const getEmpresaValoracionDetalle = async (id_empresa, id_usuario = null) => {
+  const [rows] = await pool.query(
+    `
+    SELECT
+      e.id_empresa,
+      e.nombre_comercial,
+      e.descripcion_empresa,
+      e.sitio_web,
+      e.correo_electronico,
+      m.nombre_municipio,
+      d.nombre_departamento,
+      ROUND(AVG(vr.puntuacion), 2) AS promedio,
+      COUNT(vr.id_valoracion) AS total_valoraciones,
+      CASE
+        WHEN ? IS NULL THEN 0
+        WHEN EXISTS (
+          SELECT 1
+          FROM Postulaciones p
+          INNER JOIN Vacantes vac ON p.id_vacante_fk = vac.id_vacante
+          WHERE p.id_usuario_fk = ? AND vac.id_empresa_fk = e.id_empresa
+        ) THEN 1
+        ELSE 0
+      END AS puede_valorar,
+      CASE
+        WHEN ? IS NULL THEN 0
+        WHEN EXISTS (
+          SELECT 1
+          FROM Valoraciones_Empresas ve
+          WHERE ve.id_usuario_fk = ? AND ve.id_empresa_fk = e.id_empresa
+        ) THEN 1
+        ELSE 0
+      END AS ya_valoro
+    FROM Empresas e
+    LEFT JOIN Municipios m ON e.id_municipio_fk = m.id_municipio
+    LEFT JOIN Departamentos d ON m.id_departamento_fk = d.id_departamento
+    LEFT JOIN Valoraciones_Empresas vr ON vr.id_empresa_fk = e.id_empresa
+    WHERE e.id_empresa = ?
+    GROUP BY
+      e.id_empresa,
+      e.nombre_comercial,
+      e.descripcion_empresa,
+      e.sitio_web,
+      e.correo_electronico,
+      m.nombre_municipio,
+      d.nombre_departamento
+    LIMIT 1
+    `,
+    [id_usuario, id_usuario, id_usuario, id_usuario, id_empresa]
+  );
+
+  return rows[0];
 };
 
 export const getValoracionesUsuario = async (id_usuario) => {
@@ -55,6 +151,21 @@ export const existeValoracionUsuarioEmpresa = async (id_usuario, id_empresa) => 
   );
 
   return rows[0];
+};
+
+export const usuarioPuedeValorarEmpresa = async (id_usuario, id_empresa) => {
+  const [rows] = await pool.query(
+    `
+    SELECT p.id_postulacion
+    FROM Postulaciones p
+    INNER JOIN Vacantes v ON p.id_vacante_fk = v.id_vacante
+    WHERE p.id_usuario_fk = ? AND v.id_empresa_fk = ?
+    LIMIT 1
+    `,
+    [id_usuario, id_empresa]
+  );
+
+  return Boolean(rows[0]);
 };
 
 export const createValoracion = async (data) => {
@@ -102,3 +213,4 @@ export const getPromedioEmpresa = async (id_empresa) => {
 
   return row;
 };
+

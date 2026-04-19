@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { crearNotificacionParaTodosLosUsuarios } from "../models/notificacionesModel.js";
 import {
   getAdminUsuarios,
   getAdminEmpresas,
@@ -127,6 +128,13 @@ export const crearVacanteAdmin = async (req, res) => {
       estado: estado?.trim() || "Activo"
     });
 
+    await crearNotificacionParaTodosLosUsuarios({
+      titulo: "Nueva vacante disponible",
+      mensaje: `Se publico una nueva vacante: ${vacante.titulo_puesto}.`,
+      tipo_notificacion: "sistema",
+      enlace: `/views/usuario/buscarempleo/index.html`
+    }).catch(() => null);
+
     res.status(201).json(vacante);
   } catch (error) {
     res.status(500).json({
@@ -173,6 +181,13 @@ export const actualizarVacanteAdmin = async (req, res) => {
       });
     }
 
+    await crearNotificacionParaTodosLosUsuarios({
+      titulo: "Vacante actualizada",
+      mensaje: `La vacante ${vacante.titulo_puesto} fue actualizada por administracion.`,
+      tipo_notificacion: "sistema",
+      enlace: `/views/usuario/buscarempleo/index.html`
+    }).catch(() => null);
+
     res.json(vacante);
   } catch (error) {
     res.status(500).json({
@@ -200,6 +215,13 @@ export const cambiarEstadoVacanteAdmin = async (req, res) => {
         mensaje: "Vacante no encontrada"
       });
     }
+
+    await crearNotificacionParaTodosLosUsuarios({
+      titulo: "Cambio en una vacante",
+      mensaje: `La vacante ${vacante.titulo_puesto} cambio a estado ${estado}.`,
+      tipo_notificacion: "estado",
+      enlace: `/views/usuario/buscarempleo/index.html`
+    }).catch(() => null);
 
     res.json(vacante);
   } catch (error) {

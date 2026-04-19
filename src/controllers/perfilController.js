@@ -5,6 +5,18 @@ import {
   updatePerfilEmpresaById
 } from "../models/perfilModel.js";
 
+const normalizarLista = (value) => {
+  if (!value) {
+    return [];
+  }
+
+  if (Array.isArray(value)) {
+    return value.filter(Boolean);
+  }
+
+  return [];
+};
+
 export const obtenerMiPerfil = async (req, res) => {
   try {
     if (req.user.tipo === "usuario") {
@@ -38,7 +50,7 @@ export const obtenerMiPerfil = async (req, res) => {
     }
 
     return res.status(400).json({
-      mensaje: "Tipo de usuario no válido"
+      mensaje: "Tipo de usuario no valido"
     });
   } catch (error) {
     res.status(500).json({
@@ -74,15 +86,29 @@ export const actualizarPerfilUsuario = async (req, res) => {
       apellidos,
       telefono,
       id_municipio_fk,
-      resumen_profesional
+      resumen_profesional,
+      direccion,
+      titulo_profesional,
+      sitio_web,
+      foto_perfil,
+      habilidades,
+      experiencia,
+      educacion
     } = req.body;
 
     const perfilActualizado = await updatePerfilUsuarioById(req.user.id, {
-      nombres,
-      apellidos,
-      telefono,
-      id_municipio_fk,
-      resumen_profesional
+      nombres: String(nombres || "").trim(),
+      apellidos: String(apellidos || "").trim(),
+      telefono: String(telefono || "").trim(),
+      id_municipio_fk: id_municipio_fk ? Number(id_municipio_fk) : null,
+      resumen_profesional: String(resumen_profesional || "").trim(),
+      direccion: String(direccion || "").trim() || null,
+      titulo_profesional: String(titulo_profesional || "").trim() || null,
+      sitio_web: String(sitio_web || "").trim() || null,
+      foto_perfil: foto_perfil || null,
+      habilidades: normalizarLista(habilidades),
+      experiencia: normalizarLista(experiencia),
+      educacion: normalizarLista(educacion)
     });
 
     if (!perfilActualizado) {
@@ -157,3 +183,4 @@ export const actualizarPerfilEmpresa = async (req, res) => {
     });
   }
 };
+

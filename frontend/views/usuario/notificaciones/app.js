@@ -1,128 +1,226 @@
 import { API_URL, getToken } from "../../../assets/js/shared/config.js";
-import { requireAuth, logout } from "../../../assets/js/shared/auth.js";
+import { requireAuth } from "../../../assets/js/shared/auth.js";
 
 requireAuth(["usuario"]);
 
-const btnLogout = document.getElementById("btnLogout");
-const btnMarcarTodas = document.getElementById("btnMarcarTodas");
-const listaNotificaciones = document.getElementById("listaNotificaciones");
 const alertContainer = document.getElementById("alertContainer");
+const listaNotificaciones = document.getElementById("listaNotificaciones");
+const btnMarcarTodas = document.getElementById("btnMarcarTodas");
+const btnFiltrar = document.getElementById("btnFiltrar");
+const filtroTipo = document.getElementById("filtroTipo");
+const filtroLeida = document.getElementById("filtroLeida");
+const inputBuscar = document.getElementById("inputBuscar");
 
-btnLogout.addEventListener("click", logout);
+const resumenNoLeidas = document.getElementById("resumenNoLeidas");
+const resumenPostulaciones = document.getElementById("resumenPostulaciones");
+const resumenEstado = document.getElementById("resumenEstado");
+const resumenSistema = document.getElementById("resumenSistema");
+
+const ICONOS = {
+  postulacion: "bi-briefcase-fill",
+  estado: "bi-arrow-repeat",
+  sistema: "bi-bell-fill",
+  comentario: "bi-chat-left-text-fill"
+};
+
+const authHeaders = {
+  Authorization: `Bearer ${getToken()}`
+};
 
 const showAlert = (message, type = "danger") => {
   alertContainer.innerHTML = `
-    <div class="alert alert-${type}" role="alert">
+    <div class="alert alert-${type} alert-dismissible fade show rounded-4" role="alert">
       ${message}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
   `;
 };
 
 const formatearFecha = (fecha) => {
-  if (!fecha) return "N/D";
-  return new Date(fecha).toLocaleString("es-SV");
+  if (!fecha) {
+    return "Reciente";
+  }
+
+  const date = new Date(fecha);
+  return Number.isNaN(date.getTime())
+    ? "Reciente"
+    : date.toLocaleString("es-SV", { dateStyle: "medium", timeStyle: "short" });
+};
+
+const obtenerFiltros = () => {
+  const params = new URLSearchParams();
+
+  if (filtroTipo.value) {
+    params.set("tipo_notificacion", filtroTipo.value);
+  }
+
+  if (filtroLeida.value) {
+    params.set("leida", filtroLeida.value);
+  }
+
+  if (inputBuscar.value.trim()) {
+    params.set("search", inputBuscar.value.trim());
+  }
+
+  return params.toString();
+};
+
+const actualizarResumen = async () => {
+  const response = await fetch(`${API_URL}/notificaciones/resumen`, {
+    headers: authHeaders
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.mensaje || "No se pudo cargar el resumen");
+  }
+
+  resumenNoLeidas.textContent = data.no_leidas ?? 0;
+  resumenPostulaciones.textContent = data.postulaciones ?? 0;
+  resumenEstado.textContent = data.cambios_estado ?? 0;
+  resumenSistema.textContent = data.sistema ?? 0;
 };
 
 const renderNotificaciones = (items) => {
-  if (!items || items.length === 0) {
-    listaNotificaciones.innerHTML = `<p class="text-muted mb-0">No tienes notificaciones todavía.</p>`;
+  if (!items.length) {
+    listaNotificaciones.innerHTML = `
+      <div class="text-center py-5 text-muted border rounded-4 bg-light">
+        No hay notificaciones que coincidan con tus filtros.
+      </div>
+    `;
     return;
   }
 
-  listaNotificaciones.innerHTML = items.map(item => `
-    <div class="notificacion-item ${Number(item.leida) === 0 ? "notificacion-no-leida" : ""}">
-      <div class="d-flex justify-content-between align-items-start gap-3">
-        <div>
-          <div class="notificacion-titulo mb-1">${item.titulo}</div>
-          <div class="mb-2">${item.mensaje}</div>
-          <div class="notificacion-meta">${formatearFecha(item.fecha_creacion)}</div>
+  listaNotificaciones.innerHTML = items.map((item) => `
+    <article class="notification-card ${Number(item.leida) === 0 ? "unread" : ""} p-4">
+      <div class="d-flex gap-3">
+        <div class="icon-pill flex-shrink-0">
+          <i class="bi ${ICONOS[item.tipo_notificacion] || ICONOS.sistema} fs-5"></i>
         </div>
-        <div class="text-end">
-          ${
-            Number(item.leida) === 0
-              ? `<button class="btn btn-sm btn-outline-primary btn-marcar" data-id="${item.id_notificacion}">Marcar leída</button>`
-              : `<span class="badge text-bg-success">Leída</span>`
-          }
+        <div class="flex-grow-1">
+          <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mb-2">
+            <div>
+              <h3 class="h6 fw-bold mb-1">${item.titulo}</h3>
+              <span class="badge badge-soft rounded-pill text-uppercase">${item.tipo_notificacion || "sistema"}</span>
+            </div>
+            <small class="text-muted">${formatearFecha(item.fecha_creacion)}</small>
+          </div>
+          <p class="text-muted mb-3">${item.mensaje}</p>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-sm ${Number(item.leida) === 0 ? "btn-outline-primary" : "btn-outline-secondary"} rounded-pill" data-action="toggle" data-id="${item.id_notificacion}" data-leida="${item.leida}">
+              <i class="bi ${Number(item.leida) === 0 ? "bi-check2" : "bi-envelope"} me-1"></i>
+              ${Number(item.leida) === 0 ? "Marcar leída" : "Marcar no leída"}
+            </button>
+            ${item.enlace ? `
+              <a class="btn btn-sm btn-light rounded-pill" href="${item.enlace}">
+                <i class="bi bi-box-arrow-up-right me-1"></i>Ir al detalle
+              </a>
+            ` : ""}
+            <button class="btn btn-sm btn-outline-danger rounded-pill" data-action="delete" data-id="${item.id_notificacion}">
+              <i class="bi bi-trash3 me-1"></i>Eliminar
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </article>
   `).join("");
 
-  document.querySelectorAll(".btn-marcar").forEach(btn => {
-    btn.addEventListener("click", async () => {
-      await marcarLeida(btn.dataset.id);
+  document.querySelectorAll("[data-action='toggle']").forEach((button) => {
+    button.addEventListener("click", async () => {
+      await toggleLeida(button.dataset.id, button.dataset.leida);
+    });
+  });
+
+  document.querySelectorAll("[data-action='delete']").forEach((button) => {
+    button.addEventListener("click", async () => {
+      await eliminarNotificacion(button.dataset.id);
     });
   });
 };
 
 const cargarNotificaciones = async () => {
-  try {
-    const response = await fetch(`${API_URL}/notificaciones`, {
-      headers: {
-        "Authorization": `Bearer ${getToken()}`
-      }
-    });
+  const query = obtenerFiltros();
+  const response = await fetch(`${API_URL}/notificaciones${query ? `?${query}` : ""}`, {
+    headers: authHeaders
+  });
 
-    const data = await response.json();
+  const data = await response.json();
 
-    if (!response.ok) {
-      showAlert(data.mensaje || "No se pudieron cargar las notificaciones");
-      return;
-    }
-
-    renderNotificaciones(data);
-  } catch (error) {
-    console.error(error);
-    showAlert("Error de conexión con el servidor");
+  if (!response.ok) {
+    throw new Error(data.mensaje || "No se pudieron cargar las notificaciones");
   }
+
+  renderNotificaciones(data);
 };
 
-const marcarLeida = async (id) => {
-  try {
-    const response = await fetch(`${API_URL}/notificaciones/${id}/leida`, {
-      method: "PUT",
-      headers: {
-        "Authorization": `Bearer ${getToken()}`
-      }
-    });
+const toggleLeida = async (id, leida) => {
+  const path = Number(leida) === 0 ? "leer" : "no-leida";
+  const response = await fetch(`${API_URL}/notificaciones/${id}/${path}`, {
+    method: "PUT",
+    headers: authHeaders
+  });
 
-    const data = await response.json();
+  const data = await response.json();
 
-    if (!response.ok) {
-      showAlert(data.mensaje || "No se pudo marcar la notificación");
-      return;
-    }
-
-    showAlert("Notificación marcada como leída", "success");
-    await cargarNotificaciones();
-  } catch (error) {
-    console.error(error);
-    showAlert("Error de conexión con el servidor");
+  if (!response.ok) {
+    throw new Error(data.mensaje || "No se pudo actualizar la notificación");
   }
+
+  showAlert(data.mensaje, "success");
+  await init();
+};
+
+const eliminarNotificacion = async (id) => {
+  const response = await fetch(`${API_URL}/notificaciones/${id}`, {
+    method: "DELETE",
+    headers: authHeaders
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.mensaje || "No se pudo eliminar la notificación");
+  }
+
+  showAlert(data.mensaje, "success");
+  await init();
 };
 
 btnMarcarTodas.addEventListener("click", async () => {
   try {
     const response = await fetch(`${API_URL}/notificaciones/marcar-todas/leidas`, {
       method: "PUT",
-      headers: {
-        "Authorization": `Bearer ${getToken()}`
-      }
+      headers: authHeaders
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      showAlert(data.mensaje || "No se pudieron marcar todas");
-      return;
+      throw new Error(data.mensaje || "No se pudieron marcar todas las notificaciones");
     }
 
-    showAlert("Todas las notificaciones fueron marcadas como leídas", "success");
-    await cargarNotificaciones();
+    showAlert(data.mensaje, "success");
+    await init();
   } catch (error) {
-    console.error(error);
-    showAlert("Error de conexión con el servidor");
+    showAlert(error.message);
   }
 });
 
-cargarNotificaciones();
+btnFiltrar.addEventListener("click", async () => {
+  try {
+    await init();
+  } catch (error) {
+    showAlert(error.message);
+  }
+});
+
+const init = async () => {
+  await Promise.all([actualizarResumen(), cargarNotificaciones()]);
+};
+
+init().catch((error) => {
+  console.error(error);
+  showAlert(error.message || "No se pudo cargar la vista de notificaciones");
+});
+

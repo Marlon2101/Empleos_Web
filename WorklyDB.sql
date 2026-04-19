@@ -265,13 +265,33 @@ INSERT INTO Valoraciones_Empresas (
 
 CREATE TABLE Notificaciones (
     id_notificacion INT NOT NULL AUTO_INCREMENT,
-    tipo_usuario ENUM('usuario', 'empresa') NOT NULL,
+    tipo_usuario VARCHAR(20) NOT NULL,
     id_destinatario INT NOT NULL,
     titulo VARCHAR(150) NOT NULL,
     mensaje TEXT NOT NULL,
+    tipo_notificacion VARCHAR(60) NOT NULL DEFAULT 'sistema',
+    enlace VARCHAR(255) NULL,
+    metadata_json LONGTEXT NULL,
     leida TINYINT(1) NOT NULL DEFAULT 0,
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id_notificacion)
+) ENGINE=InnoDB;
+
+CREATE TABLE Usuarios_Perfil_Detalle (
+    id_usuario_fk INT NOT NULL,
+    direccion VARCHAR(255) NULL,
+    titulo_profesional VARCHAR(150) NULL,
+    sitio_web VARCHAR(150) NULL,
+    foto_perfil LONGTEXT NULL,
+    habilidades_json LONGTEXT NULL,
+    experiencia_json LONGTEXT NULL,
+    educacion_json LONGTEXT NULL,
+    PRIMARY KEY (id_usuario_fk),
+    CONSTRAINT fk_usuarios_perfil_detalle_usuario
+        FOREIGN KEY (id_usuario_fk)
+        REFERENCES Usuarios(id_usuario)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 

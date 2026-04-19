@@ -1,4 +1,4 @@
-import { API_URL, getToken } from "../../../assets/js/shared/config.js";
+import { API_URL, clearSession, getToken } from "../../../assets/js/shared/config.js";
 import { requireAuth } from "../../../assets/js/shared/auth.js";
 
 requireAuth(["admin"]);

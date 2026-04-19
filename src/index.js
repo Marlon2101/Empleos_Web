@@ -13,6 +13,7 @@ import empresasRoutes from "./routes/empresasRoutes.js";
 import vacantesRoutes from "./routes/vacantesRoutes.js";
 import postulacionesRoutes from "./routes/postulacionesRoutes.js";
 import perfilRoutes from "./routes/perfilRoutes.js";
+import apiUsuariosPerfilRoutes from "./routes/apiUsuariosPerfilRoutes.js";
 import habilidadesUsuarioRoutes from "./routes/habilidadesUsuarioRoutes.js";
 import dashboardEmpresaRoutes from "./routes/dashboardEmpresaRoutes.js";
 import dashboardUsuarioRoutes from "./routes/dashboardUsuarioRoutes.js";
@@ -68,6 +69,7 @@ app.use("/empresas", empresasRoutes);
 app.use("/vacantes", vacantesRoutes);
 app.use("/postulaciones", postulacionesRoutes);
 app.use("/perfil", perfilRoutes);
+app.use("/api/usuarios/perfil", apiUsuariosPerfilRoutes);
 app.use("/perfil/usuario/habilidades", habilidadesUsuarioRoutes);
 app.use("/dashboard/empresa", dashboardEmpresaRoutes);
 app.use("/dashboard/usuario", dashboardUsuarioRoutes);
@@ -76,9 +78,11 @@ app.use("/dashboard/admin", dashboardAdminRoutes);
 app.use("/admin", adminRoutes);
 app.use("/admin/estadisticas", estadisticasAdminRoutes);
 app.use("/notificaciones", notificacionesRoutes);
+app.use("/api/notificaciones", notificacionesRoutes);
 app.use("/empresa/postulaciones", empresaPostulacionesRoutes);
 app.use("/usuario/postulaciones", usuarioPostulacionesRoutes);
 app.use("/valoraciones", valoracionesRoutes);
+app.use("/api/valoraciones", valoracionesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

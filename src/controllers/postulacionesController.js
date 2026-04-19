@@ -1,16 +1,24 @@
 import {
   getAllPostulaciones,
+  getPostulacionById,
   getPostulacionesByUsuario,
   getPostulacionesByVacante,
   createPostulacion,
   updatePostulacion,
   deletePostulacion,
   existePostulacion,
-  getPostulacionesByEmpresa // <-- Importamos la función del modelo
+  getPostulacionesByEmpresa
 } from "../models/postulacionesModel.js";
-
 import { getVacanteById } from "../models/vacantesModel.js";
 import { crearNotificacion } from "../models/notificacionesModel.js";
+
+const crearNotificacionPostulacion = async (payload) => {
+  try {
+    await crearNotificacion(payload);
+  } catch (error) {
+    console.error("No se pudo crear la notificacion:", error.message);
+  }
+};
 
 export const obtenerPostulaciones = async (req, res) => {
   try {
@@ -47,13 +55,30 @@ export const crearPostulacion = async (req, res) => {
     const yaExiste = await existePostulacion(id_usuario_fk, id_vacante_fk);
 
     if (yaExiste) {
-      return res.status(400).json({ mensaje: "El usuario ya se postuló a esta vacante" });
+      return res.status(400).json({ mensaje: "El usuario ya se postulo a esta vacante" });
     }
 
     const nuevaPostulacion = await createPostulacion({ id_usuario_fk, id_vacante_fk, id_estado_fk });
+    const vacante = await getVacanteById(id_vacante_fk);
+
+    if (vacante) {
+      await crearNotificacionPostulacion({
+        tipo_usuario: "usuario",
+        id_destinatario: Number(id_usuario_fk),
+        titulo: "Postulacion enviada",
+        mensaje: `Te has postulado a ${vacante.titulo_puesto}.`,
+        tipo_notificacion: "postulacion",
+        enlace: `/views/usuario/detalleempleo/index.html?id=${vacante.id_vacante}`,
+        metadata: {
+          id_vacante: vacante.id_vacante,
+          id_empresa: vacante.id_empresa_fk
+        }
+      });
+    }
+
     res.status(201).json(nuevaPostulacion);
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al crear postulación", error: error.message });
+    res.status(500).json({ mensaje: "Error al crear postulacion", error: error.message });
   }
 };
 
@@ -63,52 +88,77 @@ export const eliminarPostulacion = async (req, res) => {
     const postulacionEliminada = await deletePostulacion(id);
 
     if (!postulacionEliminada) {
-      return res.status(404).json({ mensaje: "Postulación no encontrada" });
+      return res.status(404).json({ mensaje: "Postulacion no encontrada" });
     }
-    res.json({ mensaje: "Postulación eliminada correctamente", postulacion: postulacionEliminada });
+
+    res.json({ mensaje: "Postulacion eliminada correctamente", postulacion: postulacionEliminada });
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al eliminar postulación", error: error.message });
+    res.status(500).json({ mensaje: "Error al eliminar postulacion", error: error.message });
   }
 };
 
 export const obtenerPostulacionesEmpresa = async (req, res) => {
-    try {
-        const id_empresa = 1; 
-
-
-        const postulaciones = await getPostulacionesByEmpresa(id_empresa);
-        
-        res.json(postulaciones); 
-    } catch (error) {
-        console.error("Error BD:", error);
-        res.status(500).json({ mensaje: "Error al obtener postulaciones", error: error.message });
-    }
+  try {
+    const id_empresa = 1;
+    const postulaciones = await getPostulacionesByEmpresa(id_empresa);
+    res.json(postulaciones);
+  } catch (error) {
+    console.error("Error BD:", error);
+    res.status(500).json({ mensaje: "Error al obtener postulaciones", error: error.message });
+  }
 };
-
 
 export const actualizarPostulacion = async (req, res) => {
-    try {
-        const { id } = req.params; 
-        const { id_estado_fk } = req.body; 
+  try {
+    const { id } = req.params;
+    const { id_estado_fk } = req.body;
 
-        await updatePostulacion(id, { id_estado_fk });
+    const postulacionActual = await getPostulacionById(id);
+    const postulacion = await updatePostulacion(id, { id_estado_fk });
 
-        console.log(`Backend recibió la orden: Cambiar postulación ${id} al estado ${id_estado_fk}`);
-
-        res.status(200).json({ 
-            mensaje: "Estado actualizado con éxito en el servidor",
-            id_postulacion: id,
-            id_estado_fk: id_estado_fk
-        });
-
-    } catch (error) {
-        console.error("Error al actualizar la postulación:", error);
-        res.status(500).json({ 
-            mensaje: "Error al actualizar la postulación", 
-            error: error.message 
-        });
+    if (!postulacion) {
+      return res.status(404).json({
+        mensaje: "Postulacion no encontrada"
+      });
     }
+
+    const vacante = postulacionActual ? await getVacanteById(postulacionActual.id_vacante_fk) : null;
+
+    if (postulacionActual && vacante) {
+      if (Number(id_estado_fk) === 4) {
+        await crearNotificacionPostulacion({
+          tipo_usuario: "usuario",
+          id_destinatario: Number(postulacionActual.id_usuario_fk),
+          titulo: "Postulacion rechazada",
+          mensaje: `Tu postulacion a ${vacante.titulo_puesto} fue rechazada.`,
+          tipo_notificacion: "estado",
+          enlace: `/views/usuario/notificaciones/index.html`
+        });
+      }
+
+      if ([3, 5].includes(Number(id_estado_fk))) {
+        await crearNotificacionPostulacion({
+          tipo_usuario: "usuario",
+          id_destinatario: Number(postulacionActual.id_usuario_fk),
+          titulo: "Postulacion aceptada",
+          mensaje: `Felicidades, tu postulacion a ${vacante.titulo_puesto} fue aceptada.`,
+          tipo_notificacion: "estado",
+          enlace: `/views/usuario/notificaciones/index.html`
+        });
+      }
+    }
+
+    res.status(200).json({
+      mensaje: "Estado actualizado con exito en el servidor",
+      id_postulacion: id,
+      id_estado_fk
+    });
+  } catch (error) {
+    console.error("Error al actualizar la postulacion:", error);
+    res.status(500).json({
+      mensaje: "Error al actualizar la postulacion",
+      error: error.message
+    });
+  }
 };
-
-
 

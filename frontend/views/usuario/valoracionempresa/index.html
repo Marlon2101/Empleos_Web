@@ -3,587 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly · Valoraciones de Empresas</title>
-    <!-- Bootstrap + Iconos -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <!-- Fuente Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <title>Workly · Valoración de empresas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { font-family: 'Inter', sans-serif; }
         :root {
             --primary-deep: #3f51b5;
             --nav-bg: #011671;
-            --soft-accent: #f1ebd9;
-            --light-text: #e2e4e8;
             --body-bg: #f5f7fc;
         }
+
         body {
-            background-color: var(--body-bg);
+            font-family: "Inter", sans-serif;
+            background: linear-gradient(180deg, #eef4ff 0%, #f8faff 100%);
         }
-        /* Navbar personalizado */
-        .navbar-custom {
-            background-color: var(--nav-bg) !important;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
-        }
-        .navbar-brand .brand-icon {
-            font-size: 3.5rem;
-            color: white;
-            margin-right: 0.75rem;
-        }
-        .navbar-brand .brand-text {
-            color: white;
-            font-weight: 700;
-            font-size: 2rem;
-            line-height: 1.2;
-        }
-        .navbar-brand .brand-sub {
-            color: var(--light-text);
-            font-size: 0.95rem;
-        }
-        .nav-link-custom {
-            color: white !important;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 30px;
-            transition: background 0.2s;
-        }
-        .nav-link-custom:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        .nav-link-custom.active {
-            background: rgba(255,255,255,0.2);
-        }
-        .btn-primary-deep {
-            background-color: var(--primary-deep);
-            border: none;
-            color: white;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            border-radius: 40px;
-            padding: 0.6rem 1.5rem;
-        }
-        .btn-primary-deep:hover {
-            background-color: #2c3e8f;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(63, 81, 181, 0.25);
-            color: white;
-        }
-        .btn-outline-primary-deep {
-            background: transparent;
-            border: 1.5px solid var(--primary-deep);
-            color: var(--primary-deep);
-            font-weight: 600;
-            border-radius: 40px;
-            padding: 0.5rem 1.5rem;
-            transition: all 0.2s;
-        }
-        .btn-outline-primary-deep:hover {
-            background: var(--primary-deep);
-            color: white;
-        }
-        /* Tarjetas */
-        .filter-card {
-            background: white;
-            border-radius: 28px;
-            padding: 1.5rem;
-            box-shadow: 0 12px 24px -8px rgba(0,0,0,0.04);
-            border: 1px solid #edf0f5;
-        }
-        .company-card {
-            background: white;
-            border-radius: 24px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.03);
-            border: 1px solid #eef2f6;
-            transition: all 0.25s;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        .company-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 30px -10px rgba(63,81,181,0.12);
-            border-color: var(--primary-deep);
-        }
-        .rating-stars {
-            color: #ffb347;
-        }
-        /* Formulario */
-        .review-card {
-            background: white;
-            border-radius: 32px;
-            padding: 2rem;
-            box-shadow: 0 15px 25px -8px rgba(0,0,0,0.04);
-            border: 1px solid #edf0f5;
-        }
-        .form-control-custom, .form-select-custom {
-            background-color: #f8fafd;
-            border: 1px solid #dee4ed;
-            border-radius: 18px;
-            padding: 0.7rem 1.2rem;
-            font-size: 0.95rem;
-        }
-        .form-control-custom:focus, .form-select-custom:focus {
-            border-color: var(--primary-deep);
-            box-shadow: 0 0 0 3px rgba(63,81,181,0.08);
-            background-color: white;
-        }
-        /* Footer */
+
+        .navbar-custom,
         .footer-custom {
             background-color: var(--nav-bg);
-            color: var(--light-text);
         }
-        .footer-custom a {
-            color: var(--light-text) !important;
+
+        .nav-link-custom {
+            color: #fff;
             text-decoration: none;
+            padding: 0.55rem 1rem;
+            border-radius: 999px;
         }
-        .footer-custom a:hover {
-            color: white !important;
-            text-decoration: underline;
+
+        .nav-link-custom:hover,
+        .nav-link-custom.active {
+            background: rgba(255, 255, 255, 0.12);
         }
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: #dc3545;
-            color: white;
-            border-radius: 50%;
-            padding: 0.2rem 0.4rem;
-            font-size: 0.65rem;
-            font-weight: bold;
-            border: 2px solid white;
+
+        .surface-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 35px -12px rgba(1, 22, 113, 0.08);
         }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        }
-        .star-interactive {
+
+        .empresa-card {
+            border-radius: 24px;
+            border: 1px solid #e8edf6;
+            transition: 0.2s ease;
             cursor: pointer;
-            font-size: 1.8rem;
-            color: #cdd2dc;
-            transition: color 0.15s;
         }
-        .star-interactive:hover,
-        .star-interactive.active {
-            color: #ffb347;
+
+        .empresa-card.active,
+        .empresa-card:hover {
+            border-color: var(--primary-deep);
+            box-shadow: 0 12px 24px -10px rgba(63, 81, 181, 0.18);
+        }
+
+        .star-option {
+            border: none;
+            background: transparent;
+            color: #d0d4dd;
+            font-size: 1.7rem;
+        }
+
+        .star-option.active {
+            color: #f4b400;
         }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
-
-<!-- ========== NAVBAR MEJORADO ========== -->
-<nav class="navbar navbar-expand-lg py-3 navbar-custom">
-    <div class="container-fluid px-4 px-lg-5">
-        <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../../public/paginainicial/index.html">
-            <i class="bi bi-briefcase-fill brand-icon"></i>
-            <div class="lh-sm ms-2">
-                <span class="brand-text">Workly</span>
-                <span class="brand-sub">Tu búsqueda de trabajo profesional</span>
-            </div>
-        </a>
-
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                <a href="../buscarempleo/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
-                    <i class="bi bi-search me-1"></i> Búsqueda
-                </a>
-                <a href="../recursos/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
-                    <i class="bi bi-journal-bookmark-fill me-1"></i> Recursos
-                </a>
-                <a href="../valoracionempresa/index.html" class="nav-link-custom active text-decoration-none px-3 py-2">
-                    <i class="bi bi-star-fill me-1"></i> Valoraciones
-                </a>
-                <a href="../miperfil/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
-                    <i class="bi bi-person-badge me-1"></i> Mi Perfil
-                </a>
-            </div>
-
-            <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                <a href="../notificaciones/index.html" class="text-white position-relative d-inline-block">
-                    <i class="bi bi-bell-fill fs-3"></i>
-                    <span class="notification-badge">5</span>
-                </a>
-                <a href="../miperfil/index.html" class="text-white d-inline-block">
-                    <i class="bi bi-person-circle fs-2"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-</nav>
-
-<!-- ========== MAIN ========== -->
-<main class="flex-grow-1 py-4">
-    <div class="container-fluid px-4 px-lg-5">
-        
-        <!-- Filtros de búsqueda -->
-        <div class="filter-card mb-4 mt-2">
-            <div class="d-flex align-items-center gap-3 mb-3">
-                <i class="bi bi-building fs-3" style="color: var(--primary-deep);"></i>
-                <h5 class="fw-bold mb-0" style="color: #121826;">Valoraciones de empresas</h5>
-            </div>
-            
-            <div class="row g-3 align-items-end">
-                <div class="col-12 col-md-7">
-                    <label class="form-label fw-semibold small text-secondary">Buscar empresa</label>
-                    <div class="input-group">
-                        <span class="input-group-text bg-white border-end-0 text-muted" style="border-radius: 40px 0 0 40px;">
-                            <i class="bi bi-search"></i>
-                        </span>
-                        <input type="text" class="form-control border-start-0 shadow-none ps-0" 
-                               placeholder="Nombre de la empresa..." 
-                               style="border-radius: 0 40px 40px 0; border-left: none;">
-                    </div>
+    <nav class="navbar navbar-expand-lg navbar-custom py-3">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand text-white fw-bold fs-3 d-flex align-items-center gap-2" href="../principal/index.html">
+                <i class="bi bi-briefcase-fill"></i>
+                <span>Workly</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto gap-2 mt-3 mt-lg-0">
+                    <a href="../principal/index.html" class="nav-link-custom">Dashboard</a>
+                    <a href="../buscarempleo/index.html" class="nav-link-custom">Buscar empleo</a>
+                    <a href="../valoracionempresa/index.html" class="nav-link-custom active">Valoraciones</a>
+                    <a href="../miperfil/index.html" class="nav-link-custom">Mi perfil</a>
                 </div>
-                <div class="col-12 col-md-3">
-                    <label class="form-label fw-semibold small text-secondary">Industria</label>
-                    <select class="form-select-custom w-100">
-                        <option selected>Todas las industrias</option>
-                        <option value="1">Tecnología</option>
-                        <option value="2">Finanzas</option>
-                        <option value="3">Salud</option>
-                        <option value="4">Educación</option>
-                    </select>
-                </div>
-                <div class="col-12 col-md-2">
-                    <button type="button" id="btnBuscar" class="btn btn-primary-deep w-100 fw-semibold py-2">
-                        <i class="bi bi-search me-1"></i> Buscar
-                    </button>
+                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+                    <a href="../notificaciones/index.html" class="text-white position-relative text-decoration-none">
+                        <i class="bi bi-bell-fill fs-4"></i>
+                        <span class="notification-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                    </a>
+                    <a href="../miperfil/index.html" class="text-white text-decoration-none">
+                        <i class="bi bi-person-circle fs-3"></i>
+                    </a>
                 </div>
             </div>
         </div>
+    </nav>
 
-        <!-- Empresas mejor valoradas -->
-        <div class="d-flex align-items-center gap-2 mb-3 mt-4">
-            <i class="bi bi-trophy-fill fs-4" style="color: #ffb347;"></i>
-            <h6 class="fw-bold mb-0" style="color: #121826;">Empresas mejor valoradas</h6>
-        </div>
-        
-        <div class="row g-4 mb-5">
-            
-            <div class="col-12 col-md-4">
-                <div class="company-card">
-                    <div class="d-flex align-items-start justify-content-between mb-3">
-                        <div>
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <div class="bg-light p-2 rounded-3">
-                                    <i class="bi bi-building fs-5" style="color: var(--primary-deep);"></i>
-                                </div>
-                                <h6 class="fw-bold mb-0">CodeCrafters</h6>
-                            </div>
-                            <span class="badge rounded-pill px-3 py-1" style="background: #e9ecf9; color: var(--primary-deep);">Tecnología</span>
-                        </div>
-                        <div class="text-end">
-                            <div class="rating-stars">
-                                <i class="bi bi-star-fill small"></i>
-                                <i class="bi bi-star-fill small"></i>
-                                <i class="bi bi-star-fill small"></i>
-                                <i class="bi bi-star small"></i>
-                                <i class="bi bi-star small"></i>
-                            </div>
-                            <span class="small fw-bold ms-1">3.0</span>
-                        </div>
-                    </div>
-                    <ul class="list-unstyled text-secondary small mb-3">
-                        <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>San Salvador</li>
-                        <li class="mb-1"><i class="bi bi-people me-2"></i>50-200 empleados</li>
-                        <li><i class="bi bi-briefcase me-2"></i>8 vacantes activas</li>
-                    </ul>
-                    <p class="text-secondary small mb-3 fst-italic border-start border-3 ps-3" style="border-color: var(--primary-deep) !important;">
-                        "Excelente ambiente laboral y oportunidades de crecimiento..."
-                    </p>
-                    <button type="button" class="btn btn-outline-primary-deep w-100 mt-auto" data-bs-toggle="modal" data-bs-target="#modalPerfilEmpresa">
-                        Ver Perfil <i class="bi bi-arrow-right ms-1"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-4">
-                <div class="company-card">
-                    <div class="d-flex align-items-start justify-content-between mb-3">
-                        <div>
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <div class="bg-light p-2 rounded-3">
-                                    <i class="bi bi-building fs-5" style="color: var(--primary-deep);"></i>
-                                </div>
-                                <h6 class="fw-bold mb-0">SoftwareHouse</h6>
-                            </div>
-                            <span class="badge rounded-pill px-3 py-1" style="background: #e9ecf9; color: var(--primary-deep);">Tecnología</span>
-                        </div>
-                        <div class="text-end">
-                            <div class="rating-stars">
-                                <i class="bi bi-star-fill small"></i>
-                                <i class="bi bi-star-fill small"></i>
-                                <i class="bi bi-star-fill small"></i>
-                                <i class="bi bi-star-fill small"></i>
-                                <i class="bi bi-star small"></i>
-                            </div>
-                            <span class="small fw-bold ms-1">4.0</span>
-                        </div>
-                    </div>
-                    <ul class="list-unstyled text-secondary small mb-3">
-                        <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>Santa Ana</li>
-                        <li class="mb-1"><i class="bi bi-people me-2"></i>100-300 empleados</li>
-                        <li><i class="bi bi-briefcase me-2"></i>12 vacantes activas</li>
-                    </ul>
-                    <p class="text-secondary small mb-3 fst-italic border-start border-3 ps-3" style="border-color: var(--primary-deep) !important;">
-                        "Cultura colaborativa y buenos beneficios..."
-                    </p>
-                    <button type="button" class="btn btn-outline-primary-deep w-100 mt-auto" data-bs-toggle="modal" data-bs-target="#modalPerfilEmpresa">
-                        Ver Perfil <i class="bi bi-arrow-right ms-1"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-4">
-                <div class="company-card">
-                    <div class="d-flex align-items-start justify-content-between mb-3">
-                        <div>
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <div class="bg-light p-2 rounded-3">
-                                    <i class="bi bi-building fs-5" style="color: var(--primary-deep);"></i>
-                                </div>
-                                <h6 class="fw-bold mb-0">TechInnovate</h6>
-                            </div>
-                            <span class="badge rounded-pill px-3 py-1" style="background: #e9ecf9; color: var(--primary-deep);">Tecnología</span>
-                        </div>
-                        <div class="text-end">
-                            <div class="rating-stars">
-                                <i class="bi bi-star-fill small"></i>
-                                <i class="bi bi-star-fill small"></i>
-                                <i class="bi bi-star-fill small"></i>
-                                <i class="bi bi-star-fill small"></i>
-                                <i class="bi bi-star-fill small"></i>
-                            </div>
-                            <span class="small fw-bold ms-1">5.0</span>
-                        </div>
-                    </div>
-                    <ul class="list-unstyled text-secondary small mb-3">
-                        <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>La Libertad</li>
-                        <li class="mb-1"><i class="bi bi-people me-2"></i>200-500 empleados</li>
-                        <li><i class="bi bi-briefcase me-2"></i>15 vacantes activas</li>
-                    </ul>
-                    <p class="text-secondary small mb-3 fst-italic border-start border-3 ps-3" style="border-color: var(--primary-deep) !important;">
-                        "La mejor empresa para trabajar en tecnología..."
-                    </p>
-                    <button type="button" class="btn btn-outline-primary-deep w-100 mt-auto" data-bs-toggle="modal" data-bs-target="#modalPerfilEmpresa">
-                        Ver Perfil <i class="bi bi-arrow-right ms-1"></i>
-                    </button>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Compartir experiencia (formulario) -->
-        <div class="d-flex align-items-center gap-2 mb-3">
-            <i class="bi bi-pencil-square fs-4" style="color: var(--primary-deep);"></i>
-            <h6 class="fw-bold mb-0" style="color: #121826;">Compartir tu experiencia</h6>
-        </div>
-        
-        <div class="review-card mb-5">
-            <form>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold small text-secondary">Empresa*</label>
-                        <input type="text" class="form-control-custom w-100" placeholder="Nombre de la empresa">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold small text-secondary">Puesto*</label>
-                        <input type="text" class="form-control-custom w-100" placeholder="Tu puesto en la empresa">
-                    </div>
-                </div>
-
-                <div class="row g-4 mt-2">
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold small text-secondary">Estado*</label>
-                        <select class="form-select-custom w-100">
-                            <option selected>Selecciona una opción</option>
-                            <option value="1">Empleado actual</option>
-                            <option value="2">Ex empleado</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold small text-secondary d-block">Valoración general*</label>
-                        <div class="d-flex align-items-center gap-2 mt-1">
-                            <i class="bi bi-star star-interactive"></i>
-                            <i class="bi bi-star star-interactive"></i>
-                            <i class="bi bi-star star-interactive"></i>
-                            <i class="bi bi-star star-interactive"></i>
-                            <i class="bi bi-star star-interactive"></i>
-                            <span class="text-secondary small ms-2">Selecciona una calificación</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-4">
-                    <label class="form-label fw-semibold small text-secondary">Título de la valoración*</label>
-                    <input type="text" class="form-control-custom w-100" placeholder="Resume tu experiencia en una frase">
-                </div>
-
-                <div class="row g-4 mt-2">
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold small text-secondary">Aspectos positivos*</label>
-                        <textarea class="form-control-custom w-100" rows="3" placeholder="Lo mejor de trabajar aquí..."></textarea>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold small text-secondary">Aspectos a mejorar*</label>
-                        <textarea class="form-control-custom w-100" rows="3" placeholder="Qué podría mejorar..."></textarea>
-                    </div>
-                </div>
-
-                <div class="mt-4">
-                    <label class="form-label fw-semibold small text-secondary">Tu opinión general*</label>
-                    <textarea class="form-control-custom w-100" rows="3" placeholder="Comparte tu experiencia general trabajando en esta empresa."></textarea>
-                </div>
-
-                <div class="mt-4">
-                    <button type="button" id="btnEnviarValoracion" class="btn btn-primary-deep px-5 py-3 fw-semibold">
-                        <i class="bi bi-send me-2"></i>Enviar valoración
-                    </button>
-                </div>
-            </form>
-        </div>
-
-    </div>
-</main>
-
-<!-- ========== MODAL PERFIL EMPRESA (conservado) ========== -->
-<div class="modal fade" id="modalPerfilEmpresa" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 rounded-4 shadow-lg">
-            <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
-                <h5 class="modal-title fw-bold" style="color: #121826;">Información de la Empresa</h5>
-                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body px-4 py-4">
-                
-                <div class="d-flex align-items-center mb-4 pb-4 border-bottom">
-                    <div class="bg-light p-3 rounded-4 d-flex align-items-center justify-content-center me-3">
-                        <i class="bi bi-building fs-1" style="color: var(--primary-deep);"></i>
-                    </div>
+    <main class="flex-grow-1 py-4">
+        <div class="container px-4 px-lg-5">
+            <div class="surface-card p-4 p-lg-5">
+                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
                     <div>
-                        <h4 class="fw-bold mb-1">Empresa de Tecnología</h4>
-                        <p class="text-secondary mb-0"><i class="bi bi-geo-alt me-1"></i> El Salvador • Industria IT</p>
+                        <h1 class="h3 fw-bold mb-1">Valoraciones de empresas</h1>
+                        <p class="text-muted mb-0">Consulta opiniones reales y comparte tu experiencia si ya postulaste.</p>
                     </div>
+                    <select id="selectorEmpresa" class="form-select form-select-lg rounded-4" style="max-width: 340px;"></select>
                 </div>
 
-                <h6 class="fw-bold mb-2">Sobre nosotros</h6>
-                <p class="text-secondary small lh-lg mb-4">Somos una organización líder dedicada al desarrollo de soluciones tecnológicas innovadoras. Nos especializamos en la creación de software a medida, ofreciendo un ambiente de trabajo dinámico, crecimiento profesional constante y una cultura centrada en el bienestar de nuestros colaboradores.</p>
-                
-                <div class="row g-3 mb-4">
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light p-3 rounded-4 text-center h-100">
-                            <i class="bi bi-people-fill fs-3 mb-2" style="color: var(--primary-deep);"></i>
-                            <div class="fw-bold small">Tamaño</div>
-                            <div class="text-secondary small fw-semibold">50 - 200 empleados</div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light p-3 rounded-4 text-center h-100">
-                            <i class="bi bi-star-fill fs-3 mb-2" style="color: #ffb347;"></i>
-                            <div class="fw-bold small">Valoración Promedio</div>
-                            <div class="text-secondary small fw-semibold">4.8 / 5.0</div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light p-3 rounded-4 text-center h-100">
-                            <i class="bi bi-briefcase-fill fs-3 mb-2" style="color: #28a745;"></i>
-                            <div class="fw-bold small">Oportunidades</div>
-                            <div class="text-secondary small fw-semibold">12 Vacantes Activas</div>
-                        </div>
-                    </div>
-                </div>
+                <div id="alertContainer" class="mb-3"></div>
 
-                <div class="d-grid">
-                    <button class="btn btn-primary-deep fw-bold py-2" data-bs-dismiss="modal">Cerrar Perfil</button>
+                <div class="row g-4">
+                    <div class="col-12 col-xl-4">
+                        <div class="surface-card p-4 h-100">
+                            <h2 class="h5 fw-bold mb-3">Empresas disponibles</h2>
+                            <div class="d-grid gap-3" id="listaEmpresas"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-xl-8">
+                        <div class="surface-card p-4 mb-4">
+                            <div id="resumenEmpresa"></div>
+                        </div>
+
+                        <div class="surface-card p-4 mb-4">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                                <h2 class="h5 fw-bold mb-0">Escribe tu valoración</h2>
+                                <span class="badge rounded-pill text-bg-light" id="estadoPermiso">Cargando permiso...</span>
+                            </div>
+                            <form id="formValoracion" class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Puntuación</label>
+                                    <div class="d-flex gap-1" id="starRating"></div>
+                                    <input type="hidden" id="puntuacion" value="0">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold" for="comentario">Comentario</label>
+                                    <textarea id="comentario" class="form-control form-control-lg rounded-4" rows="4" maxlength="600" placeholder="Cuéntale a otros candidatos cómo fue tu experiencia."></textarea>
+                                </div>
+                                <div class="col-12 d-grid d-md-flex justify-content-md-end">
+                                    <button class="btn btn-primary btn-lg rounded-pill px-4" type="submit" id="btnEnviarValoracion">
+                                        <i class="bi bi-send me-2"></i>Enviar valoración
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="surface-card p-4">
+                            <h2 class="h5 fw-bold mb-3">Comentarios recientes</h2>
+                            <div class="d-grid gap-3" id="listaValoraciones"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </main>
 
-<!-- ========== TOASTS (conservados) ========== -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-    
-    <div id="toastBuscar" class="toast align-items-center text-white border-0 rounded-4 shadow mb-2" role="alert" style="background-color: var(--primary-deep);">
-        <div class="d-flex">
-            <div class="toast-body fs-6 py-3 fw-semibold">
-                <i class="bi bi-search me-2 fs-5"></i> Búsqueda realizada.
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    <footer class="footer-custom py-4 mt-auto text-center text-white-50">
+        <div class="container">
+            <span>Workly 2026 · Opiniones transparentes para tomar mejores decisiones</span>
         </div>
-    </div>
+    </footer>
 
-    <div id="toastValoracion" class="toast align-items-center text-white bg-success border-0 rounded-4 shadow" role="alert">
-        <div class="d-flex">
-            <div class="toast-body fs-6 py-3 fw-semibold">
-                <i class="bi bi-check-circle-fill me-2 fs-5"></i> ¡Valoración enviada con éxito!
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
-    </div>
-
-</div>
-
-<!-- ========== FOOTER ========== -->
-<footer class="py-4 mt-auto footer-custom">
-    <div class="container text-center">
-        <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
-            <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
-            <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
-            <a href="#">Términos</a>
-            <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
-        </div>
-    </div>
-</footer>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script type="module" src="./app.js"></script>
-<!-- SCRIPT ORIGINAL (conservado) -->
-<script>
-    // Funcionalidad para el botón de Buscar
-    document.getElementById('btnBuscar').addEventListener('click', function() {
-        const toastElement = document.getElementById('toastBuscar');
-        const toast = new bootstrap.Toast(toastElement);
-        toast.show();
-    });
-
-    // Funcionalidad para el botón de Enviar Valoración
-    document.getElementById('btnEnviarValoracion').addEventListener('click', function(e) {
-        e.preventDefault(); 
-        const toastElement = document.getElementById('toastValoracion');
-        const toast = new bootstrap.Toast(toastElement);
-        toast.show();
-    });
-
-    // Interactividad simple para las estrellas (decorativo)
-    document.querySelectorAll('.star-interactive').forEach((star, index, stars) => {
-        star.addEventListener('click', function() {
-            stars.forEach((s, i) => {
-                if (i <= index) {
-                    s.classList.add('active');
-                    s.classList.remove('bi-star');
-                    s.classList.add('bi-star-fill');
-                } else {
-                    s.classList.remove('active');
-                    s.classList.remove('bi-star-fill');
-                    s.classList.add('bi-star');
-                }
-            });
-        });
-    });
-</script>
-
-<!-- Ajustes adicionales -->
-<style>
-    .star-interactive.active {
-        color: #ffb347;
-    }
-    .cursor-pointer { cursor: pointer; }
-</style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../../../assets/js/shared/notificaciones.js"></script>
+    <script type="module" src="./app.js"></script>
 </body>
 </html>
+

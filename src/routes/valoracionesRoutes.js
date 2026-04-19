@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { verificarToken, autorizarRoles } from "../middlewares/authMiddleware.js";
+import { verificarToken, verificarTokenOpcional, autorizarRoles } from "../middlewares/authMiddleware.js";
 import {
+  obtenerEmpresasValorables,
   obtenerValoracionesEmpresa,
   obtenerMisValoraciones,
   crearValoracion
@@ -9,8 +10,10 @@ import { validarValoracion } from "../middlewares/validators.js";
 
 const router = Router();
 
-router.get("/empresa/:id_empresa", obtenerValoracionesEmpresa);
+router.get("/empresas", verificarTokenOpcional, obtenerEmpresasValorables);
+router.get("/empresa/:id_empresa", verificarTokenOpcional, obtenerValoracionesEmpresa);
 router.get("/mias", verificarToken, autorizarRoles("usuario"), obtenerMisValoraciones);
 router.post("/", verificarToken, autorizarRoles("usuario"), validarValoracion, crearValoracion);
 
 export default router;
+
