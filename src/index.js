@@ -34,13 +34,18 @@ const app = express();
 // 1. Configuramos __dirname (necesario en ES Modules)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const frontendDir = path.join(__dirname, "../frontend");
+const frontendViewsDir = path.join(frontendDir, "views");
+const frontendAssetsDir = path.join(frontendDir, "assets");
 
 // 2. Middlewares Globales
 app.use(cors()); // Habilita CORS para que el Front (Live Server) pueda entrar
 app.use(express.json()); // Necesario para leer los datos que envías en POST/PUT
 
 // 3. Servir archivos estáticos del frontend
-app.use(express.static(path.join(__dirname, '../frontend')));
+app.use(express.static(frontendDir));
+app.use("/views", express.static(frontendViewsDir));
+app.use("/assets", express.static(frontendAssetsDir));
 
 const PORT = process.env.PORT || 3000;
 
