@@ -1,12 +1,10 @@
-import { pool } from "../config/db.js";
-
+import { pool } from "../config/db.js"; 
 export const getDepartamentos = async () => {
   const [rows] = await pool.query(`
     SELECT id_departamento, nombre_departamento
     FROM Departamentos
     ORDER BY nombre_departamento
   `);
-
   return rows;
 };
 
@@ -16,7 +14,6 @@ export const getMunicipios = async () => {
     FROM Municipios
     ORDER BY nombre_municipio
   `);
-
   return rows;
 };
 
@@ -30,8 +27,21 @@ export const getMunicipiosByDepartamento = async (id_departamento) => {
     `,
     [id_departamento]
   );
-
   return rows;
+};
+
+
+export const getMunicipiosConDepartamento = async () => {
+    const [rows] = await pool.query(`
+        SELECT 
+            m.id_municipio, 
+            m.nombre_municipio, 
+            d.nombre_departamento 
+        FROM Municipios m
+        INNER JOIN Departamentos d ON m.id_departamento_fk = d.id_departamento
+        ORDER BY d.nombre_departamento ASC, m.nombre_municipio ASC
+    `);
+    return rows;
 };
 
 export const getCategorias = async () => {
@@ -40,7 +50,6 @@ export const getCategorias = async () => {
     FROM Categorias
     ORDER BY nombre_categoria
   `);
-
   return rows;
 };
 
@@ -50,7 +59,6 @@ export const getHabilidades = async () => {
     FROM Habilidades
     ORDER BY nombre_habilidad
   `);
-
   return rows;
 };
 
@@ -60,6 +68,5 @@ export const getEstadosPostulacion = async () => {
     FROM Estados_Postulacion
     ORDER BY id_estado
   `);
-
   return rows;
 };

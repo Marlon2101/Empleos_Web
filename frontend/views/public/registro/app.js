@@ -1,17 +1,14 @@
 import { API_URL } from "../../../assets/js/shared/config.js";
 
-
 const tabUsuario = document.getElementById("tabUsuario");
 const tabEmpresa = document.getElementById("tabEmpresa");
 const camposUsuario = document.getElementById("camposUsuario");
 const camposEmpresa = document.getElementById("camposEmpresa");
 
-
 const formRegistro = document.getElementById("formRegistro");
 const alertContainer = document.getElementById("alertContainer");
 
 let tipoRegistro = "usuario";
-
 
 tabUsuario.addEventListener("click", () => {
     tipoRegistro = "usuario";
@@ -29,7 +26,6 @@ tabEmpresa.addEventListener("click", () => {
     tabUsuario.classList.remove("active");
 });
 
-
 const showAlert = (message, type = "danger") => {
     alertContainer.innerHTML = `
         <div class="alert alert-${type} alert-dismissible fade show" role="alert">
@@ -40,10 +36,10 @@ const showAlert = (message, type = "danger") => {
 };
 
 
-
 const cargarMunicipios = async () => {
     try {
-        const response = await fetch(`${API_URL}/catalogos/municipios`);
+       
+        const response = await fetch(`${API_URL}/catalogos/municipios-agrupados`);
         const data = await response.json();
         
         console.log("Datos recibidos de municipios:", data); 
@@ -53,17 +49,34 @@ const cargarMunicipios = async () => {
             return;
         }
 
-        const options = `<option value="">Selecciona un municipio</option>` + 
-                        data.map(m => `<option value="${m.id_municipio}">${m.nombre_municipio}</option>`).join("");
         
-        document.getElementById("municipioUsuario").innerHTML = options;
-        document.getElementById("municipioEmpresa").innerHTML = options;
+        let optionsHtml = `<option value="">Selecciona un municipio</option>`;
+        let departamentoActual = "";
+
+        data.forEach(m => {
+            if (m.nombre_departamento !== departamentoActual) {
+                if (departamentoActual !== "") {
+                    optionsHtml += `</optgroup>`; 
+                }
+                optionsHtml += `<optgroup label="${m.nombre_departamento}">`; 
+                departamentoActual = m.nombre_departamento;
+            }
+            optionsHtml += `<option value="${m.id_municipio}">${m.nombre_municipio}</option>`;
+        });
+        
+        if (departamentoActual !== "") {
+            optionsHtml += `</optgroup>`;
+        }
+        
+        
+        document.getElementById("municipioUsuario").innerHTML = optionsHtml;
+        document.getElementById("municipioEmpresa").innerHTML = optionsHtml;
+        
     } catch (error) {
         console.error("Error crítico al cargar municipios:", error);
         showAlert("No se pudo conectar con el servidor para cargar municipios.");
     }
 };
-
 
 formRegistro.addEventListener("submit", async (e) => {
     e.preventDefault();

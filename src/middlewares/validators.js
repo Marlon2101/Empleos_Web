@@ -22,13 +22,11 @@ export const validarLogin = [
     .notEmpty().withMessage("La contrasena es obligatoria")
     .isLength({ min: 6 }).withMessage("La contrasena debe tener al menos 6 caracteres"),
 
-  body("tipo")
-    .notEmpty().withMessage("El tipo es obligatorio")
-    .isIn(["usuario", "empresa"]).withMessage("El tipo debe ser usuario o empresa"),
+  // ❌ BORRAMOS EL BLOQUE DE body("tipo") 
+  // Ya no es obligatorio porque la DB lo decidirá.
 
   validarResultados
 ];
-
 export const validarRegistroUsuario = [
   body("nombres")
     .notEmpty().withMessage("Los nombres son obligatorios"),

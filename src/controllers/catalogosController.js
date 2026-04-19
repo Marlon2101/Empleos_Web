@@ -2,6 +2,7 @@ import {
   getDepartamentos,
   getMunicipios,
   getMunicipiosByDepartamento,
+  getMunicipiosConDepartamento, 
   getCategorias,
   getHabilidades,
   getEstadosPostulacion
@@ -43,6 +44,20 @@ export const obtenerMunicipiosPorDepartamento = async (req, res) => {
     });
   }
 };
+
+
+export const obtenerMunicipiosAgrupados = async (req, res) => {
+  try {
+    const data = await getMunicipiosConDepartamento();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({
+      mensaje: "Error al obtener municipios agrupados",
+      error: error.message
+    });
+  }
+};
+
 
 export const obtenerCategorias = async (req, res) => {
   try {
