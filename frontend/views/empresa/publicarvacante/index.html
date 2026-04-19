@@ -3,191 +3,435 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly - Publicar Vacante</title>
+    <title>Workly · Publicar Vacante</title>
+    <!-- Bootstrap + Iconos -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Fuente Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        :root {
+            --primary-deep: #3f51b5;
+            --nav-bg: #011671;
+            --soft-accent: #f1ebd9;
+            --light-text: #e2e4e8;
+            --body-bg: #f0f4fe;
+        }
+        body {
+            background: linear-gradient(145deg, #eef2f9 0%, #f9fafc 100%);
+        }
+        /* Navbar personalizado */
+        .navbar-custom {
+            background-color: var(--nav-bg) !important;
+            box-shadow: 0 6px 20px rgba(1, 22, 113, 0.15);
+        }
+        .navbar-brand .brand-icon {
+            font-size: 3.5rem;
+            color: white;
+            margin-right: 0.75rem;
+        }
+        .navbar-brand .brand-text {
+            color: white;
+            font-weight: 700;
+            font-size: 2rem;
+            line-height: 1.2;
+        }
+        .navbar-brand .brand-sub {
+            color: var(--light-text);
+            font-size: 0.95rem;
+        }
+        .nav-link-custom {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            transition: all 0.2s;
+            background: rgba(255,255,255,0.05);
+        }
+        .nav-link-custom:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .nav-link-custom.active {
+            background: rgba(255,255,255,0.2);
+        }
+        .btn-primary-deep {
+            background: linear-gradient(135deg, var(--primary-deep), #2c3e8f);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.25s ease;
+            border-radius: 40px;
+            padding: 0.6rem 1.8rem;
+            box-shadow: 0 6px 14px rgba(63, 81, 181, 0.25);
+        }
+        .btn-primary-deep:hover {
+            background: linear-gradient(135deg, #2c3e8f, var(--primary-deep));
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(63, 81, 181, 0.35);
+            color: white;
+        }
+        .btn-outline-primary-deep {
+            background: transparent;
+            border: 2px solid var(--primary-deep);
+            color: var(--primary-deep);
+            font-weight: 600;
+            border-radius: 40px;
+            padding: 0.5rem 1.8rem;
+            transition: all 0.2s;
+        }
+        .btn-outline-primary-deep:hover {
+            background: var(--primary-deep);
+            color: white;
+        }
+        /* Tarjeta principal */
+        .form-card {
+            background: white;
+            border-radius: 36px;
+            box-shadow: 0 25px 40px -12px rgba(1, 22, 113, 0.08);
+            border: 1px solid rgba(63, 81, 181, 0.06);
+            overflow: hidden;
+            padding: 2rem 2.5rem;
+        }
+        /* Progreso */
+        .progress-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e9ecf9;
+            color: var(--primary-deep);
+            font-weight: 700;
+            margin-right: 12px;
+        }
+        .step-indicator.active {
+            background: var(--primary-deep);
+            color: white;
+        }
+        .progress-bar-custom {
+            height: 8px;
+            background: #e9ecf5;
+            border-radius: 20px;
+            overflow: hidden;
+            flex: 1;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 50%;
+            background: var(--primary-deep);
+            border-radius: 20px;
+        }
+        /* Inputs y selects */
+        .form-control-custom, .form-select-custom {
+            background-color: #f8fafd;
+            border: 1.5px solid #e0e6ed;
+            border-radius: 20px;
+            padding: 0.75rem 1.2rem;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .form-control-custom:focus, .form-select-custom:focus {
+            border-color: var(--primary-deep);
+            box-shadow: 0 0 0 4px rgba(63, 81, 181, 0.08);
+            background-color: white;
+        }
+        textarea.form-control-custom {
+            border-radius: 24px;
+        }
+        .section-title {
+            font-weight: 700;
+            color: #121826;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title i {
+            color: var(--primary-deep);
+            font-size: 1.6rem;
+        }
+        /* Footer */
+        .footer-custom {
+            background-color: var(--nav-bg);
+            color: var(--light-text);
+        }
+        .footer-custom a {
+            color: var(--light-text) !important;
+            text-decoration: none;
+        }
+        .footer-custom a:hover {
+            color: white !important;
+            text-decoration: underline;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff4757;
+            color: white;
+            border-radius: 50%;
+            padding: 0.25rem 0.45rem;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.95)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        /* Modal */
+        .modal-content {
+            border-radius: 32px !important;
+        }
+    </style>
 </head>
-<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+<body class="d-flex flex-column min-vh-100">
 
-    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
-        <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
-                <span class="display-5 me-3 lh-1">💼</span> 
-                <div class="lh-sm">
-                    <span class="text-white fw-bold d-block fs-3">Workly</span>
-                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
-                </div>
-            </a>
+<!-- ========== NAVBAR MEJORADO ========== -->
+<nav class="navbar navbar-expand-lg py-3 navbar-custom">
+    <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
+            <i class="bi bi-briefcase-fill brand-icon"></i>
+            <div class="lh-sm ms-2">
+                <span class="brand-text">Workly</span>
+                <span class="brand-sub">Panel de Empresa</span>
+            </div>
+        </a>
 
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                    <a href="../publicarvacante/index.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Publicar vacante</a>
-                    <a href="../misvacantes/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Mis vacantes</a>
-                    <a href="../postulaciones/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Ver postulaciones</a>
-                    <a href="../foro/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Foro</a>
-                    <a href="../resenaempresa/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Reseñas de postulantes</a>
-                </div>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-1">
+                <a href="../publicarvacante/index.html" class="nav-link-custom active text-decoration-none">
+                    <i class="bi bi-plus-circle me-1"></i> Publicar
+                </a>
+                <a href="../misvacantes/index.html" class="nav-link-custom text-decoration-none">
+                    <i class="bi bi-briefcase me-1"></i> Mis vacantes
+                </a>
+                <a href="../postulaciones/index.html" class="nav-link-custom text-decoration-none">
+                    <i class="bi bi-people me-1"></i> Postulaciones
+                </a>
+                <a href="../foro/index.html" class="nav-link-custom text-decoration-none">
+                    <i class="bi bi-chat-dots me-1"></i> Foro
+                </a>
+                <a href="../resenaempresa/index.html" class="nav-link-custom text-decoration-none">
+                    <i class="bi bi-star me-1"></i> Reseñas
+                </a>
+            </div>
 
-                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                    <a href="../notificaciones/index.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
-                        <i class="bi bi-bell-fill fs-3"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
-                            2
-                            <span class="visually-hidden">notificaciones no leídas</span>
-                        </span>
-                    </a>
-                    <a href="../perfil/index.html" class="text-dark text-decoration-none d-inline-block">
-                        <i class="bi bi-person-circle fs-2"></i>
-                    </a>
-                </div>
+            <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                <a href="../notificaciones/index.html" class="text-white position-relative d-inline-block">
+                    <i class="bi bi-bell-fill fs-3"></i>
+                    <span class="notification-badge">2</span>
+                </a>
+                <a href="../perfil/index.html" class="text-white d-inline-block">
+                    <i class="bi bi-person-circle fs-2"></i>
+                </a>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main class="flex-grow-1 py-4">
-        <div class="container px-4 px-lg-5">
-            
-            <form id="formVacante">
+<!-- ========== MAIN ========== -->
+<main class="flex-grow-1 py-4">
+    <div class="container px-4 px-lg-5">
+        
+        <form id="formVacante">
+            <div class="form-card">
                 
-                <div class="card bg-white border-0 shadow-sm rounded-4 mb-5 mt-2 overflow-hidden">
-                    <div class="p-4 p-lg-5 pb-0">
-                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-3">
-                            <h4 class="fw-bold text-dark mb-0">Publicar Nueva Vacante</h4>
-                            <div class="fw-bold text-dark fs-5">
-                                <i class="bi bi-1-circle-fill text-primary me-2"></i>Paso 1 de 2
-                            </div>
+                <!-- Encabezado con progreso -->
+                <div class="d-flex flex-wrap align-items-center justify-content-between mb-2">
+                    <h4 class="fw-bold mb-0 d-flex align-items-center gap-2" style="color: #121826;">
+                        <i class="bi bi-megaphone-fill" style="color: var(--primary-deep);"></i> Publicar Nueva Vacante
+                    </h4>
+                    <div class="progress-step mt-2 mt-sm-0">
+                        <span class="step-indicator active">1</span>
+                        <div class="progress-bar-custom mx-2" style="width: 100px;">
+                            <div class="progress-fill" style="width: 50%;"></div>
                         </div>
+                        <span class="step-indicator">2</span>
                     </div>
-                    
-                    <div class="d-flex w-100 mb-4 px-4 px-lg-5">
-                        <div class="bg-primary bg-opacity-50 w-50 py-1 rounded-start-pill"></div>
-                        <div class="bg-secondary bg-opacity-25 w-50 py-1 rounded-end-pill"></div>
+                </div>
+                <p class="text-secondary mb-4">Completa la información para que los candidatos encuentren tu oferta fácilmente.</p>
+
+                <!-- Información Básica -->
+                <div class="section-title">
+                    <i class="bi bi-info-circle-fill"></i>
+                    <span>Información Básica</span>
+                </div>
+                
+                <div class="row g-4 mb-5">
+                    <div class="col-12 col-md-6">
+                        <label class="form-label fw-semibold small text-secondary">Título del Puesto</label>
+                        <input type="text" id="titulo_puesto" class="form-control-custom w-100" placeholder="Ej: Desarrollador Frontend" required>
                     </div>
-
-                    <div class="p-4 p-lg-5 pt-0">
-                        <h5 class="fw-bold text-dark mb-4">Información Básica</h5>
-                        
-                        <div class="row g-4 mb-5">
-                            <div class="col-12 col-md-6">
-                                <label class="form-label fw-bold text-dark">Título del Puesto</label>
-                                <input type="text" id="titulo_puesto" class="form-control bg-secondary-subtle border-0 rounded-3 py-2 text-muted shadow-none" placeholder="Ej: Desarrollador Frontend" required>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label class="form-label fw-bold text-dark">Categoría</label>
-                                <select id="id_categoria_fk" class="form-select bg-secondary-subtle border-0 rounded-3 py-2 text-muted shadow-none" required>
-                                    <option value="" disabled selected>Selecciona una categoría</option>
-                                    <option value="1">Tecnología / IT</option>
-                                    <option value="2">Administración</option>
-                                    <option value="3">Ventas</option>
-                                </select>
-                            </div>
-
-                            <div class="col-12 col-md-4">
-                                <label class="form-label fw-bold text-dark">Ubicación (Municipio)</label>
-                                <select id="id_municipio_fk" class="form-select bg-secondary-subtle border-0 rounded-3 py-2 text-muted shadow-none" required>
-                                    <option value="" disabled selected>Selecciona municipio</option>
-                                    <option value="1">San Salvador</option>
-                                    <option value="2">Santa Ana</option>
-                                    <option value="3">San Miguel</option>
-                                </select>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <label class="form-label fw-bold text-dark">Tipo de Contrato / Modalidad</label>
-                                <select id="modalidad" class="form-select bg-secondary-subtle border-0 rounded-3 py-2 text-muted shadow-none" required>
-                                    <option value="Tiempo Completo">Tiempo Completo</option>
-                                    <option value="Medio Tiempo">Medio Tiempo</option>
-                                    <option value="Híbrido">Híbrido</option>
-                                    <option value="Remoto" selected>Remoto</option>
-                                </select>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <label class="form-label fw-bold text-dark">Rango Salarial Ofrecido</label>
-                                <input type="number" id="salario_offrecido" class="form-control bg-secondary-subtle border-0 rounded-3 py-2 text-muted shadow-none" placeholder="Ej: 1000" required>
-                            </div>
-                        </div>
-
-                        <hr class="text-secondary opacity-25 mb-5">
-
-                        <h5 class="fw-bold text-dark mb-4">Detalles del Puesto</h5>
-
-                        <div class="mb-4">
-    <label class="form-label fw-bold text-dark">Descripción general del puesto</label>
-    <textarea id="descripcion_puesto" class="form-control bg-light border-0 shadow-sm" rows="4" placeholder="Describe brevemente el rol..."></textarea>
-</div>
-
-<div class="mb-4">
-    <label class="form-label fw-bold text-dark">Responsabilidades (separa cada punto con un punto ".")</label>
-    <textarea id="responsabilidades" class="form-control bg-light border-0 shadow-sm" rows="4" placeholder="Ej: Diseñar arquitecturas. Mentorear juniors. Optimizar código."></textarea>
-    <div class="form-text">Para que aparezcan como viñetas en el detalle, termina cada frase con un punto.</div>
-</div>
-
-<div class="mb-4">
-    <label class="form-label fw-bold text-dark">Requisitos (separa cada punto con un punto ".")</label>
-    <textarea id="requisitos" class="form-control bg-light border-0 shadow-sm" rows="4" placeholder="Ej: 5 años de experiencia. Conocimiento en React. Inglés avanzado."></textarea>
-</div>
-
-                        <div class="row justify-content-between mt-5 pt-3">
-                            <div class="col-12 col-sm-auto mb-3 mb-sm-0">
-                                <button type="button" id="btnGuardarBorrador" class="btn btn-primary bg-opacity-75 px-5 py-2 fw-semibold rounded-3 w-100">Guardar Borrador</button>
-                            </div>
-                            <div class="col-12 col-sm-auto">
-                                <button type="button" class="btn btn-primary px-5 py-2 fw-semibold rounded-3 w-100" data-bs-toggle="modal" data-bs-target="#modalPaso2">Continuar a Publicar <i class="bi bi-arrow-right ms-2"></i></button>
-                            </div>
-                        </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label fw-semibold small text-secondary">Categoría</label>
+                        <select id="id_categoria_fk" class="form-select-custom w-100" required>
+                            <option value="" disabled selected>Selecciona una categoría</option>
+                            <option value="1">Tecnología / IT</option>
+                            <option value="2">Administración</option>
+                            <option value="3">Ventas</option>
+                            <option value="4">Marketing</option>
+                            <option value="5">Finanzas</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="form-label fw-semibold small text-secondary">Ubicación (Municipio)</label>
+                        <select id="id_municipio_fk" class="form-select-custom w-100" required>
+                            <option value="" disabled selected>Selecciona municipio</option>
+                            <option value="1">San Salvador</option>
+                            <option value="2">Santa Ana</option>
+                            <option value="3">San Miguel</option>
+                            <option value="4">La Libertad</option>
+                            <option value="5">Soyapango</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="form-label fw-semibold small text-secondary">Tipo de Contrato / Modalidad</label>
+                        <select id="modalidad" class="form-select-custom w-100" required>
+                            <option value="Tiempo Completo">Tiempo Completo</option>
+                            <option value="Medio Tiempo">Medio Tiempo</option>
+                            <option value="Híbrido">Híbrido</option>
+                            <option value="Remoto" selected>Remoto</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="form-label fw-semibold small text-secondary">Rango Salarial Ofrecido ($)</label>
+                        <input type="number" id="salario_offrecido" class="form-control-custom w-100" placeholder="Ej: 1000" required>
                     </div>
                 </div>
 
-                <div class="modal fade" id="modalPaso2" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content border-0 rounded-4 shadow-lg">
-                            <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
-                                <div class="d-flex align-items-center w-100">
-                                    <i class="bi bi-2-circle-fill text-primary fs-4 me-2"></i>
-                                    <h5 class="modal-title fw-bold text-dark mb-0">Paso 2: Confirmación</h5>
-                                    <button type="button" class="btn-close shadow-none ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                            </div>
-                            <div class="modal-body px-4 py-4">
-                                <p class="text-dark mb-4">Revisa las preferencias finales de tu publicación. Una vez confirmada, la vacante estará visible para todos los candidatos.</p>
-                                
-                                <div class="mb-3 form-check bg-secondary-subtle p-3 rounded-3 d-flex align-items-center gap-2">
-                                    <input type="checkbox" class="form-check-input bg-dark border-dark shadow-none mt-0 ms-1" id="checkNotificar" checked>
-                                    <label class="form-check-label text-dark fw-semibold small ms-2" for="checkNotificar">Notificar a los candidatos compatibles</label>
-                                </div>
-                                <div class="mb-4 form-check bg-secondary-subtle p-3 rounded-3 d-flex align-items-center gap-2">
-                                    <input type="checkbox" class="form-check-input bg-dark border-dark shadow-none mt-0 ms-1" id="checkDestacar">
-                                    <label class="form-check-label text-dark fw-semibold small ms-2" for="checkDestacar">Marcar como vacante destacada</label>
-                                </div>
-
-                                <div class="d-grid gap-2 d-sm-flex justify-content-sm-end mt-4">
-                                    <button type="button" class="btn btn-light bg-secondary-subtle border-0 text-dark fw-bold px-4 py-2 rounded-3" data-bs-dismiss="modal">Volver al Paso 1</button>
-                                    <button type="button" id="btnConfirmarFinal" class="btn btn-primary px-4 py-2 fw-bold rounded-3">Confirmar y Publicar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Detalles del Puesto -->
+                <div class="section-title mt-4">
+                    <i class="bi bi-file-text-fill"></i>
+                    <span>Detalles del Puesto</span>
                 </div>
 
-            </form>
-        </div>
-    </main>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold small text-secondary">Descripción general del puesto</label>
+                    <textarea id="descripcion_puesto" class="form-control-custom w-100" rows="4" placeholder="Describe brevemente el rol, el equipo y el impacto del puesto..."></textarea>
+                </div>
 
-    <footer class="py-4 mt-auto bg-secondary">
-        <div class="container text-center">
-            <div class="d-flex justify-content-center gap-5">
-                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
-                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
-                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2026</span>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold small text-secondary">
+                            Responsabilidades <span class="text-muted fw-normal">(separa cada punto con un punto ".")</span>
+                        </label>
+                        <textarea id="responsabilidades" class="form-control-custom w-100" rows="4" placeholder="Ej: Diseñar arquitecturas. Mentorear juniors. Optimizar código."></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold small text-secondary">
+                            Requisitos <span class="text-muted fw-normal">(separa cada punto con un punto ".")</span>
+                        </label>
+                        <textarea id="requisitos" class="form-control-custom w-100" rows="4" placeholder="Ej: 5 años de experiencia. Conocimiento en React. Inglés avanzado."></textarea>
+                    </div>
+                </div>
+                <div class="form-text mb-4"><i class="bi bi-info-circle"></i> Para que aparezcan como viñetas en el detalle, termina cada frase con un punto.</div>
+
+                <!-- Botones de acción -->
+                <hr class="my-4">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                    <button type="button" id="btnGuardarBorrador" class="btn btn-outline-primary-deep px-5 py-2 fw-semibold">
+                        <i class="bi bi-bookmark me-2"></i>Guardar Borrador
+                    </button>
+                    <button type="button" class="btn btn-primary-deep px-5 py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#modalPaso2">
+                        Continuar a Publicar <i class="bi bi-arrow-right ms-2"></i>
+                    </button>
+                </div>
+
             </div>
+
+            <!-- Modal Paso 2 (conservado íntegramente) -->
+            <div class="modal fade" id="modalPaso2" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 shadow-lg">
+                        <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                            <div class="d-flex align-items-center w-100">
+                                <div class="step-indicator active me-3" style="width: 36px; height: 36px;">2</div>
+                                <h5 class="modal-title fw-bold" style="color: #121826;">Confirmación</h5>
+                                <button type="button" class="btn-close shadow-none ms-auto" data-bs-dismiss="modal"></button>
+                            </div>
+                        </div>
+                        <div class="modal-body px-4 py-4">
+                            <p class="text-secondary mb-4">Revisa las preferencias finales de tu publicación. Una vez confirmada, la vacante estará visible para todos los candidatos.</p>
+                            
+                            <div class="mb-3 form-check bg-light p-3 rounded-4 d-flex align-items-center gap-3">
+                                <input type="checkbox" class="form-check-input shadow-none mt-0" id="checkNotificar" checked style="width: 1.2em; height: 1.2em;">
+                                <label class="form-check-label fw-medium small" for="checkNotificar">Notificar a los candidatos compatibles</label>
+                            </div>
+                            <div class="mb-4 form-check bg-light p-3 rounded-4 d-flex align-items-center gap-3">
+                                <input type="checkbox" class="form-check-input shadow-none mt-0" id="checkDestacar" style="width: 1.2em; height: 1.2em;">
+                                <label class="form-check-label fw-medium small" for="checkDestacar">Marcar como vacante destacada (mayor visibilidad)</label>
+                            </div>
+
+                            <div class="d-flex gap-2 justify-content-end mt-4">
+                                <button type="button" class="btn btn-outline-secondary px-4 py-2 rounded-pill" data-bs-dismiss="modal">Volver</button>
+                                <button type="button" id="btnConfirmarFinal" class="btn btn-primary-deep px-5 py-2">Confirmar y Publicar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer class="py-4 mt-auto footer-custom">
+    <div class="container text-center">
+        <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
+            <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
+            <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
+            <a href="#">Términos</a>
+            <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="./app.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Script de la aplicación (conservado) -->
+<script type="module" src="./app.js"></script>
 
+<!-- Pequeña mejora visual para el botón de borrador (simula guardado) -->
+<script>
+    (function() {
+        const btnBorrador = document.getElementById('btnGuardarBorrador');
+        if (btnBorrador) {
+            btnBorrador.addEventListener('click', function() {
+                // Feedback visual simple (no interfiere con app.js)
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="bi bi-check2 me-2"></i> Borrador guardado';
+                this.classList.add('btn-success');
+                this.classList.remove('btn-outline-primary-deep');
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.classList.remove('btn-success');
+                    this.classList.add('btn-outline-primary-deep');
+                }, 2000);
+            });
+        }
+    })();
+</script>
+<!-- Ajustes adicionales -->
+<style>
+    .btn-success {
+        background: #2ecc71 !important;
+        border-color: #2ecc71 !important;
+        color: white !important;
+    }
+    .form-control-custom, .form-select-custom {
+        transition: border 0.15s, box-shadow 0.15s;
+    }
+</style>
 </body>
 </html>
