@@ -3,10 +3,11 @@ import { generarToken } from "../utils/jwt.js";
 export const loginAdminTemporal = async (req, res) => {
   try {
     const { usuario, clave } = req.body;
+    const usuarioNormalizado = (usuario || "").trim().toLowerCase();
 
-    if (usuario !== "admin" || clave !== "admin123") {
+    if (!["admin", "admin@workly.com"].includes(usuarioNormalizado) || clave !== "admin123") {
       return res.status(401).json({
-        mensaje: "Credenciales de admin inválidas"
+        mensaje: "Credenciales de admin invalidas"
       });
     }
 
@@ -18,15 +19,16 @@ export const loginAdminTemporal = async (req, res) => {
     res.json({
       mensaje: "Login admin correcto",
       token,
+      tipo: "admin",
       data: {
         id: 1,
-        usuario: "admin",
+        usuario: usuarioNormalizado,
         tipo: "admin"
       }
     });
   } catch (error) {
     res.status(500).json({
-      mensaje: "Error al iniciar sesión como admin",
+      mensaje: "Error al iniciar sesion como admin",
       error: error.message
     });
   }

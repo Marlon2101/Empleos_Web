@@ -1,4 +1,7 @@
-import { API_URL, getToken, clearSession } from "../../../assets/js/shared/config.js";
+import { API_URL, getToken } from "../../../assets/js/shared/config.js";
+import { requireAuth } from "../../../assets/js/shared/auth.js";
+
+requireAuth(["admin"]);
 
 const alertContainer = document.getElementById("alertContainer");
 const totalUsuarios = document.getElementById("totalUsuarios");
@@ -15,19 +18,6 @@ const chartDashboard = document.getElementById("chartDashboard");
 const actividadReciente = document.getElementById("actividadReciente");
 const ultimasVacantesBox = document.getElementById("ultimasVacantesBox");
 
-const requireAdmin = () => {
-  const token = getToken();
-  const tipo = localStorage.getItem("tipo");
-
-  if (!token || tipo !== "admin") {
-    if (typeof clearSession === "function") {
-      clearSession();
-    }
-    window.location.href = "../../public/login/index.html";
-  }
-};
-
-requireAdmin();
 
 const showAlert = (message, type = "danger") => {
   if (!alertContainer) return;

@@ -1,4 +1,7 @@
-import { API_URL, getToken, clearSession } from "../../../assets/js/shared/config.js";
+import { API_URL, getToken } from "../../../assets/js/shared/config.js";
+import { requireAuth } from "../../../assets/js/shared/auth.js";
+
+requireAuth(["admin"]);
 
 const tablaVacantes = document.getElementById("tablaVacantes");
 const searchInput = document.getElementById("searchInput");
@@ -20,19 +23,7 @@ const resumenReportadas = document.getElementById("resumenReportadas");
 let vacantesGlobal = [];
 let vacanteAEliminar = null;
 
-const requireAdmin = () => {
-  const token = getToken();
-  const tipo = localStorage.getItem("tipo");
 
-  if (!token || tipo !== "admin") {
-    if (typeof clearSession === "function") {
-      clearSession();
-    }
-    window.location.href = "../../public/login/index.html";
-  }
-};
-
-requireAdmin();
 
 const authHeaders = () => ({
   Authorization: `Bearer ${getToken()}`,

@@ -1,5 +1,7 @@
-import { API_URL, getToken, clearSession } from "../../../assets/js/shared/config.js";
+import { API_URL, getToken } from "../../../assets/js/shared/config.js";
+import { requireAuth } from "../../../assets/js/shared/auth.js";
 
+requireAuth(["admin"]);
 const alertContainer = document.getElementById("alertContainer");
 const tablaModeracion = document.getElementById("tablaModeracion");
 const filtroModeracion = document.getElementById("filtroModeracion");
@@ -18,19 +20,7 @@ let empresasGlobal = [];
 let vacantesGlobal = [];
 let itemsModeracion = [];
 
-const requireAdmin = () => {
-  const token = getToken();
-  const tipo = localStorage.getItem("tipo");
 
-  if (!token || tipo !== "admin") {
-    if (typeof clearSession === "function") {
-      clearSession();
-    }
-    window.location.href = "../../public/login/index.html";
-  }
-};
-
-requireAdmin();
 
 const authHeaders = () => ({
   Authorization: `Bearer ${getToken()}`,

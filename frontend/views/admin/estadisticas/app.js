@@ -1,4 +1,7 @@
-import { API_URL, getToken, clearSession } from "../../../assets/js/shared/config.js";
+import { API_URL, getToken } from "../../../assets/js/shared/config.js";
+import { requireAuth } from "../../../assets/js/shared/auth.js";
+
+requireAuth(["admin"]);
 
 const alertContainer = document.getElementById("alertContainer");
 
@@ -17,17 +20,7 @@ const resumenModalidades = document.getElementById("resumenModalidades");
 const resumenEstados = document.getElementById("resumenEstados");
 const resumenEmpresas = document.getElementById("resumenEmpresas");
 
-const requireAdmin = () => {
-  const token = getToken();
-  const tipo = localStorage.getItem("tipo");
 
-  if (!token || tipo !== "admin") {
-    clearSession();
-    window.location.href = "../../public/login/index.html";
-  }
-};
-
-requireAdmin();
 
 const showAlert = (message, type = "danger") => {
   if (!alertContainer) return;
