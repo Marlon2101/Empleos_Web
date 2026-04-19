@@ -72,7 +72,10 @@ CREATE TABLE Empresas (
     sitio_web VARCHAR(100),
     descripcion_empresa TEXT,
     id_municipio_fk INT NULL,
+    correo_electronico VARCHAR(150) NULL,
+    contrasena VARCHAR(255) NULL,
     PRIMARY KEY (id_empresa),
+    UNIQUE KEY uq_empresas_correo (correo_electronico),
     CONSTRAINT fk_empresas_municipios
         FOREIGN KEY (id_municipio_fk)
         REFERENCES Municipios(id_municipio)
@@ -89,8 +92,13 @@ CREATE TABLE Vacantes (
     id_categoria_fk INT NOT NULL,
     titulo_puesto VARCHAR(150) NOT NULL,
     descripcion_puesto TEXT NOT NULL,
+    responsabilidades TEXT NULL,
+    requisitos TEXT NULL,
     salario_offrecido DECIMAL(10,2),
     modalidad VARCHAR(50),
+    tipo_contrato VARCHAR(100) NULL,
+    educacion VARCHAR(100) NULL,
+    idiomas VARCHAR(100) NULL,
     id_municipio_fk INT NULL,
     fecha_publicacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id_vacante),
@@ -175,94 +183,6 @@ CREATE TABLE Valoraciones_Empresas (
         ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
--- =========================================
--- INSERTAR DATOS
--- =========================================
-
--- Departamentos de El Salvador
-INSERT INTO Departamentos (nombre_departamento) VALUES
-('Santa Ana'),
-('San Salvador'),
-('La Libertad'),
-('San Miguel');
-
--- Municipios
-INSERT INTO Municipios (id_departamento_fk, nombre_municipio) VALUES
-(1, 'Santa Ana Centro'),
-(1, 'Chalchuapa'),
-(2, 'San Salvador Centro'),
-(2, 'Soyapango'),
-(3, 'Santa Tecla'),
-(3, 'Colón'),
-(4, 'San Miguel Centro');
-
--- Categorías de Empleo
-INSERT INTO Categorias (nombre_categoria) VALUES
-('Tecnología y Software'),
-('Administración y Oficina'),
-('Ventas y Marketing'),
-('Atención al Cliente'),
-('Diseño y Creatividad');
-
--- Estados de Postulación
-INSERT INTO Estados_Postulacion (nombre_estado) VALUES
-('Recibida'),
-('En Revisión'),
-('Entrevista'),
-('Rechazada'),
-('Contratado');
-
--- Habilidades
-INSERT INTO Habilidades (nombre_habilidad) VALUES
-('SQL Server'),
-('C#'),
-('Bootstrap'),
-('JavaScript'),
-('Gestión de Proyectos'),
-('Inglés Técnico');
-
--- Usuarios
-INSERT INTO Usuarios (
-    nombres, apellidos, correo_electronico, contrasena, telefono, id_municipio_fk, resumen_profesional
-) VALUES
-('Henry Gary', 'Arévalo Valencia', 'henry.arevalo@mail.com', 'Clave123', '7788-9900', 1, 'Estudiante de ingeniería con experiencia en desarrollo web y bases de datos.'),
-('Sofía Valeria', 'Velásquez Vega', 'sofia.vega@mail.com', 'Clave456', '7122-3344', 5, 'Especialista en diseño UI/UX y creación de prototipos funcionales.');
-
--- Empresas
-INSERT INTO Empresas (
-    nombre_comercial, razon_social, sitio_web, descripcion_empresa, id_municipio_fk
-) VALUES
-('TechSolutions SV', 'TechSolutions S.A. de C.V.', 'www.techsolutions.sv', 'Empresa líder en desarrollo de software a medida.', 3),
-('Global Marketing', 'Global Marketing Group', 'www.globalmkt.com', 'Agencia regional de publicidad y mercadeo digital.', 2);
-
--- Vacantes
-INSERT INTO Vacantes (
-    id_empresa_fk, id_categoria_fk, titulo_puesto, descripcion_puesto, salario_offrecido, modalidad, id_municipio_fk
-) VALUES
-(1, 1, 'Desarrollador Junior SQL', 'Buscamos estudiante para apoyo en bases de datos.', 600.00, 'Híbrido', 1),
-(1, 1, 'Programador FullStack', 'Experiencia en C# y Bootstrap indispensable.', 1200.00, 'Remoto', 3),
-(2, 3, 'Ejecutivo de Ventas', 'Persona proactiva para cumplimiento de metas.', 500.00, 'Presencial', 2),
-(2, 5, 'Diseñador Gráfico', 'Manejo de Adobe Suite y Figma.', 850.00, 'Presencial', 5);
-
--- Habilidades de Usuarios
-INSERT INTO Usuario_Habilidades (id_usuario_fk, id_habilidad_fk) VALUES
-(1, 1),
-(1, 3),
-(1, 4),
-(2, 3),
-(2, 6);
-
--- Postulaciones
-INSERT INTO Postulaciones (id_usuario_fk, id_vacante_fk, id_estado_fk) VALUES
-(1, 1, 2),
-(2, 4, 1);
-
--- Valoraciones de Empresas
-INSERT INTO Valoraciones_Empresas (
-    id_usuario_fk, id_empresa_fk, puntuacion, comentario
-) VALUES
-(1, 1, 5, 'Excelente ambiente laboral y oportunidades de crecimiento.');
-
 CREATE TABLE Notificaciones (
     id_notificacion INT NOT NULL AUTO_INCREMENT,
     tipo_usuario VARCHAR(20) NOT NULL,
@@ -314,20 +234,135 @@ CREATE TABLE Vacantes_Guardadas (
 ) ENGINE=InnoDB;
 
 
+-- =========================================
+-- INSERTAR DATOS
+-- =========================================
 
-ALTER TABLE Empresas
-ADD COLUMN correo_electronico VARCHAR(150) NULL,
-ADD COLUMN contrasena VARCHAR(255) NULL;
+-- Departamentos de El Salvador
+INSERT INTO Departamentos (nombre_departamento) VALUES
+('Santa Ana'),
+('San Salvador'),
+('La Libertad'),
+('San Miguel');
 
-ALTER TABLE Empresas
-ADD CONSTRAINT uq_empresas_correo UNIQUE (correo_electronico);
+-- Municipios
+INSERT INTO Municipios (id_departamento_fk, nombre_municipio) VALUES
+(1, 'Santa Ana Centro'),
+(1, 'Chalchuapa'),
+(1, 'Atiquizaya'),
+(2, 'San Salvador Centro'),
+(2, 'Soyapango'),
+(3, 'Santa Tecla'),
+(3, 'Colón'),
+(4, 'San Miguel Centro');
 
-UPDATE Empresas
-SET correo_electronico = 'techsolutions@mail.com',
-    contrasena = 'ClaveEmpresa123'
-WHERE id_empresa = 1;
+-- Categorías de Empleo
+INSERT INTO Categorias (nombre_categoria) VALUES
+('Tecnología y Software'),
+('Administración y Oficina'),
+('Ventas y Marketing'),
+('Atención al Cliente'),
+('Diseño y Creatividad'),
+('Redes y Telecomunicaciones');
 
-UPDATE Empresas
-SET correo_electronico = 'globalmarketing@mail.com',
-    contrasena = 'ClaveEmpresa456'
-WHERE id_empresa = 2;
+-- Estados de Postulación
+INSERT INTO Estados_Postulacion (nombre_estado) VALUES
+('Recibida'),
+('En Revisión'),
+('Entrevista'),
+('Rechazada'),
+('Contratado');
+
+-- Habilidades
+INSERT INTO Habilidades (nombre_habilidad) VALUES
+('SQL Server'),
+('C#'),
+('Bootstrap'),
+('JavaScript'),
+('Gestión de Proyectos'),
+('Inglés Técnico'),
+('Node.js'),
+('Figma'),
+('Cisco Packet Tracer');
+
+-- Usuarios
+INSERT INTO Usuarios (
+    nombres, apellidos, correo_electronico, contrasena, telefono, id_municipio_fk, resumen_profesional
+) VALUES
+('Henry Gary', 'Arévalo Valencia', 'henry.arevalo@mail.com', 'Clave123', '7788-9900', 1, 'Estudiante de ingeniería con experiencia en desarrollo web y bases de datos.'),
+('Sofía Valeria', 'Velásquez Vega', 'sofia.vega@mail.com', 'Clave456', '7122-3344', 5, 'Especialista en diseño UI/UX y creación de prototipos funcionales.');
+
+-- Empresas
+INSERT INTO Empresas (
+    nombre_comercial, razon_social, sitio_web, descripcion_empresa, id_municipio_fk, correo_electronico, contrasena
+) VALUES
+('TechSolutions SV', 'TechSolutions S.A. de C.V.', 'www.techsolutions.sv', 'Empresa líder en desarrollo de software a medida, aplicaciones web y arquitecturas en la nube para clientes regionales.', 3, 'techsolutions@mail.com', 'ClaveEmpresa123'),
+('Global Marketing', 'Global Marketing Group', 'www.globalmkt.com', 'Agencia regional de publicidad, mercadeo digital y creación de interfaces interactivas para marcas de alto impacto.', 2, 'globalmarketing@mail.com', 'ClaveEmpresa456'),
+('InnovaNet El Salvador', 'InnovaNet S.A.', 'www.innovanet.sv', 'Proveedores de infraestructura de redes, configuración de routers y switches empresariales.', 4, 'rrhh@innovanet.sv', 'NetAdmin2026');
+
+-- Vacantes Completas
+INSERT INTO Vacantes (
+    id_empresa_fk, id_categoria_fk, titulo_puesto, descripcion_puesto, responsabilidades, requisitos, 
+    salario_offrecido, modalidad, tipo_contrato, educacion, idiomas, id_municipio_fk
+) VALUES
+(1, 1, 'Desarrollador Junior SQL y Node.js', 'Buscamos un estudiante o recién graduado para apoyar en la creación de APIs y consultas a bases de datos relacionales. Un ambiente perfecto para crecer profesionalmente.', 
+'Crear y optimizar consultas en MySQL y PostgreSQL. Desarrollar endpoints REST usando Node.js. Colaborar con el equipo de frontend para integrar los datos.', 
+'Conocimientos sólidos en SQL. Experiencia básica con Node.js y JavaScript. Capacidad de resolución de problemas. Estudiante de 4to año en adelante.', 
+600.00, 'Híbrido', 'Tiempo Completo', 'Estudiante de Ingeniería en Sistemas', 'Inglés Técnico (Lectura)', 1),
+
+(1, 1, 'Programador FullStack Web', 'Buscamos un perfil FullStack capaz de maquetar con frameworks modernos y conectar con el backend de manera segura y eficiente.', 
+'Maquetar interfaces responsivas utilizando Bootstrap nativo. Conectar el frontend con bases de datos. Asegurar buenas prácticas de código limpio.', 
+'Dominio avanzado de JavaScript, Node.js y Bootstrap. Experiencia previa comprobable en proyectos de la universidad o freelancing.', 
+1200.00, 'Remoto', 'Tiempo Completo', 'Ingeniería en Sistemas o afín', 'Inglés Avanzado', 3),
+
+(2, 3, 'Ejecutivo de Ventas B2B', 'Te necesitamos para expandir nuestra cartera de clientes corporativos en la zona occidental del país, ofreciendo nuestros servicios de marketing digital.', 
+'Prospección de clientes. Cierre de ventas y negociación de contratos. Seguimiento post-venta.', 
+'Vehículo propio. Experiencia mínima de 1 año en ventas. Excelentes habilidades de comunicación y negociación.', 
+500.00, 'Presencial', 'Tiempo Completo', 'Bachillerato o Técnico', 'Español Nativo', 2),
+
+(2, 5, 'Diseñador UI/UX Senior', 'Buscamos un experto en diseño centrado en el usuario para liderar el prototipado de alta fidelidad de nuestras nuevas plataformas web y móviles.', 
+'Crear wireframes, mockups y prototipos interactivos de alta fidelidad. Diseñar componentes reutilizables. Realizar pruebas de usabilidad.', 
+'Experiencia avanzada utilizando Figma. Portafolio de proyectos UI/UX actualizado. Conocimientos de HTML/CSS son un plus.', 
+1500.00, 'Híbrido', 'Tiempo Completo', 'Licenciatura en Diseño Gráfico o similar', 'Inglés Intermedio', 5),
+
+(3, 6, 'Técnico de Redes y Ruteo Estático', 'Excelente oportunidad para estudiantes interesados en el área de telecomunicaciones. Te encargarás del soporte de nivel 1 y configuración de equipos Cisco.', 
+'Configuración de routers y switches. Asignación de IPs y subnetting. Resolución de problemas de red mediante simuladores y equipos físicos.', 
+'Conocimientos en ruteo estático y dinámico. Experiencia comprobable utilizando simuladores como Cisco Packet Tracer. Pasión por la infraestructura.', 
+750.00, 'Presencial', 'Tiempo Completo', 'Estudiante de Ingeniería o Técnico en Redes', 'Inglés Técnico', 4),
+
+(1, 1, 'Practicante de Frontend (Bootstrap)', 'Abre tu camino en el mundo del desarrollo web. Trabajarás de la mano con desarrolladores Senior creando tablas, dashboards y componentes visuales.', 
+'Aplicar estilos utilizando las clases nativas de Bootstrap. Asegurar la adaptabilidad móvil de los diseños. Apoyar en tareas de depuración en JavaScript.', 
+'Ganas de aprender. No usar CSS personalizado, saber estructurar con las clases base de Bootstrap. Conocimiento básico de repositorios Git.', 
+350.00, 'Remoto', 'Medio tiempo', 'Estudiante de Informática o Sistemas', 'Inglés Básico', 1),
+
+(3, 1, 'Ingeniero de Bases de Datos Oracle/MySQL', 'Únete a nuestro equipo de infraestructura de datos gestionando y optimizando arquitecturas de alta disponibilidad.', 
+'Normalización de bases de datos. Creación de diagramas relacionales. Mantenimiento y backups de servidores Oracle y MySQL.', 
+'Experiencia de 3+ años como DBA. Conocimiento profundo de SQL avanzado. Proactividad.', 
+1800.00, 'Híbrido', 'Por Proyecto', 'Ingeniería en Sistemas Computacionales', 'Inglés Avanzado', 3),
+
+(2, 1, 'Desarrollador de Hardware (Arduino)', 'Buscamos un desarrollador innovador para la creación de prototipos funcionales de rastreo y seguridad (Internet de las Cosas - IoT).', 
+'Programar microcontroladores Arduino Uno. Integrar sensores, buzzers y motores. Diseñar esquemas lógicos y de alimentación (ej. paneles solares).', 
+'Experiencia programando en C/C++ para Arduino. Conocimientos sólidos de electrónica básica y compuertas lógicas.', 
+900.00, 'Presencial', 'Tiempo Completo', 'Ingeniería Mecatrónica o Sistemas', 'Inglés Intermedio', 2);
+
+-- Habilidades de Usuarios
+INSERT INTO Usuario_Habilidades (id_usuario_fk, id_habilidad_fk) VALUES
+(1, 1),
+(1, 3),
+(1, 4),
+(1, 7),
+(2, 3),
+(2, 8);
+
+-- Postulaciones
+INSERT INTO Postulaciones (id_usuario_fk, id_vacante_fk, id_estado_fk) VALUES
+(1, 1, 2),
+(1, 6, 1),
+(2, 4, 3);
+
+-- Valoraciones de Empresas
+INSERT INTO Valoraciones_Empresas (
+    id_usuario_fk, id_empresa_fk, puntuacion, comentario
+) VALUES
+(1, 1, 5, 'Excelente ambiente laboral y me enseñaron mucho sobre optimización de código y uso de herramientas en la nube.'),
+(2, 2, 4, 'Muy buenos proyectos de diseño, aunque el ritmo de trabajo a veces es acelerado.');

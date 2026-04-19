@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,10 @@
     <!-- Fuente Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
     <style>
-        * { font-family: 'Inter', sans-serif; }
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
         :root {
             --primary-deep: #3f51b5;
             --nav-bg: #011671;
@@ -18,29 +22,35 @@
             --light-text: #e2e4e8;
             --body-bg: #f5f7fc;
         }
+
         body {
             background-color: var(--body-bg);
         }
+
         /* Navbar personalizado */
         .navbar-custom {
             background-color: var(--nav-bg) !important;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
         }
+
         .navbar-brand .brand-icon {
             font-size: 3.5rem;
             color: white;
             margin-right: 0.75rem;
         }
+
         .navbar-brand .brand-text {
             color: white;
             font-weight: 700;
             font-size: 2rem;
             line-height: 1.2;
         }
+
         .navbar-brand .brand-sub {
             color: var(--light-text);
             font-size: 0.95rem;
         }
+
         .nav-link-custom {
             color: white !important;
             font-weight: 500;
@@ -48,9 +58,11 @@
             border-radius: 30px;
             transition: background 0.2s;
         }
+
         .nav-link-custom:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
         }
+
         .btn-primary-deep {
             background-color: var(--primary-deep);
             border: none;
@@ -60,25 +72,29 @@
             border-radius: 40px;
             padding: 0.6rem 1.5rem;
         }
+
         .btn-primary-deep:hover {
             background-color: #2c3e8f;
             transform: translateY(-2px);
             box-shadow: 0 8px 16px rgba(63, 81, 181, 0.25);
             color: white;
         }
+
         .btn-outline-light-custom {
-            border: 1.5px solid rgba(255,255,255,0.5);
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
             color: white;
             background: transparent;
             font-weight: 500;
             border-radius: 40px;
             padding: 0.5rem 1.2rem;
         }
+
         .btn-outline-light-custom:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             border-color: white;
             color: white;
         }
+
         /* Tarjeta principal */
         .detail-card {
             background: white;
@@ -87,33 +103,38 @@
             box-shadow: 0 25px 35px -12px rgba(1, 22, 113, 0.08);
             padding: 2rem 2.5rem;
         }
+
         /* Sidebar cards */
         .sidebar-card {
             background: white;
             border-radius: 24px;
             padding: 1.8rem;
-            box-shadow: 0 15px 25px -8px rgba(0,0,0,0.04);
+            box-shadow: 0 15px 25px -8px rgba(0, 0, 0, 0.04);
             border: 1px solid #edf0f5;
             transition: transform 0.2s;
         }
+
         .sidebar-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 20px 30px -10px rgba(63,81,181,0.1);
+            box-shadow: 0 20px 30px -10px rgba(63, 81, 181, 0.1);
         }
+
         /* Empleos similares */
         .similar-job-card {
             background: white;
             border-radius: 20px;
             padding: 1.5rem;
-            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.03);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.03);
             border: 1px solid #eef2f6;
             transition: all 0.2s;
             height: 100%;
         }
+
         .similar-job-card:hover {
             border-color: var(--primary-deep);
-            box-shadow: 0 15px 25px -8px rgba(63,81,181,0.12);
+            box-shadow: 0 15px 25px -8px rgba(63, 81, 181, 0.12);
         }
+
         /* Badges */
         .badge-soft {
             background: #e9ecf9;
@@ -123,19 +144,23 @@
             border-radius: 40px;
             font-size: 0.8rem;
         }
+
         /* Footer */
         .footer-custom {
             background-color: var(--nav-bg);
             color: var(--light-text);
         }
+
         .footer-custom a {
             color: var(--light-text) !important;
             text-decoration: none;
         }
+
         .footer-custom a:hover {
             color: white !important;
             text-decoration: underline;
         }
+
         .notification-badge {
             position: absolute;
             top: -5px;
@@ -148,346 +173,383 @@
             font-weight: bold;
             border: 2px solid white;
         }
+
         .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
+
         /* Estilo para los íconos de acción */
         .action-icon {
             color: #5f6b7a;
             transition: color 0.2s;
         }
+
         .action-icon:hover {
             color: var(--primary-deep);
         }
     </style>
 </head>
+
 <body class="d-flex flex-column min-vh-100">
 
-<!-- ========== NAVBAR MEJORADO ========== -->
-<nav class="navbar navbar-expand-lg py-3 navbar-custom">
-    <div class="container-fluid px-4 px-lg-5">
-        <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../../public/paginainicial/index.html">
-            <i class="bi bi-briefcase-fill brand-icon"></i>
-            <div class="lh-sm ms-2">
-                <span class="brand-text">Workly</span>
-                <span class="brand-sub">Tu búsqueda de trabajo profesional</span>
-            </div>
-        </a>
+    <!-- ========== NAVBAR MEJORADO ========== -->
+    <nav class="navbar navbar-expand-lg py-3 navbar-custom">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none"
+                href="../../public/paginainicial/index.html">
+                <i class="bi bi-briefcase-fill brand-icon"></i>
+                <div class="lh-sm ms-2">
+                    <span class="brand-text">Workly</span>
+                    <span class="brand-sub">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
 
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                <a href="../buscarempleo/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
-                    <i class="bi bi-search me-1"></i> Búsqueda
-                </a>
-                <a href="../recursos/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
-                    <i class="bi bi-journal-bookmark-fill me-1"></i> Recursos
-                </a>
-                <a href="../valoracionempresa/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
-                    <i class="bi bi-star-fill me-1"></i> Valoraciones
-                </a>
-                <a href="../miperfil/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
-                    <i class="bi bi-person-badge me-1"></i> Mi Perfil
-                </a>
-            </div>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                    <a href="../buscarempleo/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                        <i class="bi bi-search me-1"></i> Búsqueda
+                    </a>
+                    <a href="../recursos/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                        <i class="bi bi-journal-bookmark-fill me-1"></i> Recursos
+                    </a>
+                    <a href="../valoracionempresa/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                        <i class="bi bi-star-fill me-1"></i> Valoraciones
+                    </a>
+                    <a href="../miperfil/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                        <i class="bi bi-person-badge me-1"></i> Mi Perfil
+                    </a>
+                </div>
 
-            <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                <a href="../notificaciones/index.html" class="text-white position-relative d-inline-block">
-                    <i class="bi bi-bell-fill fs-3"></i>
-                    <span class="notification-badge">5</span>
-                </a>
-                <a href="../miperfil/index.html" class="text-white d-inline-block">
-                    <i class="bi bi-person-circle fs-2"></i>
-                </a>
+                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                    <a href="../notificaciones/index.html" class="text-white position-relative d-inline-block">
+                        <i class="bi bi-bell-fill fs-3"></i>
+                        <span class="notification-badge">5</span>
+                    </a>
+                    <a href="../miperfil/index.html" class="text-white d-inline-block">
+                        <i class="bi bi-person-circle fs-2"></i>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<!-- ========== MAIN ========== -->
-<main class="flex-grow-1 py-4">
-    <div class="container-fluid px-4 px-lg-5">
-        
-        <div id="alertContainer"></div>
+    <!-- ========== MAIN ========== -->
+    <main class="flex-grow-1 py-4">
+        <div class="container-fluid px-4 px-lg-5">
 
-        <!-- Tarjeta principal con detalles -->
-        <div class="detail-card mb-5">
-            
-            <!-- Encabezado: título, empresa, ubicación, salario y acciones -->
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start mb-4 pb-4 border-bottom">
-                <div>
-                    <div class="d-flex align-items-center gap-3 mb-3">
-                        <div class="bg-light p-3 rounded-4">
-                            <i class="bi bi-briefcase-fill fs-3" style="color: var(--primary-deep);"></i>
+            <div id="alertContainer"></div>
+
+            <!-- Tarjeta principal con detalles -->
+            <div class="detail-card mb-5">
+
+                <!-- Encabezado: título, empresa, ubicación, salario y acciones -->
+                <div
+                    class="d-flex flex-column flex-md-row justify-content-between align-items-md-start mb-4 pb-4 border-bottom">
+                    <div>
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="bg-light p-3 rounded-4">
+                                <i class="bi bi-briefcase-fill fs-3" style="color: var(--primary-deep);"></i>
+                            </div>
+                            <h2 class="fw-bold mb-0" style="color: #121826;" id="vacanteTitulo">Cargando...</h2>
                         </div>
-                        <h2 class="fw-bold mb-0" style="color: #121826;" id="vacanteTitulo">Cargando...</h2>
+                        <ul class="list-unstyled text-secondary fs-6 mb-3">
+                            <li class="mb-2"><i class="bi bi-building me-2"
+                                    style="color: var(--primary-deep);"></i><span id="empresaNombre">---</span></li>
+                            <li class="mb-2"><i class="bi bi-geo-alt me-2" style="color: var(--primary-deep);"></i><span
+                                    id="vacanteUbicacion">---</span></li>
+                            <li class="fw-bold" style="color: #1e1f22;"><i class="bi bi-cash me-2"
+                                    style="color: var(--primary-deep);"></i><span id="vacanteSalario">---</span></li>
+                        </ul>
+                        <div class="d-flex flex-wrap gap-2" id="badgesContenedor">
+                            <!-- Badges dinámicos se insertan aquí -->
+                        </div>
                     </div>
-                    <ul class="list-unstyled text-secondary fs-6 mb-3">
-                        <li class="mb-2"><i class="bi bi-building me-2" style="color: var(--primary-deep);"></i><span id="empresaNombre">---</span></li>
-                        <li class="mb-2"><i class="bi bi-geo-alt me-2" style="color: var(--primary-deep);"></i><span id="vacanteUbicacion">---</span></li>
-                        <li class="fw-bold" style="color: #1e1f22;"><i class="bi bi-cash me-2" style="color: var(--primary-deep);"></i><span id="vacanteSalario">---</span></li>
-                    </ul>
-                    <div class="d-flex flex-wrap gap-2" id="badgesContenedor">
-                        <!-- Badges dinámicos se insertan aquí -->
+
+                    <div class="mt-4 mt-md-0 d-flex flex-column align-items-md-end">
+                        <div id="contenedorAccionPrincipal">
+                            <button class="btn btn-primary-deep px-5 py-3 fw-bold shadow-sm">
+                                <i class="bi bi-send me-2"></i>Aplicar ahora
+                            </button>
+                        </div>
+                        <div class="d-flex gap-4 mt-3">
+                            <a href="#" id="btnGuardar"
+                                class="text-decoration-none fw-semibold d-flex align-items-center gap-1 action-icon">
+                                <i class="bi bi-bookmark" id="iconoGuardar"></i> Guardar
+                            </a>
+                            <a href="#"
+                                class="text-decoration-none fw-semibold d-flex align-items-center gap-1 action-icon"
+                                data-bs-toggle="modal" data-bs-target="#modalCompartir">
+                                <i class="bi bi-share-fill"></i> Compartir
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="mt-4 mt-md-0 d-flex flex-column align-items-md-end">
-                    <div id="contenedorAccionPrincipal">
-                        <button class="btn btn-primary-deep px-5 py-3 fw-bold shadow-sm">
-                            <i class="bi bi-send me-2"></i>Aplicar ahora
-                        </button>
-                    </div>
-                    <div class="d-flex gap-4 mt-3">
-                        <a href="#" id="btnGuardar" class="text-decoration-none fw-semibold d-flex align-items-center gap-1 action-icon">
-                            <i class="bi bi-bookmark" id="iconoGuardar"></i> Guardar
-                        </a>
-                        <a href="#" class="text-decoration-none fw-semibold d-flex align-items-center gap-1 action-icon" data-bs-toggle="modal" data-bs-target="#modalCompartir">
-                            <i class="bi bi-share-fill"></i> Compartir
-                        </a>
-                    </div>
-                </div>
-            </div>
+                <!-- Contenido en dos columnas -->
+                <div class="row g-5">
 
-            <!-- Contenido en dos columnas -->
-            <div class="row g-5">
-                
-                <!-- Columna izquierda: descripción, responsabilidades, requisitos, empleos similares -->
-                <div class="col-12 col-lg-8">
-                    <h5 class="fw-bold mb-3" style="color: #121826;">📋 Descripción del puesto</h5>
-                    <p id="vacanteDescripcion" class="text-secondary mb-5 lh-lg" style="text-align: justify;"></p>
+                    <!-- Columna izquierda: descripción, responsabilidades, requisitos, empleos similares -->
+                    <div class="col-12 col-lg-8">
+                        <h5 class="fw-bold mb-3" style="color: #121826;">📋 Descripción del puesto</h5>
+                        <p id="vacanteDescripcion" class="text-secondary mb-5 lh-lg" style="text-align: justify;"></p>
 
-                    <h5 class="fw-bold mb-3" style="color: #121826;">✅ Responsabilidades</h5>
-                    <ul id="listaResponsabilidades" class="text-secondary mb-5 lh-lg" style="list-style-type: none; padding-left: 0;">
-                        <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color: var(--primary-deep);"></i>Cargando responsabilidades...</li>
-                    </ul>
+                        <h5 class="fw-bold mb-3" style="color: #121826;">✅ Responsabilidades</h5>
+                        <ul id="listaResponsabilidades" class="text-secondary mb-5 lh-lg"
+                            style="list-style-type: none; padding-left: 0;">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill me-2"
+                                    style="color: var(--primary-deep);"></i>Cargando responsabilidades...</li>
+                        </ul>
 
-                    <h5 class="fw-bold mb-3" style="color: #121826;">🎓 Requisitos</h5>
-                    <ul id="listaRequisitos" class="text-secondary mb-5 lh-lg" style="list-style-type: none; padding-left: 0;">
-                        <li class="mb-2"><i class="bi bi-check-circle-fill me-2" style="color: var(--primary-deep);"></i>Cargando requisitos...</li>
-                    </ul>
+                        <h5 class="fw-bold mb-3" style="color: #121826;">🎓 Requisitos</h5>
+                        <ul id="listaRequisitos" class="text-secondary mb-5 lh-lg"
+                            style="list-style-type: none; padding-left: 0;">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill me-2"
+                                    style="color: var(--primary-deep);"></i>Cargando requisitos...</li>
+                        </ul>
 
-                    <!-- Empleos similares (sección estática/dinámica) -->
-                    <h5 class="fw-bold mb-4 mt-5" style="color: #121826;">🔍 Empleos similares</h5>
-                    <div class="row g-4">
-                        <div class="col-12 col-md-4">
-                            <div class="similar-job-card d-flex flex-column">
-                                <h6 class="fw-bold mb-3">Desarrollador Full Stack</h6>
-                                <ul class="list-unstyled text-secondary small mb-4">
-                                    <li class="mb-1"><i class="bi bi-building me-2"></i>CodeCrafters</li>
-                                    <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>San Salvador</li>
-                                    <li class="fw-bold"><i class="bi bi-cash me-2"></i>$800 - $900</li>
-                                </ul>
-                                <button class="btn btn-outline-primary w-100 mt-auto rounded-pill py-2 fw-semibold" style="border-color: var(--primary-deep); color: var(--primary-deep);">
-                                    Ver Detalles
-                                </button>
+                        <!-- Empleos similares (sección estática/dinámica) -->
+                        <h5 class="fw-bold mb-4 mt-5" style="color: #121826;">🔍 Empleos similares</h5>
+                        <div class="row g-4">
+                            <div class="col-12 col-md-4">
+                                <div class="similar-job-card d-flex flex-column">
+                                    <h6 class="fw-bold mb-3">Desarrollador Full Stack</h6>
+                                    <ul class="list-unstyled text-secondary small mb-4">
+                                        <li class="mb-1"><i class="bi bi-building me-2"></i>CodeCrafters</li>
+                                        <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>San Salvador</li>
+                                        <li class="fw-bold"><i class="bi bi-cash me-2"></i>$800 - $900</li>
+                                    </ul>
+                                    <button class="btn btn-outline-primary w-100 mt-auto rounded-pill py-2 fw-semibold"
+                                        style="border-color: var(--primary-deep); color: var(--primary-deep);">
+                                        Ver Detalles
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="similar-job-card d-flex flex-column">
+                                    <h6 class="fw-bold mb-3">Lead Developer</h6>
+                                    <ul class="list-unstyled text-secondary small mb-4">
+                                        <li class="mb-1"><i class="bi bi-building me-2"></i>SoftwareHouse</li>
+                                        <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>Santa Ana</li>
+                                        <li class="fw-bold"><i class="bi bi-cash me-2"></i>$500 - $700</li>
+                                    </ul>
+                                    <button class="btn btn-outline-primary w-100 mt-auto rounded-pill py-2 fw-semibold"
+                                        style="border-color: var(--primary-deep); color: var(--primary-deep);">
+                                        Ver Detalles
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="similar-job-card d-flex flex-column">
+                                    <h6 class="fw-bold mb-3">Arquitecto de Software</h6>
+                                    <ul class="list-unstyled text-secondary small mb-4">
+                                        <li class="mb-1"><i class="bi bi-building me-2"></i>TechInnovate</li>
+                                        <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>La Libertad</li>
+                                        <li class="fw-bold"><i class="bi bi-cash me-2"></i>$1,000 - $2,000</li>
+                                    </ul>
+                                    <button class="btn btn-outline-primary w-100 mt-auto rounded-pill py-2 fw-semibold"
+                                        style="border-color: var(--primary-deep); color: var(--primary-deep);">
+                                        Ver Detalles
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-4">
-                            <div class="similar-job-card d-flex flex-column">
-                                <h6 class="fw-bold mb-3">Lead Developer</h6>
-                                <ul class="list-unstyled text-secondary small mb-4">
-                                    <li class="mb-1"><i class="bi bi-building me-2"></i>SoftwareHouse</li>
-                                    <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>Santa Ana</li>
-                                    <li class="fw-bold"><i class="bi bi-cash me-2"></i>$500 - $700</li>
-                                </ul>
-                                <button class="btn btn-outline-primary w-100 mt-auto rounded-pill py-2 fw-semibold" style="border-color: var(--primary-deep); color: var(--primary-deep);">
-                                    Ver Detalles
-                                </button>
+                    </div>
+
+                    <!-- Columna derecha: sidebar con info de empresa y detalles -->
+                    <div class="col-12 col-lg-4">
+
+                        <!-- Sobre la empresa -->
+                        <div class="sidebar-card mb-4">
+                            <h6 class="fw-bold mb-3 d-flex align-items-center" style="color: #121826;">
+                                <i class="bi bi-building me-2" style="color: var(--primary-deep);"></i>Sobre la empresa
+                            </h6>
+                            <p class="text-secondary small mb-4" id="empresaDescripcion">---</p>
+
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-star-fill me-1 small" style="color: #ffb347;"></i>
+                                <i class="bi bi-star-fill me-1 small" style="color: #ffb347;"></i>
+                                <i class="bi bi-star-fill me-1 small" style="color: #ffb347;"></i>
+                                <i class="bi bi-star-fill me-1 small" style="color: #ffb347;"></i>
+                                <i class="bi bi-star me-2 small" style="color: #ffb347;"></i>
+                                <span class="text-secondary small">4.0 (125 valoraciones)</span>
+                            </div>
+                            <div class="d-flex align-items-center mb-4">
+                                <i class="bi bi-people-fill text-secondary me-2"></i>
+                                <span class="text-secondary small">50-200 empleados</span>
+                            </div>
+
+                            <button class="btn btn-outline-primary w-100 rounded-pill py-2 fw-semibold"
+                                style="border-color: var(--primary-deep); color: var(--primary-deep);">
+                                Ver perfil de empresa <i class="bi bi-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+
+                        <!-- Detalles del empleo -->
+                        <div class="card shadow-sm border-0 rounded-4 sidebar-card mb-4">
+                            <div class="card-body p-4">
+                                <h6 class="fw-bold mb-4"><i class="bi bi-info-circle me-2"
+                                        style="color: var(--primary-deep);"></i> Detalles del empleo</h6>
+
+                                <div class="mb-3">
+                                    <span class="d-block small fw-bold text-dark">Tipo de contrato</span>
+                                    <span id="detalle-contrato" class="text-secondary small">Cargando...</span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <span class="d-block small fw-bold text-dark">Experiencia</span>
+                                    <span id="detalle-experiencia" class="text-secondary small">Cargando...</span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <span class="d-block small fw-bold text-dark">Educación</span>
+                                    <span id="detalle-educacion" class="text-secondary small">Cargando...</span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <span class="d-block small fw-bold text-dark">Idiomas</span>
+                                    <span id="detalle-idiomas" class="text-secondary small">Cargando...</span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <span class="d-block small fw-bold text-dark">Modalidad</span>
+                                    <span id="detalle-modalidad" class="text-secondary small">Cargando...</span>
+                                </div>
+
+                                <div class="mb-0">
+                                    <span class="d-block small fw-bold text-dark">Fecha de publicación</span>
+                                    <span id="detalle-fecha" class="text-secondary small">Cargando...</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-4">
-                            <div class="similar-job-card d-flex flex-column">
-                                <h6 class="fw-bold mb-3">Arquitecto de Software</h6>
-                                <ul class="list-unstyled text-secondary small mb-4">
-                                    <li class="mb-1"><i class="bi bi-building me-2"></i>TechInnovate</li>
-                                    <li class="mb-1"><i class="bi bi-geo-alt me-2"></i>La Libertad</li>
-                                    <li class="fw-bold"><i class="bi bi-cash me-2"></i>$1,000 - $2,000</li>
-                                </ul>
-                                <button class="btn btn-outline-primary w-100 mt-auto rounded-pill py-2 fw-semibold" style="border-color: var(--primary-deep); color: var(--primary-deep);">
-                                    Ver Detalles
-                                </button>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
+            </div>
+        </div>
+    </main>
 
-                <!-- Columna derecha: sidebar con info de empresa y detalles -->
-                <div class="col-12 col-lg-4">
-                    
-                    <!-- Sobre la empresa -->
-                    <div class="sidebar-card mb-4">
-                        <h6 class="fw-bold mb-3 d-flex align-items-center" style="color: #121826;">
-                            <i class="bi bi-building me-2" style="color: var(--primary-deep);"></i>Sobre la empresa
-                        </h6>
-                        <p class="text-secondary small mb-4" id="empresaDescripcion">---</p>
-                        
-                        <div class="d-flex align-items-center mb-2">
-                            <i class="bi bi-star-fill me-1 small" style="color: #ffb347;"></i>
-                            <i class="bi bi-star-fill me-1 small" style="color: #ffb347;"></i>
-                            <i class="bi bi-star-fill me-1 small" style="color: #ffb347;"></i>
-                            <i class="bi bi-star-fill me-1 small" style="color: #ffb347;"></i>
-                            <i class="bi bi-star me-2 small" style="color: #ffb347;"></i>
-                            <span class="text-secondary small">4.0 (125 valoraciones)</span>
-                        </div>
-                        <div class="d-flex align-items-center mb-4">
-                            <i class="bi bi-people-fill text-secondary me-2"></i>
-                            <span class="text-secondary small">50-200 empleados</span>
-                        </div>
+    <!-- ========== FOOTER ========== -->
+    <footer class="py-4 mt-auto footer-custom">
+        <div class="container text-center">
+            <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
+                <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
+                <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
+                <a href="#">Términos</a>
+                <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
+            </div>
+        </div>
+    </footer>
 
-                        <button class="btn btn-outline-primary w-100 rounded-pill py-2 fw-semibold" style="border-color: var(--primary-deep); color: var(--primary-deep);">
-                            Ver perfil de empresa <i class="bi bi-arrow-right ms-1"></i>
-                        </button>
+    <!-- ========== MODAL COMPARTIR ========== -->
+    <div class="modal fade" id="modalCompartir" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                    <h5 class="modal-title fw-bold">Compartir esta vacante</h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body px-4 py-4 text-center">
+                    <p class="text-secondary small mb-4">Envía esta oportunidad a un amigo o colega.</p>
+                    <div class="d-flex justify-content-center gap-3 mb-4">
+                        <button class="btn btn-light rounded-circle p-3 shadow-sm" style="width: 50px; height: 50px;"><i
+                                class="bi bi-linkedin fs-4" style="color: #0077b5;"></i></button>
+                        <button class="btn btn-light rounded-circle p-3 shadow-sm" style="width: 50px; height: 50px;"><i
+                                class="bi bi-whatsapp fs-4" style="color: #25d366;"></i></button>
+                        <button class="btn btn-light rounded-circle p-3 shadow-sm" style="width: 50px; height: 50px;"><i
+                                class="bi bi-twitter-x fs-4"></i></button>
                     </div>
-
-                    <!-- Detalles del empleo -->
-                    <div class="sidebar-card">
-                        <h6 class="fw-bold mb-4 d-flex align-items-center" style="color: #121826;">
-                            <i class="bi bi-info-circle me-2" style="color: var(--primary-deep);"></i>Detalles del empleo
-                        </h6>
-                        
-                        <div class="mb-3">
-                            <div class="fw-bold small mb-1" style="color: #121826;">Tipo de contrato</div>
-                            <div class="text-secondary small">Tiempo completo</div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <div class="fw-bold small mb-1" style="color: #121826;">Experiencia</div>
-                            <div class="text-secondary small">5+ años</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <div class="fw-bold small mb-1" style="color: #121826;">Educación</div>
-                            <div class="text-secondary small">Licenciatura o superior en Informática</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <div class="fw-bold small mb-1" style="color: #121826;">Idiomas</div>
-                            <div class="text-secondary small">Español (nativo), Inglés (avanzado)</div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <div class="fw-bold small mb-1" style="color: #121826;">Modalidad</div>
-                            <div class="text-secondary small" id="vacanteModalidad">---</div>
-                        </div>
-
-                        <div class="mb-0">
-                            <div class="fw-bold small mb-1" style="color: #121826;">Fecha de publicación</div>
-                            <div class="text-secondary small" id="vacanteFecha">---</div>
-                        </div>
+                    <div class="input-group mb-3 shadow-sm rounded-3 overflow-hidden">
+                        <input type="text" class="form-control bg-light border-0 text-muted small py-2"
+                            value="https://workly.com/empleo/detalle" id="linkCompartir" readonly>
+                        <button class="btn btn-primary-deep px-3" type="button" id="btnCopiarEnlace">Copiar</button>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-</main>
 
-<!-- ========== FOOTER ========== -->
-<footer class="py-4 mt-auto footer-custom">
-    <div class="container text-center">
-        <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
-            <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
-            <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
-            <a href="#">Términos</a>
-            <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
-        </div>
-    </div>
-</footer>
-
-<!-- ========== MODAL COMPARTIR ========== -->
-<div class="modal fade" id="modalCompartir" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 rounded-4 shadow-lg">
-            <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
-                <h5 class="modal-title fw-bold">Compartir esta vacante</h5>
-                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body px-4 py-4 text-center">
-                <p class="text-secondary small mb-4">Envía esta oportunidad a un amigo o colega.</p>
-                <div class="d-flex justify-content-center gap-3 mb-4">
-                    <button class="btn btn-light rounded-circle p-3 shadow-sm" style="width: 50px; height: 50px;"><i class="bi bi-linkedin fs-4" style="color: #0077b5;"></i></button>
-                    <button class="btn btn-light rounded-circle p-3 shadow-sm" style="width: 50px; height: 50px;"><i class="bi bi-whatsapp fs-4" style="color: #25d366;"></i></button>
-                    <button class="btn btn-light rounded-circle p-3 shadow-sm" style="width: 50px; height: 50px;"><i class="bi bi-twitter-x fs-4"></i></button>
+    <!-- ========== TOASTS ========== -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastGuardado" class="toast align-items-center text-white border-0 rounded-4 shadow mb-2" role="alert"
+            style="background-color: #2e3b4e;">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold">
+                    <i class="bi bi-bookmark-check-fill me-2 fs-5" style="color: #ffd966;"></i> Empleo guardado en tu
+                    perfil.
                 </div>
-                <div class="input-group mb-3 shadow-sm rounded-3 overflow-hidden">
-                    <input type="text" class="form-control bg-light border-0 text-muted small py-2" value="https://workly.com/empleo/detalle" id="linkCompartir" readonly>
-                    <button class="btn btn-primary-deep px-3" type="button" id="btnCopiarEnlace">Copiar</button>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+        <div id="toastCopiado" class="toast align-items-center text-white bg-success border-0 rounded-4 shadow mb-2"
+            role="alert">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold">
+                    <i class="bi bi-clipboard-check me-2 fs-5"></i> Enlace copiado al portapapeles.
                 </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+        <div id="toastPostulado" class="toast align-items-center text-white border-0 rounded-4 shadow" role="alert"
+            style="background-color: var(--primary-deep);">
+            <div class="d-flex">
+                <div class="toast-body fs-6 py-3 fw-semibold">
+                    <i class="bi bi-send-check-fill me-2 fs-5"></i> ¡Tu postulación fue enviada con éxito!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
             </div>
         </div>
     </div>
-</div>
 
-<!-- ========== TOASTS ========== -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="toastGuardado" class="toast align-items-center text-white border-0 rounded-4 shadow mb-2" role="alert" style="background-color: #2e3b4e;">
-        <div class="d-flex">
-            <div class="toast-body fs-6 py-3 fw-semibold">
-                <i class="bi bi-bookmark-check-fill me-2 fs-5" style="color: #ffd966;"></i> Empleo guardado en tu perfil.
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
-    </div>
-    <div id="toastCopiado" class="toast align-items-center text-white bg-success border-0 rounded-4 shadow mb-2" role="alert">
-        <div class="d-flex">
-            <div class="toast-body fs-6 py-3 fw-semibold">
-                <i class="bi bi-clipboard-check me-2 fs-5"></i> Enlace copiado al portapapeles.
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
-    </div>
-    <div id="toastPostulado" class="toast align-items-center text-white border-0 rounded-4 shadow" role="alert" style="background-color: var(--primary-deep);">
-        <div class="d-flex">
-            <div class="toast-body fs-6 py-3 fw-semibold">
-                <i class="bi bi-send-check-fill me-2 fs-5"></i> ¡Tu postulación fue enviada con éxito!
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
-    </div>
-</div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../../../assets/js/shared/notificaciones.js"></script>
+    <!-- Script de la API (conservado) -->
+    <script type="module" src="./app.js"></script>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script type="module" src="../../../assets/js/shared/notificaciones.js"></script>
-<!-- Script de la API (conservado) -->
-<script type="module" src="./app.js"></script>
+    <!-- Ajustes adicionales para conservar funcionalidad -->
+    <style>
+        /* Mejora de listas para los items cargados dinámicamente */
+        #listaResponsabilidades li,
+        #listaRequisitos li {
+            display: flex;
+            align-items: flex-start;
+        }
 
-<!-- Ajustes adicionales para conservar funcionalidad -->
-<style>
-    /* Mejora de listas para los items cargados dinámicamente */
-    #listaResponsabilidades li, #listaRequisitos li {
-        display: flex;
-        align-items: flex-start;
-    }
-    #listaResponsabilidades li i, #listaRequisitos li i {
-        margin-top: 0.2rem;
-    }
-    .hover-primary:hover {
-        color: var(--primary-deep) !important;
-    }
-    /* Badges contenedor */
-    #badgesContenedor .badge {
-        background-color: #eef2f9;
-        color: #2c3e8f;
-        font-weight: 500;
-        padding: 0.4rem 1rem;
-        border-radius: 40px;
-        margin-right: 0.5rem;
-        margin-bottom: 0.5rem;
-    }
-    /* Para que los botones outline se vean bien */
-    .btn-outline-primary {
-        --bs-btn-color: var(--primary-deep);
-        --bs-btn-border-color: var(--primary-deep);
-        --bs-btn-hover-bg: var(--primary-deep);
-        --bs-btn-hover-border-color: var(--primary-deep);
-        --bs-btn-hover-color: white;
-        --bs-btn-active-bg: #2c3e8f;
-    }
-</style>
+        #listaResponsabilidades li i,
+        #listaRequisitos li i {
+            margin-top: 0.2rem;
+        }
+
+        .hover-primary:hover {
+            color: var(--primary-deep) !important;
+        }
+
+        /* Badges contenedor */
+        #badgesContenedor .badge {
+            background-color: #eef2f9;
+            color: #2c3e8f;
+            font-weight: 500;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Para que los botones outline se vean bien */
+        .btn-outline-primary {
+            --bs-btn-color: var(--primary-deep);
+            --bs-btn-border-color: var(--primary-deep);
+            --bs-btn-hover-bg: var(--primary-deep);
+            --bs-btn-hover-border-color: var(--primary-deep);
+            --bs-btn-hover-color: white;
+            --bs-btn-active-bg: #2c3e8f;
+        }
+    </style>
 </body>
+
 </html>

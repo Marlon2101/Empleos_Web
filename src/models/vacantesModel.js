@@ -280,49 +280,35 @@ export const buscarVacantesConFiltros = async (filtros) => {
 
 export const getDetalleVacanteById = async (id) => {
   const query = `
-    SELECT
+    SELECT 
       v.id_vacante,
       v.id_empresa_fk,
       v.titulo_puesto,
-      v.descripcion_puesto,
-      v.responsabilidades,
-      v.requisitos,
+      v.descripcion_puesto,   -- Usaremos esta para los detalles
       v.salario_offrecido,
       v.modalidad,
+      v.tipo_contrato,      
+      v.educacion,          
+      v.idiomas,            
       v.fecha_publicacion,
       v.id_categoria_fk,
       c.nombre_categoria,
       m.nombre_municipio,
-      d.nombre_departamento,
       e.id_empresa,
       e.nombre_comercial,
       e.descripcion_empresa,
       e.sitio_web,
-      CASE
-        WHEN LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%practic%' OR
-             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%becari%' OR
-             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%trainee%' OR
-             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%intern%'
-          THEN 'Practicante'
-        WHEN LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%junior%' OR
-             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '% jr %' OR
-             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE 'jr %' OR
-             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '% jr'
-          THEN 'Junior'
-        WHEN LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%semi%' OR
-             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%mid%'
-          THEN 'Semi-senior'
-        WHEN LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '%senior%' OR
-             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '% lead %' OR
-             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE 'lead %' OR
-             LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto, v.requisitos)) LIKE '% principal %'
-          THEN 'Senior'
+      -- Cálculo de experiencia usando solo titulo y descripcion (que sí existen)
+      CASE 
+        WHEN LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto)) LIKE '%junior%' THEN 'Junior'
+        WHEN LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto)) LIKE '%senior%' THEN 'Senior'
+        WHEN LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto)) LIKE '%semi%' THEN 'Semi-senior'
+        WHEN LOWER(CONCAT_WS(' ', v.titulo_puesto, v.descripcion_puesto)) LIKE '%practic%' THEN 'Practicante'
         ELSE 'No especificado'
       END AS experiencia_nivel
     FROM Vacantes v
     LEFT JOIN Categorias c ON v.id_categoria_fk = c.id_categoria
     LEFT JOIN Municipios m ON v.id_municipio_fk = m.id_municipio
-    LEFT JOIN Departamentos d ON m.id_departamento_fk = d.id_departamento
     LEFT JOIN Empresas e ON v.id_empresa_fk = e.id_empresa
     WHERE v.id_vacante = ?
   `;
