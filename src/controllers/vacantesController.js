@@ -168,31 +168,28 @@ export const eliminarVacante = async (req, res) => {
     });
   }
 };
-
 export const buscarVacantes = async (req, res) => {
   try {
-    const {
-      titulo,
-      id_categoria,
-      id_municipio,
-      modalidad
-    } = req.query;
+    // Atrapamos TODOS los filtros que manda el Frontend
+    const { q, ubicacion, tipo, experiencia, min, max, fecha } = req.query;
 
     const data = await buscarVacantesConFiltros({
-      titulo,
-      id_categoria,
-      id_municipio,
-      modalidad
+      titulo: q, 
+      ubicacion,
+      tipo,
+      experiencia,
+      min,
+      max,
+      fecha
     });
 
     res.json(data);
   } catch (error) {
-    res.status(500).json({
-      mensaje: "Error al buscar vacantes con filtros",
-      error: error.message
-    });
+    console.error("Error en buscarVacantes:", error);
+    res.status(500).json({ mensaje: "Error al buscar vacantes", error: error.message });
   }
 };
+
 export const obtenerDetalleVacante = async (req, res) => {
   try {
     const { id } = req.params;
