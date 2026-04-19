@@ -228,7 +228,9 @@ const cargarDetalle = async () => {
     if (campos.idiomas) campos.idiomas.textContent = inferirIdiomas(vacante);
 
     if (empresaButton && vacante.id_empresa) {
-      empresaButton.href = `../valoracionempresa/index.html?id_empresa=${vacante.id_empresa}`;
+      empresaButton.addEventListener("click", () => {
+        window.location.href = `../valoracionempresa/index.html?id_empresa=${vacante.id_empresa}`;
+      }, { once: true });
     }
 
     document.getElementById("linkCompartir").value = window.location.href;

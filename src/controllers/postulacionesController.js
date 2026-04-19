@@ -148,7 +148,7 @@ export const actualizarPostulacion = async (req, res) => {
           titulo: "Postulacion rechazada",
           mensaje: `Tu postulacion a ${vacante.titulo_puesto} fue rechazada.`,
           tipo_notificacion: "estado",
-          enlace: `/views/usuario/notificaciones/index.html`
+          enlace: `/views/usuario/detalleempleo/index.html?id=${vacante.id_vacante}`
         });
       }
 
@@ -159,7 +159,7 @@ export const actualizarPostulacion = async (req, res) => {
           titulo: "Postulacion aceptada",
           mensaje: `Felicidades, tu postulacion a ${vacante.titulo_puesto} fue aceptada.`,
           tipo_notificacion: "estado",
-          enlace: `/views/usuario/notificaciones/index.html`
+          enlace: `/views/usuario/detalleempleo/index.html?id=${vacante.id_vacante}`
         });
       }
     }

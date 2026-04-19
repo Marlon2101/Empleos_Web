@@ -23,6 +23,18 @@ const ICONOS = {
   comentario: "bi-chat-left-text-fill"
 };
 
+const resolveNotificationLink = (value) => {
+  if (!value) {
+    return null;
+  }
+
+  try {
+    return new URL(value, window.location.origin).toString();
+  } catch {
+    return value;
+  }
+};
+
 const authHeaders = () => ({
   Authorization: `Bearer ${getToken()}`
 });
@@ -107,7 +119,7 @@ const renderNotificaciones = (items) => {
               ${Number(item.leida) === 0 ? "Marcar leida" : "Marcar no leida"}
             </button>
             ${item.enlace ? `
-              <a class="btn btn-sm btn-light rounded-pill" href="${item.enlace}">
+              <a class="btn btn-sm btn-light rounded-pill" href="${resolveNotificationLink(item.enlace)}">
                 <i class="bi bi-box-arrow-up-right me-1"></i>Ir al detalle
               </a>
             ` : ""}
