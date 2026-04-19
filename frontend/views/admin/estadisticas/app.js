@@ -1,73 +1,171 @@
 import { API_URL, getToken, clearSession } from "../../../assets/js/shared/config.js";
 
-const btnLogout = document.getElementById("btnLogout");
 const alertContainer = document.getElementById("alertContainer");
 
-const vacantesPorCategoria = document.getElementById("vacantesPorCategoria");
-const vacantesPorModalidad = document.getElementById("vacantesPorModalidad");
-const postulacionesPorEstado = document.getElementById("postulacionesPorEstado");
-const empresasConMasVacantes = document.getElementById("empresasConMasVacantes");
+const totalVacantesCategoria = document.getElementById("totalVacantesCategoria");
+const totalModalidades = document.getElementById("totalModalidades");
+const totalEstados = document.getElementById("totalEstados");
+const totalEmpresasRanking = document.getElementById("totalEmpresasRanking");
+
+const chartCategorias = document.getElementById("chartCategorias");
+const listaModalidades = document.getElementById("listaModalidades");
+const tablaEmpresasVacantes = document.getElementById("tablaEmpresasVacantes");
+const listaEstados = document.getElementById("listaEstados");
+
+const resumenCategorias = document.getElementById("resumenCategorias");
+const resumenModalidades = document.getElementById("resumenModalidades");
+const resumenEstados = document.getElementById("resumenEstados");
+const resumenEmpresas = document.getElementById("resumenEmpresas");
 
 const requireAdmin = () => {
-  const token = localStorage.getItem("token");
+  const token = getToken();
   const tipo = localStorage.getItem("tipo");
 
   if (!token || tipo !== "admin") {
+    clearSession();
     window.location.href = "../../public/login/index.html";
   }
 };
 
 requireAdmin();
 
-btnLogout.addEventListener("click", () => {
-  clearSession();
-  window.location.href = "../../public/login/index.html";
-});
-
 const showAlert = (message, type = "danger") => {
+  if (!alertContainer) return;
   alertContainer.innerHTML = `
-    <div class="alert alert-${type}" role="alert">
+    <div class="alert alert-${type} rounded-4" role="alert">
       ${message}
     </div>
   `;
 };
 
-const renderSimpleList = (container, items, labelKey, totalKey) => {
+const authHeaders = () => ({
+  Authorization: `Bearer ${getToken()}`,
+  "Content-Type": "application/json"
+});
+
+const renderCategoriasChart = (items) => {
+  if (!chartCategorias) return;
+
   if (!items?.length) {
-    container.innerHTML = `<div class="text-muted">No hay datos.</div>`;
+    chartCategorias.innerHTML = `<div class="empty-box">No hay datos de categorías.</div>`;
     return;
   }
 
-  container.innerHTML = items.map(item => `
-    <div class="estadistica-item d-flex justify-content-between align-items-center">
-      <span class="estadistica-label">${item[labelKey] ?? "N/D"}</span>
-      <span class="estadistica-total">${item[totalKey] ?? 0}</span>
+  const top = items.slice(0, 6);
+  const max = Math.max(...top.map(x => Number(x.total || 0)), 1);
+
+  chartCategorias.innerHTML = top.map(item => {
+    const total = Number(item.total || 0);
+    const height = Math.max((total / max) * 220, 30);
+
+    return `
+      <div class="text-center bar-wrap">
+        <div class="bar mx-auto" style="height:${height}px;"></div>
+        <span class="small mt-2 d-block text-muted">${item.nombre_categoria ?? "N/D"}</span>
+        <strong class="small">${total}</strong>
+      </div>
+    `;
+  }).join("");
+};
+
+const renderModalidades = (items) => {
+  if (!listaModalidades) return;
+
+  if (!items?.length) {
+    listaModalidades.innerHTML = `<div class="empty-box">No hay modalidades.</div>`;
+    return;
+  }
+
+  listaModalidades.innerHTML = items.map(item => `
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <span>${item.modalidad ?? "N/D"}</span>
+      <strong>${item.total ?? 0}</strong>
     </div>
+  `).join("");
+};
+
+const renderEstados = (items) => {
+  if (!listaEstados) return;
+
+  if (!items?.length) {
+    listaEstados.innerHTML = `<div class="empty-box">No hay estados.</div>`;
+    return;
+  }
+
+  listaEstados.innerHTML = items.map(item => `
+    <div class="d-flex justify-content-between mb-2">
+      <span>${item.nombre_estado ?? "N/D"}</span>
+      <strong>${item.total ?? 0}</strong>
+    </div>
+  `).join("");
+};
+
+const renderEmpresas = (items) => {
+  if (!tablaEmpresasVacantes) return;
+
+  if (!items?.length) {
+    tablaEmpresasVacantes.innerHTML = `
+      <tr>
+        <td colspan="2" class="text-muted">No hay datos de empresas.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  tablaEmpresasVacantes.innerHTML = items.map(item => `
+    <tr class="border-bottom">
+      <td class="fw-semibold">${item.nombre_comercial ?? "N/D"}</td>
+      <td class="text-end">${item.total_vacantes ?? 0}</td>
+    </tr>
   `).join("");
 };
 
 const cargarEstadisticas = async () => {
   try {
     const response = await fetch(`${API_URL}/admin/estadisticas`, {
-      headers: {
-        "Authorization": `Bearer ${getToken()}`
-      }
+      headers: authHeaders()
     });
 
-    const data = await response.json();
+    let data = {};
+    try {
+      data = await response.json();
+    } catch {
+      data = {};
+    }
 
-    if (!response.ok) {
-      showAlert(data.mensaje || "No se pudieron cargar las estadísticas");
+    if (response.status === 401 || response.status === 403) {
+      clearSession();
+      window.location.href = "../../public/login/index.html";
       return;
     }
 
-    renderSimpleList(vacantesPorCategoria, data.vacantesPorCategoria, "nombre_categoria", "total");
-    renderSimpleList(vacantesPorModalidad, data.vacantesPorModalidad, "modalidad", "total");
-    renderSimpleList(postulacionesPorEstado, data.postulacionesPorEstado, "nombre_estado", "total");
-    renderSimpleList(empresasConMasVacantes, data.empresasConMasVacantes, "nombre_comercial", "total_vacantes");
+    if (!response.ok) {
+      showAlert(data.mensaje || "No se pudieron cargar las estadísticas.");
+      return;
+    }
+
+    const categorias = data.vacantesPorCategoria || [];
+    const modalidades = data.vacantesPorModalidad || [];
+    const estados = data.postulacionesPorEstado || [];
+    const empresas = data.empresasConMasVacantes || [];
+
+    totalVacantesCategoria.textContent = categorias.length;
+    totalModalidades.textContent = modalidades.length;
+    totalEstados.textContent = estados.length;
+    totalEmpresasRanking.textContent = empresas.length;
+
+    resumenCategorias.textContent = categorias.length;
+    resumenModalidades.textContent = modalidades.length;
+    resumenEstados.textContent = estados.length;
+    resumenEmpresas.textContent = empresas.length;
+
+    renderCategoriasChart(categorias);
+    renderModalidades(modalidades);
+    renderEstados(estados);
+    renderEmpresas(empresas);
   } catch (error) {
-    console.error(error);
-    showAlert("Error de conexión con el servidor");
+    console.error("Error al cargar estadísticas:", error);
+    showAlert("Error de conexión con el servidor.");
   }
 };
 

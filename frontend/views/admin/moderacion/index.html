@@ -1,261 +1,343 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Workly - Moderación de Contenido</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../assets/css/global.css" />
+
     <style>
-        .cursor-pointer { cursor: pointer; }
-        .hover-primary:hover { color: #0d6efd !important; text-decoration: underline; }
+      :root {
+        --azul-oscuro: #001670;
+        --azul: #2c48d4;
+        --celeste: #84acf0;
+        --amarillo-mostaza: #f8bd00;
+        --fondo: #e9f0ff;
+        --success-btn: #28a745;
+        --danger-btn: #dc3545;
+        --gris-claro: #e9ecef;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--fondo);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .navbar {
+        background-color: var(--azul-oscuro) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-link-custom {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.3s;
+        border-radius: 8px;
+        padding: 8px 15px !important;
+      }
+
+      .nav-link-custom:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+
+      .profile-wrapper {
+        position: relative;
+        display: inline-block;
+      }
+
+      .notif-badge {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 12px;
+        height: 12px;
+        background-color: #ff3b3b;
+        border: 2px solid var(--azul-oscuro);
+        border-radius: 50%;
+      }
+
+      .btn-menu-side {
+        text-align: left;
+        border: none;
+        padding: 12px 15px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: 0.3s;
+        background-color: var(--azul);
+        color: white;
+        margin-bottom: 8px;
+        width: 100%;
+        text-decoration: none;
+      }
+
+      .btn-menu-side:hover {
+        background-color: var(--azul-oscuro);
+        color: white;
+        transform: translateX(5px);
+      }
+
+      .btn-menu-side.active {
+        background-color: var(--celeste) !important;
+        color: var(--azul-oscuro) !important;
+      }
+
+      .bento-card {
+        background: white;
+        border-radius: 20px;
+        border: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      }
+
+      .table thead th {
+        border: none;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      footer {
+        background-color: var(--azul-oscuro);
+        color: white;
+        margin-top: auto;
+      }
+
+      .loading-spinner {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .table tbody tr {
+        animation: fadeIn 0.3s ease-out;
+      }
     </style>
-</head>
-<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+  </head>
+  <body>
+    <div class="loading-spinner">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
 
-    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
-        <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
-                <span class="display-5 me-3 lh-1">💼</span> 
-                <div class="lh-sm">
-                    <span class="text-white fw-bold d-block fs-3">Workly</span>
-                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
-                </div>
-            </a>
+    <nav class="navbar navbar-expand-lg py-3 sticky-top">
+      <div class="container-fluid px-4">
+        <a
+          class="navbar-brand fw-bold text-white fs-3 d-flex align-items-center"
+          href="../principal/index.html"
+        >
+          <i class="bi bi-briefcase-fill me-2"></i> Workly
+        </a>
 
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <button
+          class="navbar-toggler text-white"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navContent"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                </div>
-                <div class="d-flex align-items-center justify-content-center">
-                    <a href="#" onclick="lanzarToast('info', 'Perfil administrativo verificado.')" class="text-dark"><i class="bi bi-person-circle fs-1"></i></a>
-                </div>
-            </div>
+        <div class="collapse navbar-collapse" id="navContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="../principal/index.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="../gestionusuarios/index.html">Usuarios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="../gestionempresas/index.html">Empresas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="../gestionvacantes/index.html">Vacantes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="../estadisticas/index.html">Estadísticas</a>
+            </li>
+          </ul>
+          <div class="profile-wrapper ms-lg-3">
+            <i class="bi bi-person-circle fs-2 text-white" style="cursor: pointer"></i>
+            <span class="notif-badge"></span>
+          </div>
         </div>
+      </div>
     </nav>
 
-    <main class="flex-grow-1 py-4">
-        <div class="container-fluid px-4 px-lg-5">
-            <div class="row g-4 mt-1">
-                
-                <aside class="col-12 col-lg-2">
-                    <div class="card bg-white border-0 shadow-sm rounded-4 p-3 mb-4">
-                        <h6 class="fw-bold text-dark mb-3 ps-2">Menú Admin</h6>
-                        <div class="d-grid gap-2">
-                            <button onclick="window.location.href='../principal/index.html'" class="btn btn-primary fw-bold py-2">Dashboard</button>
-                            <button onclick="window.location.href='../gestionusuarios/index.html'" class="btn btn-primary fw-bold py-2">Gestión de Usuarios</button>
-                            <button onclick="window.location.href='../gestionempresas/index.html'" class="btn btn-primary fw-bold py-2">Gestión de Empresas</button>
-                            <button onclick="window.location.href='../gestionvacantes/index.html'" class="btn btn-primary fw-bold py-2">Gestión de Vacantes</button>
-                            <button onclick="lanzarToast('info', 'Cargando configuraciones globales...')" class="btn btn-primary fw-bold py-2">Configuración</button>
-                            <button onclick="window.location.href='../estadisticas/index.html'" class="btn btn-primary fw-bold py-2">Estadísticas del Sistema</button>
-                            <button onclick="window.location.href='./index.html'" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold shadow-none py-2">Moderación de Contenido</button>
-                        </div>
-                    </div>
-                </aside>
-
-                <section class="col-12 col-lg-10">
-                    <div class="card bg-white border-0 shadow-sm rounded-3 p-3 mb-4">
-                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-                            <h5 class="fw-bold text-dark mb-0 ps-2">Moderación de Contenido</h5>
-                            <div class="d-flex gap-3">
-                                <button onclick="lanzarToast('exito', 'Reporte de moderación generado.')" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold px-4">Exportar reporte</button>
-                                <button class="btn btn-info text-white bg-opacity-50 border-0 fw-bold px-4" data-bs-toggle="modal" data-bs-target="#modalRevisionMasiva">Revisión masiva</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card bg-white border-0 shadow-sm rounded-3 p-2 mb-4">
-                        <div class="row g-2 align-items-center">
-                            <div class="col">
-                                <div class="input-group">
-                                    <span class="input-group-text bg-secondary bg-opacity-10 border-0"><i class="bi bi-search text-muted small"></i></span>
-                                    <input type="text" class="form-control bg-secondary bg-opacity-10 border-0 shadow-none small py-2" placeholder="Buscar reportes por contenido, usuario o motivo...">
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <select class="form-select bg-primary-subtle border-0 fw-bold text-dark cursor-pointer shadow-none px-4 text-center">
-                                    <option selected disabled>Estados</option>
-                                    <option>Pendiente</option>
-                                    <option>Revisado</option>
-                                    <option>Eliminado</option>
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                <button onclick="lanzarToast('info', 'Filtros de moderación aplicados.')" class="btn btn-info text-white bg-opacity-50 border-0 fw-bold px-4">Filtrar</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card bg-white border-0 shadow-sm rounded-0 p-4 mb-4">
-                        <h6 class="fw-bold text-dark mb-4 text-start">Cola de revisión prioritaria</h6>
-                        
-                        <div class="row fw-bold text-dark border-bottom border-dark border-opacity-25 pb-2 mb-3 px-2 text-center small">
-                            <div class="col-3 text-start">Contenido Reportado</div>
-                            <div class="col-1">Tipo</div>
-                            <div class="col-2">Por</div>
-                            <div class="col-2">Motivo</div>
-                            <div class="col-1">Estado</div>
-                            <div class="col-1">Fecha</div>
-                            <div class="col-2">Acciones</div>
-                        </div>
-
-                        <div class="row align-items-center mb-3 px-2 small text-center">
-                            <div class="col-3 text-start">
-                                <div class="fw-bold text-dark lh-sm text-truncate">Vacante: Desarrollador Backend</div>
-                                <div class="text-muted small">ID: #VAC-992</div>
-                            </div>
-                            <div class="col-1"><span class="badge bg-secondary bg-opacity-10 text-dark w-100">Job</span></div>
-                            <div class="col-2 fw-bold text-dark">Carlos Ruiz</div>
-                            <div class="col-2 text-dark">Duplicado</div>
-                            <div class="col-1"><span class="badge bg-warning text-dark py-2 w-100 rounded-pill">Pendiente</span></div>
-                            <div class="col-1 text-dark fw-bold">12/03</div>
-                            <div class="col-2 d-flex justify-content-center align-items-center gap-3">
-                                <span class="fw-bold text-dark cursor-pointer hover-primary" data-bs-toggle="modal" data-bs-target="#modalVerReporte" data-tipo="Vacante">Ver</span>
-                                <button class="btn btn-warning btn-sm fw-bold px-4 rounded-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#modalResolverReporte" data-nombre="Desarrollador Backend">Editar</button>
-                            </div>
-                        </div>
-
-                        </div>
-
-                    <div class="row g-4 text-start">
-                        <div class="col-12 col-md-5">
-                            <div class="card bg-white border-0 shadow-sm rounded-4 p-4 h-100">
-                                <h6 class="fw-bold text-dark mb-4">Estado de Reportes</h6>
-                                <div class="d-flex justify-content-between mb-3 fw-bold text-dark border-bottom pb-2 border-light">
-                                    <span>Pendientes hoy</span>
-                                    <span class="text-danger">48</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-3 fw-bold text-dark border-bottom pb-2 border-light">
-                                    <span>Total revisados</span>
-                                    <span>1,240</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-3 fw-bold text-dark border-bottom pb-2 border-light">
-                                    <span>Contenido eliminado</span>
-                                    <span>156</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-1 fw-bold text-dark">
-                                    <span>Usuarios baneados</span>
-                                    <span>12</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-7">
-                            <div class="card bg-white border-0 shadow-sm rounded-4 p-4 h-100">
-                                <h6 class="fw-bold text-dark mb-4">Últimas acciones tomadas</h6>
-                                <div class="bg-secondary bg-opacity-10 p-3 rounded-3 mb-3 border-start border-3 border-danger">
-                                    <div class="fw-bold text-dark small">Contenido eliminado</div>
-                                    <div class="text-dark small">Publicación en foro eliminada por lenguaje ofensivo.</div>
-                                    <div class="text-muted small fw-bold mt-1">Hace 15 minutos</div>
-                                </div>
-                                <div class="bg-secondary bg-opacity-10 p-3 rounded-3 mb-3 border-start border-3 border-success">
-                                    <div class="fw-bold text-dark small">Reporte archivado</div>
-                                    <div class="text-dark small">La vacante de "HR Global" fue validada como legítima.</div>
-                                    <div class="text-muted small fw-bold mt-1">Hace 1 hora</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+    <main class="container-fluid px-4 py-4">
+      <div class="row g-4">
+        <aside class="col-12 col-lg-2">
+          <div class="bento-card p-3 h-100">
+            <h6 class="text-muted fw-bold mb-4 ps-2 small text-uppercase">Menú Admin</h6>
+            <div class="d-flex flex-column">
+              <a href="../principal/index.html" class="btn-menu-side"><i class="bi bi-grid-fill me-2"></i> Dashboard</a>
+              <a href="../gestionusuarios/index.html" class="btn-menu-side"><i class="bi bi-people-fill me-2"></i> Gestión de Usuarios</a>
+              <a href="../gestionempresas/index.html" class="btn-menu-side"><i class="bi bi-building me-2"></i> Gestión de Empresas</a>
+              <a href="../gestionvacantes/index.html" class="btn-menu-side"><i class="bi bi-file-earmark-text me-2"></i> Gestión de Vacantes</a>
+              <a href="../estadisticas/index.html" class="btn-menu-side"><i class="bi bi-bar-chart-fill me-2"></i> Estadísticas del Sistema</a>
+              <a href="./index.html" class="btn-menu-side active"><i class="bi bi-shield-lock-fill me-2"></i> Moderación de Contenido</a>
             </div>
+          </div>
+        </aside>
+
+        <div class="col-12 col-lg-10">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold m-0" style="color: var(--azul-oscuro)">
+              Moderación de Contenido
+            </h4>
+          </div>
+
+          <div id="alertContainer" class="mb-3"></div>
+
+          <div class="bento-card p-2 mb-4">
+            <div class="row g-2 align-items-center">
+              <div class="col">
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
+                  <input
+                    type="text"
+                    id="filtroModeracion"
+                    class="form-control bg-light border-0"
+                    placeholder="Buscar en usuarios, empresas o vacantes..."
+                  />
+                </div>
+              </div>
+              <div class="col-auto">
+                <button
+                  class="btn btn-primary px-4"
+                  id="btnFiltrar"
+                  style="background-color: var(--azul); border-radius: 10px"
+                >
+                  Filtrar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="bento-card p-4 mb-4">
+            <h6 class="fw-bold mb-4">Elementos para revisión</h6>
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead class="text-muted border-bottom">
+                  <tr>
+                    <th>Contenido</th>
+                    <th>Tipo</th>
+                    <th>Origen</th>
+                    <th>Detalle</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tablaModeracion">
+                  <tr>
+                    <td colspan="6" class="text-muted">Cargando información...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-12 col-md-4">
+              <div class="bento-card p-4 h-100">
+                <h6 class="fw-bold mb-4">Resumen</h6>
+                <div class="vstack gap-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted fw-semibold">Usuarios</span>
+                    <span class="fw-bold fs-5" id="resumenUsuarios">0</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted fw-semibold">Empresas</span>
+                    <span class="fw-bold fs-5" id="resumenEmpresas">0</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted fw-semibold">Vacantes</span>
+                    <span class="fw-bold fs-5" id="resumenVacantes">0</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted fw-semibold">Total items</span>
+                    <span class="fw-bold fs-5" id="resumenTotal">0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-8">
+              <div class="bento-card p-4">
+                <h6 class="fw-bold mb-4">
+                  <i class="bi bi-clock-history me-2 text-primary"></i>Actividad reciente
+                </h6>
+                <div class="vstack gap-3" id="actividadModeracion">
+                  <div class="p-3 rounded-4 bg-light border-start border-4 border-primary text-muted">
+                    Cargando actividad...
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </main>
 
-    <div class="modal fade" id="modalResolverReporte" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 rounded-4 shadow-lg">
-                <div class="modal-header border-bottom-0 pt-4 px-4">
-                    <h5 class="modal-title fw-bold text-dark">Resolver Moderación</h5>
-                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4 pt-0">
-                    <p class="text-muted small mb-4 text-start">Decisión final para: <strong id="nombreReporteEdit" class="text-dark">Contenido</strong>.</p>
-                    <form>
-                        <div class="d-grid gap-3 text-start">
-                            <div class="form-check p-3 border rounded-3 bg-light">
-                                <input class="form-check-input ms-0 me-3" type="radio" name="resModeracion" id="resAprobar">
-                                <label class="form-check-label fw-bold text-success" for="resAprobar">Mantener Contenido (Ignorar reporte)</label>
-                            </div>
-                            <div class="form-check p-3 border rounded-3 bg-light">
-                                <input class="form-check-input ms-0 me-3" type="radio" name="resModeracion" id="resOcultar">
-                                <label class="form-check-label fw-bold text-warning" for="resOcultar">Ocultar temporalmente</label>
-                            </div>
-                            <div class="form-check p-3 border rounded-3 bg-light">
-                                <input class="form-check-input ms-0 me-3" type="radio" name="resModeracion" id="resEliminar">
-                                <label class="form-check-label fw-bold text-danger" for="resEliminar">Eliminar definitivamente</label>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <button type="button" onclick="lanzarToast('exito', 'Resolución aplicada y notificada.');" data-bs-dismiss="modal" class="btn btn-primary w-100 fw-bold py-2 rounded-3 shadow-sm">Aplicar Decisión</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <div class="modal fade" id="modalConfirmacion" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirmar acción</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body" id="confirmacionMensaje">
+            ¿Estás seguro de realizar esta acción?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-danger" id="confirmarAccionBtn">
+              Confirmar
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
-    <div class="modal fade" id="modalVerReporte" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 rounded-4 shadow-lg">
-                <div class="modal-header border-bottom-0 pt-4 px-4 text-center d-block">
-                    <h5 class="modal-title fw-bold text-dark">Evidencia del Reporte</h5>
-                    <button type="button" class="btn-close shadow-none position-absolute end-0 top-0 m-4" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4 pt-0 text-center">
-                    <i class="bi bi-shield-exclamation display-1 text-danger opacity-25"></i>
-                    <h4 class="fw-bold mt-2" id="tipoContenido">Cargando...</h4>
-                    <div class="bg-light p-3 rounded-3 text-start mt-4">
-                        <span class="text-muted small d-block mb-1">Cuerpo del contenido reportado:</span>
-                        <p class="fw-semibold text-dark italic">"Este es un ejemplo del texto que el usuario marcó como ofensivo o duplicado dentro de la plataforma Workly."</p>
-                        <div class="border-top pt-2 mt-2">
-                            <span class="text-muted small d-block">Reportado por:</span>
-                            <span class="fw-bold text-primary">ID_USER_8829</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <footer class="py-4">
+      <div class="container text-center">
+        <div class="d-flex justify-content-center gap-4 small opacity-75">
+          <a href="#" class="text-white text-decoration-none">Ayuda</a>
+          <a href="#" class="text-white text-decoration-none">Privacidad</a>
+          <span class="fw-semibold">Workly 2026</span>
         </div>
-    </div>
-
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="toastAdmin" class="toast align-items-center text-white border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body fs-6 py-3 fw-bold" id="mensajeToast">Acción realizada</div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-        </div>
-    </div>
-
-    <footer class="py-4 mt-auto bg-secondary text-white-50 text-center small">
-        <div class="container">
-            <span>Workly Admin &copy; 2026 - Central de Seguridad</span>
-        </div>
+      </div>
     </footer>
 
+    <script type="module" src="./app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function lanzarToast(tipo, mensaje) {
-            const toastEl = document.getElementById('toastAdmin');
-            const textoEl = document.getElementById('mensajeToast');
-            textoEl.textContent = mensaje;
-            toastEl.classList.remove('bg-info', 'bg-success');
-            toastEl.classList.add(tipo === 'exito' ? 'bg-success' : 'bg-info');
-            new bootstrap.Toast(toastEl).show();
-        }
-
-        const modalVer = document.getElementById('modalVerReporte');
-        modalVer.addEventListener('show.bs.modal', event => {
-            const button = event.relatedTarget;
-            document.getElementById('tipoContenido').textContent = `Detalle de ${button.getAttribute('data-tipo')}`;
-        });
-
-        const modalEdit = document.getElementById('modalResolverReporte');
-        modalEdit.addEventListener('show.bs.modal', event => {
-            const button = event.relatedTarget;
-            document.getElementById('nombreReporteEdit').textContent = button.getAttribute('data-nombre');
-        });
-    </script>
-</body>
+  </body>
 </html>
