@@ -214,63 +214,41 @@ export const getVacanteSimpleById = async (id) => {
 };
 
 export const buscarVacantesConFiltros = async (filtros) => {
-  const {
-    titulo,
-    id_categoria,
-    id_municipio,
-    modalidad
-  } = filtros;
-
-  let query = `
-    SELECT
-      v.id_vacante,
-      v.id_empresa_fk,
-      e.nombre_comercial,
-      v.id_categoria_fk,
-      c.nombre_categoria,
-      v.titulo_puesto,
-      v.descripcion_puesto,
-      v.salario_offrecido,
-      v.modalidad,
-      v.id_municipio_fk,
-      m.nombre_municipio,
-      v.fecha_publicacion
-    FROM Vacantes v
-    INNER JOIN Empresas e ON v.id_empresa_fk = e.id_empresa
-    INNER JOIN Categorias c ON v.id_categoria_fk = c.id_categoria
-    LEFT JOIN Municipios m ON v.id_municipio_fk = m.id_municipio
-    WHERE 1 = 1
-  `;
-
+  const { titulo, tipo, min, max } = filtros;
+  
+  // Versión segura: Solo consultamos la tabla vacantes por ahora
+  let sql = "SELECT * FROM vacantes WHERE 1=1";
   const params = [];
 
+  // Filtro: Barra de Búsqueda
   if (titulo) {
-    query += ` AND v.titulo_puesto LIKE ?`;
+    sql += " AND titulo_puesto LIKE ?";
     params.push(`%${titulo}%`);
   }
 
-  if (id_categoria) {
-    query += ` AND v.id_categoria_fk = ?`;
-    params.push(id_categoria);
+  // Filtro: Modalidad / Tipo
+  if (tipo) {
+    sql += " AND modalidad = ?";
+    params.push(tipo);
   }
 
-  if (id_municipio) {
-    query += ` AND v.id_municipio_fk = ?`;
-    params.push(id_municipio);
+  // Filtro: Salario
+  if (max) {
+    sql += " AND salario_offrecido <= ?";
+    params.push(max);
+  }
+  if (min) {
+    sql += " AND salario_offrecido >= ?";
+    params.push(min);
   }
 
-  if (modalidad) {
-    query += ` AND v.modalidad = ?`;
-    params.push(modalidad);
-  }
+  // Ordenamos por ID (el más reciente primero)
+  sql += " ORDER BY id_vacante DESC";
 
-  query += ` ORDER BY v.id_vacante DESC`;
-
-  const [rows] = await pool.query(query, params);
+  // Ejecutamos
+  const [rows] = await pool.query(sql, params);
   return rows;
 };
-
-// models/vacantesModel.js
 
 export const getDetalleVacanteById = async (id) => {
     
