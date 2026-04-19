@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
     <script src="../../../assets/js/shared/authGuard.js" type="module"></script>
     <style>
-        * { font-family: 'Inter', sans-serif; }
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
         :root {
             --primary-deep: #3f51b5;
             --nav-bg: #011671;
@@ -20,29 +24,35 @@
             --body-bg: #f5f7fc;
             --card-shadow: 0 20px 35px -8px rgba(1, 22, 113, 0.08);
         }
+
         body {
             background: linear-gradient(145deg, #f0f4fa 0%, #e8edf6 100%);
         }
+
         /* Navbar personalizado */
         .navbar-custom {
             background-color: var(--nav-bg) !important;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
         }
+
         .navbar-brand .brand-icon {
             font-size: 3.5rem;
             color: white;
             margin-right: 0.75rem;
         }
+
         .navbar-brand .brand-text {
             color: white;
             font-weight: 700;
             font-size: 2rem;
             line-height: 1.2;
         }
+
         .navbar-brand .brand-sub {
             color: var(--light-text);
             font-size: 0.95rem;
         }
+
         .nav-link-custom {
             color: white !important;
             font-weight: 500;
@@ -50,9 +60,11 @@
             border-radius: 30px;
             transition: background 0.2s;
         }
+
         .nav-link-custom:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
         }
+
         .btn-primary-deep {
             background-color: var(--primary-deep);
             border: none;
@@ -62,75 +74,77 @@
             border-radius: 40px;
             padding: 0.6rem 1.5rem;
         }
+
         .btn-primary-deep:hover {
             background-color: #2c3e8f;
             transform: translateY(-2px);
             box-shadow: 0 8px 16px rgba(63, 81, 181, 0.25);
             color: white;
         }
+
         /* Tarjetas */
         .card-custom {
-            background: rgba(255,255,255,0.95);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(4px);
-            border: 1px solid rgba(255,255,255,0.8);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             border-radius: 32px;
             box-shadow: var(--card-shadow);
             transition: all 0.25s ease;
         }
-        .card-custom:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 40px -10px rgba(1, 22, 113, 0.15);
+
+        /* Banner de bienvenida OPTIMIZADO */
+        .welcome-banner {
+            background: linear-gradient(105deg, var(--primary-deep) 0%, #5c6bc0 100%);
+            border-radius: 20px;
+            padding: 1.2rem 2rem;
+            /* Más delgado verticalmente */
+            color: white;
+            margin-bottom: 1.5rem;
+            /* Menos margen inferior */
+            box-shadow: 0 10px 30px rgba(63, 81, 181, 0.2);
         }
+
+        .welcome-banner h2 {
+            font-size: 1.5rem;
+            /* Título más pequeño */
+            margin-bottom: 0.2rem;
+            font-weight: 700;
+        }
+
+        .welcome-banner p {
+            font-size: 0.9rem;
+            /* Párrafo más discreto */
+            margin-bottom: 0;
+            opacity: 0.9;
+        }
+
         .stat-card {
             background: white;
             border-radius: 24px;
             padding: 1.5rem 1rem;
-            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.03);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.03);
             border: 1px solid rgba(63, 81, 181, 0.08);
             transition: all 0.2s;
             position: relative;
             overflow: hidden;
         }
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-deep), #7986cb);
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-        .stat-card:hover::before {
-            opacity: 1;
-        }
-        .stat-card:hover {
-            border-color: var(--primary-deep);
-            box-shadow: 0 15px 25px -8px rgba(63, 81, 181, 0.15);
-        }
+
         .search-bar {
             background: white;
             border-radius: 60px;
             padding: 0.4rem 0.4rem 0.4rem 1.5rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
             border: 1px solid #e9ecf2;
         }
-        /* Filtros avanzados mejorados */
+
         .filter-section {
             background: linear-gradient(135deg, #ffffff 0%, #fafbff 100%);
             border-radius: 36px;
             padding: 2rem;
         }
-        .filter-label {
-            font-weight: 600;
-            color: #1a1f36;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .form-control-custom, .form-select-custom {
+
+        .form-control-custom,
+        .form-select-custom {
             background-color: #f8faff;
             border: 1.5px solid #e0e5f0;
             border-radius: 20px;
@@ -138,24 +152,12 @@
             font-size: 0.95rem;
             transition: all 0.2s;
         }
-        .form-control-custom:focus, .form-select-custom:focus {
-            border-color: var(--primary-deep);
-            box-shadow: 0 0 0 4px rgba(63,81,181,0.12);
-            background-color: white;
-        }
-        /* Footer */
+
         .footer-custom {
             background-color: var(--nav-bg);
             color: var(--light-text);
         }
-        .footer-custom a {
-            color: var(--light-text) !important;
-            text-decoration: none;
-        }
-        .footer-custom a:hover {
-            color: white !important;
-            text-decoration: underline;
-        }
+
         .notification-badge {
             position: absolute;
             top: -5px;
@@ -168,31 +170,7 @@
             font-weight: bold;
             border: 2px solid white;
         }
-        /* Banner de bienvenida */
-        .welcome-banner {
-            background: linear-gradient(105deg, var(--primary-deep) 0%, #5c6bc0 100%);
-            border-radius: 28px;
-            padding: 1.5rem 2rem;
-            color: white;
-            margin-bottom: 2rem;
-        }
-        /* Jobs destacados */
-        .job-card {
-            background: white;
-            border-radius: 24px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.04);
-            border: 1px solid #edf0f7;
-            transition: all 0.2s;
-        }
-        .job-card:hover {
-            border-color: var(--primary-deep);
-            box-shadow: 0 15px 25px -8px rgba(63,81,181,0.12);
-        }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        }
-        /* Tags de habilidades */
+
         .skill-tag {
             background: #eef2ff;
             color: var(--primary-deep);
@@ -203,402 +181,396 @@
         }
     </style>
 </head>
+
 <body class="d-flex flex-column min-vh-100">
 
-<!-- ========== NAVBAR ========== -->
-<nav class="navbar navbar-expand-lg py-3 navbar-custom">
-    <div class="container-fluid px-4 px-lg-5">
-        <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../../public/paginainicial/index.html">
-            <i class="bi bi-briefcase-fill brand-icon"></i>
-            <div class="lh-sm ms-2">
-                <span class="brand-text">Workly</span>
-                <span class="brand-sub">Tu búsqueda de trabajo profesional</span>
-            </div>
-        </a>
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar navbar-expand-lg py-3 navbar-custom">
+        <div class="container-fluid px-4 px-lg-5">
+            <a class="navbar-brand d-flex align-items-center text-decoration-none"
+                href="../../public/paginainicial/index.html">
+                <i class="bi bi-briefcase-fill brand-icon"></i>
+                <div class="lh-sm ms-2">
+                    <span class="brand-text">Workly</span>
+                    <span class="brand-sub">Tu búsqueda de trabajo profesional</span>
+                </div>
+            </a>
 
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                <a href="../buscarempleo/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
-                    <i class="bi bi-search me-1"></i> Buscar empleo
-                </a>
-                <a href="../recursos/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
-                    <i class="bi bi-journal-bookmark-fill me-1"></i> Recursos
-                </a>
-                <a href="../valoracionempresa/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
-                    <i class="bi bi-star-fill me-1"></i> Valoraciones
-                </a>
-                <a href="../miperfil/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
-                    <i class="bi bi-person-badge me-1"></i> Mi Perfil
-                </a>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
+                    <a href="../buscarempleo/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                        <i class="bi bi-search me-1"></i> Buscar empleo
+                    </a>
+                    <a href="../recursos/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                        <i class="bi bi-journal-bookmark-fill me-1"></i> Recursos
+                    </a>
+                    <a href="../valoracionempresa/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                        <i class="bi bi-star-fill me-1"></i> Valoraciones
+                    </a>
+                    <a href="../miperfil/index.html" class="nav-link-custom text-decoration-none px-3 py-2">
+                        <i class="bi bi-person-badge me-1"></i> Mi Perfil
+                    </a>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                    <a href="../notificaciones/index.html" class="text-white position-relative d-inline-block">
+                        <i class="bi bi-bell-fill fs-3"></i>
+                        <span class="notification-badge">5</span>
+                    </a>
+                    <a href="../miperfil/index.html" class="text-white d-inline-block">
+                        <i class="bi bi-person-circle fs-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== MAIN ========== -->
+    <main class="flex-grow-1 py-4">
+        <div class="container px-4 px-lg-5">
+
+            <!-- Banner de bienvenida (nuevo) -->
+            <div class="welcome-banner d-flex align-items-center justify-content-between">
+                <div>
+                    <h2>👋 ¡Bienvenido, <span id="nombreUsuario">Usuario</span>!</h2>
+                    <p>Hoy hay 342 nuevas vacantes para ti</p>
+                </div>
+                <div class="d-none d-md-block">
+                    <i class="bi bi-graph-up-arrow fs-2 opacity-50"></i>
+                </div>
             </div>
 
-            <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                <a href="../notificaciones/index.html" class="text-white position-relative d-inline-block">
-                    <i class="bi bi-bell-fill fs-3"></i>
-                    <span class="notification-badge">5</span>
-                </a>
-                <a href="../miperfil/index.html" class="text-white d-inline-block">
-                    <i class="bi bi-person-circle fs-2"></i>
-                </a>
+            <!-- Búsqueda rápida -->
+            <section class="mb-5">
+                <h5 class="fw-bold mb-3" style="color: #121826;">
+                    <i class="bi bi-search-heart me-2" style="color: var(--primary-deep);"></i>Explora ofertas de
+                    trabajo
+                </h5>
+                <div class="search-bar d-flex align-items-center">
+                    <i class="bi bi-search fs-5 text-muted me-2"></i>
+                    <input type="text" id="inputBusquedaRapida" class="form-control border-0 shadow-none bg-transparent py-2" placeholder="Puesto, empresa o habilidad...">
+<button class="btn btn-primary-deep px-4 py-2 fw-semibold" id="btnBusquedaRapida">
+    Buscar <i class="bi bi-arrow-right ms-1"></i>
+</button>
+                </div>
+            </section>
+
+            <!-- Filtros avanzados (REDISEÑADO Y MEJOR ORDEN) -->
+            <section class="mb-5">
+    <div class="d-flex align-items-center mb-3">
+        <i class="bi bi-sliders2 fs-4 me-2" style="color: var(--primary-deep);"></i>
+        <h5 class="fw-bold mb-0" style="color: #121826;">Personaliza tu búsqueda</h5>
+        <span class="badge bg-light text-dark ms-3 px-3 py-2 rounded-pill">Filtros avanzados</span>
+    </div>
+
+    <div class="filter-section">
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="filter-label"><i class="bi bi-tag"></i> Palabra clave</div>
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-0 ps-0"><i class="bi bi-search"></i></span>
+                    <input type="text" id="filtroPalabra" class="form-control-custom w-100" placeholder="Puesto, empresa o habilidad">
+                </div>
             </div>
+            <div class="col-md-6">
+                <div class="filter-label"><i class="bi bi-geo-alt"></i> Ubicación</div>
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-0 ps-0"><i class="bi bi-pin-map"></i></span>
+                    <input type="text" id="filtroUbicacion" class="form-control-custom w-100" placeholder="Ciudad, estado o remoto">
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="filter-label"><i class="bi bi-clock"></i> Tipo de empleo</div>
+                <select id="filtroTipo" class="form-select-custom w-100">
+                    <option selected>Todos los tipos</option>
+                    <option value="Tiempo completo">Tiempo completo</option>
+                    <option value="Medio tiempo">Medio tiempo</option>
+                    <option value="Freelance">Freelance</option>
+                    <option value="Prácticas">Prácticas</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <div class="filter-label"><i class="bi bi-bar-chart-steps"></i> Nivel de experiencia</div>
+                <select id="filtroExperiencia" class="form-select-custom w-100">
+                    <option selected>Todos los niveles</option>
+                    <option value="Prácticas / Becario">Prácticas / Becario</option>
+                    <option value="Junior">Junior (0-2 años)</option>
+                    <option value="Semi-Senior">Semi-Senior (2-5 años)</option>
+                    <option value="Senior">Senior (5+ años)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="filter-label"><i class="bi bi-cash-stack"></i> Rango salarial</div>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <select id="filtroSalarioMin" class="form-select-custom w-100">
+                            <option selected>Mínimo</option>
+                            <option value="500">$500</option>
+                            <option value="800">$800</option>
+                            <option value="1000">$1000</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <select id="filtroSalarioMax" class="form-select-custom w-100">
+                            <option selected>Máximo</option>
+                            <option value="1000">$1000</option>
+                            <option value="1500">$1500</option>
+                            <option value="2000">$2000</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="filter-label"><i class="bi bi-laptop"></i> Modalidad</div>
+                <div class="d-flex flex-wrap gap-2">
+                    <div class="form-check me-3">
+                        <input class="form-check-input" type="checkbox" id="filtroRemoto" value="Remoto">
+                        <label class="form-check-label" for="filtroRemoto">Remoto</label>
+                    </div>
+                    <div class="form-check me-3">
+                        <input class="form-check-input" type="checkbox" id="filtroPresencial" value="Presencial">
+                        <label class="form-check-label" for="filtroPresencial">Presencial</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="filtroHibrido" value="Híbrido">
+                        <label class="form-check-label" for="filtroHibrido">Híbrido</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3 mt-5">
+            <button id="btnLimpiarFiltros" class="btn btn-outline-secondary px-4 py-2 rounded-pill">
+                <i class="bi bi-arrow-repeat me-1"></i> Limpiar filtros
+            </button>
+            <button id="btnAplicarFiltros" class="btn btn-primary-deep px-5 py-3 fw-semibold">
+                <i class="bi bi-funnel-fill me-2"></i>Aplicar filtros y buscar
+            </button>
         </div>
     </div>
-</nav>
-
-<!-- ========== MAIN ========== -->
-<main class="flex-grow-1 py-4">
-    <div class="container px-4 px-lg-5">
-
-        <!-- Banner de bienvenida (nuevo) -->
-        <div class="welcome-banner d-flex align-items-center justify-content-between">
-            <div>
-                <h2 class="fw-bold mb-1">👋 ¡Bienvenido de vuelta, Carlos!</h2>
-                <p class="mb-0 opacity-75">Hoy hay <strong>342 nuevas vacantes</strong> que coinciden con tu perfil</p>
-            </div>
-            <div class="d-none d-md-block">
-                <i class="bi bi-graph-up-arrow fs-1 opacity-50"></i>
-            </div>
-        </div>
-
-        <!-- Búsqueda rápida -->
-        <section class="mb-5">
-            <h5 class="fw-bold mb-3" style="color: #121826;">
-                <i class="bi bi-search-heart me-2" style="color: var(--primary-deep);"></i>Explora ofertas de trabajo
-            </h5>
-            <div class="search-bar d-flex align-items-center">
-                <i class="bi bi-search fs-5 text-muted me-2"></i>
-                <input type="text" id="inputBusquedaRapida" class="form-control border-0 shadow-none bg-transparent py-2"
-                    placeholder="Ej: Desarrollador Frontend, Diseñador UX, Marketing...">
-                <button class="btn btn-primary-deep px-4 py-2 fw-semibold"
-                    onclick="const q = document.getElementById('inputBusquedaRapida').value; window.location.href='../buscarempleo/index.html' + (q ? '?q=' + encodeURIComponent(q) : '');">
-                    Buscar <i class="bi bi-arrow-right ms-1"></i>
-                </button>
-            </div>
-        </section>
-
-        <!-- Filtros avanzados (REDISEÑADO Y MEJOR ORDEN) -->
-        <section class="mb-5">
-            <div class="d-flex align-items-center mb-3">
-                <i class="bi bi-sliders2 fs-4 me-2" style="color: var(--primary-deep);"></i>
-                <h5 class="fw-bold mb-0" style="color: #121826;">Personaliza tu búsqueda</h5>
-                <span class="badge bg-light text-dark ms-3 px-3 py-2 rounded-pill">Filtros avanzados</span>
-            </div>
-            
-            <div class="filter-section">
-                <!-- Primera fila: Palabra clave y Ubicación -->
-                <div class="row g-4 mb-4">
-                    <div class="col-md-6">
-                        <div class="filter-label">
-                            <i class="bi bi-tag"></i> Palabra clave
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-text bg-transparent border-0 ps-0"><i class="bi bi-search"></i></span>
-                            <input type="text" class="form-control-custom w-100" placeholder="Puesto, empresa o habilidad">
+</section>
+            <!-- Estadísticas (conservadas con diseño mejorado) -->
+            <section class="mb-5">
+                <div class="row g-4">
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card text-center h-100">
+                            <i class="bi bi-building fs-1 mb-2" style="color: var(--primary-deep);"></i>
+                            <h3 class="fw-bold mb-0">2,580</h3>
+                            <p class="text-secondary mb-0">Empresas</p>
+                            <small class="text-success"><i class="bi bi-arrow-up-short"></i> +35 esta semana</small>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="filter-label">
-                            <i class="bi bi-geo-alt"></i> Ubicación
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card text-center h-100">
+                            <i class="bi bi-people-fill fs-1 mb-2" style="color: var(--primary-deep);"></i>
+                            <h3 class="fw-bold mb-0">152.4k</h3>
+                            <p class="text-secondary mb-0">Usuarios</p>
+                            <small class="text-success"><i class="bi bi-arrow-up-short"></i> +2.1k este mes</small>
                         </div>
-                        <div class="input-group">
-                            <span class="input-group-text bg-transparent border-0 ps-0"><i class="bi bi-pin-map"></i></span>
-                            <input type="text" class="form-control-custom w-100" placeholder="Ciudad, estado o remoto">
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card text-center h-100">
+                            <i class="bi bi-briefcase-fill fs-1 mb-2" style="color: var(--primary-deep);"></i>
+                            <h3 class="fw-bold mb-0">10,320</h3>
+                            <p class="text-secondary mb-0">Vacantes Activas</p>
+                            <small class="text-success"><i class="bi bi-arrow-up-short"></i> +240 hoy</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card text-center h-100">
+                            <i class="bi bi-file-earmark-text-fill fs-1 mb-2" style="color: var(--primary-deep);"></i>
+                            <h3 class="fw-bold mb-0">75,820</h3>
+                            <p class="text-secondary mb-0">Contrataciones</p>
+                            <small class="text-success"><i class="bi bi-check-circle"></i> este año</small>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- Segunda fila: Tipo de empleo y Experiencia -->
-                <div class="row g-4 mb-4">
-                    <div class="col-md-6">
-                        <div class="filter-label">
-                            <i class="bi bi-clock"></i> Tipo de empleo
-                        </div>
-                        <select class="form-select-custom w-100">
-                            <option selected>Todos los tipos</option>
-                            <option>Tiempo completo</option>
-                            <option>Medio tiempo</option>
-                            <option>Freelance</option>
-                            <option>Prácticas</option>
-                            <option>Temporal</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="filter-label">
-                            <i class="bi bi-bar-chart-steps"></i> Nivel de experiencia
-                        </div>
-                        <select class="form-select-custom w-100">
-                            <option selected>Todos los niveles</option>
-                            <option>Prácticas / Becario</option>
-                            <option>Junior (0-2 años)</option>
-                            <option>Semi-Senior (2-5 años)</option>
-                            <option>Senior (5+ años)</option>
-                            <option>Líder / Manager</option>
-                        </select>
+            <!-- Empleos Destacados (ID conservado para API) -->
+            <section class="mb-5">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h2 class="fw-bold mb-0" style="color: #121826;">
+                        <i class="bi bi-star-fill me-2" style="color: #ffc107;"></i>Empleos Destacados
+                    </h2>
+                    <a href="../buscarempleo/index.html" class="text-decoration-none fw-semibold"
+                        style="color: var(--primary-deep);">
+                        Ver todos <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="row g-4" id="contenedor-destacados">
+                    <!-- El spinner se mantiene; app.js lo reemplazará -->
+                    <div class="text-center py-5">
+                        <div class="spinner-border" style="color: var(--primary-deep);" role="status"></div>
+                        <p class="mt-2 text-secondary">Cargando las mejores ofertas para ti...</p>
                     </div>
                 </div>
+            </section>
 
-                <!-- Tercera fila: Salario y Modalidad -->
+            <!-- Consejos de carrera (mejorado) -->
+            <section class="mb-5">
+                <h5 class="fw-bold mb-3" style="color: #121826;">
+                    <i class="bi bi-lightbulb me-2" style="color: #ffc107;"></i>Consejos para tu carrera
+                </h5>
                 <div class="row g-4">
                     <div class="col-md-6">
-                        <div class="filter-label">
-                            <i class="bi bi-cash-stack"></i> Rango salarial
-                        </div>
-                        <div class="row g-2">
-                            <div class="col-6">
-                                <select class="form-select-custom w-100">
-                                    <option selected>Mínimo</option>
-                                    <option>$500</option>
-                                    <option>$800</option>
-                                    <option>$1000</option>
-                                    <option>$1500</option>
-                                    <option>$2000+</option>
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <select class="form-select-custom w-100">
-                                    <option selected>Máximo</option>
-                                    <option>$1000</option>
-                                    <option>$1500</option>
-                                    <option>$2000</option>
-                                    <option>$3000</option>
-                                    <option>$5000+</option>
-                                </select>
+                        <div class="card-custom p-4 h-100">
+                            <div class="d-flex gap-3">
+                                <div class="bg-light p-3 rounded-4">
+                                    <i class="bi bi-file-earmark-text fs-2" style="color: var(--primary-deep);"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold">Cómo destacar tu CV</h6>
+                                    <p class="text-secondary small mb-2">Aprende a crear un currículum que capture la
+                                        atención de los reclutadores.</p>
+                                    <a href="../recursos/index.html" class="text-decoration-none fw-semibold small"
+                                        style="color: var(--primary-deep);">
+                                        Leer más <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="filter-label">
-                            <i class="bi bi-laptop"></i> Modalidad
-                        </div>
-                        <div class="d-flex flex-wrap gap-2">
-                            <div class="form-check me-3">
-                                <input class="form-check-input" type="checkbox" id="remoto">
-                                <label class="form-check-label" for="remoto">Remoto</label>
-                            </div>
-                            <div class="form-check me-3">
-                                <input class="form-check-input" type="checkbox" id="presencial">
-                                <label class="form-check-label" for="presencial">Presencial</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="hibrido">
-                                <label class="form-check-label" for="hibrido">Híbrido</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Botones de acción -->
-                <div class="d-flex justify-content-center gap-3 mt-5">
-                    <button class="btn btn-outline-secondary px-4 py-2 rounded-pill">
-                        <i class="bi bi-arrow-repeat me-1"></i> Limpiar filtros
-                    </button>
-                    <button class="btn btn-primary-deep px-5 py-3 fw-semibold" 
-                        onclick="window.location.href='../buscarempleo/index.html'">
-                        <i class="bi bi-funnel-fill me-2"></i>Aplicar filtros y buscar
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Estadísticas (conservadas con diseño mejorado) -->
-        <section class="mb-5">
-            <div class="row g-4">
-                <div class="col-6 col-md-3">
-                    <div class="stat-card text-center h-100">
-                        <i class="bi bi-building fs-1 mb-2" style="color: var(--primary-deep);"></i>
-                        <h3 class="fw-bold mb-0">2,580</h3>
-                        <p class="text-secondary mb-0">Empresas</p>
-                        <small class="text-success"><i class="bi bi-arrow-up-short"></i> +35 esta semana</small>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-card text-center h-100">
-                        <i class="bi bi-people-fill fs-1 mb-2" style="color: var(--primary-deep);"></i>
-                        <h3 class="fw-bold mb-0">152.4k</h3>
-                        <p class="text-secondary mb-0">Usuarios</p>
-                        <small class="text-success"><i class="bi bi-arrow-up-short"></i> +2.1k este mes</small>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-card text-center h-100">
-                        <i class="bi bi-briefcase-fill fs-1 mb-2" style="color: var(--primary-deep);"></i>
-                        <h3 class="fw-bold mb-0">10,320</h3>
-                        <p class="text-secondary mb-0">Vacantes Activas</p>
-                        <small class="text-success"><i class="bi bi-arrow-up-short"></i> +240 hoy</small>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-card text-center h-100">
-                        <i class="bi bi-file-earmark-text-fill fs-1 mb-2" style="color: var(--primary-deep);"></i>
-                        <h3 class="fw-bold mb-0">75,820</h3>
-                        <p class="text-secondary mb-0">Contrataciones</p>
-                        <small class="text-success"><i class="bi bi-check-circle"></i> este año</small>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Empleos Destacados (ID conservado para API) -->
-        <section class="mb-5">
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <h2 class="fw-bold mb-0" style="color: #121826;">
-                    <i class="bi bi-star-fill me-2" style="color: #ffc107;"></i>Empleos Destacados
-                </h2>
-                <a href="../buscarempleo/index.html" class="text-decoration-none fw-semibold" style="color: var(--primary-deep);">
-                    Ver todos <i class="bi bi-arrow-right"></i>
-                </a>
-            </div>
-            <div class="row g-4" id="contenedor-destacados">
-                <!-- El spinner se mantiene; app.js lo reemplazará -->
-                <div class="text-center py-5">
-                    <div class="spinner-border" style="color: var(--primary-deep);" role="status"></div>
-                    <p class="mt-2 text-secondary">Cargando las mejores ofertas para ti...</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Consejos de carrera (mejorado) -->
-        <section class="mb-5">
-            <h5 class="fw-bold mb-3" style="color: #121826;">
-                <i class="bi bi-lightbulb me-2" style="color: #ffc107;"></i>Consejos para tu carrera
-            </h5>
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="card-custom p-4 h-100">
-                        <div class="d-flex gap-3">
-                            <div class="bg-light p-3 rounded-4">
-                                <i class="bi bi-file-earmark-text fs-2" style="color: var(--primary-deep);"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold">Cómo destacar tu CV</h6>
-                                <p class="text-secondary small mb-2">Aprende a crear un currículum que capture la atención de los reclutadores.</p>
-                                <a href="../recursos/index.html" class="text-decoration-none fw-semibold small" style="color: var(--primary-deep);">
-                                    Leer más <i class="bi bi-arrow-right"></i>
-                                </a>
+                        <div class="card-custom p-4 h-100">
+                            <div class="d-flex gap-3">
+                                <div class="bg-light p-3 rounded-4">
+                                    <i class="bi bi-camera-video fs-2" style="color: var(--primary-deep);"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold">Preparación para entrevistas</h6>
+                                    <p class="text-secondary small mb-2">Consejos prácticos para enfrentar entrevistas
+                                        técnicas y de RRHH.</p>
+                                    <a href="../recursos/index.html" class="text-decoration-none fw-semibold small"
+                                        style="color: var(--primary-deep);">
+                                        Leer más <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card-custom p-4 h-100">
-                        <div class="d-flex gap-3">
-                            <div class="bg-light p-3 rounded-4">
-                                <i class="bi bi-camera-video fs-2" style="color: var(--primary-deep);"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold">Preparación para entrevistas</h6>
-                                <p class="text-secondary small mb-2">Consejos prácticos para enfrentar entrevistas técnicas y de RRHH.</p>
-                                <a href="../recursos/index.html" class="text-decoration-none fw-semibold small" style="color: var(--primary-deep);">
-                                    Leer más <i class="bi bi-arrow-right"></i>
-                                </a>
-                            </div>
+            </section>
+
+            <!-- Empresas destacadas (nuevo) -->
+            <section class="mb-5">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="fw-bold mb-0" style="color: #121826;">
+                        <i class="bi bi-building me-2" style="color: var(--primary-deep);"></i>Empresas que contratan
+                    </h5>
+                </div>
+                <div class="row g-3">
+                    <div class="col-6 col-md-2">
+                        <div class="bg-white p-3 rounded-4 text-center shadow-sm">
+                            <i class="bi bi-google fs-1"></i>
+                            <p class="mb-0 mt-2 fw-semibold small">Google</p>
+                            <span class="skill-tag">12 vacantes</span>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <div class="bg-white p-3 rounded-4 text-center shadow-sm">
+                            <i class="bi bi-microsoft fs-1"></i>
+                            <p class="mb-0 mt-2 fw-semibold small">Microsoft</p>
+                            <span class="skill-tag">8 vacantes</span>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <div class="bg-white p-3 rounded-4 text-center shadow-sm">
+                            <i class="bi bi-apple fs-1"></i>
+                            <p class="mb-0 mt-2 fw-semibold small">Apple</p>
+                            <span class="skill-tag">5 vacantes</span>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <div class="bg-white p-3 rounded-4 text-center shadow-sm">
+                            <i class="bi bi-amazon fs-1"></i>
+                            <p class="mb-0 mt-2 fw-semibold small">Amazon</p>
+                            <span class="skill-tag">15 vacantes</span>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <div class="bg-white p-3 rounded-4 text-center shadow-sm">
+                            <i class="bi bi-meta fs-1"></i>
+                            <p class="mb-0 mt-2 fw-semibold small">Meta</p>
+                            <span class="skill-tag">6 vacantes</span>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-2">
+                        <div class="bg-white p-3 rounded-4 text-center shadow-sm">
+                            <i class="bi bi-twitter fs-1"></i>
+                            <p class="mb-0 mt-2 fw-semibold small">X (Twitter)</p>
+                            <span class="skill-tag">3 vacantes</span>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Empresas destacadas (nuevo) -->
-        <section class="mb-5">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-                <h5 class="fw-bold mb-0" style="color: #121826;">
-                    <i class="bi bi-building me-2" style="color: var(--primary-deep);"></i>Empresas que contratan
-                </h5>
-            </div>
-            <div class="row g-3">
-                <div class="col-6 col-md-2">
-                    <div class="bg-white p-3 rounded-4 text-center shadow-sm">
-                        <i class="bi bi-google fs-1"></i>
-                        <p class="mb-0 mt-2 fw-semibold small">Google</p>
-                        <span class="skill-tag">12 vacantes</span>
-                    </div>
-                </div>
-                <div class="col-6 col-md-2">
-                    <div class="bg-white p-3 rounded-4 text-center shadow-sm">
-                        <i class="bi bi-microsoft fs-1"></i>
-                        <p class="mb-0 mt-2 fw-semibold small">Microsoft</p>
-                        <span class="skill-tag">8 vacantes</span>
-                    </div>
-                </div>
-                <div class="col-6 col-md-2">
-                    <div class="bg-white p-3 rounded-4 text-center shadow-sm">
-                        <i class="bi bi-apple fs-1"></i>
-                        <p class="mb-0 mt-2 fw-semibold small">Apple</p>
-                        <span class="skill-tag">5 vacantes</span>
-                    </div>
-                </div>
-                <div class="col-6 col-md-2">
-                    <div class="bg-white p-3 rounded-4 text-center shadow-sm">
-                        <i class="bi bi-amazon fs-1"></i>
-                        <p class="mb-0 mt-2 fw-semibold small">Amazon</p>
-                        <span class="skill-tag">15 vacantes</span>
-                    </div>
-                </div>
-                <div class="col-6 col-md-2">
-                    <div class="bg-white p-3 rounded-4 text-center shadow-sm">
-                        <i class="bi bi-meta fs-1"></i>
-                        <p class="mb-0 mt-2 fw-semibold small">Meta</p>
-                        <span class="skill-tag">6 vacantes</span>
-                    </div>
-                </div>
-                <div class="col-6 col-md-2">
-                    <div class="bg-white p-3 rounded-4 text-center shadow-sm">
-                        <i class="bi bi-twitter fs-1"></i>
-                        <p class="mb-0 mt-2 fw-semibold small">X (Twitter)</p>
-                        <span class="skill-tag">3 vacantes</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </div>
-</main>
-
-<!-- ========== FOOTER ========== -->
-<footer class="py-4 mt-auto footer-custom">
-    <div class="container text-center">
-        <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
-            <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
-            <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
-            <a href="#">Términos</a>
-            <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
         </div>
-    </div>
-</footer>
+    </main>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Script de la API (conservado) -->
-<script type="module" src="./app.js"></script>
+    <!-- ========== FOOTER ========== -->
+    <footer class="py-4 mt-auto footer-custom">
+        <div class="container text-center">
+            <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
+                <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
+                <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
+                <a href="#">Términos</a>
+                <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
+            </div>
+        </div>
+    </footer>
 
-<!-- Estilos adicionales de compatibilidad -->
-<style>
-    /* Conservar compatibilidad con clases originales */
-    .bg-primary-subtle { background-color: #eef2f9 !important; }
-    .bg-secondary { background-color: var(--nav-bg) !important; }
-    .text-white-50 { color: var(--light-text) !important; }
-    .btn-primary {
-        background-color: var(--primary-deep) !important;
-        border-color: var(--primary-deep) !important;
-    }
-    #contenedor-destacados .card {
-        border-radius: 20px;
-        border: none;
-        box-shadow: 0 10px 20px -5px rgba(0,0,0,0.05);
-    }
-    /* Mejora visual para selects en iOS */
-    .form-select-custom {
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%233f51b5' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
-        background-repeat: no-repeat;
-        background-position: right 1.2rem center;
-        background-size: 16px 12px;
-    }
-</style>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script de la API (conservado) -->
+    <script type="module" src="./app.js"></script>
+
+    <!-- Estilos adicionales de compatibilidad -->
+    <style>
+        /* Conservar compatibilidad con clases originales */
+        .bg-primary-subtle {
+            background-color: #eef2f9 !important;
+        }
+
+        .bg-secondary {
+            background-color: var(--nav-bg) !important;
+        }
+
+        .text-white-50 {
+            color: var(--light-text) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-deep) !important;
+            border-color: var(--primary-deep) !important;
+        }
+
+        #contenedor-destacados .card {
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Mejora visual para selects en iOS */
+        .form-select-custom {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%233f51b5' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1.2rem center;
+            background-size: 16px 12px;
+        }
+    </style>
 </body>
+
 </html>
