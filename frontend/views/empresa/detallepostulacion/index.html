@@ -3,57 +3,341 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalle de Postulación | Workly</title>
-
+  <title>Workly | Detalle de postulacion</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../../../assets/css/global.css">
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --nav-bg: #011671;
+      --page-bg: linear-gradient(180deg, #eef4ff 0%, #f8fbff 100%);
+      --primary-deep: #3f51b5;
+      --card-shadow: 0 24px 40px -18px rgba(1, 22, 113, 0.16);
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--page-bg);
+      color: #172033;
+    }
+
+    .navbar-custom {
+      background: var(--nav-bg);
+    }
+
+    .nav-link-custom {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.65rem 1rem;
+      border-radius: 999px;
+      transition: 0.2s ease;
+    }
+
+    .nav-link-custom:hover,
+    .nav-link-custom.active {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .surface-card {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow: var(--card-shadow);
+    }
+
+    .hero-card {
+      background: linear-gradient(140deg, #0d1d85 0%, #4b61cb 60%, #95a6ff 100%);
+      color: #fff;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      right: -80px;
+      top: -60px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .metric-card,
+    .detail-card {
+      border-radius: 24px;
+      border: 1px solid #e7edf8;
+      background: #fff;
+      box-shadow: 0 20px 34px -26px rgba(15, 23, 42, 0.38);
+    }
+
+    .metric-card {
+      padding: 1.2rem;
+    }
+
+    .metric-icon,
+    .detail-icon {
+      width: 52px;
+      height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 18px;
+      background: #eef2ff;
+      color: var(--primary-deep);
+    }
+
+    .detail-card {
+      padding: 1.5rem;
+    }
+
+    .info-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .info-item {
+      padding: 1rem 1.1rem;
+      border-radius: 18px;
+      background: #f8faff;
+      border: 1px solid #e7edf8;
+    }
+
+    .info-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6b7280;
+      margin-bottom: 0.35rem;
+      font-weight: 700;
+    }
+
+    .info-value {
+      font-weight: 600;
+      color: #172033;
+    }
+
+    .text-box {
+      background: linear-gradient(180deg, #f8faff 0%, #f2f6fd 100%);
+      border: 1px solid #e6ecf7;
+      border-radius: 20px;
+      padding: 1rem 1.1rem;
+      min-height: 120px;
+      color: #4b5563;
+      white-space: pre-line;
+    }
+
+    .status-panel {
+      background: linear-gradient(180deg, #f9fbff 0%, #eff4ff 100%);
+      border-radius: 24px;
+      border: 1px solid #dfE7f6;
+      padding: 1.2rem;
+    }
+
+    .timeline-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 0.9rem;
+      align-items: flex-start;
+    }
+
+    .timeline-dot {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #eef2ff;
+      color: var(--primary-deep);
+      flex-shrink: 0;
+    }
+
+    .notification-badge {
+      min-width: 1.4rem;
+    }
+  </style>
 </head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="../principal/index.html">Workly Empresa</a>
-      <button class="btn btn-light btn-sm" id="btnLogout">Cerrar sesión</button>
+<body class="d-flex flex-column min-vh-100">
+  <nav class="navbar navbar-expand-lg navbar-custom py-3">
+    <div class="container-fluid px-4 px-lg-5">
+      <a class="navbar-brand text-white fw-bold fs-3 d-flex align-items-center gap-2" href="../principal/index.html">
+        <i class="bi bi-briefcase-fill"></i>
+        <span>Workly</span>
+      </a>
+
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <div class="navbar-nav mx-auto gap-2 mt-3 mt-lg-0">
+          <a href="../principal/index.html" class="nav-link-custom">Dashboard</a>
+          <a href="../postulaciones/index.html" class="nav-link-custom active">Postulaciones</a>
+          <a href="../misvacantes/index.html" class="nav-link-custom">Vacantes</a>
+          <a href="../foro/index.html" class="nav-link-custom">Foro</a>
+        </div>
+        <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+          <a href="../notificaciones/index.html" class="text-white position-relative text-decoration-none">
+            <i class="bi bi-bell-fill fs-4"></i>
+            <span class="notification-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+          </a>
+          <a href="../perfil/index.html" class="text-white text-decoration-none">
+            <i class="bi bi-building fs-4"></i>
+          </a>
+          <button class="btn btn-light btn-sm rounded-pill px-3 fw-semibold" id="btnLogout">Cerrar sesion</button>
+        </div>
+      </div>
     </div>
   </nav>
 
-  <main class="py-4">
-    <div class="container">
+  <main class="flex-grow-1 py-4 py-lg-5">
+    <div class="container px-4 px-lg-5">
       <div class="mb-3">
-        <a href="../postulaciones/index.html" class="btn btn-outline-secondary btn-sm">← Volver a postulaciones</a>
+        <a href="../postulaciones/index.html" class="btn btn-outline-secondary rounded-pill px-4">
+          <i class="bi bi-arrow-left me-2"></i>Volver a postulaciones
+        </a>
       </div>
 
-      <div id="alertContainer"></div>
-
-      <div class="row g-4">
-        <div class="col-lg-7">
-          <div class="card card-custom p-4">
-            <h4 class="mb-3">Información del postulante</h4>
-            <div id="detallePostulante">
-              <p class="text-muted mb-0">Cargando información...</p>
+      <section class="surface-card hero-card p-4 p-lg-5 mb-4">
+        <div class="row g-4 align-items-center position-relative">
+          <div class="col-12 col-xl-8">
+            <span class="badge rounded-pill text-bg-light text-primary fw-semibold mb-3">Revision de candidato</span>
+            <h1 class="display-6 fw-bold mb-2" id="heroNombre">Cargando postulacion...</h1>
+            <p class="mb-3 text-white-50" id="heroResumen">Estamos preparando la informacion completa del postulante y la vacante.</p>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="badge rounded-pill bg-light text-dark" id="heroVacante">Vacante</span>
+              <span class="badge rounded-pill bg-light text-dark" id="heroFecha">Fecha</span>
+              <span class="badge rounded-pill bg-light text-dark" id="heroEstado">Estado</span>
+            </div>
+          </div>
+          <div class="col-12 col-xl-4">
+            <div class="row g-3">
+              <div class="col-6">
+                <div class="metric-card">
+                  <div class="metric-icon mb-3"><i class="bi bi-person-lines-fill"></i></div>
+                  <div class="small text-muted">Contacto</div>
+                  <div class="fw-bold" id="metricContacto">Sin datos</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="metric-card">
+                  <div class="metric-icon mb-3"><i class="bi bi-laptop"></i></div>
+                  <div class="small text-muted">Modalidad</div>
+                  <div class="fw-bold" id="metricModalidad">Sin datos</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="metric-card">
+                  <div class="metric-icon mb-3"><i class="bi bi-cash-stack"></i></div>
+                  <div class="small text-muted">Salario</div>
+                  <div class="fw-bold" id="metricSalario">Sin datos</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="metric-card">
+                  <div class="metric-icon mb-3"><i class="bi bi-building"></i></div>
+                  <div class="small text-muted">Empresa</div>
+                  <div class="fw-bold" id="metricEmpresa">Sin datos</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <div class="col-lg-5">
-          <div class="card card-custom p-4 mb-4">
-            <h5 class="mb-3">Vacante</h5>
-            <div id="detalleVacante">
-              <p class="text-muted mb-0">Cargando información...</p>
+      <div id="alertContainer" class="mb-3"></div>
+
+      <div class="row g-4">
+        <div class="col-12 col-xl-8">
+          <section class="detail-card mb-4">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <div class="detail-icon"><i class="bi bi-person-vcard"></i></div>
+              <div>
+                <h2 class="h4 fw-bold mb-0">Perfil del postulante</h2>
+                <p class="text-muted mb-0">Informacion base para decidir el siguiente paso.</p>
+              </div>
             </div>
-          </div>
+            <div id="detallePostulante" class="info-grid">
+              <p class="text-muted mb-0">Cargando informacion del postulante...</p>
+            </div>
+          </section>
 
-          <div class="card card-custom p-4">
-            <h5 class="mb-3">Estado del proceso</h5>
+          <section class="detail-card">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <div class="detail-icon"><i class="bi bi-briefcase"></i></div>
+              <div>
+                <h2 class="h4 fw-bold mb-0">Vacante asociada</h2>
+                <p class="text-muted mb-0">Contexto de la oportunidad a la que aplico.</p>
+              </div>
+            </div>
+            <div id="detalleVacante" class="info-grid">
+              <p class="text-muted mb-0">Cargando informacion de la vacante...</p>
+            </div>
+          </section>
+        </div>
+
+        <div class="col-12 col-xl-4">
+          <section class="detail-card mb-4">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <div class="detail-icon"><i class="bi bi-diagram-3"></i></div>
+              <div>
+                <h2 class="h4 fw-bold mb-0">Estado del proceso</h2>
+                <p class="text-muted mb-0">Actualiza el seguimiento desde esta misma pantalla.</p>
+              </div>
+            </div>
             <div id="detalleEstado">
-              <p class="text-muted mb-0">Cargando información...</p>
+              <p class="text-muted mb-0">Cargando estado del proceso...</p>
             </div>
-          </div>
+          </section>
+
+          <section class="detail-card mb-4">
+            <h3 class="h5 fw-bold mb-3">Acciones rapidas</h3>
+            <div class="d-grid gap-2">
+              <button class="btn btn-primary rounded-4" id="btnCopiarCorreo">
+                <i class="bi bi-envelope me-2"></i>Copiar correo
+              </button>
+              <button class="btn btn-outline-primary rounded-4" id="btnContactar">
+                <i class="bi bi-send me-2"></i>Preparar contacto
+              </button>
+            </div>
+          </section>
+
+          <section class="status-panel">
+            <h3 class="h5 fw-bold mb-3">Ruta sugerida</h3>
+            <ul class="timeline-list" id="timelineProceso">
+              <li class="timeline-item">
+                <div class="timeline-dot"><i class="bi bi-hourglass-split"></i></div>
+                <div>
+                  <div class="fw-semibold">Recibida</div>
+                  <div class="text-muted small">La postulacion acaba de entrar al pipeline.</div>
+                </div>
+              </li>
+            </ul>
+          </section>
         </div>
       </div>
     </div>
   </main>
 
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastAccion" class="toast align-items-center text-bg-dark border-0 rounded-4 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body" id="toastTexto">Accion completada.</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="../../../assets/js/shared/notificaciones.js"></script>
   <script type="module" src="./app.js"></script>
 </body>
 </html>

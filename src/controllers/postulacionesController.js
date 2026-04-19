@@ -74,6 +74,22 @@ export const crearPostulacion = async (req, res) => {
           id_empresa: vacante.id_empresa_fk
         }
       });
+
+      if (vacante.id_empresa_fk) {
+        await crearNotificacionPostulacion({
+          tipo_usuario: "empresa",
+          id_destinatario: Number(vacante.id_empresa_fk),
+          titulo: "Nueva postulacion recibida",
+          mensaje: `Recibiste una nueva postulacion para ${vacante.titulo_puesto}.`,
+          tipo_notificacion: "postulacion",
+          enlace: `/views/empresa/detallepostulacion/index.html?id=${nuevaPostulacion.id_postulacion}`,
+          metadata: {
+            id_postulacion: nuevaPostulacion.id_postulacion,
+            id_vacante: vacante.id_vacante,
+            id_usuario: Number(id_usuario_fk)
+          }
+        });
+      }
     }
 
     res.status(201).json(nuevaPostulacion);
@@ -161,4 +177,3 @@ export const actualizarPostulacion = async (req, res) => {
     });
   }
 };
-
