@@ -1,5 +1,65 @@
 import { pool } from "../config/db.js";
 
+const vacanteEstados = new Map();
+
+const withVacanteEstado = (vacante) => ({
+  ...vacante,
+  estado: vacanteEstados.get(Number(vacante.id_vacante)) || vacante.estado || "Activo"
+});
+
+const getAdminVacanteBaseQuery = () => `
+  SELECT
+    v.id_vacante,
+    v.id_empresa_fk,
+    e.id_empresa,
+    e.nombre_comercial,
+    v.id_categoria_fk,
+    c.id_categoria,
+    c.nombre_categoria,
+    v.titulo_puesto,
+    v.descripcion_puesto,
+    v.salario_offrecido,
+    v.modalidad,
+    v.id_municipio_fk,
+    m.nombre_municipio,
+    v.fecha_publicacion
+  FROM Vacantes v
+  INNER JOIN Empresas e ON v.id_empresa_fk = e.id_empresa
+  INNER JOIN Categorias c ON v.id_categoria_fk = c.id_categoria
+  LEFT JOIN Municipios m ON v.id_municipio_fk = m.id_municipio
+`;
+
+const getAdminVacanteById = async (id) => {
+  const [rows] = await pool.query(
+    `${getAdminVacanteBaseQuery()} WHERE v.id_vacante = ?`,
+    [id]
+  );
+
+  return rows[0] ? withVacanteEstado(rows[0]) : null;
+};
+
+const getAdminEmpresaById = async (id) => {
+  const [rows] = await pool.query(
+    `
+    SELECT
+      e.id_empresa,
+      e.nombre_comercial,
+      e.razon_social,
+      e.sitio_web,
+      e.descripcion_empresa,
+      e.id_municipio_fk,
+      e.correo_electronico,
+      m.nombre_municipio
+    FROM Empresas e
+    LEFT JOIN Municipios m ON e.id_municipio_fk = m.id_municipio
+    WHERE e.id_empresa = ?
+    `,
+    [id]
+  );
+
+  return rows[0];
+};
+
 export const getAdminUsuarios = async () => {
   const [rows] = await pool.query(`
     SELECT
@@ -20,39 +80,167 @@ export const getAdminUsuarios = async () => {
 export const getAdminEmpresas = async () => {
   const [rows] = await pool.query(`
     SELECT
-      id_empresa,
-      nombre_comercial,
-      razon_social,
-      sitio_web,
-      descripcion_empresa,
-      id_municipio_fk,
-      correo_electronico
-    FROM Empresas
-    ORDER BY id_empresa DESC
+      e.id_empresa,
+      e.nombre_comercial,
+      e.razon_social,
+      e.sitio_web,
+      e.descripcion_empresa,
+      e.id_municipio_fk,
+      e.correo_electronico,
+      m.nombre_municipio
+    FROM Empresas e
+    LEFT JOIN Municipios m ON e.id_municipio_fk = m.id_municipio
+    ORDER BY e.id_empresa DESC
   `);
 
   return rows;
 };
 
-export const getAdminVacantes = async () => {
-  const [rows] = await pool.query(`
-    SELECT
-      v.id_vacante,
-      v.titulo_puesto,
-      v.modalidad,
-      v.salario_offrecido,
-      v.fecha_publicacion,
-      e.id_empresa,
-      e.nombre_comercial,
-      c.id_categoria,
-      c.nombre_categoria
-    FROM Vacantes v
-    INNER JOIN Empresas e ON v.id_empresa_fk = e.id_empresa
-    INNER JOIN Categorias c ON v.id_categoria_fk = c.id_categoria
-    ORDER BY v.id_vacante DESC
-  `);
+export const createAdminEmpresa = async (empresa) => {
+  const {
+    nombre_comercial,
+    razon_social,
+    sitio_web,
+    descripcion_empresa,
+    id_municipio_fk,
+    correo_electronico,
+    contrasena
+  } = empresa;
 
-  return rows;
+  const [result] = await pool.query(
+    `
+    INSERT INTO Empresas
+    (
+      nombre_comercial,
+      razon_social,
+      sitio_web,
+      descripcion_empresa,
+      id_municipio_fk,
+      correo_electronico,
+      contrasena
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    `,
+    [
+      nombre_comercial,
+      razon_social,
+      sitio_web,
+      descripcion_empresa,
+      id_municipio_fk,
+      correo_electronico,
+      contrasena
+    ]
+  );
+
+  return getAdminEmpresaById(result.insertId);
+};
+
+export const getAdminVacantes = async () => {
+  const [rows] = await pool.query(
+    `${getAdminVacanteBaseQuery()} ORDER BY v.fecha_publicacion DESC, v.id_vacante DESC`
+  );
+
+  return rows.map(withVacanteEstado);
+};
+
+export const createAdminVacante = async (vacante) => {
+  const {
+    id_empresa_fk,
+    id_categoria_fk,
+    titulo_puesto,
+    descripcion_puesto,
+    salario_offrecido,
+    modalidad,
+    id_municipio_fk,
+    estado = "Activo"
+  } = vacante;
+
+  const [result] = await pool.query(
+    `
+    INSERT INTO Vacantes
+    (
+      id_empresa_fk,
+      id_categoria_fk,
+      titulo_puesto,
+      descripcion_puesto,
+      salario_offrecido,
+      modalidad,
+      id_municipio_fk
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    `,
+    [
+      id_empresa_fk,
+      id_categoria_fk,
+      titulo_puesto,
+      descripcion_puesto,
+      salario_offrecido,
+      modalidad,
+      id_municipio_fk
+    ]
+  );
+
+  vacanteEstados.set(result.insertId, estado);
+  return getAdminVacanteById(result.insertId);
+};
+
+export const updateAdminVacante = async (id, vacante) => {
+  const {
+    id_empresa_fk,
+    id_categoria_fk,
+    titulo_puesto,
+    descripcion_puesto,
+    salario_offrecido,
+    modalidad,
+    id_municipio_fk,
+    estado
+  } = vacante;
+
+  const [result] = await pool.query(
+    `
+    UPDATE Vacantes
+    SET
+      id_empresa_fk = ?,
+      id_categoria_fk = ?,
+      titulo_puesto = ?,
+      descripcion_puesto = ?,
+      salario_offrecido = ?,
+      modalidad = ?,
+      id_municipio_fk = ?
+    WHERE id_vacante = ?
+    `,
+    [
+      id_empresa_fk,
+      id_categoria_fk,
+      titulo_puesto,
+      descripcion_puesto,
+      salario_offrecido,
+      modalidad,
+      id_municipio_fk,
+      id
+    ]
+  );
+
+  if (result.affectedRows === 0) {
+    return null;
+  }
+
+  if (estado) {
+    vacanteEstados.set(Number(id), estado);
+  }
+
+  return getAdminVacanteById(id);
+};
+
+export const updateAdminVacanteEstado = async (id, estado) => {
+  const vacante = await getAdminVacanteById(id);
+
+  if (!vacante) {
+    return null;
+  }
+
+  vacanteEstados.set(Number(id), estado);
+  return getAdminVacanteById(id);
 };
 
 export const deleteAdminUsuario = async (id) => {
@@ -87,20 +275,7 @@ export const deleteAdminUsuario = async (id) => {
 };
 
 export const deleteAdminEmpresa = async (id) => {
-  const [rows] = await pool.query(
-    `
-    SELECT
-      id_empresa,
-      nombre_comercial,
-      razon_social,
-      correo_electronico
-    FROM Empresas
-    WHERE id_empresa = ?
-    `,
-    [id]
-  );
-
-  const empresa = rows[0];
+  const empresa = await getAdminEmpresaById(id);
 
   if (!empresa) {
     return null;
@@ -118,18 +293,7 @@ export const deleteAdminEmpresa = async (id) => {
 };
 
 export const deleteAdminVacante = async (id) => {
-  const [rows] = await pool.query(
-    `
-    SELECT
-      id_vacante,
-      titulo_puesto
-    FROM Vacantes
-    WHERE id_vacante = ?
-    `,
-    [id]
-  );
-
-  const vacante = rows[0];
+  const vacante = await getAdminVacanteById(id);
 
   if (!vacante) {
     return null;
@@ -142,6 +306,8 @@ export const deleteAdminVacante = async (id) => {
     `,
     [id]
   );
+
+  vacanteEstados.delete(Number(id));
 
   return vacante;
 };

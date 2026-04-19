@@ -1,4 +1,4 @@
-import { API_URL, getToken } from "../../../assets/js/shared/config.js";
+import { API_URL, getToken, clearSession } from "../../../assets/js/shared/config.js";
 import { requireAuth } from "../../../assets/js/shared/auth.js";
 
 requireAuth(["admin"]);
@@ -7,13 +7,25 @@ const alertContainer = document.getElementById("alertContainer");
 const tablaEmpresas = document.getElementById("tablaEmpresas");
 const filtroEmpresa = document.getElementById("filtroEmpresa");
 const btnFiltrar = document.getElementById("btnFiltrar");
-
+const btnNuevaEmpresa = document.getElementById("btnNuevaEmpresa");
+const btnGuardarEmpresa = document.getElementById("btnGuardarEmpresa");
 const resumenTotal = document.getElementById("resumenTotal");
 const resumenWeb = document.getElementById("resumenWeb");
 const resumenSinWeb = document.getElementById("resumenSinWeb");
 const actividadEmpresas = document.getElementById("actividadEmpresas");
+const selectMunicipio = document.getElementById("empresaMunicipio");
 
 let empresasGlobal = [];
+
+const authHeaders = () => ({
+  Authorization: `Bearer ${getToken()}`,
+  "Content-Type": "application/json"
+});
+
+const redirectToLogin = () => {
+  clearSession();
+  window.location.href = "../../public/login/index.html";
+};
 
 const showAlert = (message, type = "danger") => {
   if (!alertContainer) return;
@@ -24,22 +36,16 @@ const showAlert = (message, type = "danger") => {
   `;
 };
 
-const authHeaders = () => ({
-  Authorization: `Bearer ${getToken()}`,
-  "Content-Type": "application/json"
-});
-
 const renderResumen = (empresas) => {
   if (resumenTotal) resumenTotal.textContent = empresas.length;
-  if (resumenWeb) resumenWeb.textContent = empresas.filter(x => (x.sitio_web || "").trim() !== "").length;
-  if (resumenSinWeb) resumenSinWeb.textContent = empresas.filter(x => !(x.sitio_web || "").trim()).length;
+  if (resumenWeb) resumenWeb.textContent = empresas.filter((item) => (item.sitio_web || "").trim() !== "").length;
+  if (resumenSinWeb) resumenSinWeb.textContent = empresas.filter((item) => !(item.sitio_web || "").trim()).length;
 };
 
 const renderActividad = (empresas) => {
   if (!actividadEmpresas) return;
 
   const top = empresas.slice(0, 3);
-
   if (!top.length) {
     actividadEmpresas.innerHTML = `
       <div class="p-3 rounded-4 bg-light border-start border-4 border-primary text-muted">
@@ -72,7 +78,7 @@ const renderEmpresas = (empresas) => {
     return;
   }
 
-  tablaEmpresas.innerHTML = empresas.map(item => `
+  tablaEmpresas.innerHTML = empresas.map((item) => `
     <tr>
       <td>
         <div class="d-flex align-items-center">
@@ -87,91 +93,82 @@ const renderEmpresas = (empresas) => {
       <td>${item.sitio_web || "N/D"}</td>
       <td>${item.nombre_municipio || item.id_municipio_fk || "N/D"}</td>
       <td>
-        <div class="d-flex align-items-center gap-2">
-          <button class="btn btn-sm fw-bold px-3 btn-eliminar text-white" data-id="${item.id_empresa}" style="background-color:#dc3545; border-radius: 6px;">
-            Eliminar
-          </button>
-        </div>
+        <button class="btn btn-sm fw-bold px-3 btn-eliminar text-white" data-id="${item.id_empresa}" style="background-color:#dc3545; border-radius: 6px;">
+          Eliminar
+        </button>
       </td>
     </tr>
   `).join("");
 
-  document.querySelectorAll(".btn-eliminar").forEach(btn => {
-    btn.addEventListener("click", async () => {
-      const id = btn.dataset.id;
-      const confirmado = confirm("¿Seguro que deseas eliminar esta empresa?");
-      if (confirmado) {
-        await eliminarEmpresa(id);
+  tablaEmpresas.querySelectorAll(".btn-eliminar").forEach((button) => {
+    button.addEventListener("click", async () => {
+      if (window.confirm("¿Seguro que deseas eliminar esta empresa?")) {
+        await eliminarEmpresa(button.dataset.id);
       }
     });
   });
 };
 
+const cargarMunicipios = async () => {
+  if (!selectMunicipio) return;
+
+  const response = await fetch(`${API_URL}/catalogos/municipios-agrupados`);
+  const municipios = response.ok ? await response.json() : [];
+
+  selectMunicipio.innerHTML = `<option value="">Selecciona un municipio</option>${municipios.map((item) => `
+    <option value="${item.id_municipio}">${item.nombre_departamento} - ${item.nombre_municipio}</option>
+  `).join("")}`;
+};
+
 const cargarEmpresas = async () => {
+  const response = await fetch(`${API_URL}/admin/empresas`, {
+    headers: authHeaders()
+  });
+
+  let data = [];
   try {
-    const response = await fetch(`${API_URL}/admin/empresas`, {
-      headers: authHeaders()
-    });
+    data = await response.json();
+  } catch {}
 
-    let data = [];
-    try {
-      data = await response.json();
-    } catch {
-      data = [];
-    }
-
-    if (response.status === 401 || response.status === 403) {
-      clearSession?.();
-      window.location.href = "../../public/login/index.html";
-      return;
-    }
-
-    if (!response.ok) {
-      showAlert(data.mensaje || "No se pudieron cargar las empresas.");
-      return;
-    }
-
-    empresasGlobal = Array.isArray(data) ? data : [];
-    renderEmpresas(empresasGlobal);
-    renderResumen(empresasGlobal);
-    renderActividad(empresasGlobal);
-  } catch (error) {
-    console.error(error);
-    showAlert("Error de conexión con el servidor.");
+  if (response.status === 401 || response.status === 403) {
+    redirectToLogin();
+    return;
   }
+
+  if (!response.ok) {
+    showAlert(data.mensaje || "No se pudieron cargar las empresas.");
+    return;
+  }
+
+  empresasGlobal = Array.isArray(data) ? data : [];
+  renderEmpresas(empresasGlobal);
+  renderResumen(empresasGlobal);
+  renderActividad(empresasGlobal);
 };
 
 const eliminarEmpresa = async (id) => {
+  const response = await fetch(`${API_URL}/admin/empresas/${id}`, {
+    method: "DELETE",
+    headers: authHeaders()
+  });
+
+  let data = {};
   try {
-    const response = await fetch(`${API_URL}/admin/empresas/${id}`, {
-      method: "DELETE",
-      headers: authHeaders()
-    });
+    data = await response.json();
+  } catch {}
 
-    let data = {};
-    try {
-      data = await response.json();
-    } catch {
-      data = {};
-    }
-
-    if (response.status === 401 || response.status === 403) {
-      clearSession?.();
-      window.location.href = "../../public/login/index.html";
-      return;
-    }
-
-    if (!response.ok) {
-      showAlert(data.mensaje || "No se pudo eliminar la empresa.");
-      return;
-    }
-
-    showAlert("Empresa eliminada correctamente.", "success");
-    await cargarEmpresas();
-  } catch (error) {
-    console.error(error);
-    showAlert("Error de conexión con el servidor.");
+  if (response.status === 401 || response.status === 403) {
+    redirectToLogin();
+    return;
   }
+
+  if (!response.ok) {
+    showAlert(data.mensaje || "No se pudo eliminar la empresa.");
+    return;
+  }
+
+  showAlert("Empresa eliminada correctamente.", "success");
+  await cargarEmpresas();
 };
 
 const aplicarFiltro = () => {
@@ -184,7 +181,7 @@ const aplicarFiltro = () => {
     return;
   }
 
-  const filtradas = empresasGlobal.filter(item =>
+  const filtradas = empresasGlobal.filter((item) =>
     (item.nombre_comercial || "").toLowerCase().includes(texto) ||
     (item.correo_electronico || "").toLowerCase().includes(texto) ||
     (item.razon_social || "").toLowerCase().includes(texto)
@@ -195,9 +192,59 @@ const aplicarFiltro = () => {
   renderActividad(filtradas);
 };
 
-btnFiltrar?.addEventListener("click", aplicarFiltro);
-filtroEmpresa?.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") aplicarFiltro();
-});
+const limpiarFormulario = () => {
+  document.getElementById("formEmpresa").reset();
+};
 
-cargarEmpresas();
+const guardarEmpresa = async () => {
+  const payload = {
+    nombre_comercial: document.getElementById("empresaNombreComercial").value.trim(),
+    razon_social: document.getElementById("empresaRazonSocial").value.trim(),
+    correo_electronico: document.getElementById("empresaCorreo").value.trim(),
+    sitio_web: document.getElementById("empresaSitioWeb").value.trim(),
+    descripcion_empresa: document.getElementById("empresaDescripcion").value.trim(),
+    id_municipio_fk: document.getElementById("empresaMunicipio").value,
+    contrasena: document.getElementById("empresaContrasena").value.trim()
+  };
+
+  if (!payload.nombre_comercial || !payload.correo_electronico || !payload.contrasena) {
+    showAlert("Completa nombre comercial, correo y contraseña.", "warning");
+    return;
+  }
+
+  const response = await fetch(`${API_URL}/admin/empresas`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(payload)
+  });
+
+  let data = {};
+  try {
+    data = await response.json();
+  } catch {}
+
+  if (response.status === 401 || response.status === 403) {
+    redirectToLogin();
+    return;
+  }
+
+  if (!response.ok) {
+    showAlert(data.mensaje || "No se pudo crear la empresa.");
+    return;
+  }
+
+  showAlert("Empresa creada correctamente.", "success");
+  bootstrap.Modal.getInstance(document.getElementById("modalEmpresa"))?.hide();
+  limpiarFormulario();
+  await cargarEmpresas();
+};
+
+btnFiltrar?.addEventListener("click", aplicarFiltro);
+filtroEmpresa?.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") aplicarFiltro();
+});
+btnNuevaEmpresa?.addEventListener("click", limpiarFormulario);
+btnGuardarEmpresa?.addEventListener("click", guardarEmpresa);
+
+await cargarMunicipios();
+await cargarEmpresas();
