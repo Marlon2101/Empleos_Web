@@ -3,355 +3,414 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly - Foro de Empresas</title>
+    <title>Workly · Foro de Empresas</title>
+    <!-- Bootstrap + Iconos -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Fuente Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
     <style>
-        /* Pequeña utilidad para los enlaces del sidebar */
-        .hover-primary:hover { color: #0d6efd !important; text-decoration: underline !important; }
+        * { font-family: 'Inter', sans-serif; }
+        :root {
+            --primary-deep: #3f51b5;
+            --nav-bg: #011671;
+            --soft-accent: #f1ebd9;
+            --light-text: #e2e4e8;
+            --body-bg: #f5f7fc;
+        }
+        body { background: var(--body-bg); }
+        /* Navbar */
+        .navbar-custom { background-color: var(--nav-bg) !important; box-shadow: 0 6px 20px rgba(1, 22, 113, 0.15); }
+        .navbar-brand .brand-icon { font-size: 3.5rem; color: white; margin-right: 0.75rem; }
+        .navbar-brand .brand-text { color: white; font-weight: 700; font-size: 2rem; line-height: 1.2; }
+        .navbar-brand .brand-sub { color: var(--light-text); font-size: 0.95rem; }
+        .nav-link-custom { color: white !important; font-weight: 500; padding: 0.5rem 1.2rem; border-radius: 30px; transition: all 0.2s; background: rgba(255,255,255,0.05); }
+        .nav-link-custom:hover { background: rgba(255,255,255,0.15); }
+        .nav-link-custom.active { background: rgba(255,255,255,0.2); }
+        .btn-primary-deep { background: linear-gradient(135deg, var(--primary-deep), #2c3e8f); border: none; color: white; font-weight: 600; border-radius: 40px; padding: 0.5rem 1.5rem; box-shadow: 0 6px 14px rgba(63, 81, 181, 0.25); }
+        .btn-primary-deep:hover { background: linear-gradient(135deg, #2c3e8f, var(--primary-deep)); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(63, 81, 181, 0.35); }
+        .btn-outline-primary-deep { background: transparent; border: 1.5px solid var(--primary-deep); color: var(--primary-deep); font-weight: 600; border-radius: 40px; padding: 0.4rem 1.2rem; }
+        .btn-outline-primary-deep:hover { background: var(--primary-deep); color: white; }
+        /* Tarjetas */
+        .filter-bar { background: white; border-radius: 60px; padding: 0.5rem 1rem; box-shadow: 0 8px 20px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; }
+        .forum-card { background: white; border-radius: 28px; padding: 1.8rem; box-shadow: 0 12px 24px -8px rgba(0,0,0,0.04); border: 1px solid #edf0f5; margin-bottom: 1.5rem; transition: all 0.2s; }
+        .forum-card:hover { box-shadow: 0 18px 30px -10px rgba(63,81,181,0.1); border-color: rgba(63,81,181,0.2); }
+        .sidebar-card { background: white; border-radius: 24px; padding: 1.5rem; box-shadow: 0 12px 24px -8px rgba(0,0,0,0.04); border: 1px solid #edf0f5; margin-bottom: 1.5rem; }
+        /* Avatar */
+        .avatar-circle { width: 52px; height: 52px; background: #eef2f9; border-radius: 18px; display: flex; align-items: center; justify-content: center; color: var(--primary-deep); font-weight: 700; font-size: 1.2rem; }
+        .category-badge { background: #e9ecf9; color: var(--primary-deep); padding: 0.3rem 1rem; border-radius: 30px; font-size: 0.75rem; font-weight: 600; }
+        /* Footer */
+        .footer-custom { background-color: var(--nav-bg); color: var(--light-text); }
+        .footer-custom a { color: var(--light-text) !important; text-decoration: none; }
+        .footer-custom a:hover { color: white !important; text-decoration: underline; }
+        .notification-badge { position: absolute; top: -5px; right: -5px; background-color: #ff4757; color: white; border-radius: 50%; padding: 0.25rem 0.45rem; font-size: 0.7rem; font-weight: bold; border: 2px solid white; }
+        .navbar-toggler-icon { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.95)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+        .hover-primary:hover { color: var(--primary-deep) !important; }
         .cursor-pointer { cursor: pointer; }
+        .interaction-btn { color: #5a6275; transition: all 0.15s; padding: 0.4rem 1rem; border-radius: 30px; background: #f8fafd; }
+        .interaction-btn:hover { background: var(--primary-deep); color: white; }
     </style>
 </head>
-<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+<body class="d-flex flex-column min-vh-100">
 
-    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
-        <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
-                <span class="display-5 me-3 lh-1">💼</span> 
-                <div class="lh-sm">
-                    <span class="text-white fw-bold d-block fs-3">Workly</span>
-                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
-                </div>
-            </a>
-
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                    <a href="../publicarvacante/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Publicar vacante</a>
-                    <a href="../misvacantes/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Mis vacantes</a>
-                    <a href="../postulaciones/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Ver postulaciones</a>
-                    <a href="../foro/index.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Foro</a>
-                    <a href="../resenaempresa/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Reseñas de postulantes</a>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                    <a href="../notificaciones/index.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
-                        <i class="bi bi-bell-fill fs-3"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
-                            2
-                            <span class="visually-hidden">notificaciones no leídas</span>
-                        </span>
-                    </a>
-                    
-                    <a href="../perfil/index.html" class="text-dark text-decoration-none d-inline-block">
-                        <i class="bi bi-person-circle fs-2"></i>
-                    </a>
-                </div>
+<!-- ========== NAVBAR MEJORADO ========== -->
+<nav class="navbar navbar-expand-lg py-3 navbar-custom">
+    <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
+            <i class="bi bi-briefcase-fill brand-icon"></i>
+            <div class="lh-sm ms-2">
+                <span class="brand-text">Workly</span>
+                <span class="brand-sub">Panel de Empresa</span>
+            </div>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-1">
+                <a href="../publicarvacante/index.html" class="nav-link-custom text-decoration-none"><i class="bi bi-plus-circle me-1"></i> Publicar</a>
+                <a href="../misvacantes/index.html" class="nav-link-custom text-decoration-none"><i class="bi bi-briefcase me-1"></i> Mis vacantes</a>
+                <a href="../postulaciones/index.html" class="nav-link-custom text-decoration-none"><i class="bi bi-people me-1"></i> Postulaciones</a>
+                <a href="../foro/index.html" class="nav-link-custom active text-decoration-none"><i class="bi bi-chat-dots me-1"></i> Foro</a>
+                <a href="../resenaempresa/index.html" class="nav-link-custom text-decoration-none"><i class="bi bi-star me-1"></i> Reseñas</a>
+            </div>
+            <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                <a href="../notificaciones/index.html" class="text-white position-relative d-inline-block">
+                    <i class="bi bi-bell-fill fs-3"></i>
+                    <span class="notification-badge">2</span>
+                </a>
+                <a href="../perfil/index.html" class="text-white d-inline-block">
+                    <i class="bi bi-person-circle fs-2"></i>
+                </a>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main class="flex-grow-1 py-4">
-        <div class="container-fluid px-4 px-lg-5">
-            
-            <div class="card bg-white border-0 shadow-sm p-3 mb-4 rounded-3 mt-2">
-                <div class="row g-3 align-items-center">
-                    <div class="col-12 col-md-auto">
-                        <button class="btn bg-info text-white bg-opacity-50 border-0 fw-bold px-5 py-2 rounded-3 w-100 shadow-none pointer-events-none">Foro</button>
-                    </div>
-                    <div class="col-12 col-md">
-                        <div class="input-group">
-                            <span class="input-group-text bg-secondary-subtle border-0 ps-4"><i class="bi bi-search text-muted"></i></span>
-                            <input type="text" class="form-control bg-secondary-subtle border-0 shadow-none py-2 text-muted fw-semibold" placeholder="Buscar tema, pregunta o publicación..." id="inputBuscarForo">
-                            <button class="btn bg-secondary-subtle text-dark border-0 fw-bold px-4 btn-accion" data-mensaje="Buscando en el foro...">Buscar</button>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-auto">
-                        <select class="form-select bg-primary-subtle text-dark fw-bold border-0 px-4 py-2 rounded-3 shadow-none w-100 text-center cursor-pointer btn-accion" data-mensaje="Filtro de categoría aplicado">
-                            <option selected>Todas las categorias</option>
-                            <option>Reclutamiento</option>
-                            <option>Consejos</option>
-                            <option>Networking</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-auto">
-                        <button class="btn btn-primary text-white fw-bold px-4 py-2 rounded-3 w-100 shadow-sm" id="btnNuevoTema">Nuevo tema <i class="bi bi-plus-circle ms-1"></i></button>
-                    </div>
-                </div>
+<!-- ========== MAIN ========== -->
+<main class="flex-grow-1 py-4">
+    <div class="container-fluid px-4 px-lg-5">
+        
+        <!-- Barra de búsqueda y filtros -->
+        <div class="filter-bar mb-4 p-3 d-flex align-items-center flex-wrap gap-3">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-chat-dots-fill fs-2 me-2" style="color: var(--primary-deep);"></i>
+                <h4 class="fw-bold mb-0" style="color: #121826;">Foro de Empresas</h4>
             </div>
+            <div class="ms-auto d-flex gap-2 flex-wrap">
+                <div class="input-group" style="max-width: 260px;">
+                    <span class="input-group-text bg-transparent border-0 text-muted"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control bg-transparent border-0 shadow-none" placeholder="Buscar tema..." id="inputBuscarForo">
+                </div>
+                <button class="btn btn-outline-primary-deep btn-accion" data-mensaje="Buscando en el foro...">Buscar</button>
+                <select class="form-select w-auto rounded-pill bg-light border-0 fw-medium btn-accion" data-mensaje="Filtro de categoría aplicado">
+                    <option selected>Todas las categorías</option>
+                    <option>Reclutamiento</option>
+                    <option>Consejos</option>
+                    <option>Networking</option>
+                </select>
+                <button class="btn btn-primary-deep" id="btnNuevoTema"><i class="bi bi-plus-circle me-1"></i> Nuevo tema</button>
+            </div>
+        </div>
 
-            <div class="row g-4">
+        <div class="row g-4">
+            
+            <!-- Columna principal: Publicaciones -->
+            <section class="col-12 col-lg-8">
                 
-                <section class="col-12 col-lg-8">
-                    
-                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 mb-4 border-top border-4 border-primary">
-                        <h5 class="fw-bold text-dark mb-3">Crear publicación</h5>
-                        <textarea id="textoPublicacion" class="form-control border bg-secondary-subtle bg-opacity-10 shadow-none p-3 mb-4 text-dark fw-semibold rounded-3" rows="3" placeholder="Comparte una pregunta, consejo o tema con la comunidad..."></textarea>
-                        
-                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
-                            <div class="d-flex flex-wrap gap-2">
-                                <span class="badge bg-primary-subtle text-dark rounded-3 px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer hover-primary">Reclutamiento</span>
-                                <span class="badge bg-primary-subtle text-dark rounded-3 px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer hover-primary">Vacantes</span>
-                                <span class="badge bg-primary-subtle text-dark rounded-3 px-3 py-2 border border-primary-subtle shadow-sm cursor-pointer hover-primary">Consejos</span>
-                            </div>
-                            <div class="d-flex gap-2">
-                                <button type="button" id="btnGuardarTema" class="btn btn-light bg-secondary-subtle border-0 text-dark fw-bold px-4 py-2 rounded-3">Guardar Borrador</button>
-                                <button type="button" id="btnPublicarTema" class="btn btn-primary fw-bold px-5 py-2 rounded-3 shadow-sm">Publicar</button>
-                            </div>
+                <!-- Caja de nueva publicación -->
+                <div class="forum-card">
+                    <div class="d-flex gap-3 mb-3">
+                        <div class="avatar-circle">TS</div>
+                        <div class="flex-grow-1">
+                            <textarea id="textoPublicacion" class="form-control border-0 bg-light p-3 rounded-4" rows="3" placeholder="Comparte una pregunta, consejo o tema con la comunidad..."></textarea>
                         </div>
                     </div>
-
-                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 p-lg-5 mb-4">
-                        <div class="d-flex gap-3 mb-3">
-                            <div class="bg-secondary-subtle rounded-circle p-2 d-inline-flex align-items-center justify-content-center flex-shrink-0" style="width: 45px; height: 45px;">
-                                <i class="bi bi-building fs-5 text-dark"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold text-dark mb-0">TechSolutions</h6>
-                                <span class="text-muted small fw-semibold">Hace 10 horas · Reclutamiento</span>
-                            </div>
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mt-2">
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="category-badge cursor-pointer">Reclutamiento</span>
+                            <span class="category-badge cursor-pointer">Vacantes</span>
+                            <span class="category-badge cursor-pointer">Consejos</span>
+                            <span class="category-badge cursor-pointer">Cultura</span>
                         </div>
-                        
-                        <h5 class="fw-bold text-dark mb-3">¿Qué preguntas recomiendan para una entrevista técnica?</h5>
-                        <p class="text-dark mb-4 lh-lg">Estamos contratando desarrolladores backend y queremos mejorar nuestro proceso de selección. ¿Qué preguntas técnicas o situacionales consideran útiles para evaluar experiencia real en APIs, bases de datos y resolución de problemas? Agradezco cualquier plantilla o consejo.</p>
-                        
-                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-3 border-top border-secondary border-opacity-10">
-                            <div class="text-muted small fw-bold d-flex gap-3">
-                                <span><i class="bi bi-chat-left-text me-1"></i> 15 respuestas</span>
-                                <span><i class="bi bi-eye me-1"></i> 42 vistas</span>
-                            </div>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-outline-primary fw-bold px-4 py-1 rounded-3 btn-responder" data-titulo="¿Qué preguntas recomiendan para una entrevista técnica?" data-bs-toggle="modal" data-bs-target="#modalResponder"><i class="bi bi-reply-fill me-1"></i> Responder</button>
-                                <button class="btn btn-light bg-secondary-subtle border-0 text-dark fw-bold px-4 py-1 rounded-3" id="btnGuardarPost"><i class="bi bi-bookmark me-1" id="iconoGuardarPost"></i> <span id="textoGuardarPost">Guardar</span></button>
-                            </div>
+                        <div class="d-flex gap-2">
+                            <button type="button" id="btnGuardarTema" class="btn btn-outline-primary-deep"><i class="bi bi-bookmark me-1"></i> Borrador</button>
+                            <button type="button" id="btnPublicarTema" class="btn btn-primary-deep"><i class="bi bi-send me-1"></i> Publicar</button>
                         </div>
                     </div>
-
-                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 p-lg-5 mb-4">
-                        <div class="d-flex gap-3 mb-3">
-                            <div class="bg-primary-subtle rounded-circle p-2 d-inline-flex align-items-center justify-content-center flex-shrink-0" style="width: 45px; height: 45px;">
-                                <i class="bi bi-briefcase fs-5 text-primary"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold text-dark mb-0">Innovate El Salvador</h6>
-                                <span class="text-muted small fw-semibold">Ayer · Cultura Laboral</span>
-                            </div>
-                        </div>
-                        
-                        <h5 class="fw-bold text-dark mb-3">Beneficios que realmente valoran los desarrolladores hoy en día</h5>
-                        <p class="text-dark mb-4 lh-lg">Más allá del salario competitivo, hemos notado que ofrecer modalidad híbrida y seguro médico ha incrementado nuestra retención de talento en un 40%. ¿Qué otros beneficios no tradicionales les han funcionado a ustedes para fidelizar a su equipo tech?</p>
-                        
-                        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-3 border-top border-secondary border-opacity-10">
-                            <div class="text-muted small fw-bold d-flex gap-3">
-                                <span><i class="bi bi-chat-left-text me-1"></i> 32 respuestas</span>
-                                <span><i class="bi bi-eye me-1"></i> 156 vistas</span>
-                            </div>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-outline-primary fw-bold px-4 py-1 rounded-3 btn-responder" data-titulo="Beneficios que realmente valoran los desarrolladores hoy en día" data-bs-toggle="modal" data-bs-target="#modalResponder"><i class="bi bi-reply-fill me-1"></i> Responder</button>
-                                <button class="btn btn-light bg-secondary-subtle border-0 text-dark fw-bold px-4 py-1 rounded-3 btn-accion" data-mensaje="Tema guardado en favoritos"><i class="bi bi-bookmark me-1"></i> Guardar</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </section>
-
-                <aside class="col-12 col-lg-4">
-                    
-                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 mb-4">
-                        <h6 class="fw-bold text-dark mb-2">Categorías populares</h6>
-                        <hr class="mt-0 mb-3 border-dark border-1 opacity-10">
-                        <div class="list-group list-group-flush small fw-bold text-dark lh-lg">
-                            <a href="#" class="list-group-item list-group-item-action border-0 d-flex justify-content-between px-0 hover-primary btn-accion" data-mensaje="Filtrando por: Reclutamiento"><span>Reclutamiento</span><span class="badge bg-secondary-subtle text-dark rounded-pill">24</span></a>
-                            <a href="#" class="list-group-item list-group-item-action border-0 d-flex justify-content-between px-0 hover-primary btn-accion" data-mensaje="Filtrando por: Vacantes"><span>Vacantes</span><span class="badge bg-secondary-subtle text-dark rounded-pill">18</span></a>
-                            <a href="#" class="list-group-item list-group-item-action border-0 d-flex justify-content-between px-0 hover-primary btn-accion" data-mensaje="Filtrando por: Entrevistas"><span>Entrevistas</span><span class="badge bg-secondary-subtle text-dark rounded-pill">13</span></a>
-                            <a href="#" class="list-group-item list-group-item-action border-0 d-flex justify-content-between px-0 hover-primary btn-accion" data-mensaje="Filtrando por: Consejos"><span>Consejos</span><span class="badge bg-secondary-subtle text-dark rounded-pill">11</span></a>
-                        </div>
-                    </div>
-
-                    <div class="card bg-white border-0 shadow-sm rounded-4 p-4 mb-4">
-                        <h6 class="fw-bold text-dark mb-2">Temas recientes</h6>
-                        <hr class="mt-0 mb-3 border-dark border-1 opacity-10">
-                        <div class="list-group list-group-flush small fw-bold text-dark lh-lg">
-                            <a href="#" class="list-group-item list-group-item-action border-0 px-0 text-truncate hover-primary btn-accion" data-mensaje="Cargando tema...">Mejores preguntas para entrevista técnica</a>
-                            <a href="#" class="list-group-item list-group-item-action border-0 px-0 text-truncate hover-primary btn-accion" data-mensaje="Cargando tema...">Cómo redactar vacantes más claras</a>
-                            <a href="#" class="list-group-item list-group-item-action border-0 px-0 text-truncate hover-primary btn-accion" data-mensaje="Cargando tema...">Filtros para revisar postulantes</a>
-                            <a href="#" class="list-group-item list-group-item-action border-0 px-0 text-truncate hover-primary btn-accion" data-mensaje="Cargando tema...">Consejos para marca empleadora</a>
-                        </div>
-                    </div>
-
-                    <div class="card bg-primary text-white border-0 shadow-sm rounded-4 p-4 mb-4 text-center">
-                        <i class="bi bi-chat-quote-fill display-4 mb-2 opacity-75"></i>
-                        <h6 class="fw-bold mb-2">Actividad del foro</h6>
-                        <div class="d-flex justify-content-between small fw-semibold border-bottom border-light border-opacity-25 pb-2 mb-2 mt-3">
-                            <span>Publicaciones hoy</span><span class="badge bg-white text-primary rounded-pill">12</span>
-                        </div>
-                        <div class="d-flex justify-content-between small fw-semibold border-bottom border-light border-opacity-25 pb-2 mb-2">
-                            <span>Respuestas nuevas</span><span class="badge bg-white text-primary rounded-pill">37</span>
-                        </div>
-                        <div class="d-flex justify-content-between small fw-semibold">
-                            <span>Temas guardados</span><span class="badge bg-white text-primary rounded-pill">9</span>
-                        </div>
-                    </div>
-
-                </aside>
-
-            </div>
-        </div>
-    </main>
-
-    <div class="modal fade" id="modalResponder" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 rounded-4 shadow-lg">
-                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
-                    <h5 class="modal-title fw-bold text-dark">Responder al tema</h5>
-                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body px-4 py-4">
-                    
-                    <div class="bg-secondary-subtle p-3 rounded-3 border border-secondary border-opacity-10 mb-4">
-                        <span class="text-dark small fw-bold">Respondiendo a:</span>
-                        <p class="text-muted small fw-semibold mb-0 fst-italic" id="tituloTemaResponder">Cargando título...</p>
-                    </div>
 
-                    <form>
-                        <div class="mb-4">
-                            <label class="form-label fw-bold text-dark">Tu respuesta:</label>
-                            <div class="border border-secondary border-opacity-25 rounded-3 overflow-hidden">
-                                <div class="bg-light border-bottom border-secondary border-opacity-25 p-2 d-flex gap-3 flex-wrap text-dark">
-                                    <i class="bi bi-type-bold fs-5 cursor-pointer"></i>
-                                    <i class="bi bi-type-italic fs-5 cursor-pointer"></i>
-                                    <span class="border-end border-secondary border-opacity-25 mx-1"></span>
-                                    <i class="bi bi-list-ul fs-5 cursor-pointer"></i>
-                                    <i class="bi bi-list-ol fs-5 cursor-pointer"></i>
-                                    <i class="bi bi-link-45deg fs-5 cursor-pointer"></i>
+                <!-- Publicación 1 -->
+                <div class="forum-card">
+                    <div class="d-flex gap-3 mb-3">
+                        <div class="avatar-circle">TS</div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="fw-bold mb-1">TechSolutions</h6>
+                                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                                        <span class="text-secondary small"><i class="bi bi-clock me-1"></i>Hace 10 horas</span>
+                                        <span class="category-badge">Reclutamiento</span>
+                                    </div>
                                 </div>
-                                <textarea class="form-control border-0 shadow-none p-3 text-muted" rows="5" placeholder="Comparte tu experiencia o consejo aquí..."></textarea>
+                                <i class="bi bi-three-dots-vertical text-secondary"></i>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-end gap-2">
-                            <button type="button" class="btn btn-light bg-secondary-subtle border-0 text-dark fw-bold px-4" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary fw-bold px-4 shadow-sm" data-bs-dismiss="modal" id="btnEnviarRespuesta">Publicar respuesta</button>
+                    </div>
+                    <h5 class="fw-bold mb-3">¿Qué preguntas recomiendan para una entrevista técnica?</h5>
+                    <p class="text-secondary mb-4">Estamos contratando desarrolladores backend y queremos mejorar nuestro proceso de selección. ¿Qué preguntas técnicas o situacionales consideran útiles para evaluar experiencia real en APIs, bases de datos y resolución de problemas?</p>
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-3 border-top">
+                        <div class="d-flex gap-3">
+                            <span class="interaction-btn"><i class="bi bi-chat-left-text me-1"></i> 15 respuestas</span>
+                            <span class="interaction-btn"><i class="bi bi-eye me-1"></i> 42 vistas</span>
                         </div>
-                    </form>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-primary-deep btn-responder" data-titulo="¿Qué preguntas recomiendan para una entrevista técnica?" data-bs-toggle="modal" data-bs-target="#modalResponder"><i class="bi bi-reply-fill me-1"></i> Responder</button>
+                            <button class="btn btn-outline-primary-deep" id="btnGuardarPost"><i class="bi bi-bookmark me-1" id="iconoGuardarPost"></i> <span id="textoGuardarPost">Guardar</span></button>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Publicación 2 -->
+                <div class="forum-card">
+                    <div class="d-flex gap-3 mb-3">
+                        <div class="avatar-circle" style="background: #e0e7ff; color: #2c3e8f;">IE</div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="fw-bold mb-1">Innovate El Salvador</h6>
+                                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                                        <span class="text-secondary small"><i class="bi bi-clock me-1"></i>Ayer</span>
+                                        <span class="category-badge">Cultura Laboral</span>
+                                    </div>
+                                </div>
+                                <i class="bi bi-three-dots-vertical text-secondary"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold mb-3">Beneficios que realmente valoran los desarrolladores</h5>
+                    <p class="text-secondary mb-4">Más allá del salario competitivo, hemos notado que ofrecer modalidad híbrida y seguro médico ha incrementado nuestra retención de talento en un 40%. ¿Qué otros beneficios no tradicionales les han funcionado?</p>
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pt-3 border-top">
+                        <div class="d-flex gap-3">
+                            <span class="interaction-btn"><i class="bi bi-chat-left-text me-1"></i> 32 respuestas</span>
+                            <span class="interaction-btn"><i class="bi bi-eye me-1"></i> 156 vistas</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-primary-deep btn-responder" data-titulo="Beneficios que realmente valoran los desarrolladores" data-bs-toggle="modal" data-bs-target="#modalResponder"><i class="bi bi-reply-fill me-1"></i> Responder</button>
+                            <button class="btn btn-outline-primary-deep btn-accion" data-mensaje="Tema guardado en favoritos"><i class="bi bi-bookmark me-1"></i> Guardar</button>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Sidebar derecho -->
+            <aside class="col-12 col-lg-4">
+                
+                <!-- Categorías populares -->
+                <div class="sidebar-card">
+                    <h6 class="fw-bold mb-3 d-flex align-items-center"><i class="bi bi-tags me-2" style="color: var(--primary-deep);"></i>Categorías populares</h6>
+                    <div class="d-flex flex-column gap-2">
+                        <a href="#" class="d-flex justify-content-between text-decoration-none text-dark fw-medium btn-accion p-2 rounded-3" data-mensaje="Filtrando por: Reclutamiento"><span>Reclutamiento</span><span class="badge bg-light px-3 py-1">24</span></a>
+                        <a href="#" class="d-flex justify-content-between text-decoration-none text-dark fw-medium btn-accion p-2 rounded-3" data-mensaje="Filtrando por: Vacantes"><span>Vacantes</span><span class="badge bg-light px-3 py-1">18</span></a>
+                        <a href="#" class="d-flex justify-content-between text-decoration-none text-dark fw-medium btn-accion p-2 rounded-3" data-mensaje="Filtrando por: Entrevistas"><span>Entrevistas</span><span class="badge bg-light px-3 py-1">13</span></a>
+                        <a href="#" class="d-flex justify-content-between text-decoration-none text-dark fw-medium btn-accion p-2 rounded-3" data-mensaje="Filtrando por: Consejos"><span>Consejos</span><span class="badge bg-light px-3 py-1">11</span></a>
+                    </div>
+                </div>
+
+                <!-- Temas recientes -->
+                <div class="sidebar-card">
+                    <h6 class="fw-bold mb-3 d-flex align-items-center"><i class="bi bi-clock-history me-2" style="color: var(--primary-deep);"></i>Temas recientes</h6>
+                    <div class="d-flex flex-column gap-3">
+                        <a href="#" class="text-decoration-none text-dark fw-medium btn-accion d-block" data-mensaje="Cargando tema...">Mejores preguntas para entrevista técnica</a>
+                        <a href="#" class="text-decoration-none text-dark fw-medium btn-accion d-block" data-mensaje="Cargando tema...">Cómo redactar vacantes más claras</a>
+                        <a href="#" class="text-decoration-none text-dark fw-medium btn-accion d-block" data-mensaje="Cargando tema...">Filtros para revisar postulantes</a>
+                        <a href="#" class="text-decoration-none text-dark fw-medium btn-accion d-block" data-mensaje="Cargando tema...">Consejos para marca empleadora</a>
+                    </div>
+                </div>
+
+                <!-- Actividad del foro -->
+                <div class="sidebar-card text-center" style="background: linear-gradient(145deg, var(--primary-deep), #2c3e8f); color: white;">
+                    <i class="bi bi-chat-quote-fill display-4 mb-2 opacity-50"></i>
+                    <h6 class="fw-bold mb-3">Actividad del foro</h6>
+                    <div class="d-flex justify-content-between small fw-semibold border-bottom border-light border-opacity-25 pb-2 mb-2">
+                        <span>Publicaciones hoy</span><span class="badge bg-white text-dark rounded-pill">12</span>
+                    </div>
+                    <div class="d-flex justify-content-between small fw-semibold border-bottom border-light border-opacity-25 pb-2 mb-2">
+                        <span>Respuestas nuevas</span><span class="badge bg-white text-dark rounded-pill">37</span>
+                    </div>
+                    <div class="d-flex justify-content-between small fw-semibold">
+                        <span>Temas guardados</span><span class="badge bg-white text-dark rounded-pill">9</span>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+    </div>
+</main>
+
+<!-- ========== MODAL RESPONDER (conservado) ========== -->
+<div class="modal fade" id="modalResponder" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 rounded-4 shadow-lg">
+            <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                <h5 class="modal-title fw-bold">Responder al tema</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-4 py-4">
+                <div class="bg-light p-3 rounded-4 mb-4">
+                    <span class="text-secondary small fw-semibold">Respondiendo a:</span>
+                    <p class="fw-medium mb-0 fst-italic" id="tituloTemaResponder">Cargando título...</p>
+                </div>
+                <form>
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold small">Tu respuesta:</label>
+                        <div class="border rounded-4 overflow-hidden">
+                            <div class="bg-light border-bottom p-2 d-flex gap-3 text-secondary">
+                                <i class="bi bi-type-bold cursor-pointer"></i>
+                                <i class="bi bi-type-italic cursor-pointer"></i>
+                                <i class="bi bi-link-45deg cursor-pointer"></i>
+                            </div>
+                            <textarea class="form-control border-0 shadow-none p-3" rows="5" placeholder="Comparte tu experiencia o consejo aquí..."></textarea>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary-deep" data-bs-dismiss="modal" id="btnEnviarRespuesta">Publicar respuesta</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="toastAccion" class="toast align-items-center text-white bg-info bg-opacity-75 border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body fs-6 py-3 fw-bold text-dark" id="toastTexto">
-                    <i class="bi bi-info-circle-fill me-2 fs-5"></i> Acción realizada.
-                </div>
-                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-        </div>
-
-        <div id="toastExito" class="toast align-items-center text-white bg-success border-0 rounded-3 shadow" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body fs-6 py-3 fw-semibold" id="toastExitoTexto">
-                    <i class="bi bi-check-circle-fill me-2 fs-5"></i> ¡Realizado con éxito!
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
+<!-- ========== TOASTS (conservados) ========== -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastAccion" class="toast align-items-center text-white border-0 rounded-4 shadow mb-2" role="alert" style="background-color: var(--primary-deep);">
+        <div class="d-flex">
+            <div class="toast-body fs-6 py-3 fw-semibold" id="toastTexto">Acción realizada.</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
         </div>
     </div>
-
-    <footer class="py-4 mt-auto bg-secondary">
-        <div class="container text-center">
-            <div class="d-flex justify-content-center gap-5">
-                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
-                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
-                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2026</span>
-            </div>
+    <div id="toastExito" class="toast align-items-center text-white bg-success border-0 rounded-4 shadow" role="alert">
+        <div class="d-flex">
+            <div class="toast-body fs-6 py-3 fw-semibold" id="toastExitoTexto">¡Realizado con éxito!</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
         </div>
-    </footer>
+    </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- ========== FOOTER ========== -->
+<footer class="py-4 mt-auto footer-custom">
+    <div class="container text-center">
+        <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
+            <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
+            <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
+            <a href="#">Términos</a>
+            <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
+        </div>
+    </div>
+</footer>
 
-    <script>
-        // 1. Funcionalidad genérica para botones y enlaces de acción rápida
-        const botonesAccion = document.querySelectorAll('.btn-accion');
-        const toastElement = document.getElementById('toastAccion');
-        const toastTexto = document.getElementById('toastTexto');
-        const toastGen = new bootstrap.Toast(toastElement);
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-        botonesAccion.forEach(function(boton) {
-            boton.addEventListener('click', function(e) {
-                e.preventDefault();
-                const mensaje = this.getAttribute('data-mensaje');
-                toastTexto.innerHTML = `<i class="bi bi-info-circle-fill me-2 fs-5"></i> ${mensaje}`;
-                toastGen.show();
+<!-- ========== SCRIPT ORIGINAL (CONSERVADO ÍNTEGRAMENTE) ========== -->
+<script>
+    // 1. Funcionalidad genérica para botones y enlaces de acción rápida
+    const botonesAccion = document.querySelectorAll('.btn-accion');
+    const toastElement = document.getElementById('toastAccion');
+    const toastTexto = document.getElementById('toastTexto');
+    const toastGen = new bootstrap.Toast(toastElement);
+
+    botonesAccion.forEach(function(boton) {
+        boton.addEventListener('click', function(e) {
+            e.preventDefault();
+            const mensaje = this.getAttribute('data-mensaje');
+            toastTexto.innerHTML = `<i class="bi bi-info-circle-fill me-2 fs-5"></i> ${mensaje}`;
+            toastGen.show();
+        });
+    });
+
+    // 2. Scroll al hacer clic en "Nuevo tema"
+    document.getElementById('btnNuevoTema').addEventListener('click', function() {
+        const textarea = document.getElementById('textoPublicacion');
+        textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        textarea.focus();
+    });
+
+    // 3. Guardar Borrador Tema
+    document.getElementById('btnGuardarTema').addEventListener('click', function() {
+        const toastExitoEl = document.getElementById('toastExito');
+        document.getElementById('toastExitoTexto').innerHTML = `<i class="bi bi-floppy-fill me-2 fs-5"></i> Borrador guardado correctamente.`;
+        const toastEx = new bootstrap.Toast(toastExitoEl);
+        toastEx.show();
+    });
+
+    // 4. Publicar Tema (Limpia la caja)
+    document.getElementById('btnPublicarTema').addEventListener('click', function() {
+        const textarea = document.getElementById('textoPublicacion');
+        if(textarea.value.trim() === '') {
+            toastTexto.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i> Escribe algo antes de publicar.`;
+            toastGen.show();
+            return;
+        }
+        
+        textarea.value = '';
+        const toastExitoEl = document.getElementById('toastExito');
+        document.getElementById('toastExitoTexto').innerHTML = `<i class="bi bi-send-check-fill me-2 fs-5"></i> ¡Tema publicado con éxito en el foro!`;
+        const toastEx = new bootstrap.Toast(toastExitoEl);
+        toastEx.show();
+    });
+
+    // 5. Llenar Modal de Responder dinámicamente
+    const botonesResponder = document.querySelectorAll('.btn-responder');
+    botonesResponder.forEach(function(boton) {
+        boton.addEventListener('click', function() {
+            const titulo = this.getAttribute('data-titulo');
+            document.getElementById('tituloTemaResponder').textContent = `"${titulo}"`;
+        });
+    });
+
+    // 6. Publicar Respuesta desde el Modal
+    document.getElementById('btnEnviarRespuesta').addEventListener('click', function() {
+        const toastExitoEl = document.getElementById('toastExito');
+        document.getElementById('toastExitoTexto').innerHTML = `<i class="bi bi-reply-all-fill me-2 fs-5"></i> ¡Respuesta publicada con éxito!`;
+        const toastEx = new bootstrap.Toast(toastExitoEl);
+        toastEx.show();
+    });
+
+    // 7. Guardar Post específico (SOLO cambia ícono y texto)
+    document.getElementById('btnGuardarPost').addEventListener('click', function() {
+        const icono = document.getElementById('iconoGuardarPost');
+        const texto = document.getElementById('textoGuardarPost');
+        
+        icono.classList.remove('bi-bookmark');
+        icono.classList.add('bi-bookmark-check-fill');
+        texto.textContent = 'Guardado';
+        
+        const toastExitoEl = document.getElementById('toastExito');
+        document.getElementById('toastExitoTexto').innerHTML = `<i class="bi bi-bookmark-check-fill me-2 fs-5"></i> Tema guardado en tus favoritos.`;
+        const toastEx = new bootstrap.Toast(toastExitoEl);
+        toastEx.show();
+    });
+</script>
+
+<!-- Interactividad adicional para categorías -->
+<script>
+    (function() {
+        // Marcar categoría seleccionada al hacer clic
+        document.querySelectorAll('.category-badge').forEach(badge => {
+            badge.addEventListener('click', function() {
+                document.querySelectorAll('.category-badge').forEach(b => {
+                    b.style.background = '#e9ecf9';
+                    b.style.color = 'var(--primary-deep)';
+                });
+                this.style.background = 'var(--primary-deep)';
+                this.style.color = 'white';
             });
         });
-
-        // 2. Scroll al hacer clic en "Nuevo tema"
-        document.getElementById('btnNuevoTema').addEventListener('click', function() {
-            const textarea = document.getElementById('textoPublicacion');
-            textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            textarea.focus();
-        });
-
-        // 3. Guardar Borrador Tema
-        document.getElementById('btnGuardarTema').addEventListener('click', function() {
-            const toastExitoEl = document.getElementById('toastExito');
-            document.getElementById('toastExitoTexto').innerHTML = `<i class="bi bi-floppy-fill me-2 fs-5"></i> Borrador guardado correctamente.`;
-            const toastEx = new bootstrap.Toast(toastExitoEl);
-            toastEx.show();
-        });
-
-        // 4. Publicar Tema (Limpia la caja)
-        document.getElementById('btnPublicarTema').addEventListener('click', function() {
-            const textarea = document.getElementById('textoPublicacion');
-            if(textarea.value.trim() === '') {
-                toastTexto.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i> Escribe algo antes de publicar.`;
-                toastGen.show();
-                return;
-            }
-            
-            textarea.value = '';
-            const toastExitoEl = document.getElementById('toastExito');
-            document.getElementById('toastExitoTexto').innerHTML = `<i class="bi bi-send-check-fill me-2 fs-5"></i> ¡Tema publicado con éxito en el foro!`;
-            const toastEx = new bootstrap.Toast(toastExitoEl);
-            toastEx.show();
-        });
-
-        // 5. Llenar Modal de Responder dinámicamente
-        const botonesResponder = document.querySelectorAll('.btn-responder');
-        botonesResponder.forEach(function(boton) {
-            boton.addEventListener('click', function() {
-                const titulo = this.getAttribute('data-titulo');
-                document.getElementById('tituloTemaResponder').textContent = `"${titulo}"`;
-            });
-        });
-
-        // 6. Publicar Respuesta desde el Modal
-        document.getElementById('btnEnviarRespuesta').addEventListener('click', function() {
-            const toastExitoEl = document.getElementById('toastExito');
-            document.getElementById('toastExitoTexto').innerHTML = `<i class="bi bi-reply-all-fill me-2 fs-5"></i> ¡Respuesta publicada con éxito!`;
-            const toastEx = new bootstrap.Toast(toastExitoEl);
-            toastEx.show();
-        });
-
-        // 7. Guardar Post específico (SOLO cambia ícono y texto)
-        document.getElementById('btnGuardarPost').addEventListener('click', function() {
-            const icono = document.getElementById('iconoGuardarPost');
-            const texto = document.getElementById('textoGuardarPost');
-            
-            icono.classList.remove('bi-bookmark');
-            icono.classList.add('bi-bookmark-check-fill');
-            texto.textContent = 'Guardado';
-            
-            // Lanza toast
-            const toastExitoEl = document.getElementById('toastExito');
-            document.getElementById('toastExitoTexto').innerHTML = `<i class="bi bi-bookmark-check-fill me-2 fs-5"></i> Tema guardado en tus favoritos.`;
-            const toastEx = new bootstrap.Toast(toastExitoEl);
-            toastEx.show();
-        });
-    </script>
+    })();
+</script>
 </body>
 </html>

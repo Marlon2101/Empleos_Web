@@ -3,214 +3,547 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly - Mis Vacantes</title>
+    <title>Workly · Mis Vacantes</title>
+    <!-- Bootstrap + Iconos -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Fuente Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        :root {
+            --primary-deep: #3f51b5;
+            --nav-bg: #011671;
+            --soft-accent: #f1ebd9;
+            --light-text: #e2e4e8;
+            --body-bg: #f0f4fe;
+        }
+        body {
+            background: linear-gradient(145deg, #eef2f9 0%, #f9fafc 100%);
+        }
+        /* Navbar personalizado */
+        .navbar-custom {
+            background-color: var(--nav-bg) !important;
+            box-shadow: 0 6px 20px rgba(1, 22, 113, 0.15);
+        }
+        .navbar-brand .brand-icon {
+            font-size: 3.5rem;
+            color: white;
+            margin-right: 0.75rem;
+        }
+        .navbar-brand .brand-text {
+            color: white;
+            font-weight: 700;
+            font-size: 2rem;
+            line-height: 1.2;
+        }
+        .navbar-brand .brand-sub {
+            color: var(--light-text);
+            font-size: 0.95rem;
+        }
+        .nav-link-custom {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            transition: all 0.2s;
+            background: rgba(255,255,255,0.05);
+        }
+        .nav-link-custom:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .nav-link-custom.active {
+            background: rgba(255,255,255,0.2);
+        }
+        .btn-primary-deep {
+            background: linear-gradient(135deg, var(--primary-deep), #2c3e8f);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.25s ease;
+            border-radius: 40px;
+            padding: 0.6rem 1.8rem;
+            box-shadow: 0 6px 14px rgba(63, 81, 181, 0.25);
+        }
+        .btn-primary-deep:hover {
+            background: linear-gradient(135deg, #2c3e8f, var(--primary-deep));
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(63, 81, 181, 0.35);
+            color: white;
+        }
+        /* Tarjetas y filtros */
+        .filter-bar {
+            background: white;
+            border-radius: 60px;
+            padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .vacancy-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.03);
+            border: 1px solid #eef2f6;
+            transition: all 0.2s;
+            margin-bottom: 1rem;
+        }
+        .vacancy-card:hover {
+            box-shadow: 0 20px 30px -10px rgba(63,81,181,0.12);
+            border-color: var(--primary-deep);
+            transform: translateY(-3px);
+        }
+        .sidebar-card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem;
+            box-shadow: 0 15px 25px -8px rgba(0,0,0,0.04);
+            border: 1px solid #eef2f9;
+        }
+        .status-badge {
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+        .status-active {
+            background: #e3f7e8;
+            color: #1e7e34;
+        }
+        .status-closed {
+            background: #fde7e7;
+            color: #dc3545;
+        }
+        /* Footer */
+        .footer-custom {
+            background-color: var(--nav-bg);
+            color: var(--light-text);
+        }
+        .footer-custom a {
+            color: var(--light-text) !important;
+            text-decoration: none;
+        }
+        .footer-custom a:hover {
+            color: white !important;
+            text-decoration: underline;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff4757;
+            color: white;
+            border-radius: 50%;
+            padding: 0.25rem 0.45rem;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.95)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+    </style>
 </head>
-<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+<body class="d-flex flex-column min-vh-100">
 
-    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
-        <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
-                <span class="display-5 me-3 lh-1">💼</span> 
-                <div class="lh-sm">
-                    <span class="text-white fw-bold d-block fs-3">Workly</span>
-                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
-                </div>
-            </a>
-
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                    <a href="../publicarvacante/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Publicar vacante</a>
-                    <a href="../misvacantes/index.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold shadow-none">Mis vacantes</a>
-                    <a href="../postulaciones/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Ver postulaciones</a>
-                    <a href="../foro/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Foro</a>
-                    <a href="../resenaempresa/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Reseñas de postulantes</a>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                    <a href="../notificaciones/index.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
-                        <i class="bi bi-bell-fill fs-3"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
-                            2
-                            <span class="visually-hidden">notificaciones no leídas</span>
-                        </span>
-                    </a>
-                    
-                    <a href="../perfil/index.html" class="text-dark text-decoration-none d-inline-block">
-                        <i class="bi bi-person-circle fs-2"></i>
-                    </a>
-                </div>
+<!-- ========== NAVBAR MEJORADO ========== -->
+<nav class="navbar navbar-expand-lg py-3 navbar-custom">
+    <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
+            <i class="bi bi-briefcase-fill brand-icon"></i>
+            <div class="lh-sm ms-2">
+                <span class="brand-text">Workly</span>
+                <span class="brand-sub">Panel de Empresa</span>
             </div>
-        </div>
-    </nav>
+        </a>
 
-    <main class="flex-grow-1 py-4">
-        <div class="container-fluid px-4 px-lg-5">
-            
-            <div class="card bg-white border-0 shadow-sm p-3 mb-4 rounded-4 mt-2">
-                <div class="row g-3 align-items-center">
-                    
-                    <div class="col-12 col-md-auto">
-                        <button class="btn bg-primary-subtle text-dark fw-bold px-4 py-2 rounded-3 w-100 fs-5 border-0 shadow-none pointer-events-none">Mis Vacantes</button>
-                    </div>
-                    
-                    <div class="col-12 col-md">
-                        <div class="input-group">
-                            <span class="input-group-text bg-secondary-subtle border-0 ps-4"><i class="bi bi-search text-muted"></i></span>
-                            <input type="text" class="form-control bg-secondary-subtle border-0 shadow-none py-2 text-muted fw-semibold" placeholder="Buscar vacante por nombre">
-                        </div>
-                    </div>
-                    
-                    <div class="col-12 col-md-auto ms-md-auto">
-                        <div class="bg-secondary bg-opacity-10 rounded-4 p-2 d-flex align-items-center justify-content-center gap-3 px-4">
-                            <span class="text-dark fw-semibold">Estado</span>
-                            <span class="badge bg-success rounded-pill px-4 py-2 shadow-sm cursor-pointer border border-success">Activa</span>
-                            <span class="badge bg-danger rounded-pill px-4 py-2 shadow-sm cursor-pointer border border-danger">Cerrada</span>
-                        </div>
-                    </div>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                </div>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-1">
+                <a href="../publicarvacante/index.html" class="nav-link-custom text-decoration-none">
+                    <i class="bi bi-plus-circle me-1"></i> Publicar
+                </a>
+                <a href="../misvacantes/index.html" class="nav-link-custom active text-decoration-none">
+                    <i class="bi bi-briefcase me-1"></i> Mis vacantes
+                </a>
+                <a href="../postulaciones/index.html" class="nav-link-custom text-decoration-none">
+                    <i class="bi bi-people me-1"></i> Postulaciones
+                </a>
+                <a href="../foro/index.html" class="nav-link-custom text-decoration-none">
+                    <i class="bi bi-chat-dots me-1"></i> Foro
+                </a>
+                <a href="../resenaempresa/index.html" class="nav-link-custom text-decoration-none">
+                    <i class="bi bi-star me-1"></i> Reseñas
+                </a>
             </div>
 
-            <div class="row g-4">
-                
-                <aside class="col-12 col-lg-3">
-                    <div class="card bg-white border-0 shadow-sm rounded-4 overflow-hidden mb-4">
-                        <div class="bg-primary-subtle text-dark fw-bold px-4 py-3 fs-5">
-                            Panel Principal
-                        </div>
-                        <div class="list-group list-group-flush py-3">
-                            <a href="../principal/index.html" class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3 text-dark fw-semibold px-4 py-3">
-                                <i class="bi bi-grid-fill fs-4"></i> Vista General
-                            </a>
-                            <a href="../misvacantes/index.html" class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3 text-primary fw-bold fs-4 px-4 py-3 bg-light">
-                                <i class="bi bi-briefcase-fill fs-3"></i> Mis vacantes
-                            </a>
-                            <a href="../postulaciones/index.html" class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3 text-dark fw-semibold px-4 py-3">
-                                <i class="bi bi-people-fill fs-4"></i> Postulantes
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action border-0 d-flex align-items-center gap-3 text-dark fw-semibold px-4 py-3" data-bs-toggle="modal" data-bs-target="#modalEstadisticas">
-                                <i class="bi bi-graph-up fs-4"></i> Estadísticas
-                            </a>
-                        </div>
-                    </div>
-                </aside>
-
-                <section class="col-12 col-lg-9">
-                    
-                    <div class="card bg-white border-0 shadow-sm rounded-4 mb-4 position-relative">
-                        <div class="card-header bg-secondary bg-opacity-10 border-0 pt-3 pb-2 px-4 rounded-top-4">
-                            <div class="row fw-bold text-dark fs-5">
-                                <div class="col-12 col-md-6 mb-2 mb-md-0">Puesto</div>
-                                <div class="col-6 col-md-3 text-md-center">Estado</div>
-                                <div class="col-6 col-md-3 text-md-center">Fecha</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="contenedorVacantes">
-                        <div class="text-center p-5 text-muted">Cargando vacantes...</div>
-                    </div>
-
-                </section>
-
-            </div>
-        </div>
-    </main>
-
-    <div class="modal fade" id="modalEstadisticas" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 rounded-4 shadow-lg">
-                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
-                    <h4 class="modal-title fw-bold text-dark">Estadísticas de Mis Vacantes</h4>
-                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body px-4 py-4">
-                    
-                    <div class="row g-4 mb-5">
-                        <div class="col-12 col-md-4">
-                            <div class="bg-primary-subtle p-4 rounded-4 text-center h-100 border border-primary border-opacity-10">
-                                <i class="bi bi-eye-fill fs-1 text-primary mb-2"></i>
-                                <h2 class="fw-bold text-dark mb-1">1,245</h2>
-                                <p class="text-muted small fw-bold mb-0">Vistas totales este mes</p>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="bg-success bg-opacity-25 p-4 rounded-4 text-center h-100 border border-success border-opacity-10">
-                                <i class="bi bi-person-plus-fill fs-1 text-success mb-2"></i>
-                                <h2 class="fw-bold text-dark mb-1">128</h2>
-                                <p class="text-muted small fw-bold mb-0">Postulantes recibidos</p>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="bg-warning bg-opacity-25 p-4 rounded-4 text-center h-100 border border-warning border-opacity-10">
-                                <i class="bi bi-lightning-fill fs-1 text-warning mb-2"></i>
-                                <h2 class="fw-bold text-dark mb-1">10.2%</h2>
-                                <p class="text-muted small fw-bold mb-0">Tasa de conversión</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h6 class="fw-bold text-dark mb-3">Rendimiento de vacantes activas</h6>
-                    <div class="card border border-secondary border-opacity-25 rounded-3 shadow-none">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent py-3">
-                                <div>
-                                    <span class="fw-bold text-dark d-block">Desarrollador Frontend</span>
-                                    <span class="small text-muted fw-semibold">Publicado el 23/Abril/2026</span>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-primary rounded-pill px-3 py-2 mb-1 shadow-sm">65 postulantes</span>
-                                    <div class="small text-muted fw-semibold">800 vistas</div>
-                                </div>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent py-3">
-                                <div>
-                                    <span class="fw-bold text-dark d-block">UX/UI Designer</span>
-                                    <span class="small text-muted fw-semibold">Publicado el 20/Abril/2026</span>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-primary rounded-pill px-3 py-2 mb-1 shadow-sm">42 postulantes</span>
-                                    <div class="small text-muted fw-semibold">310 vistas</div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                </div>
-                <div class="modal-footer border-top-0 px-4 pb-4">
-                    <button type="button" class="btn btn-primary fw-bold px-5 py-2 rounded-3 w-100" data-bs-dismiss="modal">Entendido</button>
-                </div>
+            <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                <a href="../notificaciones/index.html" class="text-white position-relative d-inline-block">
+                    <i class="bi bi-bell-fill fs-3"></i>
+                    <span class="notification-badge">2</span>
+                </a>
+                <a href="../perfil/index.html" class="text-white d-inline-block">
+                    <i class="bi bi-person-circle fs-2"></i>
+                </a>
             </div>
         </div>
     </div>
+</nav>
 
-    <footer class="py-4 mt-auto bg-secondary">
-        <div class="container text-center">
-            <div class="d-flex justify-content-center gap-5">
-                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
-                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
-                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2026</span>
+<!-- ========== MAIN ========== -->
+<main class="flex-grow-1 py-4">
+    <div class="container-fluid px-4 px-lg-5">
+        
+        <!-- Barra de filtros y búsqueda -->
+        <div class="filter-bar mb-4 d-flex align-items-center flex-wrap">
+            <div class="d-flex align-items-center me-auto">
+                <i class="bi bi-briefcase-fill fs-3 me-3" style="color: var(--primary-deep);"></i>
+                <h4 class="fw-bold mb-0" style="color: #121826;">Mis Vacantes</h4>
+            </div>
+            <div class="d-flex gap-2 align-items-center mt-2 mt-sm-0">
+                <div class="input-group" style="max-width: 260px;">
+                    <span class="input-group-text bg-transparent border-0 text-muted">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" class="form-control bg-transparent border-0 shadow-none" 
+                           placeholder="Buscar por título...">
+                </div>
+                <div class="d-flex gap-2">
+                    <span class="status-badge status-active cursor-pointer">Activas</span>
+                    <span class="status-badge status-closed cursor-pointer">Cerradas</span>
+                </div>
             </div>
         </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="./app.js"></script>
-    
-    <style>
-        .hover-shadow:hover {
-            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
-            transform: translateY(-2px);
-        }
-        .transition-all {
-            transition: all .2s ease-in-out;
-        }
-    </style>
+        <div class="row g-4">
+            
+            <!-- Sidebar -->
+            <aside class="col-12 col-lg-3">
+                <div class="sidebar-card">
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <div class="bg-light p-3 rounded-4">
+                            <i class="bi bi-bar-chart-line fs-3" style="color: var(--primary-deep);"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0">Resumen</h6>
+                            <span class="text-secondary small">Últimos 30 días</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between small fw-medium mb-1">
+                            <span>Vistas totales</span>
+                            <span class="fw-bold">1,245</span>
+                        </div>
+                        <div class="progress" style="height: 6px; border-radius: 10px;">
+                            <div class="progress-bar" style="width: 75%; background: var(--primary-deep);"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between small fw-medium mb-1">
+                            <span>Postulantes</span>
+                            <span class="fw-bold">128</span>
+                        </div>
+                        <div class="progress" style="height: 6px; border-radius: 10px;">
+                            <div class="progress-bar" style="width: 60%; background: #2ecc71;"></div>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-3">
+                    
+                    <div class="list-group list-group-flush">
+                        <a href="../principal/index.html" class="list-group-item border-0 px-0 py-2 d-flex align-items-center gap-2 text-secondary">
+                            <i class="bi bi-grid"></i> Vista general
+                        </a>
+                        <a href="../misvacantes/index.html" class="list-group-item border-0 px-0 py-2 d-flex align-items-center gap-2 fw-bold" style="color: var(--primary-deep);">
+                            <i class="bi bi-briefcase-fill"></i> Mis vacantes
+                        </a>
+                        <a href="../postulaciones/index.html" class="list-group-item border-0 px-0 py-2 d-flex align-items-center gap-2 text-secondary">
+                            <i class="bi bi-people"></i> Postulantes
+                        </a>
+                        <a href="#" class="list-group-item border-0 px-0 py-2 d-flex align-items-center gap-2 text-secondary" data-bs-toggle="modal" data-bs-target="#modalEstadisticas">
+                            <i class="bi bi-graph-up"></i> Estadísticas
+                        </a>
+                    </div>
+                    
+                    <button class="btn btn-outline-primary w-100 mt-4 rounded-pill" onclick="window.location.href='../publicarvacante/index.html'">
+                        <i class="bi bi-plus-lg me-1"></i> Nueva vacante
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Lista de vacantes (contenedor dinámico) -->
+            <section class="col-12 col-lg-9">
+                <!-- Cabecera de tabla -->
+                <div class="d-none d-md-grid mb-2 px-3" style="grid-template-columns: 3fr 1fr 1fr 1fr; gap: 1rem;">
+                    <span class="fw-semibold text-secondary small">PUESTO</span>
+                    <span class="fw-semibold text-secondary small">ESTADO</span>
+                    <span class="fw-semibold text-secondary small">POSTULANTES</span>
+                    <span class="fw-semibold text-secondary small">FECHA</span>
+                </div>
+
+                <!-- Contenedor donde app.js renderiza las vacantes -->
+                <div id="contenedorVacantes">
+                    <!-- Vacante de ejemplo (se reemplazará dinámicamente) -->
+                    <div class="vacancy-card">
+                        <div class="row align-items-center g-3">
+                            <div class="col-12 col-md-5">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="bg-light p-2 rounded-3">
+                                        <i class="bi bi-code-slash fs-5" style="color: var(--primary-deep);"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-0">Desarrollador Frontend React</h6>
+                                        <span class="text-secondary small">San Salvador · Remoto</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <span class="status-badge status-active">Activa</span>
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <span class="fw-bold">24</span> <span class="text-secondary small">postulantes</span>
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <span class="text-secondary small">Publicada: 15/04/2026</span>
+                            </div>
+                            <div class="col-6 col-md-1 text-end">
+                                <div class="dropdown">
+                                    <button class="btn btn-light btn-sm rounded-pill px-3" data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow rounded-3">
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>Ver detalles</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Editar</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-archive me-2"></i>Cerrar vacante</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="vacancy-card">
+                        <div class="row align-items-center g-3">
+                            <div class="col-12 col-md-5">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="bg-light p-2 rounded-3">
+                                        <i class="bi bi-palette fs-5" style="color: var(--primary-deep);"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-0">Diseñador UI/UX Senior</h6>
+                                        <span class="text-secondary small">Santa Ana · Híbrido</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <span class="status-badge status-active">Activa</span>
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <span class="fw-bold">18</span> <span class="text-secondary small">postulantes</span>
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <span class="text-secondary small">Publicada: 10/04/2026</span>
+                            </div>
+                            <div class="col-6 col-md-1 text-end">
+                                <div class="dropdown">
+                                    <button class="btn btn-light btn-sm rounded-pill px-3" data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow rounded-3">
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>Ver detalles</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Editar</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-archive me-2"></i>Cerrar vacante</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vacancy-card">
+                        <div class="row align-items-center g-3">
+                            <div class="col-12 col-md-5">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="bg-light p-2 rounded-3">
+                                        <i class="bi bi-database fs-5" style="color: var(--primary-deep);"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-0">Backend Developer Node.js</h6>
+                                        <span class="text-secondary small">San Miguel · Remoto</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <span class="status-badge status-closed">Cerrada</span>
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <span class="fw-bold">32</span> <span class="text-secondary small">postulantes</span>
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <span class="text-secondary small">Publicada: 01/04/2026</span>
+                            </div>
+                            <div class="col-6 col-md-1 text-end">
+                                <div class="dropdown">
+                                    <button class="btn btn-light btn-sm rounded-pill px-3" data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow rounded-3">
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i>Ver detalles</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-repeat me-2"></i>Reabrir</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mensaje cuando no hay vacantes (se mostrará dinámicamente) -->
+                <div id="sinVacantes" class="text-center p-5 d-none">
+                    <i class="bi bi-inbox fs-1 text-secondary mb-3"></i>
+                    <h6 class="fw-bold">No tienes vacantes publicadas</h6>
+                    <p class="text-secondary small">Comienza publicando tu primera oferta de empleo</p>
+                    <button class="btn btn-primary-deep mt-2" onclick="window.location.href='../publicarvacante/index.html'">
+                        <i class="bi bi-plus-lg me-1"></i> Publicar vacante
+                    </button>
+                </div>
+
+            </section>
+
+        </div>
+    </div>
+</main>
+
+<!-- ========== MODAL ESTADÍSTICAS (conservado) ========== -->
+<div class="modal fade" id="modalEstadisticas" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 rounded-4 shadow-lg">
+            <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                <h4 class="modal-title fw-bold" style="color: #121826;">Estadísticas de Mis Vacantes</h4>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-4 py-4">
+                
+                <div class="row g-4 mb-4">
+                    <div class="col-12 col-md-4">
+                        <div class="bg-light p-4 rounded-4 text-center h-100">
+                            <i class="bi bi-eye-fill fs-1 mb-2" style="color: var(--primary-deep);"></i>
+                            <h2 class="fw-bold mb-1">1,245</h2>
+                            <p class="text-secondary small fw-medium mb-0">Vistas totales este mes</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="bg-light p-4 rounded-4 text-center h-100">
+                            <i class="bi bi-person-plus-fill fs-1 mb-2" style="color: #2ecc71;"></i>
+                            <h2 class="fw-bold mb-1">128</h2>
+                            <p class="text-secondary small fw-medium mb-0">Postulantes recibidos</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="bg-light p-4 rounded-4 text-center h-100">
+                            <i class="bi bi-lightning-fill fs-1 mb-2" style="color: #f39c12;"></i>
+                            <h2 class="fw-bold mb-1">10.2%</h2>
+                            <p class="text-secondary small fw-medium mb-0">Tasa de conversión</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h6 class="fw-bold mb-3" style="color: #121826;">Rendimiento de vacantes activas</h6>
+                <div class="border rounded-4 overflow-hidden">
+                    <div class="p-3 border-bottom bg-light">
+                        <div class="row fw-semibold small text-secondary">
+                            <div class="col-6">PUESTO</div>
+                            <div class="col-3 text-center">POSTULANTES</div>
+                            <div class="col-3 text-center">VISTAS</div>
+                        </div>
+                    </div>
+                    <div class="p-3 border-bottom">
+                        <div class="row align-items-center">
+                            <div class="col-6 fw-medium">Desarrollador Frontend</div>
+                            <div class="col-3 text-center"><span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill">65</span></div>
+                            <div class="col-3 text-center">800</div>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <div class="row align-items-center">
+                            <div class="col-6 fw-medium">UX/UI Designer</div>
+                            <div class="col-3 text-center"><span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill">42</span></div>
+                            <div class="col-3 text-center">310</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer border-top-0 px-4 pb-4">
+                <button type="button" class="btn btn-primary-deep px-5 py-2 w-100" data-bs-dismiss="modal">Entendido</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer class="py-4 mt-auto footer-custom">
+    <div class="container text-center">
+        <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
+            <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
+            <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
+            <a href="#">Términos</a>
+            <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Script de la aplicación (conservado) -->
+<script type="module" src="./app.js"></script>
+
+<!-- Script para filtros interactivos (no interfiere con app.js) -->
+<script>
+    (function() {
+        // Filtro por estado (activas/cerradas) - simulación visual
+        const badges = document.querySelectorAll('.status-badge.cursor-pointer');
+        const vacantes = document.querySelectorAll('.vacancy-card');
+        
+        badges.forEach(badge => {
+            badge.addEventListener('click', function() {
+                badges.forEach(b => b.style.opacity = '0.6');
+                this.style.opacity = '1';
+                
+                const filter = this.textContent.trim().toLowerCase();
+                vacantes.forEach(card => {
+                    const statusBadge = card.querySelector('.status-badge');
+                    if (statusBadge) {
+                        const status = statusBadge.textContent.trim().toLowerCase();
+                        if (filter === 'activas' && status === 'activa') {
+                            card.style.display = 'block';
+                        } else if (filter === 'cerradas' && status === 'cerrada') {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+
+        // Si no hay vacantes, mostrar mensaje (esto lo maneja app.js, pero dejamos preparado)
+        const contenedor = document.getElementById('contenedorVacantes');
+        const sinVacantes = document.getElementById('sinVacantes');
+        // La lógica real está en app.js, esto es solo un fallback visual
+    })();
+</script>
+
+<!-- Ajustes adicionales -->
+<style>
+    .cursor-pointer { cursor: pointer; }
+    .status-badge.cursor-pointer { transition: opacity 0.2s; }
+    .vacancy-card { transition: all 0.25s; }
+    .dropdown-item:active { background-color: var(--primary-deep); }
+</style>
 </body>
 </html>

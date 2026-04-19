@@ -1,182 +1,516 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly - Postulaciones</title>
+    <title>Workly · Postulaciones</title>
+    <!-- Bootstrap + Iconos -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Fuente Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
     <style>
-        .aside-divider {
-            margin-top: 0;
-            margin-bottom: 0.75rem;
-            border-top: 2px solid #000 !important;
-            opacity: 1;
+        * { font-family: 'Inter', sans-serif; }
+        :root {
+            --primary-deep: #3f51b5;
+            --nav-bg: #011671;
+            --soft-accent: #f1ebd9;
+            --light-text: #e2e4e8;
+            --body-bg: #f5f7fc;
         }
-        /* Estilo para las filas de la API con fondo blanco */
-        .postulante-card {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 10px;
+        body {
+            background: var(--body-bg);
+        }
+        /* Navbar personalizado */
+        .navbar-custom {
+            background-color: var(--nav-bg) !important;
+            box-shadow: 0 6px 20px rgba(1, 22, 113, 0.15);
+        }
+        .navbar-brand .brand-icon {
+            font-size: 3.5rem;
+            color: white;
+            margin-right: 0.75rem;
+        }
+        .navbar-brand .brand-text {
+            color: white;
+            font-weight: 700;
+            font-size: 2rem;
+            line-height: 1.2;
+        }
+        .navbar-brand .brand-sub {
+            color: var(--light-text);
+            font-size: 0.95rem;
+        }
+        .nav-link-custom {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            transition: all 0.2s;
+            background: rgba(255,255,255,0.05);
+        }
+        .nav-link-custom:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .nav-link-custom.active {
+            background: rgba(255,255,255,0.2);
+        }
+        .btn-primary-deep {
+            background: linear-gradient(135deg, var(--primary-deep), #2c3e8f);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.25s ease;
+            border-radius: 40px;
+            padding: 0.5rem 1.5rem;
+            box-shadow: 0 6px 14px rgba(63, 81, 181, 0.25);
+        }
+        .btn-primary-deep:hover {
+            background: linear-gradient(135deg, #2c3e8f, var(--primary-deep));
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(63, 81, 181, 0.35);
+            color: white;
+        }
+        .btn-outline-primary-deep {
+            background: transparent;
+            border: 1.5px solid var(--primary-deep);
+            color: var(--primary-deep);
+            font-weight: 600;
+            border-radius: 40px;
+            padding: 0.4rem 1.2rem;
+            transition: all 0.2s;
+        }
+        .btn-outline-primary-deep:hover {
+            background: var(--primary-deep);
+            color: white;
+        }
+        /* Tarjetas */
+        .filter-bar {
+            background: white;
+            border-radius: 60px;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+            border: 1px solid #e2e8f0;
+        }
+        .candidate-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.25rem 1.5rem;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.02);
+            border: 1px solid #edf0f5;
+            transition: all 0.2s;
+            margin-bottom: 1rem;
+        }
+        .candidate-card:hover {
+            box-shadow: 0 12px 24px -6px rgba(63,81,181,0.08);
+            border-color: rgba(63,81,181,0.2);
+        }
+        .sidebar-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 12px 24px -8px rgba(0,0,0,0.04);
+            border: 1px solid #edf0f5;
+            margin-bottom: 1.5rem;
+        }
+        .status-badge {
+            padding: 0.35rem 1rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-review { background: #e9ecf9; color: var(--primary-deep); }
+        .status-interview { background: #d1ecf1; color: #0c5460; }
+        .status-approved { background: #d4edda; color: #155724; }
+        .status-rejected { background: #f8d7da; color: #721c24; }
+        /* Avatar */
+        .avatar-circle {
+            width: 52px;
+            height: 52px;
+            background: #eef2f9;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-deep);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        /* Footer */
+        .footer-custom {
+            background-color: var(--nav-bg);
+            color: var(--light-text);
+        }
+        .footer-custom a {
+            color: var(--light-text) !important;
+            text-decoration: none;
+        }
+        .footer-custom a:hover {
+            color: white !important;
+            text-decoration: underline;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff4757;
+            color: white;
+            border-radius: 50%;
+            padding: 0.25rem 0.45rem;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.95)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        /* Dropdown actions */
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafd;
+            color: #4a5568;
+            transition: all 0.15s;
+        }
+        .action-btn:hover {
+            background: var(--primary-deep);
+            color: white;
         }
     </style>
 </head>
+<body class="d-flex flex-column min-vh-100">
 
-<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
+<!-- ========== NAVBAR MEJORADO ========== -->
+<nav class="navbar navbar-expand-lg py-3 navbar-custom">
+    <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
+            <i class="bi bi-briefcase-fill brand-icon"></i>
+            <div class="lh-sm ms-2">
+                <span class="brand-text">Workly</span>
+                <span class="brand-sub">Panel de Empresa</span>
+            </div>
+        </a>
 
-    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
-        <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
-                <span class="display-5 me-3 lh-1">💼</span>
-                <div class="lh-sm">
-                    <span class="text-white fw-bold d-block fs-3">Workly</span>
-                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
-                </div>
-            </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-1">
+                <a href="../publicarvacante/index.html" class="nav-link-custom text-decoration-none">
+                    <i class="bi bi-plus-circle me-1"></i> Publicar
+                </a>
+                <a href="../misvacantes/index.html" class="nav-link-custom text-decoration-none">
+                    <i class="bi bi-briefcase me-1"></i> Mis vacantes
+                </a>
+                <a href="../postulaciones/index.html" class="nav-link-custom active text-decoration-none">
+                    <i class="bi bi-people me-1"></i> Postulaciones
+                </a>
+                <a href="../foro/index.html" class="nav-link-custom text-decoration-none">
+                    <i class="bi bi-chat-dots me-1"></i> Foro
+                </a>
+                <a href="../resenaempresa/index.html" class="nav-link-custom text-decoration-none">
+                    <i class="bi bi-star me-1"></i> Reseñas
+                </a>
+            </div>
 
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <div class="navbar-nav mx-auto gap-2">
-                    <a href="../publicarvacante/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Publicar vacante</a>
-                    <a href="../misvacantes/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Mis vacantes</a>
-                    <a href="../postulaciones/index.html" class="btn btn-info text-white bg-opacity-50 border-0 btn-sm px-3 fw-semibold">Ver postulaciones</a>
-                    <a href="../foro/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Foro</a>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                    <a href="../notificaciones/index.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
-                        <i class="bi bi-bell-fill fs-3 text-grey"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">2</span>
-                    </a>
-                    <a href="../perfil/index.html" class="text-dark text-decoration-none d-inline-block">
-                        <i class="bi bi-person-circle fs-2 text-grey"></i>
-                    </a>
-                </div>
+            <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
+                <a href="../notificaciones/index.html" class="text-white position-relative d-inline-block">
+                    <i class="bi bi-bell-fill fs-3"></i>
+                    <span class="notification-badge">2</span>
+                </a>
+                <a href="../perfil/index.html" class="text-white d-inline-block">
+                    <i class="bi bi-person-circle fs-2"></i>
+                </a>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main class="flex-grow-1 py-4">
-        <div class="container-fluid px-4 px-lg-5">
-
-            <div class="card bg-white border-0 shadow-sm p-3 mb-4 rounded-4 mt-2">
-                <div class="row g-3 align-items-center">
-                    <div class="col-12 col-md-auto">
-                        <button class="btn bg-primary-subtle text-dark fw-bold px-4 py-2 rounded-3 border-0 shadow-none">Ver Postulantes</button>
-                    </div>
-                    <div class="col-12 col-md">
-                        <div class="input-group">
-                            <span class="input-group-text bg-secondary-subtle border-0 ps-4"><i class="bi bi-search"></i></span>
-                            <input type="text" class="form-control bg-secondary-subtle border-0 py-2 fw-semibold" placeholder="Buscar candidato...">
-                        </div>
-                    </div>
-                </div>
+<!-- ========== MAIN ========== -->
+<main class="flex-grow-1 py-4">
+    <div class="container-fluid px-4 px-lg-5">
+        
+        <!-- Barra de filtros y búsqueda -->
+        <div class="filter-bar mb-4 p-3 d-flex align-items-center flex-wrap gap-3">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-people-fill fs-2 me-2" style="color: var(--primary-deep);"></i>
+                <h4 class="fw-bold mb-0" style="color: #121826;">Gestión de Postulantes</h4>
             </div>
-
-            <div class="row g-4">
-                <section class="col-12 col-xl-8">
-                    <div class="row fw-bold text-dark border-bottom border-dark border-2 pb-2 mb-3 d-none d-md-flex px-2">
-                        <div class="col-3">Candidato</div>
-                        <div class="col-3">Vacante</div>
-                        <div class="col-2">Estado</div>
-                        <div class="col-2">Fecha</div>
-                        <div class="col-2 text-center">Acciones</div>
-                    </div>
-                    <div id="contenedorPostulaciones">
-                        </div>
-                </section>
-
-                <aside class="col-12 col-xl-4">
-                    <div class="card bg-white border-0 shadow-sm rounded-0 p-4 mb-4">
-                        <h6 class="fw-bold text-dark mb-1">Resumen</h6>
-                        <div class="fw-bold text-dark small mb-2">Total postulantes</div>
-                        <hr class="aside-divider">
-                        <div class="d-flex justify-content-between mb-3 fw-bold small"><span>En revisión</span> <span>18</span></div>
-                        <div class="d-flex justify-content-between mb-3 fw-bold small"><span>Entrevistas</span> <span>9</span></div>
-                        <div class="d-flex justify-content-between mb-1 fw-bold small"><span>Aprobados</span> <span>6</span></div>
-                    </div>
-
-                    <div class="card bg-white border-0 shadow-sm rounded-0 p-4 mb-4">
-                        <h6 class="fw-bold text-dark mb-2">Vacantes más activas</h6>
-                        <hr class="aside-divider">
-                        <div class="d-flex justify-content-between mb-3 fw-bold small"><span>Backend Developer</span> <span>16</span></div>
-                        <div class="d-flex justify-content-between mb-3 fw-bold small"><span>Frontend Developer</span> <span>12</span></div>
-                        <div class="d-flex justify-content-between mb-1 fw-bold small"><span>Diseñador UI/UX</span> <span>8</span></div>
-                    </div>
-
-                    <div class="card bg-white border-0 shadow-sm rounded-0 p-4">
-                        <h6 class="fw-bold text-dark mb-2">Postulantes recientes</h6>
-                        <hr class="aside-divider">
-                        <div class="fw-bold small text-dark">
-                            <div class="mb-3">Carlos Ruiz</div>
-                            <div class="mb-3">Maria Garcia</div>
-                            <div class="mb-3">Pepe Lopez</div>
-                            <div class="mb-3">José Méndez</div>
-                            <div class="mb-1">Ana López</div>
-                        </div>
-                    </div>
-                </aside>
+            <div class="ms-auto d-flex gap-2 flex-wrap">
+                <div class="input-group" style="max-width: 260px;">
+                    <span class="input-group-text bg-transparent border-0 text-muted">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" class="form-control bg-transparent border-0 shadow-none" 
+                           placeholder="Buscar por nombre o correo...">
+                </div>
+                <select class="form-select w-auto rounded-pill bg-light border-0 fw-medium">
+                    <option selected>Todas las vacantes</option>
+                    <option>Backend Developer</option>
+                    <option>Frontend Developer</option>
+                    <option>Diseñador UI/UX</option>
+                </select>
+                <select class="form-select w-auto rounded-pill bg-light border-0 fw-medium">
+                    <option selected>Todos los estados</option>
+                    <option>En revisión</option>
+                    <option>Entrevista</option>
+                    <option>Aprobado</option>
+                    <option>Rechazado</option>
+                </select>
             </div>
         </div>
-    </main>
 
-    <div class="modal fade" id="modalPerfilCandidato" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0 rounded-4 shadow-lg">
-                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
-                    <h5 class="modal-title fw-bold text-dark">Perfil del Candidato</h5>
-                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+        <div class="row g-4">
+            
+            <!-- Columna principal: Lista de candidatos -->
+            <section class="col-12 col-xl-8">
+                <!-- Contenedor para app.js (ID conservado) -->
+                <div id="contenedorPostulaciones">
+                    <!-- Ejemplo de tarjeta estática (se reemplaza por app.js) -->
+                    <!-- 
+                    <div class="candidate-card d-flex align-items-center flex-wrap gap-3">
+                        <div class="d-flex align-items-center gap-3 flex-grow-1">
+                            <div class="avatar-circle">CR</div>
+                            <div>
+                                <h6 class="fw-bold mb-1">Carlos Ruiz</h6>
+                                <p class="text-secondary small mb-0">carlos.ruiz@email.com</p>
+                            </div>
+                            <div class="ms-md-4">
+                                <span class="badge bg-light text-dark px-3 py-2">Backend Developer</span>
+                            </div>
+                            <div class="ms-auto text-end">
+                                <span class="status-badge status-review">En revisión</span>
+                                <p class="text-secondary small mb-0 mt-1">Postulado: 12/04/2026</p>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="action-btn" title="Ver perfil" data-bs-toggle="modal" data-bs-target="#modalPerfilCandidato"><i class="bi bi-eye"></i></button>
+                            <button class="action-btn" title="Contactar" data-bs-toggle="modal" data-bs-target="#modalContactar"><i class="bi bi-chat-dots"></i></button>
+                            <div class="dropdown">
+                                <button class="action-btn" data-bs-toggle="dropdown"><i class="bi bi-three-dots-vertical"></i></button>
+                                <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm rounded-3">
+                                    <li><a class="dropdown-item" href="#">Mover a Entrevista</a></li>
+                                    <li><a class="dropdown-item" href="#">Aprobar</a></li>
+                                    <li><a class="dropdown-item text-danger" href="#">Rechazar</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    -->
                 </div>
-                <div class="modal-body px-4 py-4">
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="bg-primary-subtle p-4 rounded-circle me-4">
-                            <i class="bi bi-person display-4 text-primary"></i>
+            </section>
+
+            <!-- Sidebar derecho -->
+            <aside class="col-12 col-xl-4">
+                
+                <!-- Resumen con gráfico simple -->
+                <div class="sidebar-card">
+                    <h6 class="fw-bold mb-3 d-flex align-items-center">
+                        <i class="bi bi-pie-chart me-2" style="color: var(--primary-deep);"></i>Resumen de postulaciones
+                    </h6>
+                    <div class="d-flex align-items-center gap-4">
+                        <div style="width: 100px; height: 100px;">
+                            <svg viewBox="0 0 40 40">
+                                <circle cx="20" cy="20" r="16" fill="none" stroke="#e9ecf9" stroke-width="4"/>
+                                <circle cx="20" cy="20" r="16" fill="none" stroke="#3f51b5" stroke-width="4" stroke-dasharray="25 75" stroke-dashoffset="25" stroke-linecap="round" transform="rotate(-90 20 20)"/>
+                                <circle cx="20" cy="20" r="16" fill="none" stroke="#28a745" stroke-width="4" stroke-dasharray="15 85" stroke-dashoffset="5" stroke-linecap="round" transform="rotate(-90 20 20)"/>
+                            </svg>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between small"><span>En revisión</span> <span class="fw-bold">18</span></div>
+                            <div class="d-flex justify-content-between small"><span>Entrevistas</span> <span class="fw-bold">9</span></div>
+                            <div class="d-flex justify-content-between small"><span>Aprobados</span> <span class="fw-bold">6</span></div>
+                        </div>
+                    </div>
+                    <hr class="my-3">
+                    <div class="d-flex justify-content-between">
+                        <span class="fw-medium">Total postulantes</span>
+                        <span class="fw-bold fs-5" style="color: var(--primary-deep);">42</span>
+                    </div>
+                </div>
+
+                <!-- Vacantes con más postulantes -->
+                <div class="sidebar-card">
+                    <h6 class="fw-bold mb-3 d-flex align-items-center">
+                        <i class="bi bi-bar-chart-line me-2" style="color: var(--primary-deep);"></i>Vacantes más activas
+                    </h6>
+                    <div class="d-flex flex-column gap-3">
+                        <div>
+                            <div class="d-flex justify-content-between small fw-medium mb-1">
+                                <span>Backend Developer</span>
+                                <span>16</span>
+                            </div>
+                            <div class="progress" style="height:6px;"><div class="progress-bar" style="width:80%; background:var(--primary-deep);"></div></div>
                         </div>
                         <div>
-                            <h4 class="fw-bold mb-1 text-dark" id="perfilNombre">Cargando...</h4>
-                            <p class="text-primary fw-bold mb-0" id="perfilPuesto">Cargando...</p>
+                            <div class="d-flex justify-content-between small fw-medium mb-1">
+                                <span>Frontend Developer</span>
+                                <span>12</span>
+                            </div>
+                            <div class="progress" style="height:6px;"><div class="progress-bar" style="width:60%; background:var(--primary-deep);"></div></div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between small fw-medium mb-1">
+                                <span>Diseñador UI/UX</span>
+                                <span>8</span>
+                            </div>
+                            <div class="progress" style="height:6px;"><div class="progress-bar" style="width:40%; background:var(--primary-deep);"></div></div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer border-top-0 px-4 pb-4">
-                    <button type="button" class="btn btn-primary fw-bold px-4 rounded-3" data-bs-dismiss="modal">Cerrar</button>
+
+                <!-- Últimos postulantes -->
+                <div class="sidebar-card">
+                    <h6 class="fw-bold mb-3 d-flex align-items-center">
+                        <i class="bi bi-clock-history me-2" style="color: var(--primary-deep);"></i>Recientes
+                    </h6>
+                    <div class="d-flex flex-column gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="avatar-circle" style="width:40px; height:40px; font-size:0.9rem;">CR</div>
+                            <div><span class="fw-semibold d-block">Carlos Ruiz</span><small class="text-secondary">Hace 2h</small></div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="avatar-circle" style="width:40px; height:40px; font-size:0.9rem;">MG</div>
+                            <div><span class="fw-semibold d-block">María García</span><small class="text-secondary">Hace 5h</small></div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="avatar-circle" style="width:40px; height:40px; font-size:0.9rem;">PL</div>
+                            <div><span class="fw-semibold d-block">Pedro López</span><small class="text-secondary">Ayer</small></div>
+                        </div>
+                    </div>
                 </div>
+
+            </aside>
+        </div>
+    </div>
+</main>
+
+<!-- ========== MODAL PERFIL CANDIDATO (conservado) ========== -->
+<div class="modal fade" id="modalPerfilCandidato" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 rounded-4 shadow-lg">
+            <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                <h5 class="modal-title fw-bold" style="color: #121826;">Perfil del Candidato</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-4 py-4">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="bg-light p-4 rounded-4 me-4">
+                        <i class="bi bi-person display-4" style="color: var(--primary-deep);"></i>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-1" id="perfilNombre">Cargando...</h4>
+                        <p class="fw-semibold mb-0" style="color: var(--primary-deep);" id="perfilPuesto">Cargando...</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="text-secondary small">Correo</label>
+                        <p class="fw-medium" id="perfilCorreo">---</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-secondary small">Teléfono</label>
+                        <p class="fw-medium" id="perfilTelefono">---</p>
+                    </div>
+                    <div class="col-12">
+                        <label class="text-secondary small">CV / Resumen</label>
+                        <p class="fw-medium" id="perfilResumen">---</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-top-0 px-4 pb-4">
+                <button type="button" class="btn btn-primary-deep px-4" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="modal fade" id="modalContactar" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 rounded-4 shadow-lg">
-                <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
-                    <h5 class="modal-title fw-bold text-dark">Contactar Candidato</h5>
-                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body px-4 py-4">
-                    <form>
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold text-dark">Para:</label>
-                            <input type="text" class="form-control bg-secondary-subtle border-0 shadow-none py-2 text-dark fw-bold" id="contactoDestino" readonly>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label small fw-bold text-dark">Mensaje:</label>
-                            <textarea class="form-control bg-secondary-subtle border-0 shadow-none py-2 text-muted" rows="5" placeholder="Escribe tu mensaje..."></textarea>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary fw-bold px-4 shadow-sm" data-bs-dismiss="modal">Enviar</button>
-                        </div>
-                    </form>
-                </div>
+<!-- ========== MODAL CONTACTAR (conservado) ========== -->
+<div class="modal fade" id="modalContactar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow-lg">
+            <div class="modal-header border-bottom-0 pb-0 px-4 pt-4">
+                <h5 class="modal-title fw-bold" style="color: #121826;">Contactar Candidato</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body px-4 py-4">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Para:</label>
+                        <input type="text" class="form-control bg-light border-0 rounded-3 py-2 fw-medium" id="contactoDestino" readonly>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label small fw-semibold">Mensaje:</label>
+                        <textarea class="form-control bg-light border-0 rounded-3 py-2" rows="5" placeholder="Escribe tu mensaje..."></textarea>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary-deep px-4" data-bs-dismiss="modal">Enviar mensaje</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="./app.js"></script>
+<!-- ========== FOOTER ========== -->
+<footer class="py-4 mt-auto footer-custom">
+    <div class="container text-center">
+        <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
+            <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
+            <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
+            <a href="#">Términos</a>
+            <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Script de la aplicación (conservado) -->
+<script type="module" src="./app.js"></script>
+
+<!-- Script para aplicar estilos a las tarjetas generadas por app.js -->
+<script>
+    (function() {
+        function styleCards() {
+            const container = document.getElementById('contenedorPostulaciones');
+            if (!container) return;
+            const cards = container.querySelectorAll('.postulante-card, .card, [class*="postulacion"]');
+            cards.forEach(card => {
+                if (!card.classList.contains('candidate-card')) {
+                    card.classList.add('candidate-card', 'd-flex', 'align-items-center', 'flex-wrap', 'gap-3');
+                }
+                // Ajustar estructura interna si es necesario
+                const avatar = card.querySelector('.avatar-circle, .initials');
+                if (!avatar) {
+                    const nameEl = card.querySelector('h6, .nombre, strong');
+                    if (nameEl) {
+                        const initials = nameEl.textContent.trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+                        const avatarDiv = document.createElement('div');
+                        avatarDiv.className = 'avatar-circle';
+                        avatarDiv.textContent = initials;
+                        card.prepend(avatarDiv);
+                    }
+                }
+            });
+        }
+        // Observar cambios
+        const observer = new MutationObserver(styleCards);
+        const container = document.getElementById('contenedorPostulaciones');
+        if (container) observer.observe(container, { childList: true, subtree: true });
+        styleCards();
+    })();
+</script>
 </body>
 </html>
