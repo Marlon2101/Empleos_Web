@@ -119,6 +119,48 @@ export const getResenasPostulantesByEmpresa = async (id_empresa) => {
   }));
 };
 
+export const getResenasExternasSobreMisPostulantes = async (id_empresa) => {
+  await ensureSchema();
+
+  const [rows] = await pool.query(
+    `
+    SELECT
+      rp.id_resena,
+      rp.id_empresa_fk,
+      rp.id_usuario_fk,
+      rp.id_postulacion_fk,
+      rp.puntuacion,
+      rp.comentario,
+      rp.etiquetas_json,
+      rp.fecha_resena,
+      u.nombres,
+      u.apellidos,
+      e.nombre_comercial,
+      v.titulo_puesto
+    FROM Resenas_Postulantes rp
+    INNER JOIN Usuarios u ON u.id_usuario = rp.id_usuario_fk
+    INNER JOIN Empresas e ON e.id_empresa = rp.id_empresa_fk
+    INNER JOIN Postulaciones p ON p.id_postulacion = rp.id_postulacion_fk
+    INNER JOIN Vacantes v ON v.id_vacante = p.id_vacante_fk
+    WHERE rp.id_empresa_fk <> ?
+      AND EXISTS (
+        SELECT 1
+        FROM Postulaciones pm
+        INNER JOIN Vacantes vm ON vm.id_vacante = pm.id_vacante_fk
+        WHERE pm.id_usuario_fk = rp.id_usuario_fk
+          AND vm.id_empresa_fk = ?
+      )
+    ORDER BY rp.fecha_resena DESC, rp.id_resena DESC
+    `,
+    [id_empresa, id_empresa]
+  );
+
+  return rows.map((item) => ({
+    ...item,
+    etiquetas: parseJson(item.etiquetas_json, [])
+  }));
+};
+
 export const getResumenResenasPostulantesByEmpresa = async (id_empresa) => {
   await ensureSchema();
 

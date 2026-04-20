@@ -1,233 +1,325 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly · Notificaciones</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-deep: #3f51b5;
-            --nav-bg: #011671;
-            --body-bg: #f5f7fc;
-            --card-shadow: 0 20px 35px -12px rgba(1, 22, 113, 0.08);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workly | Notificaciones</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --nav-bg: #011671;
+      --page-bg: linear-gradient(180deg, #edf3ff 0%, #f7faff 100%);
+      --primary-deep: #3f51b5;
+      --card-shadow: 0 24px 45px -18px rgba(1, 22, 113, 0.18);
+    }
 
-        body {
-            font-family: "Inter", sans-serif;
-            background: linear-gradient(180deg, #eff4ff 0%, #f8faff 100%);
-        }
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--page-bg);
+      color: #182033;
+    }
 
-        .navbar-custom,
-        .footer-custom {
-            background-color: var(--nav-bg);
-        }
+    .navbar-custom,
+    .footer-custom {
+      background: var(--nav-bg);
+    }
 
-        .nav-link-custom {
-            color: white !important;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 30px;
-            transition: background 0.2s ease;
-            font-weight: 500;
-        }
+    .nav-link-custom {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.7rem 1.1rem;
+      border-radius: 999px;
+      transition: 0.2s ease;
+    }
 
-        .nav-link-custom:hover,
-        .nav-link-custom.active {
-            background: rgba(255, 255, 255, 0.12);
-        }
+    .nav-link-custom:hover,
+    .nav-link-custom.active {
+      background: rgba(255, 255, 255, 0.12);
+    }
 
-        .navbar-brand .brand-icon {
-            font-size: 3.5rem;
-            color: white;
-            margin-right: 0.75rem;
-        }
+    .surface-card {
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 30px;
+      box-shadow: var(--card-shadow);
+    }
 
-        .navbar-brand .brand-text {
-            color: white;
-            font-weight: 700;
-            font-size: 2rem;
-            line-height: 1.2;
-        }
+    .hero-card {
+      background: linear-gradient(140deg, #0c1d85 0%, #465bca 55%, #8da0ff 100%);
+      color: #fff;
+      overflow: hidden;
+      position: relative;
+    }
 
-        .navbar-brand .brand-sub {
-            color: #e2e4e8;
-            font-size: 0.95rem;
-        }
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -30px -60px auto;
+      width: 220px;
+      height: 220px;
+      background: rgba(255, 255, 255, 0.14);
+      border-radius: 50%;
+    }
 
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: #ff4757;
-            color: white;
-            border-radius: 50%;
-            padding: 0.2rem 0.4rem;
-            font-size: 0.65rem;
-            font-weight: bold;
-            border: 2px solid white;
-        }
+    .metric-pill {
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      padding: 1rem 1.1rem;
+      backdrop-filter: blur(10px);
+    }
 
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.95)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        }
+    .summary-card {
+      border-radius: 24px;
+      border: 1px solid #e6ebf5;
+      background: #fff;
+      box-shadow: 0 18px 30px -24px rgba(15, 23, 42, 0.35);
+    }
 
-        .surface-card {
-            background: rgba(255, 255, 255, 0.96);
-            border-radius: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.75);
-            box-shadow: var(--card-shadow);
-        }
+    .summary-icon {
+      width: 50px;
+      height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 18px;
+      background: #eef2ff;
+      color: var(--primary-deep);
+    }
 
-        .notification-card {
-            border-radius: 24px;
-            border: 1px solid #e8edf6;
-            transition: 0.2s ease;
-        }
+    .notification-card {
+      background: #fff;
+      border-radius: 24px;
+      border: 1px solid #e7edf7;
+      padding: 1.4rem;
+      box-shadow: 0 20px 32px -26px rgba(15, 23, 42, 0.45);
+      transition: 0.2s ease;
+    }
 
-        .notification-card.unread {
-            border-left: 5px solid var(--primary-deep);
-            background: linear-gradient(90deg, #ffffff 0%, #f8faff 100%);
-        }
+    .notification-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 38px -24px rgba(1, 22, 113, 0.28);
+    }
 
-        .icon-pill {
-            width: 52px;
-            height: 52px;
-            border-radius: 18px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #eef2ff;
-            color: var(--primary-deep);
-        }
+    .notification-card.is-unread {
+      border-left: 6px solid var(--primary-deep);
+      background: linear-gradient(90deg, #ffffff 0%, #f8faff 100%);
+    }
 
-        .badge-soft {
-            background: #eef2ff;
-            color: var(--primary-deep);
-            font-weight: 600;
-        }
-    </style>
+    .notification-icon {
+      width: 54px;
+      height: 54px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 18px;
+      background: #eef2ff;
+      color: var(--primary-deep);
+      font-size: 1.25rem;
+    }
+
+    .empty-state {
+      background: #f8fafc;
+      border: 1px dashed #cfd8ea;
+    }
+
+    .empty-state-icon {
+      width: 68px;
+      height: 68px;
+      display: grid;
+      place-items: center;
+      border-radius: 22px;
+      background: #eef2ff;
+      color: var(--primary-deep);
+    }
+
+    .notification-badge {
+      min-width: 1.4rem;
+    }
+  </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg navbar-custom py-3">
-        <div class="container-fluid px-4 px-lg-5">
-            <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
-                <i class="bi bi-briefcase-fill brand-icon"></i>
-                <div class="lh-sm ms-2">
-                    <span class="brand-text">Workly</span>
-                    <span class="brand-sub">Tu busqueda de trabajo profesional</span>
-                </div>
-            </a>
+  <nav class="navbar navbar-expand-lg navbar-custom py-3">
+    <div class="container-fluid px-4 px-lg-5">
+      <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
+        <i class="bi bi-briefcase-fill text-white fs-2"></i>
+        <div class="lh-sm ms-2">
+          <span class="text-white fw-bold fs-3">Workly</span>
+          <span class="d-block text-white-50 small">Tu busqueda de trabajo profesional</span>
+        </div>
+      </a>
 
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <div class="navbar-nav mx-auto gap-2 mt-3 mt-lg-0">
+          <a href="../buscarempleo/index.html" class="nav-link-custom">Buscar empleo</a>
+          <a href="../recursos/index.html" class="nav-link-custom">Recursos</a>
+          <a href="../valoracionempresa/index.html" class="nav-link-custom">Valoraciones</a>
+          <a href="../miperfil/index.html" class="nav-link-custom">Mi perfil</a>
+        </div>
+        <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+          <a href="../notificaciones/index.html" class="text-white position-relative text-decoration-none">
+            <i class="bi bi-bell-fill fs-4"></i>
+            <span class="notification-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+          </a>
+          <a href="../miperfil/index.html" class="text-white text-decoration-none">
+            <i class="bi bi-person-circle fs-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow-1 py-4 py-lg-5">
+    <div class="container px-4 px-lg-5">
+      <section class="surface-card hero-card p-4 p-lg-5 mb-4">
+        <div class="row g-4 align-items-center position-relative">
+          <div class="col-12 col-xl-7">
+            <span class="badge rounded-pill text-bg-light text-primary fw-semibold mb-3">Centro de alertas</span>
+            <h1 class="display-6 fw-bold mb-2">Mantente al dia con cada movimiento de tus postulaciones</h1>
+            <p class="mb-0 text-white-50">Controla respuestas de empresas, cambios de estado y mensajes clave desde un solo panel.</p>
+          </div>
+          <div class="col-12 col-xl-5">
+            <div class="row g-3">
+              <div class="col-6">
+                <div class="metric-pill">
+                  <div class="small text-white-50 mb-1">Sin leer</div>
+                  <div class="fs-3 fw-bold" id="resumenNoLeidas">0</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="metric-pill">
+                  <div class="small text-white-50 mb-1">Total</div>
+                  <div class="fs-3 fw-bold" id="resumenTotal">0</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="metric-pill">
+                  <div class="small text-white-50 mb-1">Postulaciones</div>
+                  <div class="fs-5 fw-bold" id="resumenPostulaciones">0</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="metric-pill">
+                  <div class="small text-white-50 mb-1">Sistema</div>
+                  <div class="fs-5 fw-bold" id="resumenSistema">0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="surface-card p-4 p-lg-5">
+        <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-3 mb-4">
+          <div>
+            <h2 class="h3 fw-bold mb-1">Bandeja personal</h2>
+            <p class="text-muted mb-0">Filtra rapido y revisa que sigue en cada oportunidad.</p>
+          </div>
+          <button class="btn btn-primary rounded-pill px-4" id="btnMarcarTodas">
+            <i class="bi bi-check2-all me-2"></i>Marcar todas como leidas
+          </button>
+        </div>
+
+        <div id="alertContainer" class="mb-3"></div>
+
+        <div class="row g-3 align-items-end mb-4">
+          <div class="col-12 col-lg-5">
+            <label for="inputBuscar" class="form-label fw-semibold">Buscar</label>
+            <input id="inputBuscar" type="search" class="form-control form-control-lg rounded-4" placeholder="Titulo o mensaje">
+          </div>
+          <div class="col-12 col-md-6 col-lg-3">
+            <label for="filtroTipo" class="form-label fw-semibold">Tipo</label>
+            <select id="filtroTipo" class="form-select form-select-lg rounded-4">
+              <option value="">Todas</option>
+              <option value="postulacion">Postulaciones</option>
+              <option value="estado">Estados</option>
+              <option value="sistema">Sistema</option>
+              <option value="comentario">Comentarios</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-6 col-lg-2">
+            <label for="filtroLeida" class="form-label fw-semibold">Estado</label>
+            <select id="filtroLeida" class="form-select form-select-lg rounded-4">
+              <option value="">Todas</option>
+              <option value="0">No leidas</option>
+              <option value="1">Leidas</option>
+            </select>
+          </div>
+          <div class="col-12 col-lg-2 d-grid">
+            <button class="btn btn-outline-primary btn-lg rounded-4" id="btnFiltrar">
+              <i class="bi bi-funnel me-2"></i>Filtrar
             </button>
+          </div>
+        </div>
 
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <div class="navbar-nav mx-auto gap-2 mt-3 mt-lg-0">
-                    <a href="../buscarempleo/index.html" class="nav-link-custom"><i class="bi bi-search me-1"></i> Buscar empleo</a>
-                    <a href="../recursos/index.html" class="nav-link-custom"><i class="bi bi-journal-bookmark-fill me-1"></i> Recursos</a>
-                    <a href="../valoracionempresa/index.html" class="nav-link-custom"><i class="bi bi-star-fill me-1"></i> Valoraciones</a>
-                    <a href="../miperfil/index.html" class="nav-link-custom"><i class="bi bi-person-badge me-1"></i> Mi Perfil</a>
+        <div class="row g-4">
+          <div class="col-12 col-xl-8">
+            <div class="d-grid gap-3" id="listaNotificaciones"></div>
+          </div>
+          <div class="col-12 col-xl-4">
+            <div class="summary-card p-4 mb-3">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="summary-icon"><i class="bi bi-send-check"></i></div>
+                <div>
+                  <h3 class="h5 fw-bold mb-0">Seguimiento</h3>
+                  <p class="text-muted small mb-0">Resumen rapido de tu estado actual</p>
                 </div>
-                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
-                    <a href="../notificaciones/index.html" class="text-white position-relative text-decoration-none">
-                        <i class="bi bi-bell-fill fs-3"></i>
-                        <span class="notification-badge">0</span>
-                    </a>
-                    <a href="../miperfil/index.html" class="text-white text-decoration-none">
-                        <i class="bi bi-person-circle fs-2"></i>
-                    </a>
-                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span class="text-muted">Cambios de estado</span>
+                <strong id="resumenEstado">0</strong>
+              </div>
             </div>
-        </div>
-    </nav>
 
-    <main class="flex-grow-1 py-4">
-        <div class="container px-4 px-lg-5">
-            <div class="surface-card p-4 p-lg-5">
-                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
-                    <div>
-                        <h1 class="h3 fw-bold mb-1">Centro de notificaciones</h1>
-                        <p class="text-muted mb-0">Revisa cambios de estado, postulaciones y avisos del sistema.</p>
-                    </div>
-                    <button class="btn btn-primary rounded-pill px-4" id="btnMarcarTodas">
-                        <i class="bi bi-check2-all me-2"></i>Marcar todas como leídas
-                    </button>
+            <div class="summary-card p-4 mb-3">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="summary-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+                <div>
+                  <h3 class="h5 fw-bold mb-0">Acciones rapidas</h3>
+                  <p class="text-muted small mb-0">Atajos utiles para seguir postulando</p>
                 </div>
-
-                <div id="alertContainer" class="mb-3"></div>
-
-                <div class="row g-3 align-items-end mb-4">
-                    <div class="col-12 col-lg-5">
-                        <label for="inputBuscar" class="form-label fw-semibold">Buscar</label>
-                        <input id="inputBuscar" type="search" class="form-control form-control-lg rounded-4" placeholder="Título o mensaje">
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <label for="filtroTipo" class="form-label fw-semibold">Tipo</label>
-                        <select id="filtroTipo" class="form-select form-select-lg rounded-4">
-                            <option value="">Todas</option>
-                            <option value="postulacion">Postulaciones</option>
-                            <option value="estado">Cambios de estado</option>
-                            <option value="sistema">Mensajes del sistema</option>
-                            <option value="comentario">Comentarios</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-2">
-                        <label for="filtroLeida" class="form-label fw-semibold">Estado</label>
-                        <select id="filtroLeida" class="form-select form-select-lg rounded-4">
-                            <option value="">Todas</option>
-                            <option value="0">No leídas</option>
-                            <option value="1">Leídas</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-lg-2 d-grid">
-                        <button class="btn btn-outline-primary btn-lg rounded-4" id="btnFiltrar">
-                            <i class="bi bi-funnel me-2"></i>Filtrar
-                        </button>
-                    </div>
-                </div>
-
-                <div class="row g-4">
-                    <div class="col-12 col-xl-8">
-                        <div class="d-grid gap-3" id="listaNotificaciones"></div>
-                    </div>
-                    <div class="col-12 col-xl-4">
-                        <div class="surface-card p-4 h-100">
-                            <h2 class="h5 fw-bold mb-3">Resumen</h2>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">No leídas</span>
-                                <strong id="resumenNoLeidas">0</strong>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Postulaciones</span>
-                                <strong id="resumenPostulaciones">0</strong>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Cambios de estado</span>
-                                <strong id="resumenEstado">0</strong>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span class="text-muted">Sistema</span>
-                                <strong id="resumenSistema">0</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
+              <div class="d-grid gap-2">
+                <a href="../buscarempleo/index.html" class="btn btn-light border rounded-4 text-start">
+                  <i class="bi bi-search me-2"></i>Explorar vacantes
+                </a>
+                <a href="../valoracionempresa/index.html" class="btn btn-light border rounded-4 text-start">
+                  <i class="bi bi-star me-2"></i>Ver valoraciones
+                </a>
+                <a href="../miperfil/index.html" class="btn btn-light border rounded-4 text-start">
+                  <i class="bi bi-person-badge me-2"></i>Actualizar perfil
+                </a>
+              </div>
             </div>
-        </div>
-    </main>
 
-    <footer class="footer-custom py-4 mt-auto text-center text-white-50">
-        <div class="container">
-            <span>Workly 2026 · Gestiona tus oportunidades con orden</span>
+            <div class="summary-card p-4">
+              <h3 class="h5 fw-bold mb-3">Buenas practicas</h3>
+              <ul class="list-unstyled text-muted small mb-0 d-grid gap-2">
+                <li><i class="bi bi-check2-circle text-primary me-2"></i>Revisa cambios de estado en cuanto aparezcan.</li>
+                <li><i class="bi bi-check2-circle text-primary me-2"></i>Abre el detalle cuando una empresa responda.</li>
+                <li><i class="bi bi-check2-circle text-primary me-2"></i>Manten tu perfil actualizado para nuevas oportunidades.</li>
+              </ul>
+            </div>
+          </div>
         </div>
-    </footer>
+      </section>
+    </div>
+  </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="../../../assets/js/shared/notificaciones.js"></script>
-    <script type="module" src="./app.js"></script>
+  <footer class="footer-custom py-4 mt-auto text-center text-white-50">
+    <div class="container">
+      <span>Workly 2026 | Gestiona tus oportunidades con orden y claridad</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="../../../assets/js/shared/notificaciones.js"></script>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>

@@ -1,23 +1,44 @@
 import {
   getPostulacionesResenablesByEmpresa,
   getResenasPostulantesByEmpresa,
+  getResenasExternasSobreMisPostulantes,
   getResumenResenasPostulantesByEmpresa,
   getPostulacionResenableByEmpresa,
   upsertResenaPostulante
 } from "../models/resenasPostulantesModel.js";
+import {
+  getValoracionesByEmpresa,
+  getPromedioEmpresa
+} from "../models/valoracionesModel.js";
 
 export const obtenerPanelResenasPostulantes = async (req, res) => {
   try {
-    const [postulaciones, resenas, resumen] = await Promise.all([
+    const [
+      postulaciones,
+      resenas,
+      resumen,
+      resenasExternas,
+      valoracionesEmpresa,
+      resumenValoracionesEmpresa
+    ] = await Promise.all([
       getPostulacionesResenablesByEmpresa(req.user.id),
       getResenasPostulantesByEmpresa(req.user.id),
-      getResumenResenasPostulantesByEmpresa(req.user.id)
+      getResumenResenasPostulantesByEmpresa(req.user.id),
+      getResenasExternasSobreMisPostulantes(req.user.id),
+      getValoracionesByEmpresa(req.user.id),
+      getPromedioEmpresa(req.user.id)
     ]);
 
     res.json({
       postulaciones,
       resenas,
-      resumen
+      resumen,
+      resenas_externas: resenasExternas,
+      valoraciones_empresa: valoracionesEmpresa,
+      resumen_empresa: {
+        promedio: Number(resumenValoracionesEmpresa?.promedio || 0),
+        total_valoraciones: Number(resumenValoracionesEmpresa?.total_valoraciones || 0)
+      }
     });
   } catch (error) {
     res.status(500).json({

@@ -3,27 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly · Reseñas de Postulantes</title>
+    <title>Workly | Resenas y Referencias</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
     <style>
-        * { font-family: 'Inter', sans-serif; }
-        :root { --primary-deep: #3f51b5; --nav-bg: #011671; --light-text: #e2e4e8; --body-bg: #f5f7fc; }
-        body { background: var(--body-bg); }
+        * { font-family: "Inter", sans-serif; }
+        :root {
+            --nav-bg: #011671;
+            --page-bg: linear-gradient(180deg, #eef4ff 0%, #f9fbff 100%);
+            --primary-deep: #3f51b5;
+            --surface-shadow: 0 24px 42px -24px rgba(1, 22, 113, 0.28);
+        }
+
+        body { background: var(--page-bg); color: #182033; }
         .navbar-custom, .footer-custom { background-color: var(--nav-bg) !important; }
-        .nav-link-custom { color: white !important; font-weight: 500; padding: 0.5rem 1.2rem; border-radius: 30px; background: rgba(255,255,255,0.05); text-decoration: none; }
-        .nav-link-custom.active, .nav-link-custom:hover { background: rgba(255,255,255,0.18); }
+        .nav-link-custom {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.6rem 1.1rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.06);
+            text-decoration: none;
+            transition: 0.2s ease;
+        }
+        .nav-link-custom.active, .nav-link-custom:hover { background: rgba(255,255,255,0.16); }
         .brand-icon { font-size: 3.5rem; color: white; margin-right: 0.75rem; }
         .brand-text { color: white; font-weight: 700; font-size: 2rem; line-height: 1.2; }
-        .brand-sub { color: var(--light-text); font-size: 0.95rem; }
-        .filter-card, .review-card, .form-card { background: white; border-radius: 28px; padding: 1.5rem; box-shadow: 0 12px 24px -8px rgba(0,0,0,0.04); border: 1px solid #edf0f5; }
-        .review-card { margin-bottom: 1rem; }
-        .avatar-circle { width: 52px; height: 52px; background: #eef2f9; border-radius: 18px; display: flex; align-items: center; justify-content: center; color: var(--primary-deep); font-weight: 700; font-size: 1.2rem; }
+        .brand-sub { color: #e2e4e8; font-size: 0.95rem; }
+        .surface-card {
+            background: rgba(255,255,255,0.96);
+            border: 1px solid rgba(255,255,255,0.74);
+            border-radius: 30px;
+            box-shadow: var(--surface-shadow);
+        }
+        .hero-card {
+            background: linear-gradient(135deg, #071a88 0%, #3d56c3 58%, #89a0ff 100%);
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            right: -70px;
+            bottom: -90px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.14);
+        }
+        .metric-pill {
+            background: rgba(255,255,255,0.14);
+            border: 1px solid rgba(255,255,255,0.22);
+            border-radius: 22px;
+            padding: 1rem 1.1rem;
+            backdrop-filter: blur(12px);
+        }
+        .section-card, .review-card, .form-card, .summary-card {
+            background: #fff;
+            border-radius: 26px;
+            border: 1px solid #e7edf7;
+            box-shadow: 0 18px 30px -24px rgba(15, 23, 42, 0.35);
+        }
+        .section-card, .form-card, .summary-card { padding: 1.5rem; }
+        .review-card { padding: 1.25rem; }
+        .avatar-circle {
+            width: 52px;
+            height: 52px;
+            background: #eef2ff;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-deep);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
         .stars { color: #ffb347; letter-spacing: 2px; }
-        .star-interactive { cursor: pointer; font-size: 1.8rem; color: #cdd2dc; transition: color 0.15s; }
-        .star-interactive.active { color: #ffb347; }
-        .notification-badge { position: absolute; top: -5px; right: -5px; background-color: #ff4757; color: white; border-radius: 50%; padding: 0.25rem 0.45rem; font-size: 0.7rem; font-weight: bold; border: 2px solid white; }
+        .star-interactive {
+            cursor: pointer;
+            font-size: 1.8rem;
+            color: #cdd2dc;
+            transition: color 0.15s ease, transform 0.15s ease;
+        }
+        .star-interactive:hover,
+        .star-interactive.active {
+            color: #ffb347;
+            transform: translateY(-1px);
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff4757;
+            color: white;
+            border-radius: 50%;
+            padding: 0.25rem 0.45rem;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+        .tag-chip {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 0.45rem 0.8rem;
+            background: #f3f6fb;
+            color: #42506b;
+            font-size: 0.84rem;
+            font-weight: 600;
+        }
+        .empty-state {
+            border: 1px dashed #cdd8ea;
+            background: #f8fafc;
+            border-radius: 24px;
+        }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -33,7 +128,7 @@
             <i class="bi bi-briefcase-fill brand-icon"></i>
             <div class="lh-sm ms-2">
                 <span class="brand-text">Workly</span>
-                <span class="brand-sub">Panel de Empresa</span>
+                <span class="brand-sub">Panel de empresa</span>
             </div>
         </a>
         <div class="collapse navbar-collapse show">
@@ -42,12 +137,12 @@
                 <a href="../misvacantes/index.html" class="nav-link-custom"><i class="bi bi-briefcase me-1"></i> Mis vacantes</a>
                 <a href="../postulaciones/index.html" class="nav-link-custom"><i class="bi bi-people me-1"></i> Postulaciones</a>
                 <a href="../foro/index.html" class="nav-link-custom"><i class="bi bi-chat-dots me-1"></i> Foro</a>
-                <a href="../resenaempresa/index.html" class="nav-link-custom active"><i class="bi bi-star me-1"></i> Reseñas</a>
+                <a href="../resenaempresa/index.html" class="nav-link-custom active"><i class="bi bi-star me-1"></i> Resenas</a>
             </div>
             <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
                 <a href="../notificaciones/index.html" class="text-white position-relative d-inline-block">
                     <i class="bi bi-bell-fill fs-3"></i>
-                    <span class="notification-badge">2</span>
+                    <span class="notification-badge">0</span>
                 </a>
                 <a href="../perfil/index.html" class="text-white d-inline-block">
                     <i class="bi bi-person-circle fs-2"></i>
@@ -57,35 +152,86 @@
     </div>
 </nav>
 
-<main class="flex-grow-1 py-4">
+<main class="flex-grow-1 py-4 py-lg-5">
     <div class="container-fluid px-4 px-lg-5">
-        <div class="filter-card mb-4">
-            <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-star-fill fs-1" style="color: var(--primary-deep);"></i>
-                <div>
-                    <h4 class="fw-bold mb-0" style="color: #121826;">Reseñas de postulantes</h4>
-                    <p class="text-muted mb-0">Evalúa a las personas que aplicaron a tus vacantes.</p>
+        <section class="surface-card hero-card p-4 p-lg-5 mb-4">
+            <div class="row g-4 align-items-center position-relative">
+                <div class="col-12 col-xl-7">
+                    <span class="badge rounded-pill text-bg-light text-primary fw-semibold mb-3">Reputacion y referencias</span>
+                    <h1 class="display-6 fw-bold mb-2">Gestiona lo que opinan de tu empresa y de tus candidatos</h1>
+                    <p class="mb-0 text-white-50">Revisa comentarios de usuarios, deja evaluaciones internas y consulta referencias externas antes de decidir.</p>
+                </div>
+                <div class="col-12 col-xl-5">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="metric-pill">
+                                <div class="small text-white-50 mb-1">Promedio empresa</div>
+                                <div class="fs-4 fw-bold" id="metricEmpresaPromedio">0.0</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="metric-pill">
+                                <div class="small text-white-50 mb-1">Resenas empresa</div>
+                                <div class="fs-4 fw-bold" id="metricEmpresaTotal">0</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="metric-pill">
+                                <div class="small text-white-50 mb-1">Mis resenas</div>
+                                <div class="fs-4 fw-bold" id="metricMisResenas">0</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="metric-pill">
+                                <div class="small text-white-50 mb-1">Referencias externas</div>
+                                <div class="fs-4 fw-bold" id="metricExternas">0</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
         <div id="alertContainer" class="mb-3"></div>
 
         <div class="row g-4">
-            <section class="col-12 col-lg-7">
-                <h5 class="fw-bold mb-3">Últimas reseñas</h5>
-                <div id="listaResenas"></div>
+            <section class="col-12 col-xl-7">
+                <div class="section-card mb-4">
+                    <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+                        <div>
+                            <h2 class="h4 fw-bold mb-1">Resenas sobre tu empresa</h2>
+                            <p class="text-muted mb-0">Lo que los usuarios que postularon quieren destacar de tu proceso.</p>
+                        </div>
+                        <div class="text-lg-end">
+                            <div class="fw-bold fs-4" id="empresaPromedioDetalle">0.0</div>
+                            <div class="text-muted small" id="empresaTotalDetalle">0 resenas</div>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-3" id="listaValoracionesEmpresa"></div>
+                </div>
+
+                <div class="section-card">
+                    <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
+                        <div>
+                            <h2 class="h4 fw-bold mb-1">Referencias externas de tus postulantes</h2>
+                            <p class="text-muted mb-0">Opiniones que otras empresas dejaron sobre candidatos que tambien aplicaron contigo.</p>
+                        </div>
+                        <span class="badge text-bg-light rounded-pill align-self-lg-start" id="badgeReferenciasExternas">0 referencias</span>
+                    </div>
+                    <div class="d-grid gap-3" id="listaResenasExternas"></div>
+                </div>
             </section>
 
-            <aside class="col-12 col-lg-5">
-                <div class="form-card">
-                    <h5 class="fw-bold mb-4">Crear o actualizar reseña</h5>
+            <aside class="col-12 col-xl-5">
+                <div class="form-card mb-4">
+                    <h2 class="h4 fw-bold mb-3">Crear o actualizar resena de postulante</h2>
+                    <p class="text-muted mb-4">Documenta tu experiencia con cada candidato para dar seguimiento mas claro al proceso.</p>
                     <div class="mb-3">
-                        <label class="form-label fw-semibold small">Postulación</label>
+                        <label class="form-label fw-semibold small">Postulacion</label>
                         <select id="id_postulacion_fk" class="form-select rounded-4"></select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label fw-semibold small">Puntuación</label>
+                        <label class="form-label fw-semibold small">Puntuacion</label>
                         <div class="d-flex align-items-center gap-2 mb-2">
                             <i class="bi bi-star star-interactive" data-value="1"></i>
                             <i class="bi bi-star star-interactive" data-value="2"></i>
@@ -96,28 +242,41 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-semibold small">Comentario</label>
-                        <textarea id="comentarioResena" class="form-control rounded-4" rows="4" placeholder="Describe tu experiencia con el postulante"></textarea>
+                        <textarea id="comentarioResena" class="form-control rounded-4" rows="4" placeholder="Describe fortalezas, comunicacion, ajuste al perfil y nivel de seguimiento"></textarea>
                     </div>
                     <div class="mb-4">
                         <label class="form-label fw-semibold small">Etiquetas</label>
                         <input id="etiquetasResena" class="form-control rounded-4" placeholder="Ej: puntual, buena comunicacion, perfil tecnico">
-                        <div class="form-text">Sepáralas con comas.</div>
+                        <div class="form-text">Separalas con comas.</div>
                     </div>
-                    <button type="button" id="btnGuardarResena" class="btn btn-primary w-100 rounded-pill py-3">Guardar reseña</button>
+                    <button type="button" id="btnGuardarResena" class="btn btn-primary w-100 rounded-pill py-3">Guardar resena</button>
                 </div>
 
-                <div class="form-card mt-4 text-center" style="background: linear-gradient(145deg, var(--primary-deep), #2c3e8f); color: white;">
-                    <i class="bi bi-bar-chart-line fs-1 mb-2 opacity-50"></i>
-                    <h6 class="fw-bold mb-3">Resumen</h6>
-                    <div class="d-flex justify-content-between small fw-semibold border-bottom border-light border-opacity-25 pb-2 mb-2">
-                        <span>Promedio</span><span class="badge bg-white text-dark rounded-pill" id="resumenPromedio">0.0 ★</span>
+                <div class="summary-card mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h3 class="h5 fw-bold mb-0">Resumen de evaluacion</h3>
+                        <span class="badge text-bg-light rounded-pill" id="resumenCobertura">0%</span>
                     </div>
-                    <div class="d-flex justify-content-between small fw-semibold border-bottom border-light border-opacity-25 pb-2 mb-2">
-                        <span>Total reseñas</span><span class="badge bg-white text-dark rounded-pill" id="resumenTotal">0</span>
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted">Promedio otorgado</span>
+                        <strong id="resumenPromedio">0.0</strong>
                     </div>
-                    <div class="d-flex justify-content-between small fw-semibold">
-                        <span>Cobertura</span><span class="badge bg-white text-dark rounded-pill" id="resumenCobertura">0%</span>
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted">Total resenas</span>
+                        <strong id="resumenTotal">0</strong>
                     </div>
+                    <div class="d-flex justify-content-between py-2">
+                        <span class="text-muted">Postulaciones cubiertas</span>
+                        <strong id="resumenResenables">0</strong>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h3 class="h5 fw-bold mb-0">Tus ultimas resenas</h3>
+                        <span class="badge text-bg-light rounded-pill" id="badgeMisResenas">0 resenas</span>
+                    </div>
+                    <div class="d-grid gap-3" id="listaResenas"></div>
                 </div>
             </aside>
         </div>
@@ -125,7 +284,7 @@
 </main>
 
 <footer class="py-4 mt-auto footer-custom text-center text-white-50">
-    <div class="container">Workly 2026 · Seguimiento real del talento</div>
+    <div class="container">Workly 2026 | Seguimiento real del talento y tu reputacion</div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
