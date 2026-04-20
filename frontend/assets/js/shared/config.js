@@ -14,11 +14,44 @@ export const getUsuario = () => {
   return data ? JSON.parse(data) : null;
 };
 
+const getViewsBasePrefix = () => {
+  const currentPath = window.location.pathname || "";
+  const markers = ["/frontend/views/", "/views/"];
+
+  for (const marker of markers) {
+    const index = currentPath.indexOf(marker);
+    if (index >= 0) {
+      return currentPath.slice(0, index + marker.length);
+    }
+  }
+
+  return "/frontend/views/";
+};
+
 export const resolveViewPath = (relativeViewPath) => {
   const cleanPath = String(relativeViewPath || "").replace(/^\/+/, "");
-  const currentPath = window.location.pathname || "";
-  const prefix = currentPath.startsWith("/frontend/") ? "/frontend/views/" : "/views/";
-  return `${prefix}${cleanPath}`;
+  return `${getViewsBasePrefix()}${cleanPath}`;
+};
+
+export const normalizeAppRedirect = (redirectPath, fallbackPath = "") => {
+  const value = String(redirectPath || "").trim();
+
+  if (!value) {
+    return fallbackPath;
+  }
+
+  if (/^https?:\/\//i.test(value)) {
+    return value;
+  }
+
+  const [pathPart, queryPart = ""] = value.split("?");
+  const normalizedPath = pathPart
+    .replace(/^\/+frontend\/views\//i, "")
+    .replace(/^\/+views\//i, "")
+    .replace(/^\/+/, "");
+
+  const resolved = resolveViewPath(normalizedPath);
+  return queryPart ? `${resolved}?${queryPart}` : resolved;
 };
 
 export const buildPendingVerificationPath = ({ email = "", tipo = "" } = {}) => {

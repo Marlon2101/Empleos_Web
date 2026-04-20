@@ -2,6 +2,14 @@ import { pool } from "../config/db.js";
 
 let emailVerificationTablePromise = null;
 
+const addColumnIfMissing = async (tableName, columnDefinition) => {
+  try {
+    await pool.query(`ALTER TABLE ${tableName} ADD COLUMN ${columnDefinition}`);
+  } catch {
+    // La columna ya existe.
+  }
+};
+
 export const ensureEmailVerificationTable = async () => {
   if (emailVerificationTablePromise) {
     return emailVerificationTablePromise;
@@ -14,6 +22,7 @@ export const ensureEmailVerificationTable = async () => {
         usuario_id INT NOT NULL,
         tipo_usuario VARCHAR(20) NOT NULL DEFAULT 'usuario',
         token VARCHAR(255) NOT NULL,
+        codigo VARCHAR(6) DEFAULT NULL,
         expires_at DATETIME NOT NULL,
         created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         invalidado TINYINT(1) NOT NULL DEFAULT 0,
@@ -21,9 +30,21 @@ export const ensureEmailVerificationTable = async () => {
         PRIMARY KEY (id),
         UNIQUE KEY uq_email_verifications_token (token),
         KEY idx_email_verifications_usuario (usuario_id, tipo_usuario),
-        KEY idx_email_verifications_created (created_at)
+        KEY idx_email_verifications_created (created_at),
+        KEY idx_email_verifications_codigo (usuario_id, tipo_usuario, codigo, invalidado)
       ) ENGINE=InnoDB;
     `);
+
+    await addColumnIfMissing("email_verifications", "codigo VARCHAR(6) DEFAULT NULL AFTER token");
+
+    try {
+      await pool.query(`
+        CREATE INDEX idx_email_verifications_codigo
+        ON email_verifications (usuario_id, tipo_usuario, codigo, invalidado)
+      `);
+    } catch {
+      // El indice ya existe.
+    }
   })();
 
   return emailVerificationTablePromise;
@@ -46,6 +67,7 @@ export const crearTokenVerificacion = async ({
   usuario_id,
   tipo_usuario,
   token,
+  codigo = null,
   expires_at,
   motivo = "registro"
 }) => {
@@ -58,12 +80,13 @@ export const crearTokenVerificacion = async ({
       usuario_id,
       tipo_usuario,
       token,
+      codigo,
       expires_at,
       motivo
     )
-    VALUES (?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?)
     `,
-    [usuario_id, tipo_usuario, token, expires_at, motivo]
+    [usuario_id, tipo_usuario, token, codigo, expires_at, motivo]
   );
 
   return {
@@ -71,6 +94,7 @@ export const crearTokenVerificacion = async ({
     usuario_id,
     tipo_usuario,
     token,
+    codigo,
     expires_at,
     motivo
   };
@@ -86,6 +110,7 @@ export const obtenerTokenVerificacion = async (token) => {
       usuario_id,
       tipo_usuario,
       token,
+      codigo,
       expires_at,
       created_at,
       invalidado,
@@ -95,6 +120,35 @@ export const obtenerTokenVerificacion = async (token) => {
     LIMIT 1
     `,
     [token]
+  );
+
+  return rows[0] || null;
+};
+
+export const obtenerCodigoVerificacionActivo = async ({ usuario_id, tipo_usuario, codigo }) => {
+  await ensureEmailVerificationTable();
+
+  const [rows] = await pool.query(
+    `
+    SELECT
+      id,
+      usuario_id,
+      tipo_usuario,
+      token,
+      codigo,
+      expires_at,
+      created_at,
+      invalidado,
+      motivo
+    FROM email_verifications
+    WHERE usuario_id = ?
+      AND tipo_usuario = ?
+      AND codigo = ?
+      AND invalidado = 0
+    ORDER BY id DESC
+    LIMIT 1
+    `,
+    [usuario_id, tipo_usuario, codigo]
   );
 
   return rows[0] || null;

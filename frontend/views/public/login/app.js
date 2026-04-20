@@ -1,4 +1,4 @@
-import { API_URL, saveSession, buildPendingVerificationPath } from "../../../assets/js/shared/config.js";
+import { API_URL, saveSession, buildPendingVerificationPath, normalizeAppRedirect } from "../../../assets/js/shared/config.js";
 
 const formLogin = document.getElementById("formLogin");
 const alertContainer = document.getElementById("alertContainer");
@@ -53,8 +53,9 @@ const reenviarVerificacion = async (correoManual = "") => {
 
     showAlert(data.mensaje, "success");
 
+    const fallbackPath = buildPendingVerificationPath({ email: correo });
     setTimeout(() => {
-      window.location.href = data.redirect || buildPendingVerificationPath({ email: correo });
+      window.location.href = normalizeAppRedirect(data.redirect, fallbackPath);
     }, 1200);
   } catch (error) {
     showAlert(error.message);
@@ -88,11 +89,13 @@ formLogin?.addEventListener("submit", async (event) => {
       if (response.status === 403 && data.code === "EMAIL_NO_VERIFICADO") {
         showAlert(`${data.mensaje}. Redirigiéndote a la pantalla de verificación...`, "warning");
 
+        const fallbackPath = buildPendingVerificationPath({
+          email: data.correo_electronico || correo_electronico,
+          tipo: data.tipo
+        });
+
         setTimeout(() => {
-          window.location.href = data.redirect || buildPendingVerificationPath({
-            email: data.correo_electronico || correo_electronico,
-            tipo: data.tipo
-          });
+          window.location.href = normalizeAppRedirect(data.redirect, fallbackPath);
         }, 1200);
         return;
       }

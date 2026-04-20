@@ -1,4 +1,4 @@
-import { API_URL, buildPendingVerificationPath } from "../../../assets/js/shared/config.js";
+import { API_URL, buildPendingVerificationPath, normalizeAppRedirect } from "../../../assets/js/shared/config.js";
 
 const tabUsuario = document.getElementById("tabUsuario");
 const tabEmpresa = document.getElementById("tabEmpresa");
@@ -133,10 +133,11 @@ formRegistro?.addEventListener("submit", async (event) => {
 
     showAlert(mensaje, data.advertencia ? "warning" : "success");
 
-    const redirectPath = data.redirect || buildPendingVerificationPath({
+    const fallbackPath = buildPendingVerificationPath({
       email: data.email || payload.email,
       tipo: data.tipo || payload.tipo
     });
+    const redirectPath = normalizeAppRedirect(data.redirect, fallbackPath);
 
     setTimeout(() => {
       window.location.href = redirectPath;

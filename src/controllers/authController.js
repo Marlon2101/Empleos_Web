@@ -16,6 +16,7 @@ import {
 import {
   invalidarTokensActivos,
   crearTokenVerificacion,
+  obtenerCodigoVerificacionActivo,
   obtenerTokenVerificacion,
   marcarTokenComoInvalido,
   contarReenviosHoy
@@ -28,10 +29,13 @@ import {
 import { generarToken } from "../utils/jwt.js";
 
 const HORAS_VERIFICACION = 24;
+const LONGITUD_CODIGO = 6;
 
 const normalizarCorreo = (value) => String(value || "").trim().toLowerCase();
 
 const generarTokenCorreo = () => crypto.randomBytes(32).toString("hex");
+const generarCodigoCorreo = () =>
+  crypto.randomInt(0, 10 ** LONGITUD_CODIGO).toString().padStart(LONGITUD_CODIGO, "0");
 
 const calcularExpiracion = () => {
   const expiresAt = new Date();
@@ -47,8 +51,12 @@ const getLoginViewPath = (params = {}) => {
   return `/views/public/login/index.html${search ? `?${search}` : ""}`;
 };
 
+const getEmailConfigWarning = () =>
+  "El servidor de correo no esta configurado con credenciales reales. Configura EMAIL_USER, EMAIL_PASS y EMAIL_FROM validos en el archivo .env para recibir correos reales.";
+
 const crearRegistroVerificacion = async ({ id, tipo, motivo = "registro" }) => {
   const token = generarTokenCorreo();
+  const codigo = generarCodigoCorreo();
   const expiresAt = calcularExpiracion();
 
   await invalidarTokensActivos(id, tipo);
@@ -56,17 +64,21 @@ const crearRegistroVerificacion = async ({ id, tipo, motivo = "registro" }) => {
     usuario_id: id,
     tipo_usuario: tipo,
     token,
+    codigo,
     expires_at: expiresAt,
     motivo
   });
 
-  return token;
+  return {
+    token,
+    codigo
+  };
 };
 
-const enviarCorreoBienvenidaSeguro = async (cuenta, token) => {
+const enviarCorreoBienvenidaSeguro = async (cuenta, codigo) => {
   try {
-    await enviarBienvenida(cuenta.correo_electronico, cuenta.nombre, token);
-    return null;
+    const envio = await enviarBienvenida(cuenta.correo_electronico, cuenta.nombre, codigo);
+    return envio?.delivery?.canDeliver ? null : getEmailConfigWarning();
   } catch (error) {
     console.error("No se pudo enviar el correo de bienvenida/verificacion:", error.message);
     return "La cuenta se creo correctamente, pero no se pudo enviar el correo de verificacion. Puedes reenviarlo desde la pantalla de acceso.";
@@ -165,13 +177,13 @@ export const registrarUsuario = async (req, res) => {
     });
 
     const cuenta = await obtenerCuentaPorIdYTipo(nuevoUsuario.id_usuario, "usuario");
-    const token = await crearRegistroVerificacion({
+    const verificacion = await crearRegistroVerificacion({
       id: nuevoUsuario.id_usuario,
       tipo: "usuario",
       motivo: "registro"
     });
 
-    const advertencia = await enviarCorreoBienvenidaSeguro(cuenta, token);
+    const advertencia = await enviarCorreoBienvenidaSeguro(cuenta, verificacion.codigo);
 
     res.status(201).json({
       mensaje: "Usuario registrado correctamente. Revisa tu correo para verificar tu cuenta.",
@@ -212,13 +224,13 @@ export const registrarEmpresa = async (req, res) => {
     });
 
     const cuenta = await obtenerCuentaPorIdYTipo(nuevaEmpresa.id_empresa, "empresa");
-    const token = await crearRegistroVerificacion({
+    const verificacion = await crearRegistroVerificacion({
       id: nuevaEmpresa.id_empresa,
       tipo: "empresa",
       motivo: "registro"
     });
 
-    const advertencia = await enviarCorreoBienvenidaSeguro(cuenta, token);
+    const advertencia = await enviarCorreoBienvenidaSeguro(cuenta, verificacion.codigo);
 
     res.status(201).json({
       mensaje: "Empresa registrada correctamente. Revisa tu correo para verificar tu cuenta.",
@@ -280,6 +292,79 @@ export const verificarEmail = async (req, res) => {
   }
 };
 
+export const verificarCodigoEmail = async (req, res) => {
+  try {
+    const correo_electronico = normalizarCorreo(req.body.correo_electronico);
+    const tipo = String(req.body.tipo_usuario || "").trim();
+    const codigo = String(req.body.codigo || "").trim();
+
+    if (!correo_electronico || !tipo || !codigo) {
+      return res.status(400).json({
+        mensaje: "Debes enviar el correo, el tipo de cuenta y el codigo de verificacion"
+      });
+    }
+
+    const cuenta = await obtenerCuentaPorCorreo(correo_electronico);
+
+    if (!cuenta || cuenta.tipo !== tipo) {
+      return res.status(404).json({
+        mensaje: "No se encontro una cuenta pendiente con los datos proporcionados"
+      });
+    }
+
+    if (cuenta.email_verificado) {
+      return res.json({
+        mensaje: "La cuenta ya estaba verificada. Ya puedes iniciar sesion.",
+        verified: true,
+        redirect: getLoginViewPath({ verified: "1", email: cuenta.correo_electronico })
+      });
+    }
+
+    const registro = await obtenerCodigoVerificacionActivo({
+      usuario_id: cuenta.id,
+      tipo_usuario: cuenta.tipo,
+      codigo
+    });
+
+    if (!registro) {
+      return res.status(400).json({
+        mensaje: "El codigo ingresado no es valido. Revisa el correo e intentalo nuevamente."
+      });
+    }
+
+    const expirado = new Date(registro.expires_at).getTime() < Date.now();
+
+    if (expirado) {
+      await marcarTokenComoInvalido(registro.id);
+      return res.status(400).json({
+        mensaje: "El codigo de verificacion expiro. Solicita uno nuevo para continuar.",
+        expired: true
+      });
+    }
+
+    await marcarCuentaComoVerificada(registro.usuario_id, registro.tipo_usuario);
+    await invalidarTokensActivos(registro.usuario_id, registro.tipo_usuario);
+
+    try {
+      await enviarConfirmacionVerificacion(cuenta.correo_electronico, cuenta.nombre);
+    } catch (error) {
+      console.error("No se pudo enviar la confirmacion de verificacion:", error.message);
+    }
+
+    return res.json({
+      mensaje: "Email verificado correctamente. Ya puedes iniciar sesion.",
+      verified: true,
+      redirect: getLoginViewPath({
+        verified: "1",
+        email: cuenta.correo_electronico
+      })
+    });
+  } catch (error) {
+    console.error("Error al verificar codigo de email:", error);
+    res.status(500).json({ mensaje: "Error al verificar el codigo" });
+  }
+};
+
 export const reenviarVerificacion = async (req, res) => {
   try {
     const correo_electronico = normalizarCorreo(req.body.correo_electronico);
@@ -305,16 +390,22 @@ export const reenviarVerificacion = async (req, res) => {
       });
     }
 
-    const token = await crearRegistroVerificacion({
+    const verificacion = await crearRegistroVerificacion({
       id: cuenta.id,
       tipo: cuenta.tipo,
       motivo: "reenvio"
     });
 
-    await enviarVerificacionCorreo(cuenta.correo_electronico, cuenta.nombre, token);
+    const envio = await enviarVerificacionCorreo(cuenta.correo_electronico, cuenta.nombre, verificacion.codigo);
+
+    if (!envio?.delivery?.canDeliver) {
+      return res.status(503).json({
+        mensaje: getEmailConfigWarning()
+      });
+    }
 
     res.json({
-      mensaje: "Te enviamos un nuevo correo de verificacion.",
+      mensaje: "Te enviamos un nuevo codigo de verificacion a tu correo.",
       redirect: getPendingViewPath(cuenta.correo_electronico, cuenta.tipo)
     });
   } catch (error) {
@@ -358,16 +449,29 @@ export const cambiarCorreoPendiente = async (req, res) => {
     }
 
     const cuentaActualizada = await actualizarCorreoPendienteCuenta(cuenta.id, cuenta.tipo, nuevo_correo);
-    const token = await crearRegistroVerificacion({
+    const verificacion = await crearRegistroVerificacion({
       id: cuenta.id,
       tipo: cuenta.tipo,
       motivo: "cambio_correo"
     });
 
-    await enviarVerificacionCorreo(cuentaActualizada.correo_electronico, cuentaActualizada.nombre, token);
+    const envio = await enviarVerificacionCorreo(
+      cuentaActualizada.correo_electronico,
+      cuentaActualizada.nombre,
+      verificacion.codigo
+    );
+
+    if (!envio?.delivery?.canDeliver) {
+      return res.status(503).json({
+        mensaje: getEmailConfigWarning(),
+        email: cuentaActualizada.correo_electronico,
+        tipo: cuentaActualizada.tipo,
+        redirect: getPendingViewPath(cuentaActualizada.correo_electronico, cuentaActualizada.tipo)
+      });
+    }
 
     res.json({
-      mensaje: "Correo actualizado. Revisa tu nueva bandeja de entrada para verificar la cuenta.",
+      mensaje: "Correo actualizado. Revisa tu nueva bandeja de entrada y escribe el codigo para verificar la cuenta.",
       email: cuentaActualizada.correo_electronico,
       tipo: cuentaActualizada.tipo,
       redirect: getPendingViewPath(cuentaActualizada.correo_electronico, cuentaActualizada.tipo)

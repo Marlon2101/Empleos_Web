@@ -1,7 +1,9 @@
-import { API_URL, buildPendingVerificationPath, resolveViewPath } from "../../../assets/js/shared/config.js";
+import { API_URL, buildPendingVerificationPath, normalizeAppRedirect, resolveViewPath } from "../../../assets/js/shared/config.js";
 
 const alertContainer = document.getElementById("alertContainer");
 const correoDestino = document.getElementById("correoDestino");
+const codigoVerificacion = document.getElementById("codigoVerificacion");
+const btnVerificarCodigo = document.getElementById("btnVerificarCodigo");
 const btnReenviarCorreo = document.getElementById("btnReenviarCorreo");
 const btnCambiarCorreo = document.getElementById("btnCambiarCorreo");
 const nuevoCorreo = document.getElementById("nuevoCorreo");
@@ -24,7 +26,45 @@ const actualizarVista = () => {
   correoDestino.textContent = email || "Sin correo disponible";
 
   if (status === "expired") {
-    showAlert("El enlace anterior expiró. Puedes reenviar un nuevo correo de verificación.", "warning");
+    showAlert("El codigo anterior expiro. Puedes reenviar uno nuevo para continuar.", "warning");
+  }
+};
+
+const verificarCodigo = async () => {
+  const codigo = String(codigoVerificacion?.value || "").replace(/\D/g, "").slice(0, 6);
+
+  if (codigo.length !== 6) {
+    showAlert("Escribe el codigo completo de 6 digitos.", "warning");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/api/auth/verificar-codigo`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        correo_electronico: email,
+        tipo_usuario: tipo,
+        codigo
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.mensaje || "No se pudo verificar el codigo.");
+    }
+
+    showAlert(data.mensaje, "success");
+
+    setTimeout(() => {
+      window.location.href = normalizeAppRedirect(
+        data.redirect,
+        resolveViewPath("public/login/index.html?verified=1")
+      );
+    }, 1200);
+  } catch (error) {
+    showAlert(error.message);
   }
 };
 
@@ -39,10 +79,13 @@ const reenviarCorreo = async () => {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.mensaje || "No se pudo reenviar el correo.");
+      throw new Error(data.mensaje || "No se pudo reenviar el codigo.");
     }
 
     showAlert(data.mensaje, "success");
+    if (codigoVerificacion) {
+      codigoVerificacion.value = "";
+    }
   } catch (error) {
     showAlert(error.message);
   }
@@ -52,7 +95,7 @@ const cambiarCorreo = async () => {
   const nuevo = nuevoCorreo.value.trim().toLowerCase();
 
   if (!nuevo) {
-    showAlert("Escribe el nuevo correo electrónico.", "warning");
+    showAlert("Escribe el nuevo correo electronico.", "warning");
     return;
   }
 
@@ -74,8 +117,9 @@ const cambiarCorreo = async () => {
     }
 
     showAlert(data.mensaje, "success");
+    const fallbackPath = buildPendingVerificationPath({ email: data.email, tipo: data.tipo });
     setTimeout(() => {
-      window.location.href = data.redirect || buildPendingVerificationPath({ email: data.email, tipo: data.tipo });
+      window.location.href = normalizeAppRedirect(data.redirect, fallbackPath);
     }, 1200);
   } catch (error) {
     showAlert(error.message);
@@ -84,9 +128,13 @@ const cambiarCorreo = async () => {
 
 btnReenviarCorreo?.addEventListener("click", reenviarCorreo);
 btnCambiarCorreo?.addEventListener("click", cambiarCorreo);
+btnVerificarCodigo?.addEventListener("click", verificarCodigo);
+codigoVerificacion?.addEventListener("input", () => {
+  codigoVerificacion.value = String(codigoVerificacion.value || "").replace(/\D/g, "").slice(0, 6);
+});
 
 if (!email || !tipo) {
-  showAlert("Faltan datos para continuar con la verificación. Vuelve a iniciar sesión.", "warning");
+  showAlert("Faltan datos para continuar con la verificacion. Vuelve a iniciar sesion.", "warning");
   setTimeout(() => {
     window.location.href = resolveViewPath("public/login/index.html");
   }, 1800);

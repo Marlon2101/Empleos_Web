@@ -4,6 +4,7 @@ import {
   registrarUsuario,
   registrarEmpresa,
   verificarEmail,
+  verificarCodigoEmail,
   reenviarVerificacion,
   cambiarCorreoPendiente
 } from "../controllers/authController.js";
@@ -19,6 +20,7 @@ router.post("/login", validarLogin, iniciarSesion);
 router.post("/register-user", validarRegistroUsuario, registrarUsuario);
 router.post("/register-company", validarRegistroEmpresa, registrarEmpresa);
 router.get("/verificar-email", verificarEmail);
+router.post("/verificar-codigo", verificarCodigoEmail);
 router.post("/reenviar-verificacion", reenviarVerificacion);
 router.post("/cambiar-email-pendiente", cambiarCorreoPendiente);
 

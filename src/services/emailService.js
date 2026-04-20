@@ -3,19 +3,50 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const APP_BASE_URL = process.env.APP_BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
-const EMAIL_FROM = process.env.EMAIL_FROM || process.env.EMAIL_USER || "noreply@empleosweb.com";
+const DEFAULT_EMAIL_FROM = process.env.EMAIL_FROM || process.env.EMAIL_USER || "noreply@empleosweb.com";
+const PLACEHOLDER_VALUES = new Set([
+  "",
+  "tuemail@gmail.com",
+  "tu_contrasena_de_app"
+]);
 
 let transporter;
+let transportMeta;
+
+const cleanEnv = (value) => String(value || "").trim();
+
+const getEmailConfig = () => {
+  const host = cleanEnv(process.env.EMAIL_HOST);
+  const port = cleanEnv(process.env.EMAIL_PORT);
+  const user = cleanEnv(process.env.EMAIL_USER);
+  const pass = cleanEnv(process.env.EMAIL_PASS);
+  const from = cleanEnv(process.env.EMAIL_FROM);
+  const hasRequired = Boolean(host && port && user && pass);
+  const usesPlaceholders =
+    PLACEHOLDER_VALUES.has(user) ||
+    PLACEHOLDER_VALUES.has(pass) ||
+    (!from || PLACEHOLDER_VALUES.has(from));
+
+  return {
+    host,
+    port,
+    user,
+    pass,
+    from: from || user || DEFAULT_EMAIL_FROM,
+    hasRequired,
+    usesPlaceholders
+  };
+};
 
 const getTransporter = () => {
-  if (transporter) {
-    return transporter;
+  if (transporter && transportMeta) {
+    return { transporter, meta: transportMeta };
   }
 
-  const hasSmtpConfig = process.env.EMAIL_HOST && process.env.EMAIL_PORT && process.env.EMAIL_USER && process.env.EMAIL_PASS;
+  const config = getEmailConfig();
+  const canUseRealSmtp = config.hasRequired && !config.usesPlaceholders;
 
-  transporter = hasSmtpConfig
+  transporter = canUseRealSmtp
     ? nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
         port: Number(process.env.EMAIL_PORT),
@@ -29,7 +60,19 @@ const getTransporter = () => {
         jsonTransport: true
       });
 
-  return transporter;
+  transportMeta = canUseRealSmtp
+    ? {
+        mode: "smtp",
+        canDeliver: true,
+        info: `SMTP configurado con ${config.user}`
+      }
+    : {
+        mode: "simulated",
+        canDeliver: false,
+        info: "SMTP no configurado con credenciales reales. El correo se simulara localmente."
+      };
+
+  return { transporter, meta: transportMeta };
 };
 
 const renderEmailLayout = ({ title, lead, content, actionLabel, actionUrl, footerNote }) => `
@@ -60,68 +103,78 @@ const renderEmailLayout = ({ title, lead, content, actionLabel, actionUrl, foote
 `;
 
 const enviarCorreo = async ({ to, subject, html, text }) => {
-  const mailer = getTransporter();
-  return mailer.sendMail({
-    from: EMAIL_FROM,
+  const { transporter: mailer, meta } = getTransporter();
+  const config = getEmailConfig();
+  const result = await mailer.sendMail({
+    from: config.from,
     to,
     subject,
     html,
     text
   });
+
+  if (meta.mode === "simulated") {
+    console.warn(`[email-service] Correo simulado para ${to}. ${meta.info}`);
+    console.warn(`[email-service] Asunto: ${subject}`);
+  } else {
+    console.log(`[email-service] Correo enviado a ${to} usando ${meta.mode}. MessageId: ${result.messageId || "sin-id"}`);
+  }
+
+  return {
+    ...result,
+    delivery: meta
+  };
 };
 
-export const construirEnlaceVerificacion = (token) =>
-  `${APP_BASE_URL}/api/auth/verificar-email?token=${encodeURIComponent(token)}`;
-
-export const enviarVerificacionCorreo = async (email, nombre, token) => {
-  const verificationUrl = construirEnlaceVerificacion(token);
-
+export const enviarVerificacionCorreo = async (email, nombre, codigo) => {
   return enviarCorreo({
     to: email,
-    subject: "Reenvio de verificacion - Empleos_Web",
-    text: `Hola ${nombre}. Reenviaremos tu acceso de verificacion. Usa este enlace: ${verificationUrl}`,
+    subject: "Codigo de verificacion - Empleos_Web",
+    text: `Hola ${nombre}. Tu codigo de verificacion es ${codigo}. Expira en 24 horas.`,
     html: renderEmailLayout({
-      title: "Reenvio de verificacion",
-      lead: `Hola ${nombre}, aqui tienes un nuevo enlace para confirmar tu correo electronico.`,
+      title: "Verifica tu correo",
+      lead: `Hola ${nombre}, usa este codigo para confirmar tu correo electronico dentro de Empleos_Web.`,
       content: `
-        <p>Por seguridad, el enlace expira en <strong>24 horas</strong>.</p>
-        <p>Si no ves el correo en tu bandeja principal, revisa spam o promociones.</p>
+        <p style="margin:0 0 14px;">Tu codigo de verificacion es:</p>
+        <div style="display:inline-block;background:#f3f6ff;border:1px solid #d9e4ff;border-radius:18px;padding:14px 22px;font-size:34px;font-weight:800;letter-spacing:0.18em;color:#04154b;">
+          ${codigo}
+        </div>
+        <p style="margin:18px 0 0;">Por seguridad, el codigo expira en <strong>24 horas</strong>.</p>
+        <p style="margin:12px 0 0;">Escribelo en la pantalla de verificacion de la plataforma. Si no ves el correo en tu bandeja principal, revisa spam o promociones.</p>
       `,
-      actionLabel: "Verificar correo",
-      actionUrl: verificationUrl,
-      footerNote: "Este mensaje fue generado porque solicitaste un nuevo enlace de verificacion en Empleos_Web."
+      footerNote: "Este mensaje fue generado para verificar tu cuenta en Empleos_Web."
     })
   });
 };
 
-export const enviarBienvenida = async (email, nombre, token = "") => {
-  const verificationUrl = token ? construirEnlaceVerificacion(token) : "";
-
+export const enviarBienvenida = async (email, nombre, codigo = "") => {
   return enviarCorreo({
     to: email,
     subject: "Bienvenido a Empleos_Web - Verifica tu cuenta",
-    text: `Hola ${nombre}. Bienvenido a Empleos_Web. ${verificationUrl ? `Verifica tu cuenta aqui: ${verificationUrl}` : ""}`,
+    text: `Hola ${nombre}. Bienvenido a Empleos_Web. ${codigo ? `Tu codigo de verificacion es ${codigo}.` : ""}`,
     html: renderEmailLayout({
       title: "Bienvenido a Empleos_Web",
       lead: `Hola ${nombre}, tu cuenta fue creada correctamente y ya casi esta lista para usarse.`,
       content: `
         <p>Para activar tu acceso debes verificar tu correo electronico antes de iniciar sesion.</p>
-        <p>El enlace expira en <strong>24 horas</strong>. Si no encuentras el mensaje, revisa tambien spam o promociones.</p>
+        ${codigo ? `
+          <p style="margin:18px 0 12px;">Ingresa este codigo en la pantalla de verificacion:</p>
+          <div style="display:inline-block;background:#f3f6ff;border:1px solid #d9e4ff;border-radius:18px;padding:14px 22px;font-size:34px;font-weight:800;letter-spacing:0.18em;color:#04154b;">
+            ${codigo}
+          </div>
+        ` : ""}
+        <p style="margin:18px 0 0;">El codigo expira en <strong>24 horas</strong>. Si no encuentras el mensaje, revisa tambien spam o promociones.</p>
       `,
-      actionLabel: "Verificar mi cuenta",
-      actionUrl: verificationUrl,
       footerNote: "Si no creaste esta cuenta, puedes ignorar este correo. Nadie podra ingresar sin completar la verificacion."
     })
   });
 };
 
 export const enviarConfirmacionVerificacion = async (email, nombre) => {
-  const loginUrl = `${APP_BASE_URL}/views/public/login/index.html?verified=1`;
-
   return enviarCorreo({
     to: email,
     subject: "Email verificado correctamente - Empleos_Web",
-    text: `Hola ${nombre}. Tu correo ya fue verificado correctamente. Puedes iniciar sesion en ${loginUrl}`,
+    text: `Hola ${nombre}. Tu correo ya fue verificado correctamente. Ya puedes iniciar sesion en Empleos_Web.`,
     html: renderEmailLayout({
       title: "Email verificado correctamente",
       lead: `Excelente, ${nombre}. Tu cuenta ya esta activa.`,
@@ -129,9 +182,12 @@ export const enviarConfirmacionVerificacion = async (email, nombre) => {
         <p>Ahora ya puedes iniciar sesion y continuar con tu experiencia dentro de Empleos_Web.</p>
         <p>Si alguna vez no reconoces actividad en tu cuenta, cambia tu contrasena de inmediato.</p>
       `,
-      actionLabel: "Ir a iniciar sesion",
-      actionUrl: loginUrl,
       footerNote: "Gracias por verificar tu identidad y ayudarnos a mantener la plataforma mas segura."
     })
   });
+};
+
+export const getEmailDeliveryStatus = () => {
+  const { meta } = getTransporter();
+  return meta;
 };
