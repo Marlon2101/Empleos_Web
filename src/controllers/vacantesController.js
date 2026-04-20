@@ -58,27 +58,46 @@ export const obtenerVacantesPorEmpresa = async (req, res) => {
   }
 };
 
+export const obtenerMisVacantes = async (req, res) => {
+  try {
+    const data = await getVacantesByEmpresa(req.user.id);
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({
+      mensaje: "Error al obtener tus vacantes",
+      error: error.message
+    });
+  }
+};
+
 export const crearVacante = async (req, res) => {
   try {
     const {
-      id_empresa_fk,
       id_categoria_fk,
       titulo_puesto,
       descripcion_puesto,
+      responsabilidades,
+      requisitos,
       salario_offrecido,
       modalidad,
+      tipo_contrato,
+      educacion,
+      idiomas,
       id_municipio_fk
     } = req.body;
 
-    const empresaIdSeguro = id_empresa_fk || (req.user ? req.user.id : 1);
-
     const nuevaVacante = await createVacante({
-      id_empresa_fk: empresaIdSeguro,
+      id_empresa_fk: req.user.id,
       id_categoria_fk,
       titulo_puesto,
       descripcion_puesto,
+      responsabilidades,
+      requisitos,
       salario_offrecido,
       modalidad,
+      tipo_contrato,
+      educacion,
+      idiomas,
       id_municipio_fk
     });
 
@@ -110,22 +129,31 @@ export const actualizarVacante = async (req, res) => {
     }
 
     const {
-      id_empresa_fk,
       id_categoria_fk,
       titulo_puesto,
       descripcion_puesto,
+      responsabilidades,
+      requisitos,
       salario_offrecido,
       modalidad,
+      tipo_contrato,
+      educacion,
+      idiomas,
       id_municipio_fk
     } = req.body;
 
     const vacanteActualizada = await updateVacante(id, {
-      id_empresa_fk,
+      id_empresa_fk: vacante.id_empresa_fk,
       id_categoria_fk,
       titulo_puesto,
       descripcion_puesto,
+      responsabilidades,
+      requisitos,
       salario_offrecido,
       modalidad,
+      tipo_contrato,
+      educacion,
+      idiomas,
       id_municipio_fk
     });
 

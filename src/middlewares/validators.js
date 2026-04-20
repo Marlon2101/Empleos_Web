@@ -88,12 +88,27 @@ export const validarVacante = [
   body("descripcion_puesto")
     .notEmpty().withMessage("La descripcion_puesto es obligatoria"),
 
+  body("responsabilidades")
+    .notEmpty().withMessage("Las responsabilidades son obligatorias"),
+
+  body("requisitos")
+    .notEmpty().withMessage("Los requisitos son obligatorios"),
+
   body("salario_offrecido")
     .notEmpty().withMessage("El salario_offrecido es obligatorio")
     .isDecimal().withMessage("El salario_offrecido debe ser decimal"),
 
   body("modalidad")
     .notEmpty().withMessage("La modalidad es obligatoria"),
+
+  body("tipo_contrato")
+    .notEmpty().withMessage("El tipo_contrato es obligatorio"),
+
+  body("educacion")
+    .notEmpty().withMessage("La educacion es obligatoria"),
+
+  body("idiomas")
+    .notEmpty().withMessage("Los idiomas son obligatorios"),
 
   body("id_municipio_fk")
     .notEmpty().withMessage("El id_municipio_fk es obligatorio")

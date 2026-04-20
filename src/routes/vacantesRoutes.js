@@ -3,6 +3,7 @@ import {
   obtenerVacantes,
   obtenerVacantePorId,
   obtenerVacantesPorEmpresa,
+  obtenerMisVacantes,
   crearVacante,
   actualizarVacante,
   eliminarVacante,
@@ -16,17 +17,19 @@ import {
   autorizarRoles,
   verificarTokenOpcional
 } from "../middlewares/authMiddleware.js";
+import { validarVacante } from "../middlewares/validators.js";
 
 const router = Router();
 
 
-router.post('/', crearVacante); 
+router.post("/", verificarToken, autorizarRoles("empresa"), validarVacante, crearVacante);
 
 
 router.get("/", obtenerVacantes);
 router.get("/busqueda/filtros", buscarVacantes);
 router.get("/detalle/:id", verificarTokenOpcional, obtenerDetalleVacante);
 router.get("/:id/similares", obtenerVacantesSimilares);
+router.get("/mis-vacantes", verificarToken, autorizarRoles("empresa"), obtenerMisVacantes);
 router.get("/empresa/:id_empresa", obtenerVacantesPorEmpresa);
 
 router.get("/destacadas", async (req, res) => {
@@ -45,8 +48,9 @@ router.get("/destacadas", async (req, res) => {
     }
 });
 
-
 router.get("/:id", obtenerVacantePorId);
+router.put("/:id", verificarToken, autorizarRoles("empresa"), validarVacante, actualizarVacante);
+router.delete("/:id", verificarToken, autorizarRoles("empresa"), eliminarVacante);
 
 
 export default router;

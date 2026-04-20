@@ -13,8 +13,13 @@ const BASE_VACANTES_SELECT = `
     c.nombre_categoria,
     v.titulo_puesto,
     v.descripcion_puesto,
+    v.responsabilidades,
+    v.requisitos,
     v.salario_offrecido,
     v.modalidad,
+    v.tipo_contrato,
+    v.educacion,
+    v.idiomas,
     v.id_municipio_fk,
     m.nombre_municipio,
     v.fecha_publicacion,
@@ -99,8 +104,13 @@ export const createVacante = async (vacante) => {
     id_categoria_fk,
     titulo_puesto,
     descripcion_puesto,
+    responsabilidades,
+    requisitos,
     salario_offrecido,
     modalidad,
+    tipo_contrato,
+    educacion,
+    idiomas,
     id_municipio_fk
   } = vacante;
 
@@ -112,19 +122,29 @@ export const createVacante = async (vacante) => {
       id_categoria_fk,
       titulo_puesto,
       descripcion_puesto,
+      responsabilidades,
+      requisitos,
       salario_offrecido,
       modalidad,
+      tipo_contrato,
+      educacion,
+      idiomas,
       id_municipio_fk
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
     [
       id_empresa_fk,
       id_categoria_fk,
       titulo_puesto,
       descripcion_puesto,
+      responsabilidades,
+      requisitos,
       salario_offrecido,
       modalidad,
+      tipo_contrato,
+      educacion,
+      idiomas,
       id_municipio_fk
     ]
   );
@@ -138,8 +158,13 @@ export const updateVacante = async (id, vacante) => {
     id_categoria_fk,
     titulo_puesto,
     descripcion_puesto,
+    responsabilidades,
+    requisitos,
     salario_offrecido,
     modalidad,
+    tipo_contrato,
+    educacion,
+    idiomas,
     id_municipio_fk
   } = vacante;
 
@@ -151,8 +176,13 @@ export const updateVacante = async (id, vacante) => {
       id_categoria_fk = ?,
       titulo_puesto = ?,
       descripcion_puesto = ?,
+      responsabilidades = ?,
+      requisitos = ?,
       salario_offrecido = ?,
       modalidad = ?,
+      tipo_contrato = ?,
+      educacion = ?,
+      idiomas = ?,
       id_municipio_fk = ?
     WHERE id_vacante = ?
     `,
@@ -161,8 +191,13 @@ export const updateVacante = async (id, vacante) => {
       id_categoria_fk,
       titulo_puesto,
       descripcion_puesto,
+      responsabilidades,
+      requisitos,
       salario_offrecido,
       modalidad,
+      tipo_contrato,
+      educacion,
+      idiomas,
       id_municipio_fk,
       id
     ]
@@ -284,7 +319,9 @@ export const getDetalleVacanteById = async (id) => {
       v.id_vacante,
       v.id_empresa_fk,
       v.titulo_puesto,
-      v.descripcion_puesto,   -- Usaremos esta para los detalles
+      v.descripcion_puesto,
+      v.responsabilidades,
+      v.requisitos,
       v.salario_offrecido,
       v.modalidad,
       v.tipo_contrato,      
