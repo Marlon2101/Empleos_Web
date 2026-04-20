@@ -1,4 +1,4 @@
-import { API_URL, saveSession, buildPendingVerificationPath, normalizeAppRedirect } from "../../../assets/js/shared/config.js";
+import { API_URL, saveSession, clearSession, buildPendingVerificationPath, normalizeAppRedirect } from "../../../assets/js/shared/config.js";
 
 const formLogin = document.getElementById("formLogin");
 const alertContainer = document.getElementById("alertContainer");
@@ -22,6 +22,7 @@ const manejarMensajesUrl = () => {
   const params = new URLSearchParams(window.location.search);
 
   if (params.get("verified") === "1") {
+    clearSession();
     showAlert("¡Email verificado correctamente! Ya puedes iniciar sesión.", "success");
   } else if (params.get("verification") === "invalid") {
     showAlert("El enlace de verificación no es válido o ya no está disponible.", "warning");

@@ -89,6 +89,20 @@ const getHabilidadesUsuario = async (id_usuario) => {
   return rows;
 };
 
+export const existeMunicipioById = async (id_municipio) => {
+  const [rows] = await pool.query(
+    `
+    SELECT id_municipio
+    FROM Municipios
+    WHERE id_municipio = ?
+    LIMIT 1
+    `,
+    [id_municipio]
+  );
+
+  return Boolean(rows[0]);
+};
+
 export const getPerfilUsuarioById = async (id_usuario) => {
   await ensurePerfilSchema();
 

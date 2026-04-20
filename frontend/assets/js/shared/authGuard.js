@@ -1,4 +1,4 @@
-import { resolveViewPath, buildPendingVerificationPath } from "./config.js";
+import { resolveViewPath } from "./config.js";
 
 const verificarAcceso = () => {
    
@@ -16,16 +16,6 @@ const verificarAcceso = () => {
         
         const rolDelToken = payloadDecodificado.tipo; 
         const rutaActual = window.location.pathname;
-        const usuarioGuardado = JSON.parse(localStorage.getItem("usuario") || "null");
-
-        if (rolDelToken !== "admin" && usuarioGuardado?.email_verificado === false) {
-            window.location.href = buildPendingVerificationPath({
-                email: usuarioGuardado?.correo_electronico,
-                tipo: rolDelToken
-            });
-            return;
-        }
-
         // 3. Verificamos las carpetas
         if (rutaActual.includes("/usuario/") && rolDelToken !== "usuario") {
             expulsarUsuario();

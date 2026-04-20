@@ -2,7 +2,8 @@ import {
   getPerfilUsuarioById,
   updatePerfilUsuarioById,
   getPerfilEmpresaById,
-  updatePerfilEmpresaById
+  updatePerfilEmpresaById,
+  existeMunicipioById
 } from "../models/perfilModel.js";
 
 const normalizarLista = (value) => {
@@ -15,6 +16,37 @@ const normalizarLista = (value) => {
   }
 
   return [];
+};
+
+const MAX_IMAGE_BASE64_BYTES = 8 * 1024 * 1024;
+
+const esUrlWebValida = (value) => {
+  if (!value) {
+    return true;
+  }
+
+  try {
+    const url = new URL(value);
+    return ["http:", "https:"].includes(url.protocol);
+  } catch {
+    return false;
+  }
+};
+
+const esImagenBase64Valida = (value) => {
+  if (!value) {
+    return true;
+  }
+
+  if (typeof value !== "string") {
+    return false;
+  }
+
+  if (!/^data:image\/[a-zA-Z0-9.+-]+;base64,/.test(value)) {
+    return false;
+  }
+
+  return Buffer.byteLength(value, "utf8") <= MAX_IMAGE_BASE64_BYTES;
 };
 
 export const obtenerMiPerfil = async (req, res) => {
@@ -96,11 +128,43 @@ export const actualizarPerfilUsuario = async (req, res) => {
       educacion
     } = req.body;
 
+    const municipioId = id_municipio_fk ? Number(id_municipio_fk) : null;
+
+    if (!nombres || !apellidos) {
+      return res.status(400).json({
+        mensaje: "Los nombres y apellidos son obligatorios"
+      });
+    }
+
+    if (!telefono || !/^[0-9+\-\s]{8,20}$/.test(String(telefono).trim())) {
+      return res.status(400).json({
+        mensaje: "Ingresa un numero de telefono valido"
+      });
+    }
+
+    if (!municipioId || !await existeMunicipioById(municipioId)) {
+      return res.status(400).json({
+        mensaje: "Selecciona un municipio valido"
+      });
+    }
+
+    if (!esUrlWebValida(String(sitio_web || "").trim())) {
+      return res.status(400).json({
+        mensaje: "Ingresa un sitio web valido que comience con http:// o https://"
+      });
+    }
+
+    if (!esImagenBase64Valida(foto_perfil || null)) {
+      return res.status(400).json({
+        mensaje: "La foto de perfil no tiene un formato valido o excede el tamano permitido"
+      });
+    }
+
     const perfilActualizado = await updatePerfilUsuarioById(req.user.id, {
       nombres: String(nombres || "").trim(),
       apellidos: String(apellidos || "").trim(),
       telefono: String(telefono || "").trim(),
-      id_municipio_fk: id_municipio_fk ? Number(id_municipio_fk) : null,
+      id_municipio_fk: municipioId,
       resumen_profesional: String(resumen_profesional || "").trim(),
       direccion: String(direccion || "").trim() || null,
       titulo_profesional: String(titulo_profesional || "").trim() || null,
@@ -164,12 +228,44 @@ export const actualizarPerfilEmpresa = async (req, res) => {
       beneficios
     } = req.body;
 
+    const municipioId = id_municipio_fk ? Number(id_municipio_fk) : null;
+
+    if (!nombre_comercial || !razon_social) {
+      return res.status(400).json({
+        mensaje: "El nombre comercial y la razon social son obligatorios"
+      });
+    }
+
+    if (!telefono || !/^[0-9+\-\s]{8,20}$/.test(String(telefono).trim())) {
+      return res.status(400).json({
+        mensaje: "Ingresa un numero de telefono valido"
+      });
+    }
+
+    if (!municipioId || !await existeMunicipioById(municipioId)) {
+      return res.status(400).json({
+        mensaje: "Selecciona un municipio valido"
+      });
+    }
+
+    if (!esUrlWebValida(String(sitio_web || "").trim())) {
+      return res.status(400).json({
+        mensaje: "Ingresa un sitio web valido que comience con http:// o https://"
+      });
+    }
+
+    if (!esImagenBase64Valida(logo_empresa || null)) {
+      return res.status(400).json({
+        mensaje: "El logo no tiene un formato valido o excede el tamano permitido"
+      });
+    }
+
     const perfilActualizado = await updatePerfilEmpresaById(req.user.id, {
       nombre_comercial: String(nombre_comercial || "").trim(),
       razon_social: String(razon_social || "").trim(),
       sitio_web: String(sitio_web || "").trim() || null,
       descripcion_empresa: String(descripcion_empresa || "").trim(),
-      id_municipio_fk: id_municipio_fk ? Number(id_municipio_fk) : null,
+      id_municipio_fk: municipioId,
       telefono: String(telefono || "").trim() || null,
       direccion: String(direccion || "").trim() || null,
       logo_empresa: logo_empresa || null,
