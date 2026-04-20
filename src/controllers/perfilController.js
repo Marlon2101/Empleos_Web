@@ -155,15 +155,27 @@ export const actualizarPerfilEmpresa = async (req, res) => {
       razon_social,
       sitio_web,
       descripcion_empresa,
-      id_municipio_fk
+      id_municipio_fk,
+      telefono,
+      direccion,
+      logo_empresa,
+      especialidades,
+      cultura,
+      beneficios
     } = req.body;
 
     const perfilActualizado = await updatePerfilEmpresaById(req.user.id, {
-      nombre_comercial,
-      razon_social,
-      sitio_web,
-      descripcion_empresa,
-      id_municipio_fk
+      nombre_comercial: String(nombre_comercial || "").trim(),
+      razon_social: String(razon_social || "").trim(),
+      sitio_web: String(sitio_web || "").trim() || null,
+      descripcion_empresa: String(descripcion_empresa || "").trim(),
+      id_municipio_fk: id_municipio_fk ? Number(id_municipio_fk) : null,
+      telefono: String(telefono || "").trim() || null,
+      direccion: String(direccion || "").trim() || null,
+      logo_empresa: logo_empresa || null,
+      especialidades: normalizarLista(especialidades),
+      cultura: normalizarLista(cultura),
+      beneficios: normalizarLista(beneficios)
     });
 
     if (!perfilActualizado) {
@@ -183,4 +195,3 @@ export const actualizarPerfilEmpresa = async (req, res) => {
     });
   }
 };
-

@@ -6,6 +6,7 @@ import {
   obtenerMisVacantes,
   crearVacante,
   actualizarVacante,
+  cambiarEstadoVacante,
   eliminarVacante,
   buscarVacantes,
   obtenerDetalleVacante,
@@ -50,6 +51,7 @@ router.get("/destacadas", async (req, res) => {
 
 router.get("/:id", obtenerVacantePorId);
 router.put("/:id", verificarToken, autorizarRoles("empresa"), validarVacante, actualizarVacante);
+router.patch("/:id/estado", verificarToken, autorizarRoles("empresa"), cambiarEstadoVacante);
 router.delete("/:id", verificarToken, autorizarRoles("empresa"), eliminarVacante);
 
 

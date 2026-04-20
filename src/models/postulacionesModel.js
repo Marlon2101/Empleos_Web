@@ -188,7 +188,9 @@ export const getPostulacionesByEmpresa = async (id_empresa) => {
     `
     SELECT 
         p.id_postulacion, 
+        p.id_vacante_fk,
         p.id_estado_fk, 
+        ep.nombre_estado,
         p.fecha_postulacion,
         u.nombres, 
         u.apellidos, 
@@ -197,6 +199,7 @@ export const getPostulacionesByEmpresa = async (id_empresa) => {
     FROM Postulaciones p
     INNER JOIN Usuarios u ON p.id_usuario_fk = u.id_usuario
     INNER JOIN Vacantes v ON p.id_vacante_fk = v.id_vacante
+    INNER JOIN Estados_Postulacion ep ON p.id_estado_fk = ep.id_estado
     WHERE v.id_empresa_fk = ?
     ORDER BY p.fecha_postulacion DESC
     `, 

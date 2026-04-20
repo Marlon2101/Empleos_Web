@@ -4,56 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workly · Reseñas de Postulantes</title>
-    <!-- Bootstrap + Iconos -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <!-- Fuente Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
     <style>
         * { font-family: 'Inter', sans-serif; }
-        :root {
-            --primary-deep: #3f51b5;
-            --nav-bg: #011671;
-            --soft-accent: #f1ebd9;
-            --light-text: #e2e4e8;
-            --body-bg: #f5f7fc;
-        }
+        :root { --primary-deep: #3f51b5; --nav-bg: #011671; --light-text: #e2e4e8; --body-bg: #f5f7fc; }
         body { background: var(--body-bg); }
-        /* Navbar */
-        .navbar-custom { background-color: var(--nav-bg) !important; box-shadow: 0 6px 20px rgba(1, 22, 113, 0.15); }
-        .navbar-brand .brand-icon { font-size: 3.5rem; color: white; margin-right: 0.75rem; }
-        .navbar-brand .brand-text { color: white; font-weight: 700; font-size: 2rem; line-height: 1.2; }
-        .navbar-brand .brand-sub { color: var(--light-text); font-size: 0.95rem; }
-        .nav-link-custom { color: white !important; font-weight: 500; padding: 0.5rem 1.2rem; border-radius: 30px; transition: all 0.2s; background: rgba(255,255,255,0.05); }
-        .nav-link-custom:hover { background: rgba(255,255,255,0.15); }
-        .nav-link-custom.active { background: rgba(255,255,255,0.2); }
-        .btn-primary-deep { background: linear-gradient(135deg, var(--primary-deep), #2c3e8f); border: none; color: white; font-weight: 600; border-radius: 40px; padding: 0.5rem 1.5rem; box-shadow: 0 6px 14px rgba(63, 81, 181, 0.25); }
-        .btn-primary-deep:hover { background: linear-gradient(135deg, #2c3e8f, var(--primary-deep)); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(63, 81, 181, 0.35); }
-        .btn-outline-primary-deep { background: transparent; border: 1.5px solid var(--primary-deep); color: var(--primary-deep); font-weight: 600; border-radius: 40px; padding: 0.4rem 1.2rem; }
-        .btn-outline-primary-deep:hover { background: var(--primary-deep); color: white; }
-        /* Tarjetas */
-        .filter-card { background: white; border-radius: 28px; padding: 1.5rem; box-shadow: 0 12px 24px -8px rgba(0,0,0,0.04); border: 1px solid #edf0f5; margin-bottom: 1.5rem; }
-        .review-card { background: white; border-radius: 24px; padding: 1.5rem; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.03); border: 1px solid #eef2f6; margin-bottom: 1.2rem; transition: all 0.2s; }
-        .review-card:hover { box-shadow: 0 15px 25px -8px rgba(63,81,181,0.1); border-color: var(--primary-deep); }
-        .form-card { background: white; border-radius: 32px; padding: 2rem; box-shadow: 0 15px 25px -8px rgba(0,0,0,0.04); border: 1px solid #edf0f5; }
-        /* Avatar */
+        .navbar-custom, .footer-custom { background-color: var(--nav-bg) !important; }
+        .nav-link-custom { color: white !important; font-weight: 500; padding: 0.5rem 1.2rem; border-radius: 30px; background: rgba(255,255,255,0.05); text-decoration: none; }
+        .nav-link-custom.active, .nav-link-custom:hover { background: rgba(255,255,255,0.18); }
+        .brand-icon { font-size: 3.5rem; color: white; margin-right: 0.75rem; }
+        .brand-text { color: white; font-weight: 700; font-size: 2rem; line-height: 1.2; }
+        .brand-sub { color: var(--light-text); font-size: 0.95rem; }
+        .filter-card, .review-card, .form-card { background: white; border-radius: 28px; padding: 1.5rem; box-shadow: 0 12px 24px -8px rgba(0,0,0,0.04); border: 1px solid #edf0f5; }
+        .review-card { margin-bottom: 1rem; }
         .avatar-circle { width: 52px; height: 52px; background: #eef2f9; border-radius: 18px; display: flex; align-items: center; justify-content: center; color: var(--primary-deep); font-weight: 700; font-size: 1.2rem; }
         .stars { color: #ffb347; letter-spacing: 2px; }
-        /* Footer */
-        .footer-custom { background-color: var(--nav-bg); color: var(--light-text); }
-        .footer-custom a { color: var(--light-text) !important; text-decoration: none; }
-        .footer-custom a:hover { color: white !important; text-decoration: underline; }
-        .notification-badge { position: absolute; top: -5px; right: -5px; background-color: #ff4757; color: white; border-radius: 50%; padding: 0.25rem 0.45rem; font-size: 0.7rem; font-weight: bold; border: 2px solid white; }
-        .navbar-toggler-icon { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.95)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
-        .form-control-custom, .form-select-custom { background-color: #f8fafd; border: 1.5px solid #e0e6ed; border-radius: 18px; padding: 0.7rem 1.2rem; }
-        .form-control-custom:focus, .form-select-custom:focus { border-color: var(--primary-deep); box-shadow: 0 0 0 3px rgba(63,81,181,0.08); }
         .star-interactive { cursor: pointer; font-size: 1.8rem; color: #cdd2dc; transition: color 0.15s; }
-        .star-interactive:hover, .star-interactive.active { color: #ffb347; }
+        .star-interactive.active { color: #ffb347; }
+        .notification-badge { position: absolute; top: -5px; right: -5px; background-color: #ff4757; color: white; border-radius: 50%; padding: 0.25rem 0.45rem; font-size: 0.7rem; font-weight: bold; border: 2px solid white; }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
-
-<!-- ========== NAVBAR MEJORADO ========== -->
 <nav class="navbar navbar-expand-lg py-3 navbar-custom">
     <div class="container-fluid px-4 px-lg-5">
         <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
@@ -63,16 +36,13 @@
                 <span class="brand-sub">Panel de Empresa</span>
             </div>
         </a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarContent">
+        <div class="collapse navbar-collapse show">
             <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-1">
-                <a href="../publicarvacante/index.html" class="nav-link-custom text-decoration-none"><i class="bi bi-plus-circle me-1"></i> Publicar</a>
-                <a href="../misvacantes/index.html" class="nav-link-custom text-decoration-none"><i class="bi bi-briefcase me-1"></i> Mis vacantes</a>
-                <a href="../postulaciones/index.html" class="nav-link-custom text-decoration-none"><i class="bi bi-people me-1"></i> Postulaciones</a>
-                <a href="../foro/index.html" class="nav-link-custom text-decoration-none"><i class="bi bi-chat-dots me-1"></i> Foro</a>
-                <a href="../resenaempresa/index.html" class="nav-link-custom active text-decoration-none"><i class="bi bi-star me-1"></i> Reseñas</a>
+                <a href="../publicarvacante/index.html" class="nav-link-custom"><i class="bi bi-plus-circle me-1"></i> Publicar</a>
+                <a href="../misvacantes/index.html" class="nav-link-custom"><i class="bi bi-briefcase me-1"></i> Mis vacantes</a>
+                <a href="../postulaciones/index.html" class="nav-link-custom"><i class="bi bi-people me-1"></i> Postulaciones</a>
+                <a href="../foro/index.html" class="nav-link-custom"><i class="bi bi-chat-dots me-1"></i> Foro</a>
+                <a href="../resenaempresa/index.html" class="nav-link-custom active"><i class="bi bi-star me-1"></i> Reseñas</a>
             </div>
             <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
                 <a href="../notificaciones/index.html" class="text-white position-relative d-inline-block">
@@ -87,172 +57,66 @@
     </div>
 </nav>
 
-<!-- ========== MAIN ========== -->
 <main class="flex-grow-1 py-4">
     <div class="container-fluid px-4 px-lg-5">
-        
-        <!-- Encabezado y búsqueda -->
-        <div class="filter-card d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <div class="filter-card mb-4">
             <div class="d-flex align-items-center gap-3">
                 <i class="bi bi-star-fill fs-1" style="color: var(--primary-deep);"></i>
-                <h4 class="fw-bold mb-0" style="color: #121826;">Reseñas de postulantes</h4>
-            </div>
-            <div class="d-flex gap-2 flex-wrap">
-                <div class="input-group" style="max-width: 300px;">
-                    <span class="input-group-text bg-transparent border-0 text-muted"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control bg-transparent border-0 shadow-none" placeholder="Buscar reseña...">
+                <div>
+                    <h4 class="fw-bold mb-0" style="color: #121826;">Reseñas de postulantes</h4>
+                    <p class="text-muted mb-0">Evalúa a las personas que aplicaron a tus vacantes.</p>
                 </div>
-                <select class="form-select w-auto rounded-pill bg-light border-0 fw-medium">
-                    <option selected>Todas las calificaciones</option>
-                    <option>5 estrellas</option>
-                    <option>4 estrellas</option>
-                    <option>3 estrellas</option>
-                </select>
-                <button type="button" id="btnBuscar" class="btn btn-primary-deep">Buscar</button>
             </div>
         </div>
 
+        <div id="alertContainer" class="mb-3"></div>
+
         <div class="row g-4">
-            
-            <!-- Columna izquierda: Lista de reseñas -->
             <section class="col-12 col-lg-7">
-                <h5 class="fw-bold mb-3 d-flex align-items-center"><i class="bi bi-chat-quote me-2" style="color: var(--primary-deep);"></i>Últimas reseñas</h5>
-                
-                <!-- Reseña 1 -->
-                <div class="review-card">
-                    <div class="d-flex gap-3 mb-3">
-                        <div class="avatar-circle">CR</div>
-                        <div class="flex-grow-1">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="fw-bold mb-1">Carlos Ruiz</h6>
-                                    <p class="text-secondary small mb-1">Postulante a Backend Developer</p>
-                                </div>
-                                <span class="text-secondary small"><i class="bi bi-clock me-1"></i>Hace 2 días</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stars mb-2">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-                        <span class="text-secondary small ms-2">4.5</span>
-                    </div>
-                    <p class="text-secondary mb-3">"El proceso de selección fue muy transparente. Recibí retroalimentación en cada etapa y el equipo de RRHH siempre estuvo disponible para resolver dudas. ¡Excelente experiencia!"</p>
-                    <div class="d-flex gap-2">
-                        <span class="badge bg-light text-dark px-3 py-2">Comunicación excelente</span>
-                        <span class="badge bg-light text-dark px-3 py-2">Proceso rápido</span>
-                    </div>
-                </div>
-
-                <!-- Reseña 2 -->
-                <div class="review-card">
-                    <div class="d-flex gap-3 mb-3">
-                        <div class="avatar-circle" style="background: #e0e7ff;">MG</div>
-                        <div class="flex-grow-1">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="fw-bold mb-1">María García</h6>
-                                    <p class="text-secondary small mb-1">Postulante a Frontend Developer</p>
-                                </div>
-                                <span class="text-secondary small"><i class="bi bi-clock me-1"></i>Hace 5 días</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stars mb-2">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <span class="text-secondary small ms-2">5.0</span>
-                    </div>
-                    <p class="text-secondary mb-3">"Me encantó la calidez del equipo. La entrevista técnica fue retadora pero justa. Aunque no quedé seleccionada, me dieron consejos valiosos para mejorar."</p>
-                    <div class="d-flex gap-2">
-                        <span class="badge bg-light text-dark px-3 py-2">Entrevista justa</span>
-                        <span class="badge bg-light text-dark px-3 py-2">Feedback útil</span>
-                    </div>
-                </div>
-
-                <!-- Reseña 3 -->
-                <div class="review-card">
-                    <div class="d-flex gap-3 mb-3">
-                        <div class="avatar-circle" style="background: #d4e6ff;">PL</div>
-                        <div class="flex-grow-1">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="fw-bold mb-1">Pedro López</h6>
-                                    <p class="text-secondary small mb-1">Postulante a Diseñador UI/UX</p>
-                                </div>
-                                <span class="text-secondary small"><i class="bi bi-clock me-1"></i>Hace 1 semana</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stars mb-2">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>
-                        <span class="text-secondary small ms-2">3.0</span>
-                    </div>
-                    <p class="text-secondary mb-3">"El proceso fue un poco lento y tuve que esperar más de lo esperado para recibir una respuesta. Sin embargo, los reclutadores fueron amables."</p>
-                    <div class="d-flex gap-2">
-                        <span class="badge bg-light text-dark px-3 py-2">Proceso lento</span>
-                        <span class="badge bg-light text-dark px-3 py-2">Amables</span>
-                    </div>
-                </div>
-
+                <h5 class="fw-bold mb-3">Últimas reseñas</h5>
+                <div id="listaResenas"></div>
             </section>
 
-            <!-- Columna derecha: Formulario para dejar reseña -->
             <aside class="col-12 col-lg-5">
                 <div class="form-card">
-                    <h5 class="fw-bold mb-4 d-flex align-items-center"><i class="bi bi-pencil-square me-2" style="color: var(--primary-deep);"></i>Comparte tu experiencia</h5>
-                    
-                    <form>
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold small">¿Cómo calificarías el proceso?</label>
-                            <div class="d-flex align-items-center gap-2 mb-2">
-                                <i class="bi bi-star star-interactive active"></i>
-                                <i class="bi bi-star star-interactive active"></i>
-                                <i class="bi bi-star star-interactive active"></i>
-                                <i class="bi bi-star star-interactive"></i>
-                                <i class="bi bi-star star-interactive"></i>
-                                <span class="text-secondary small ms-2">Selecciona una calificación</span>
-                            </div>
+                    <h5 class="fw-bold mb-4">Crear o actualizar reseña</h5>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold small">Postulación</label>
+                        <select id="id_postulacion_fk" class="form-select rounded-4"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold small">Puntuación</label>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <i class="bi bi-star star-interactive" data-value="1"></i>
+                            <i class="bi bi-star star-interactive" data-value="2"></i>
+                            <i class="bi bi-star star-interactive" data-value="3"></i>
+                            <i class="bi bi-star star-interactive" data-value="4"></i>
+                            <i class="bi bi-star star-interactive" data-value="5"></i>
                         </div>
-
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small">Tu nombre</label>
-                                <input type="text" class="form-control-custom w-100" placeholder="Ej: Carlos Ruiz">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold small">Vacante aplicada</label>
-                                <input type="text" class="form-control-custom w-100" placeholder="Ej: Backend Developer">
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold small">Tu reseña</label>
-                            <textarea class="form-control-custom w-100" rows="4" placeholder="Comparte tu experiencia con el proceso de selección..."></textarea>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold small">Etiquetas (opcional)</label>
-                            <input type="text" class="form-control-custom w-100" placeholder="Ej: comunicación, rápido, justo">
-                            <div class="form-text">Separa las etiquetas con comas.</div>
-                        </div>
-
-                        <button type="button" id="btnEnviarValoracion" class="btn btn-primary-deep w-100 py-3 fw-semibold">
-                            <i class="bi bi-send me-2"></i>Enviar valoración
-                        </button>
-                    </form>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold small">Comentario</label>
+                        <textarea id="comentarioResena" class="form-control rounded-4" rows="4" placeholder="Describe tu experiencia con el postulante"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold small">Etiquetas</label>
+                        <input id="etiquetasResena" class="form-control rounded-4" placeholder="Ej: puntual, buena comunicacion, perfil tecnico">
+                        <div class="form-text">Sepáralas con comas.</div>
+                    </div>
+                    <button type="button" id="btnGuardarResena" class="btn btn-primary w-100 rounded-pill py-3">Guardar reseña</button>
                 </div>
 
-                <!-- Estadísticas rápidas -->
-                <div class="sidebar-card mt-4 text-center" style="background: linear-gradient(145deg, var(--primary-deep), #2c3e8f); color: white;">
+                <div class="form-card mt-4 text-center" style="background: linear-gradient(145deg, var(--primary-deep), #2c3e8f); color: white;">
                     <i class="bi bi-bar-chart-line fs-1 mb-2 opacity-50"></i>
-                    <h6 class="fw-bold mb-3">Resumen de reseñas</h6>
+                    <h6 class="fw-bold mb-3">Resumen</h6>
                     <div class="d-flex justify-content-between small fw-semibold border-bottom border-light border-opacity-25 pb-2 mb-2">
-                        <span>Calificación promedio</span><span class="badge bg-white text-dark rounded-pill">4.2 ★</span>
+                        <span>Promedio</span><span class="badge bg-white text-dark rounded-pill" id="resumenPromedio">0.0 ★</span>
                     </div>
                     <div class="d-flex justify-content-between small fw-semibold border-bottom border-light border-opacity-25 pb-2 mb-2">
-                        <span>Total reseñas</span><span class="badge bg-white text-dark rounded-pill">47</span>
+                        <span>Total reseñas</span><span class="badge bg-white text-dark rounded-pill" id="resumenTotal">0</span>
                     </div>
                     <div class="d-flex justify-content-between small fw-semibold">
-                        <span>Recomendación</span><span class="badge bg-white text-dark rounded-pill">92%</span>
+                        <span>Cobertura</span><span class="badge bg-white text-dark rounded-pill" id="resumenCobertura">0%</span>
                     </div>
                 </div>
             </aside>
@@ -260,75 +124,12 @@
     </div>
 </main>
 
-<!-- ========== TOASTS (conservados) ========== -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="toastBuscar" class="toast align-items-center text-white border-0 rounded-4 shadow mb-2" role="alert" style="background-color: var(--primary-deep);">
-        <div class="d-flex">
-            <div class="toast-body fs-6 py-3 fw-semibold"><i class="bi bi-search me-2 fs-5"></i> Búsqueda realizada.</div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
-    </div>
-    <div id="toastValoracion" class="toast align-items-center text-white bg-success border-0 rounded-4 shadow" role="alert">
-        <div class="d-flex">
-            <div class="toast-body fs-6 py-3 fw-semibold"><i class="bi bi-check-circle-fill me-2 fs-5"></i> ¡Valoración enviada con éxito!</div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
-    </div>
-</div>
-
-<!-- ========== FOOTER ========== -->
-<footer class="py-4 mt-auto footer-custom">
-    <div class="container text-center">
-        <div class="d-flex flex-wrap justify-content-center gap-4 gap-md-5">
-            <a href="#"><i class="bi bi-question-circle me-1"></i>Ayuda</a>
-            <a href="#"><i class="bi bi-shield-lock me-1"></i>Privacidad</a>
-            <a href="#">Términos</a>
-            <span class="text-white opacity-75">💼 Workly 2026 · Conectando talento</span>
-        </div>
-    </div>
+<footer class="py-4 mt-auto footer-custom text-center text-white-50">
+    <div class="container">Workly 2026 · Seguimiento real del talento</div>
 </footer>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- ========== SCRIPT ORIGINAL (CONSERVADO) ========== -->
-<script>
-    document.getElementById('btnBuscar').addEventListener('click', function() {
-        const toastElement = document.getElementById('toastBuscar');
-        const toast = new bootstrap.Toast(toastElement);
-        toast.show();
-    });
-
-    document.getElementById('btnEnviarValoracion').addEventListener('click', function(e) {
-        e.preventDefault(); 
-        const toastElement = document.getElementById('toastValoracion');
-        const toast = new bootstrap.Toast(toastElement);
-        toast.show();
-    });
-
-    // Interactividad simple para las estrellas (decorativo)
-    document.querySelectorAll('.star-interactive').forEach((star, index, stars) => {
-        star.addEventListener('click', function() {
-            stars.forEach((s, i) => {
-                if (i <= index) {
-                    s.classList.add('active');
-                    s.classList.remove('bi-star');
-                    s.classList.add('bi-star-fill');
-                } else {
-                    s.classList.remove('active');
-                    s.classList.remove('bi-star-fill');
-                    s.classList.add('bi-star');
-                }
-            });
-        });
-    });
-</script>
-
-<!-- Ajustes adicionales -->
-<style>
-    .star-interactive.active { color: #ffb347; }
-    .cursor-pointer { cursor: pointer; }
-</style>
+<script type="module" src="./app.js"></script>
 <script type="module" src="../../../assets/js/shared/notificaciones.js"></script>
 </body>
 </html>

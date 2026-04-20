@@ -100,7 +100,7 @@ export const registrarUsuario = async (req, res) => {
 
 export const registrarEmpresa = async (req, res) => {
   try {
-    const { nombre_comercial, razon_social, sitio_web, descripcion_empresa, id_municipio_fk, correo_electronico, contrasena } = req.body;
+    const { nombre_comercial, razon_social, sitio_web, descripcion_empresa, id_municipio_fk, correo_electronico, contrasena, telefono } = req.body;
 
     const salt = await bcrypt.genSalt(10);
     const passwordEncriptada = await bcrypt.hash(contrasena.trim(), salt);
@@ -112,7 +112,8 @@ export const registrarEmpresa = async (req, res) => {
       descripcion_empresa,
       id_municipio_fk,
       correo_electronico,
-      contrasena: passwordEncriptada 
+      contrasena: passwordEncriptada,
+      telefono
     });
 
     res.status(201).json({ mensaje: "Empresa registrada correctamente", data: nuevaEmpresa });

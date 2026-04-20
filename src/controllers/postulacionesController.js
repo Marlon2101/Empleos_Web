@@ -115,8 +115,7 @@ export const eliminarPostulacion = async (req, res) => {
 
 export const obtenerPostulacionesEmpresa = async (req, res) => {
   try {
-    const id_empresa = 1;
-    const postulaciones = await getPostulacionesByEmpresa(id_empresa);
+    const postulaciones = await getPostulacionesByEmpresa(req.user.id);
     res.json(postulaciones);
   } catch (error) {
     console.error("Error BD:", error);
@@ -130,6 +129,21 @@ export const actualizarPostulacion = async (req, res) => {
     const { id_estado_fk } = req.body;
 
     const postulacionActual = await getPostulacionById(id);
+
+    if (!postulacionActual) {
+      return res.status(404).json({
+        mensaje: "Postulacion no encontrada"
+      });
+    }
+
+    const vacante = await getVacanteById(postulacionActual.id_vacante_fk);
+
+    if (!vacante || (req.user.tipo === "empresa" && Number(vacante.id_empresa_fk) !== Number(req.user.id))) {
+      return res.status(403).json({
+        mensaje: "No puedes actualizar una postulacion de otra empresa"
+      });
+    }
+
     const postulacion = await updatePostulacion(id, { id_estado_fk });
 
     if (!postulacion) {
@@ -138,9 +152,7 @@ export const actualizarPostulacion = async (req, res) => {
       });
     }
 
-    const vacante = postulacionActual ? await getVacanteById(postulacionActual.id_vacante_fk) : null;
-
-    if (postulacionActual && vacante) {
+    if (vacante) {
       if (Number(id_estado_fk) === 4) {
         await crearNotificacionPostulacion({
           tipo_usuario: "usuario",

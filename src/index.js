@@ -26,6 +26,7 @@ import empresaPostulacionesRoutes from "./routes/empresaPostulacionesRoutes.js";
 import usuarioPostulacionesRoutes from "./routes/usuarioPostulacionesRoutes.js";
 import valoracionesRoutes from "./routes/valoracionesRoutes.js";
 import guardadosRoutes from "./routes/guardadosRoutes.js";
+import resenasPostulantesRoutes from "./routes/resenasPostulantesRoutes.js";
 
 dotenv.config();
 
@@ -90,6 +91,7 @@ app.use("/usuario/postulaciones", usuarioPostulacionesRoutes);
 app.use("/valoraciones", valoracionesRoutes);
 app.use("/api/valoraciones", valoracionesRoutes);
 app.use("/guardados", guardadosRoutes);
+app.use("/empresa/resenas-postulantes", resenasPostulantesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

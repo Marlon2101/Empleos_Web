@@ -1,122 +1,263 @@
-import { API_URL } from "../../../assets/js/shared/config.js";
+import { API_URL, getToken } from "../../../assets/js/shared/config.js";
+import { requireAuth } from "../../../assets/js/shared/auth.js";
+
+requireAuth(["empresa"]);
 
 const contenedorPostulaciones = document.getElementById("contenedorPostulaciones");
+const searchInput = document.querySelector(".filter-bar input");
+const selectVacante = document.querySelectorAll(".filter-bar select")[0];
+const selectEstado = document.querySelectorAll(".filter-bar select")[1];
+const sidebarCards = [...document.querySelectorAll(".sidebar-card")];
+
+let postulaciones = [];
+
+const authHeaders = (withJson = false) => ({
+  ...(withJson ? { "Content-Type": "application/json" } : {}),
+  Authorization: `Bearer ${getToken()}`
+});
 
 const formatearFecha = (fecha) => {
-    if (!fecha) return "N/D";
-    return new Date(fecha).toLocaleDateString("es-SV");
+  if (!fecha) return "N/D";
+  return new Date(fecha).toLocaleDateString("es-SV");
 };
 
-window.abrirPerfil = (itemString) => {
-    const item = JSON.parse(decodeURIComponent(itemString));
-    
-   
-    document.getElementById('perfilNombre').textContent = `${item.nombres} ${item.apellidos}`;
-    document.getElementById('perfilPuesto').textContent = item.titulo_puesto;
-  
-
-    const modalPerfil = new bootstrap.Modal(document.getElementById('modalPerfilCandidato'));
-    modalPerfil.show();
+const getEstadoClass = (estadoId) => {
+  if (Number(estadoId) === 2) return "bg-primary-subtle text-primary";
+  if (Number(estadoId) === 3) return "bg-success text-white";
+  if (Number(estadoId) === 4) return "bg-danger text-white";
+  if (Number(estadoId) === 5) return "bg-dark text-white";
+  return "bg-warning text-dark";
 };
 
-window.abrirContacto = (nombre, apellidos, correo) => {
-    const inputDestino = document.getElementById('contactoDestino');
-    if (inputDestino) {
-        
-        inputDestino.value = `${nombre} ${apellidos} (${correo})`;
-    }
-    
-    const modalContacto = new bootstrap.Modal(document.getElementById('modalContactar'));
-    modalContacto.show();
+const abrirPerfil = (item) => {
+  document.getElementById("perfilNombre").textContent = `${item.nombres} ${item.apellidos}`;
+  document.getElementById("perfilPuesto").textContent = item.titulo_puesto || "Postulante";
+  document.getElementById("perfilCorreo").textContent = item.correo_electronico || "---";
+  document.getElementById("perfilTelefono").textContent = item.telefono || "---";
+  document.getElementById("perfilResumen").textContent = item.resumen_profesional || "Sin resumen profesional.";
+
+  const modal = new bootstrap.Modal(document.getElementById("modalPerfilCandidato"));
+  modal.show();
 };
 
-window.actualizarEstado = async (idPostulacion, nuevoEstadoId, elementoSelect) => {
-    try {
-        const response = await fetch(`${API_URL}/postulaciones/${idPostulacion}/estado`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id_estado_fk: parseInt(nuevoEstadoId) })
-        });
-
-        if (response.ok) {
-            elementoSelect.className = "form-select form-select-sm rounded-pill shadow-sm fw-bold px-3 py-1 border-0";
-            if (nuevoEstadoId == 1) elementoSelect.classList.add('bg-warning', 'text-dark');
-            else if (nuevoEstadoId == 2) elementoSelect.classList.add('bg-primary-subtle', 'text-primary'); 
-            else if (nuevoEstadoId == 3) elementoSelect.classList.add('bg-success', 'text-white');
-            else if (nuevoEstadoId == 4) elementoSelect.classList.add('bg-danger', 'text-white');
-        }
-    } catch (error) {
-        console.error("Error al actualizar estado:", error);
-    }
+const abrirContacto = (item) => {
+  const inputDestino = document.getElementById("contactoDestino");
+  if (inputDestino) {
+    inputDestino.value = `${item.nombres} ${item.apellidos} (${item.correo_electronico || "sin correo"})`;
+  }
+  const modal = new bootstrap.Modal(document.getElementById("modalContactar"));
+  modal.show();
 };
 
+const actualizarEstado = async (idPostulacion, nuevoEstadoId) => {
+  const response = await fetch(`${API_URL}/postulaciones/${idPostulacion}/estado`, {
+    method: "PUT",
+    headers: authHeaders(true),
+    body: JSON.stringify({ id_estado_fk: Number(nuevoEstadoId) })
+  });
 
-const renderPostulaciones = (items) => {
-    if (!items.length) {
-        contenedorPostulaciones.innerHTML = `<div class="text-center p-5 fw-bold text-muted">No hay postulantes registrados.</div>`;
-        return;
-    }
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.mensaje || "No se pudo actualizar el estado.");
+  }
 
-    contenedorPostulaciones.innerHTML = items.map(item => {
-        let colorClase = "bg-warning text-dark"; 
-        if (item.id_estado_fk == 2) colorClase = "bg-primary-subtle text-primary";
-        if (item.id_estado_fk == 3) colorClase = "bg-success text-white";
-        if (item.id_estado_fk == 4) colorClase = "bg-danger text-white";
+  await cargarLista();
+};
 
-        const nombreCompleto = `${item.nombres} ${item.apellidos}`;
-        const itemData = encodeURIComponent(JSON.stringify(item));
+const filtrar = () => {
+  const texto = (searchInput?.value || "").trim().toLowerCase();
+  const vacante = selectVacante?.value || "Todas las vacantes";
+  const estado = selectEstado?.value || "Todos los estados";
 
-        return `
-        <div class="row align-items-center bg-white py-3 mb-2 px-2 shadow-sm rounded-2 g-3 mx-0">
-            <div class="col-12 col-md-3 d-flex align-items-center gap-2">
-                <div class="bg-primary-subtle rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                    <i class="bi bi-person-fill text-primary fs-5"></i>
-                </div>
-                <div class="fw-bold small text-dark">${nombreCompleto}</div>
+  return postulaciones.filter((item) => {
+    const nombreCompleto = `${item.nombres} ${item.apellidos}`;
+    const coincideTexto =
+      !texto ||
+      [nombreCompleto, item.correo_electronico, item.titulo_puesto]
+        .some((value) => String(value || "").toLowerCase().includes(texto));
+
+    const coincideVacante = vacante === "Todas las vacantes" || item.titulo_puesto === vacante;
+    const coincideEstado = estado === "Todos los estados" || item.nombre_estado === estado;
+    return coincideTexto && coincideVacante && coincideEstado;
+  });
+};
+
+const renderSidebar = () => {
+  const resumenCard = sidebarCards[0];
+  const activasCard = sidebarCards[1];
+  const recientesCard = sidebarCards[2];
+
+  if (resumenCard) {
+    const counts = {
+      revision: postulaciones.filter((item) => Number(item.id_estado_fk) === 1 || Number(item.id_estado_fk) === 2).length,
+      entrevistas: postulaciones.filter((item) => Number(item.id_estado_fk) === 3).length,
+      aprobados: postulaciones.filter((item) => Number(item.id_estado_fk) === 5).length,
+      total: postulaciones.length
+    };
+
+    const numbers = resumenCard.querySelectorAll(".fw-bold");
+    if (numbers[0]) numbers[0].textContent = String(counts.revision);
+    if (numbers[1]) numbers[1].textContent = String(counts.entrevistas);
+    if (numbers[2]) numbers[2].textContent = String(counts.aprobados);
+    const totalNode = resumenCard.querySelector(".fw-bold.fs-5");
+    if (totalNode) totalNode.textContent = String(counts.total);
+  }
+
+  if (activasCard) {
+    const top = Object.values(postulaciones.reduce((acc, item) => {
+      const key = item.titulo_puesto || "Vacante";
+      if (!acc[key]) acc[key] = { titulo: key, total: 0 };
+      acc[key].total += 1;
+      return acc;
+    }, {})).sort((a, b) => b.total - a.total).slice(0, 3);
+
+    const blocks = activasCard.querySelectorAll(".d-flex.flex-column.gap-3 > div");
+    blocks.forEach((block, index) => {
+      const item = top[index];
+      if (!item) return;
+      const labels = block.querySelectorAll(".small.fw-medium span");
+      if (labels[0]) labels[0].textContent = item.titulo;
+      if (labels[1]) labels[1].textContent = String(item.total);
+      const bar = block.querySelector(".progress-bar");
+      if (bar) bar.style.width = `${Math.min(100, item.total * 12)}%`;
+    });
+  }
+
+  if (recientesCard) {
+    const root = recientesCard.querySelector(".d-flex.flex-column.gap-3");
+    if (!root) return;
+
+    const recientes = postulaciones.slice(0, 3);
+    root.innerHTML = recientes.map((item) => {
+      const initials = `${item.nombres?.[0] || ""}${item.apellidos?.[0] || ""}`.toUpperCase();
+      return `
+        <div class="d-flex align-items-center gap-3">
+          <div class="avatar-circle" style="width:40px; height:40px; font-size:0.9rem;">${initials}</div>
+          <div>
+            <span class="fw-semibold d-block">${item.nombres} ${item.apellidos}</span>
+            <small class="text-secondary">${formatearFecha(item.fecha_postulacion)}</small>
+          </div>
+        </div>
+      `;
+    }).join("") || `<p class="text-muted mb-0">No hay postulantes recientes.</p>`;
+  }
+};
+
+const renderFiltros = () => {
+  const vacantesUnicas = [...new Set(postulaciones.map((item) => item.titulo_puesto).filter(Boolean))];
+  const estadosUnicos = [...new Set(postulaciones.map((item) => item.nombre_estado).filter(Boolean))];
+  const selectedVacante = selectVacante?.value || "Todas las vacantes";
+  const selectedEstado = selectEstado?.value || "Todos los estados";
+
+  if (selectVacante) {
+    selectVacante.innerHTML = [
+      "<option>Todas las vacantes</option>",
+      ...vacantesUnicas.map((item) => `<option>${item}</option>`)
+    ].join("");
+    selectVacante.value = vacantesUnicas.includes(selectedVacante) ? selectedVacante : "Todas las vacantes";
+  }
+
+  if (selectEstado) {
+    selectEstado.innerHTML = [
+      "<option>Todos los estados</option>",
+      ...estadosUnicos.map((item) => `<option>${item}</option>`)
+    ].join("");
+    selectEstado.value = estadosUnicos.includes(selectedEstado) ? selectedEstado : "Todos los estados";
+  }
+};
+
+const renderPostulaciones = () => {
+  const items = filtrar();
+
+  if (!items.length) {
+    contenedorPostulaciones.innerHTML = `<div class="text-center p-5 fw-bold text-muted">No hay postulantes registrados.</div>`;
+    return;
+  }
+
+  contenedorPostulaciones.innerHTML = items.map((item) => {
+    const nombreCompleto = `${item.nombres} ${item.apellidos}`;
+    const initials = `${item.nombres?.[0] || ""}${item.apellidos?.[0] || ""}`.toUpperCase();
+
+    return `
+      <div class="candidate-card">
+        <div class="d-flex align-items-center flex-wrap gap-3">
+          <div class="d-flex align-items-center gap-3 flex-grow-1">
+            <div class="avatar-circle">${initials}</div>
+            <div>
+              <h6 class="fw-bold mb-1">${nombreCompleto}</h6>
+              <p class="text-secondary small mb-0">${item.correo_electronico || "Sin correo"} · ${item.titulo_puesto || "Vacante"}</p>
             </div>
+            <div class="ms-md-4">
+              <span class="badge bg-light text-dark px-3 py-2">${item.titulo_puesto}</span>
+            </div>
+            <div class="ms-auto text-end">
+              <select class="form-select form-select-sm rounded-pill fw-bold ${getEstadoClass(item.id_estado_fk)} border-0 shadow-none select-estado" data-id="${item.id_postulacion}">
+                <option value="1" ${Number(item.id_estado_fk) === 1 ? "selected" : ""}>Recibida</option>
+                <option value="2" ${Number(item.id_estado_fk) === 2 ? "selected" : ""}>En Revisión</option>
+                <option value="3" ${Number(item.id_estado_fk) === 3 ? "selected" : ""}>Entrevista</option>
+                <option value="4" ${Number(item.id_estado_fk) === 4 ? "selected" : ""}>Rechazada</option>
+                <option value="5" ${Number(item.id_estado_fk) === 5 ? "selected" : ""}>Contratado</option>
+              </select>
+              <p class="text-secondary small mb-0 mt-1">Postulado: ${formatearFecha(item.fecha_postulacion)}</p>
+            </div>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="action-btn btn-ver" data-id="${item.id_postulacion}" title="Ver perfil"><i class="bi bi-eye"></i></button>
+            <button class="action-btn btn-contactar" data-id="${item.id_postulacion}" title="Contactar"><i class="bi bi-chat-dots"></i></button>
+            <a class="action-btn text-decoration-none" href="../detallepostulacion/index.html?id=${item.id_postulacion}" title="Abrir detalle"><i class="bi bi-box-arrow-up-right"></i></a>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
 
-            <div class="col-12 col-md-3 fw-bold small text-dark">
-                <i class="bi bi-briefcase me-2 text-muted"></i>${item.titulo_puesto}
-            </div>
-            
-            <div class="col-12 col-md-2">
-                <select class="form-select form-select-sm rounded-pill fw-bold ${colorClase} border-0 shadow-none cursor-pointer" 
-                        onchange="actualizarEstado(${item.id_postulacion}, this.value, this)">
-                    <option value="1" ${item.id_estado_fk == 1 ? 'selected' : ''}>En revisión</option>
-                    <option value="2" ${item.id_estado_fk == 2 ? 'selected' : ''}>Entrevista</option>
-                    <option value="3" ${item.id_estado_fk == 3 ? 'selected' : ''}>Aprobado</option>
-                    <option value="4" ${item.id_estado_fk == 4 ? 'selected' : ''}>Rechazado</option>
-                </select>
-            </div>
+  contenedorPostulaciones.querySelectorAll(".btn-ver").forEach((button) => {
+    button.addEventListener("click", () => {
+      const item = postulaciones.find((postulacion) => String(postulacion.id_postulacion) === button.dataset.id);
+      if (item) abrirPerfil(item);
+    });
+  });
 
-            <div class="col-12 col-md-2 fw-bold small text-dark">
-                <i class="bi bi-calendar3 me-2 text-muted"></i>${formatearFecha(item.fecha_postulacion)}
-            </div>
-            
-            <div class="col-12 col-md-2 d-flex justify-content-center gap-2">
-                <button onclick="abrirPerfil('${itemData}')" 
-                    class="btn btn-sm bg-primary-subtle text-dark fw-bold rounded-pill px-2 border-0 shadow-sm" 
-                    style="font-size: 0.75rem; min-width: 65px;">
-                    Ver<br>perfil
-                </button>
-                
-                <button onclick="abrirContacto('${item.nombres}', '${item.apellidos}', '${item.correo_electronico}')" 
-                    class="btn btn-sm bg-primary-subtle text-dark fw-bold rounded-pill px-3 border-0 shadow-sm">
-                    Contactar
-                </button>
-            </div>
-        </div>`;
-    }).join("");
+  contenedorPostulaciones.querySelectorAll(".btn-contactar").forEach((button) => {
+    button.addEventListener("click", () => {
+      const item = postulaciones.find((postulacion) => String(postulacion.id_postulacion) === button.dataset.id);
+      if (item) abrirContacto(item);
+    });
+  });
+
+  contenedorPostulaciones.querySelectorAll(".select-estado").forEach((select) => {
+    select.addEventListener("change", async () => {
+      try {
+        await actualizarEstado(select.dataset.id, select.value);
+      } catch (error) {
+        console.error(error);
+        window.alert(error.message);
+      }
+    });
+  });
 };
 
 const cargarLista = async () => {
-    try {
-        const response = await fetch(`${API_URL}/postulaciones/empresa`);
-        const data = await response.json();
-        renderPostulaciones(data);
-    } catch (e) {
-        console.error("Error al cargar lista:", e);
-    }
+  const response = await fetch(`${API_URL}/empresa/postulaciones`, {
+    headers: authHeaders()
+  });
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.mensaje || "No se pudieron cargar las postulaciones.");
+  }
+
+  postulaciones = Array.isArray(data) ? data : [];
+  renderFiltros();
+  renderSidebar();
+  renderPostulaciones();
 };
 
-cargarLista();
+searchInput?.addEventListener("input", renderPostulaciones);
+selectVacante?.addEventListener("change", renderPostulaciones);
+selectEstado?.addEventListener("change", renderPostulaciones);
+
+cargarLista().catch((error) => {
+  console.error(error);
+  contenedorPostulaciones.innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
+});

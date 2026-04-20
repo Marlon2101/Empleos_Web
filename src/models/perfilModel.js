@@ -1,6 +1,7 @@
 import { pool } from "../config/db.js";
 
 let profileSchemaReadyPromise = null;
+let companyProfileSchemaReadyPromise = null;
 
 const ensurePerfilSchema = async () => {
   if (profileSchemaReadyPromise) {
@@ -29,6 +30,34 @@ const ensurePerfilSchema = async () => {
   })();
 
   return profileSchemaReadyPromise;
+};
+
+const ensureEmpresaPerfilSchema = async () => {
+  if (companyProfileSchemaReadyPromise) {
+    return companyProfileSchemaReadyPromise;
+  }
+
+  companyProfileSchemaReadyPromise = (async () => {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS Empresas_Perfil_Detalle (
+        id_empresa_fk INT NOT NULL,
+        telefono VARCHAR(20) NULL,
+        direccion VARCHAR(255) NULL,
+        logo_empresa LONGTEXT NULL,
+        especialidades_json LONGTEXT NULL,
+        cultura_json LONGTEXT NULL,
+        beneficios_json LONGTEXT NULL,
+        PRIMARY KEY (id_empresa_fk),
+        CONSTRAINT fk_empresas_perfil_detalle_empresa
+          FOREIGN KEY (id_empresa_fk)
+          REFERENCES Empresas(id_empresa)
+          ON UPDATE CASCADE
+          ON DELETE CASCADE
+      ) ENGINE=InnoDB;
+    `);
+  })();
+
+  return companyProfileSchemaReadyPromise;
 };
 
 const safeJsonParse = (value, fallback) => {
@@ -208,32 +237,75 @@ export const updatePerfilUsuarioById = async (id_usuario, data) => {
 };
 
 export const getPerfilEmpresaById = async (id_empresa) => {
+  await ensureEmpresaPerfilSchema();
+
   const [rows] = await pool.query(
     `
     SELECT
-      id_empresa,
-      nombre_comercial,
-      razon_social,
-      sitio_web,
-      descripcion_empresa,
-      id_municipio_fk,
-      correo_electronico
-    FROM Empresas
-    WHERE id_empresa = ?
+      e.id_empresa,
+      e.nombre_comercial,
+      e.razon_social,
+      e.sitio_web,
+      e.descripcion_empresa,
+      e.id_municipio_fk,
+      e.correo_electronico,
+      m.nombre_municipio,
+      d.nombre_departamento,
+      epd.telefono,
+      epd.direccion,
+      epd.logo_empresa,
+      epd.especialidades_json,
+      epd.cultura_json,
+      epd.beneficios_json
+    FROM Empresas e
+    LEFT JOIN Municipios m ON e.id_municipio_fk = m.id_municipio
+    LEFT JOIN Departamentos d ON m.id_departamento_fk = d.id_departamento
+    LEFT JOIN Empresas_Perfil_Detalle epd ON epd.id_empresa_fk = e.id_empresa
+    WHERE e.id_empresa = ?
     `,
     [id_empresa]
   );
 
-  return rows[0];
+  const perfil = rows[0];
+
+  if (!perfil) {
+    return null;
+  }
+
+  return {
+    id_empresa: perfil.id_empresa,
+    nombre_comercial: perfil.nombre_comercial,
+    razon_social: perfil.razon_social,
+    sitio_web: perfil.sitio_web,
+    descripcion_empresa: perfil.descripcion_empresa,
+    id_municipio_fk: perfil.id_municipio_fk,
+    correo_electronico: perfil.correo_electronico,
+    nombre_municipio: perfil.nombre_municipio,
+    nombre_departamento: perfil.nombre_departamento,
+    telefono: perfil.telefono,
+    direccion: perfil.direccion,
+    logo_empresa: perfil.logo_empresa,
+    especialidades: safeJsonParse(perfil.especialidades_json, []),
+    cultura: safeJsonParse(perfil.cultura_json, []),
+    beneficios: safeJsonParse(perfil.beneficios_json, [])
+  };
 };
 
 export const updatePerfilEmpresaById = async (id_empresa, data) => {
+  await ensureEmpresaPerfilSchema();
+
   const {
     nombre_comercial,
     razon_social,
     sitio_web,
     descripcion_empresa,
-    id_municipio_fk
+    id_municipio_fk,
+    telefono = null,
+    direccion = null,
+    logo_empresa = null,
+    especialidades = [],
+    cultura = [],
+    beneficios = []
   } = data;
 
   const [result] = await pool.query(
@@ -261,6 +333,37 @@ export const updatePerfilEmpresaById = async (id_empresa, data) => {
     return null;
   }
 
+  await pool.query(
+    `
+    INSERT INTO Empresas_Perfil_Detalle
+    (
+      id_empresa_fk,
+      telefono,
+      direccion,
+      logo_empresa,
+      especialidades_json,
+      cultura_json,
+      beneficios_json
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    ON DUPLICATE KEY UPDATE
+      telefono = VALUES(telefono),
+      direccion = VALUES(direccion),
+      logo_empresa = VALUES(logo_empresa),
+      especialidades_json = VALUES(especialidades_json),
+      cultura_json = VALUES(cultura_json),
+      beneficios_json = VALUES(beneficios_json)
+    `,
+    [
+      id_empresa,
+      telefono,
+      direccion,
+      logo_empresa,
+      JSON.stringify(especialidades || []),
+      JSON.stringify(cultura || []),
+      JSON.stringify(beneficios || [])
+    ]
+  );
+
   return await getPerfilEmpresaById(id_empresa);
 };
-

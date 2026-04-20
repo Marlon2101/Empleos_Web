@@ -4,6 +4,7 @@ import {
   getVacantesByEmpresa,
   createVacante,
   updateVacante,
+  updateVacanteEstado,
   deleteVacante,
   getVacanteSimpleById,
   buscarVacantesConFiltros,
@@ -192,6 +193,43 @@ export const eliminarVacante = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       mensaje: "Error al eliminar vacante",
+      error: error.message
+    });
+  }
+};
+
+export const cambiarEstadoVacante = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { estado } = req.body;
+    const vacante = await getVacanteSimpleById(id);
+
+    if (!vacante) {
+      return res.status(404).json({
+        mensaje: "Vacante no encontrada"
+      });
+    }
+
+    if (vacante.id_empresa_fk !== req.user.id) {
+      return res.status(403).json({
+        mensaje: "No puedes cambiar el estado de una vacante de otra empresa"
+      });
+    }
+
+    if (!["Activa", "Inactiva"].includes(String(estado || ""))) {
+      return res.status(400).json({
+        mensaje: "El estado debe ser Activa o Inactiva"
+      });
+    }
+
+    const actualizada = await updateVacanteEstado(id, estado);
+    res.json({
+      mensaje: `Vacante ${estado === "Activa" ? "activada" : "desactivada"} correctamente`,
+      data: actualizada
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: "Error al cambiar el estado de la vacante",
       error: error.message
     });
   }
