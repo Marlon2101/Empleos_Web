@@ -70,22 +70,34 @@ const obtenerPayload = () => {
     throw new Error(`Faltan campos en la vista: ${missing.join(", ")}`);
   }
 
+  
+  const valCategoria = getField("id_categoria_fk").value;
+  const valMunicipio = getField("id_municipio_fk").value;
+  const valSalario = getField("salario_offrecido").value;
+
+  
+  if (!valCategoria) throw new Error("Por favor, selecciona una categoría válida de la lista.");
+  if (!valMunicipio) throw new Error("Por favor, selecciona un municipio válido de la lista.");
+  if (!valSalario) throw new Error("Por favor, ingresa un salario ofrecido.");
+
+ 
   const payload = {
-    id_categoria_fk: Number(getField("id_categoria_fk").value),
-    id_municipio_fk: Number(getField("id_municipio_fk").value),
+    id_categoria_fk: Number(valCategoria),
+    id_municipio_fk: Number(valMunicipio),
     titulo_puesto: getField("titulo_puesto").value.trim(),
     descripcion_puesto: getField("descripcion_puesto").value.trim(),
     responsabilidades: getField("responsabilidades").value.trim(),
     requisitos: getField("requisitos").value.trim(),
-    salario_offrecido: Number(getField("salario_offrecido").value),
+    salario_offrecido: Number(valSalario),
     modalidad: getField("modalidad").value.trim(),
     tipo_contrato: getField("tipo_contrato").value.trim(),
     educacion: getField("educacion").value.trim(),
     idiomas: getField("idiomas").value.trim()
   };
 
+ 
   const vacios = Object.entries(payload)
-    .filter(([_, value]) => value === "" || Number.isNaN(value))
+    .filter(([_, value]) => value === "")
     .map(([key]) => key);
 
   if (vacios.length) {

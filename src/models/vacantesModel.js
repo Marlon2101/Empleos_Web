@@ -99,59 +99,61 @@ export const getVacantesByEmpresa = async (id_empresa) => {
 };
 
 export const createVacante = async (vacante) => {
+  // 1. Recibimos TODOS los campos (los viejos y los nuevos)
   const {
     id_empresa_fk,
     id_categoria_fk,
     titulo_puesto,
     descripcion_puesto,
-    responsabilidades,
-    requisitos,
+    responsabilidades, // NUEVO
+    requisitos,        // NUEVO
     salario_offrecido,
     modalidad,
-    tipo_contrato,
-    educacion,
-    idiomas,
+    tipo_contrato,     // NUEVO
+    educacion,         // NUEVO
+    idiomas,           // NUEVO
     id_municipio_fk
   } = vacante;
 
+  // 2. Hacemos el INSERT con los 12 campos exactos
   const [result] = await pool.query(
     `
-    INSERT INTO Vacantes
+    INSERT INTO Vacantes 
     (
-      id_empresa_fk,
-      id_categoria_fk,
-      titulo_puesto,
-      descripcion_puesto,
-      responsabilidades,
-      requisitos,
-      salario_offrecido,
-      modalidad,
-      tipo_contrato,
-      educacion,
-      idiomas,
+      id_empresa_fk, 
+      id_categoria_fk, 
+      titulo_puesto, 
+      descripcion_puesto, 
+      responsabilidades, 
+      requisitos, 
+      salario_offrecido, 
+      modalidad, 
+      tipo_contrato, 
+      educacion, 
+      idiomas, 
       id_municipio_fk
-    )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
     [
       id_empresa_fk,
       id_categoria_fk,
       titulo_puesto,
       descripcion_puesto,
-      responsabilidades,
-      requisitos,
+      responsabilidades || null, // Si viene vacío, lo guarda como NULL
+      requisitos || null,
       salario_offrecido,
-      modalidad,
-      tipo_contrato,
-      educacion,
-      idiomas,
-      id_municipio_fk
+      modalidad || null,
+      tipo_contrato || null,
+      educacion || null,
+      idiomas || null,
+      id_municipio_fk || null
     ]
   );
 
+  // 3. Devolvemos la vacante recién creada
   return getVacanteById(result.insertId);
 };
-
 export const updateVacante = async (id, vacante) => {
   const {
     id_empresa_fk,
