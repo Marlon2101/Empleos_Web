@@ -345,6 +345,135 @@ INSERT INTO Vacantes (
 'Experiencia programando en C/C++ para Arduino. Conocimientos sólidos de electrónica básica y compuertas lógicas.', 
 900.00, 'Presencial', 'Tiempo Completo', 'Ingeniería Mecatrónica o Sistemas', 'Inglés Intermedio', 2);
 
+-- =========================================
+-- VACANTES ADICIONALES PARA PRUEBAS MASIVAS
+-- Requiere MySQL 8+ por el uso de WITH RECURSIVE.
+-- Genera 100 vacantes extra con fechas variadas para probar filtros.
+-- =========================================
+INSERT INTO Vacantes (
+    id_empresa_fk,
+    id_categoria_fk,
+    titulo_puesto,
+    descripcion_puesto,
+    responsabilidades,
+    requisitos,
+    salario_offrecido,
+    modalidad,
+    tipo_contrato,
+    educacion,
+    idiomas,
+    id_municipio_fk,
+    fecha_publicacion
+)
+WITH RECURSIVE secuencia AS (
+    SELECT 1 AS n
+    UNION ALL
+    SELECT n + 1
+    FROM secuencia
+    WHERE n < 100
+)
+SELECT
+    CASE MOD(n, 3)
+        WHEN 1 THEN 1
+        WHEN 2 THEN 2
+        ELSE 3
+    END AS id_empresa_fk,
+    CASE MOD(n, 6)
+        WHEN 1 THEN 1
+        WHEN 2 THEN 2
+        WHEN 3 THEN 3
+        WHEN 4 THEN 4
+        WHEN 5 THEN 5
+        ELSE 6
+    END AS id_categoria_fk,
+    CONCAT(
+        CASE MOD(n, 5)
+            WHEN 1 THEN 'Practicante'
+            WHEN 2 THEN 'Junior'
+            WHEN 3 THEN 'Semi-senior'
+            WHEN 4 THEN 'Senior'
+            ELSE 'Especialista'
+        END,
+        ' ',
+        CASE MOD(n, 6)
+            WHEN 1 THEN 'Desarrollador Web'
+            WHEN 2 THEN 'Analista Administrativo'
+            WHEN 3 THEN 'Ejecutivo de Ventas'
+            WHEN 4 THEN 'Asesor de Soporte'
+            WHEN 5 THEN 'Disenador UI'
+            ELSE 'Tecnico de Redes'
+        END,
+        ' #',
+        LPAD(n, 3, '0')
+    ) AS titulo_puesto,
+    CASE MOD(n, 6)
+        WHEN 1 THEN 'Vacante orientada a desarrollo web, mantenimiento de modulos y mejora continua de la plataforma.'
+        WHEN 2 THEN 'Oportunidad para apoyar operaciones administrativas, reporteria y seguimiento de procesos internos.'
+        WHEN 3 THEN 'Rol comercial para prospeccion, cierres y seguimiento de cartera de clientes empresariales.'
+        WHEN 4 THEN 'Posicion enfocada en soporte a usuarios, resolucion de incidencias y atencion multicanal.'
+        WHEN 5 THEN 'Proyecto para crear interfaces, prototipos y piezas visuales para productos digitales.'
+        ELSE 'Puesto tecnico para apoyar configuracion de redes, conectividad y mantenimiento preventivo.'
+    END AS descripcion_puesto,
+    CASE MOD(n, 6)
+        WHEN 1 THEN 'Implementar mejoras, corregir errores, documentar cambios y coordinar pruebas con el equipo.'
+        WHEN 2 THEN 'Preparar reportes, validar datos, organizar expedientes y dar seguimiento a solicitudes.'
+        WHEN 3 THEN 'Buscar oportunidades, presentar propuestas, negociar condiciones y actualizar CRM.'
+        WHEN 4 THEN 'Registrar tickets, escalar casos, orientar al usuario y medir tiempos de respuesta.'
+        WHEN 5 THEN 'Construir wireframes, ajustar componentes visuales y colaborar con desarrollo frontend.'
+        ELSE 'Configurar equipos, monitorear enlaces, documentar topologias y atender incidencias tecnicas.'
+    END AS responsabilidades,
+    CASE MOD(n, 6)
+        WHEN 1 THEN 'Conocimientos en JavaScript, Node.js, SQL y control de versiones. Capacidad de aprendizaje.'
+        WHEN 2 THEN 'Orden, manejo de hojas de calculo, seguimiento de tareas y comunicacion efectiva.'
+        WHEN 3 THEN 'Experiencia en ventas, negociacion, servicio al cliente y manejo de metas.'
+        WHEN 4 THEN 'Paciencia, criterio tecnico, atencion al detalle y buena comunicacion escrita.'
+        WHEN 5 THEN 'Manejo de Figma, criterios de UX, composicion visual y pensamiento creativo.'
+        ELSE 'Bases de redes, soporte tecnico, cableado estructurado y uso de herramientas de diagnostico.'
+    END AS requisitos,
+    CASE MOD(n, 6)
+        WHEN 1 THEN 550 + (n * 8)
+        WHEN 2 THEN 500 + (n * 6)
+        WHEN 3 THEN 600 + (n * 7)
+        WHEN 4 THEN 520 + (n * 5)
+        WHEN 5 THEN 650 + (n * 9)
+        ELSE 700 + (n * 10)
+    END AS salario_offrecido,
+    CASE MOD(n, 4)
+        WHEN 1 THEN 'Remoto'
+        WHEN 2 THEN 'Hibrido'
+        ELSE 'Presencial'
+    END AS modalidad,
+    CASE MOD(n, 5)
+        WHEN 1 THEN 'Tiempo Completo'
+        WHEN 2 THEN 'Medio tiempo'
+        WHEN 3 THEN 'Por Proyecto'
+        WHEN 4 THEN 'Tiempo Completo'
+        ELSE 'Tiempo Completo'
+    END AS tipo_contrato,
+    CASE MOD(n, 6)
+        WHEN 1 THEN 'Ingenieria en Sistemas'
+        WHEN 2 THEN 'Administracion de Empresas'
+        WHEN 3 THEN 'Mercadeo o Ventas'
+        WHEN 4 THEN 'Bachillerato'
+        WHEN 5 THEN 'Diseno Grafico'
+        ELSE 'Tecnico en Redes'
+    END AS educacion,
+    CASE MOD(n, 4)
+        WHEN 1 THEN 'Ingles Basico'
+        WHEN 2 THEN 'Ingles Intermedio'
+        WHEN 3 THEN 'Ingles Avanzado'
+        ELSE 'Espanol'
+    END AS idiomas,
+    MOD(n - 1, 8) + 1 AS id_municipio_fk,
+    CASE
+        WHEN n <= 10 THEN DATE_SUB(NOW(), INTERVAL ((n - 1) * 2) HOUR)
+        WHEN n <= 25 THEN DATE_SUB(NOW(), INTERVAL n DAY)
+        WHEN n <= 50 THEN DATE_SUB(NOW(), INTERVAL (n + 7) DAY)
+        WHEN n <= 75 THEN DATE_SUB(NOW(), INTERVAL (n + 20) DAY)
+        ELSE DATE_SUB(NOW(), INTERVAL (n + 45) DAY)
+    END AS fecha_publicacion
+FROM secuencia;
+
 -- Habilidades de Usuarios
 INSERT INTO Usuario_Habilidades (id_usuario_fk, id_habilidad_fk) VALUES
 (1, 1),
@@ -389,3 +518,12 @@ CREATE TABLE IF NOT EXISTS email_verifications (
     KEY idx_email_verifications_usuario (usuario_id, tipo_usuario),
     KEY idx_email_verifications_created (created_at)
 );
+
+-- ========================================
+-- CUENTAS DE PRUEBA LISTAS PARA USAR
+-- ========================================
+UPDATE Usuarios
+SET email_verificado = 1;
+
+UPDATE Empresas
+SET email_verificado = 1;
