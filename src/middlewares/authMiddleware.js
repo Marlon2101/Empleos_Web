@@ -1,9 +1,13 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { obtenerEstadoVerificacionCuenta } from "../models/usuarioModel.js";
 
 dotenv.config();
 
-export const verificarToken = (req, res, next) => {
+const buildPendingRedirect = (correo_electronico, tipo) =>
+  `/views/public/verificacion-pendiente/index.html?email=${encodeURIComponent(correo_electronico || "")}&tipo=${encodeURIComponent(tipo || "")}`;
+
+export const verificarToken = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -19,17 +23,42 @@ export const verificarToken = (req, res, next) => {
 
     if (!token) {
       return res.status(401).json({
-        mensaje: "Formato de token inválido"
+        mensaje: "Formato de token invalido"
       });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
 
+    if (decoded.tipo !== "admin") {
+      const cuenta = await obtenerEstadoVerificacionCuenta(decoded.id, decoded.tipo);
+
+      if (!cuenta) {
+        return res.status(401).json({
+          mensaje: "La cuenta asociada al token no existe"
+        });
+      }
+
+      req.user.correo_electronico = cuenta.correo_electronico;
+      req.user.email_verificado = Boolean(cuenta.email_verificado);
+
+      if (!req.user.email_verificado) {
+        return res.status(403).json({
+          mensaje: "Debes verificar tu email antes de continuar",
+          code: "EMAIL_NO_VERIFICADO",
+          tipo: decoded.tipo,
+          correo_electronico: cuenta.correo_electronico,
+          redirect: buildPendingRedirect(cuenta.correo_electronico, decoded.tipo)
+        });
+      }
+    } else {
+      req.user.email_verificado = true;
+    }
+
     next();
   } catch (error) {
     return res.status(401).json({
-      mensaje: "Token inválido o expirado",
+      mensaje: "Token invalido o expirado",
       error: error.message
     });
   }
@@ -57,9 +86,45 @@ export const verificarTokenOpcional = (req, res, next) => {
     req.user = decoded;
 
     next();
-  } catch (error) {
+  } catch {
     req.user = null;
     next();
+  }
+};
+
+export const verificarEmailConfirmado = async (req, res, next) => {
+  try {
+    if (!req.user || req.user.tipo === "admin") {
+      return next();
+    }
+
+    const cuenta = await obtenerEstadoVerificacionCuenta(req.user.id, req.user.tipo);
+
+    if (!cuenta) {
+      return res.status(401).json({
+        mensaje: "La cuenta asociada al token no existe"
+      });
+    }
+
+    if (!cuenta.email_verificado) {
+      return res.status(403).json({
+        mensaje: "Debes verificar tu email antes de continuar",
+        code: "EMAIL_NO_VERIFICADO",
+        tipo: req.user.tipo,
+        correo_electronico: cuenta.correo_electronico,
+        redirect: buildPendingRedirect(cuenta.correo_electronico, req.user.tipo)
+      });
+    }
+
+    req.user.email_verificado = true;
+    req.user.correo_electronico = cuenta.correo_electronico;
+
+    next();
+  } catch (error) {
+    return res.status(500).json({
+      mensaje: "Error al validar la verificacion del correo",
+      error: error.message
+    });
   }
 };
 

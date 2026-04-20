@@ -18,6 +18,17 @@ const authHeaders = () => ({
   Authorization: `Bearer ${getToken()}`
 });
 
+const syncUsuarioStorage = (perfil) => {
+  const usuarioActual = JSON.parse(localStorage.getItem("usuario") || "{}");
+  localStorage.setItem("usuario", JSON.stringify({
+    ...usuarioActual,
+    ...perfil,
+    nombre: perfil.nombre_completo || usuarioActual.nombre,
+    nombres: perfil.nombres,
+    apellidos: perfil.apellidos
+  }));
+};
+
 const showAlert = (message, type = "danger") => {
   if (!alertContainer) return;
 
@@ -284,6 +295,7 @@ const guardarPerfil = async () => {
   }
 
   setCardData(data.data);
+  syncUsuarioStorage(data.data);
   showAlert(data.mensaje, "success");
 };
 

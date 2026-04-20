@@ -36,6 +36,32 @@ document.addEventListener("DOMContentLoaded", () => {
       .toLowerCase()
       .trim();
 
+  const parseFechaVacante = (value) => {
+    if (!value) return null;
+    const parsed = new Date(value);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  };
+
+  const aplicarFiltroLocalFecha = (vacantes) => {
+    let rangoDias = null;
+
+    if (document.getElementById("fecha2")?.checked) rangoDias = 1;
+    else if (document.getElementById("fecha3")?.checked) rangoDias = 7;
+    else if (document.getElementById("fecha4")?.checked) rangoDias = 30;
+
+    if (!rangoDias) {
+      return vacantes;
+    }
+
+    const ahora = Date.now();
+    return vacantes.filter((vacante) => {
+      const fecha = parseFechaVacante(vacante.fecha_publicacion);
+      if (!fecha) return false;
+      const diferenciaDias = (ahora - fecha.getTime()) / (1000 * 60 * 60 * 24);
+      return diferenciaDias >= 0 && diferenciaDias <= rangoDias;
+    });
+  };
+
   const tarjetaVacante = (vacante) => `
     <div class="card mb-4 p-4 border-0 shadow-sm" style="border-radius: 20px; transition: transform 0.2s;">
       <div class="row align-items-center">
@@ -215,6 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
       let vacantes = await response.json();
       vacantes = Array.isArray(vacantes) ? vacantes : [];
       vacantes = aplicarFiltroLocalModalidad(vacantes);
+      vacantes = aplicarFiltroLocalFecha(vacantes);
 
       resultadosActuales = vacantes;
       paginaActual = 1;
@@ -258,7 +285,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const fecha = params.get("fecha");
-    if (fecha === "24h") document.getElementById("fecha2").checked = true;
+    if (!fecha) document.getElementById("fecha1").checked = true;
+    else if (fecha === "24h") document.getElementById("fecha2").checked = true;
     else if (fecha === "semana") document.getElementById("fecha3").checked = true;
     else if (fecha === "mes") document.getElementById("fecha4").checked = true;
 

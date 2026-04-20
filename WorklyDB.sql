@@ -366,3 +366,26 @@ INSERT INTO Valoraciones_Empresas (
 ) VALUES
 (1, 1, 5, 'Excelente ambiente laboral y me enseñaron mucho sobre optimización de código y uso de herramientas en la nube.'),
 (2, 2, 4, 'Muy buenos proyectos de diseño, aunque el ritmo de trabajo a veces es acelerado.');
+-- ========================================
+-- MIGRACION: VERIFICACION DE EMAIL
+-- ========================================
+ALTER TABLE Usuarios
+ADD COLUMN email_verificado TINYINT(1) NOT NULL DEFAULT 0;
+
+ALTER TABLE Empresas
+ADD COLUMN email_verificado TINYINT(1) NOT NULL DEFAULT 0;
+
+CREATE TABLE IF NOT EXISTS email_verifications (
+    id INT NOT NULL AUTO_INCREMENT,
+    usuario_id INT NOT NULL,
+    tipo_usuario VARCHAR(20) NOT NULL DEFAULT 'usuario',
+    token VARCHAR(255) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    invalidado TINYINT(1) NOT NULL DEFAULT 0,
+    motivo VARCHAR(30) NOT NULL DEFAULT 'registro',
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_email_verifications_token (token),
+    KEY idx_email_verifications_usuario (usuario_id, tipo_usuario),
+    KEY idx_email_verifications_created (created_at)
+);

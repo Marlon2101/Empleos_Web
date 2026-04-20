@@ -8,8 +8,11 @@ const searchInput = document.querySelector(".filter-bar input");
 const selectVacante = document.querySelectorAll(".filter-bar select")[0];
 const selectEstado = document.querySelectorAll(".filter-bar select")[1];
 const sidebarCards = [...document.querySelectorAll(".sidebar-card")];
+const inputContactoMensaje = document.getElementById("contactoMensaje");
+const btnEnviarMensaje = document.getElementById("btnEnviarMensaje");
 
 let postulaciones = [];
+let postulacionSeleccionada = null;
 
 const authHeaders = (withJson = false) => ({
   ...(withJson ? { "Content-Type": "application/json" } : {}),
@@ -41,12 +44,49 @@ const abrirPerfil = (item) => {
 };
 
 const abrirContacto = (item) => {
+  postulacionSeleccionada = item;
   const inputDestino = document.getElementById("contactoDestino");
   if (inputDestino) {
     inputDestino.value = `${item.nombres} ${item.apellidos} (${item.correo_electronico || "sin correo"})`;
   }
+  if (inputContactoMensaje) {
+    inputContactoMensaje.value = `Hola ${item.nombres}, queremos dar seguimiento a tu postulacion para ${item.titulo_puesto || "esta vacante"}.`;
+  }
   const modal = new bootstrap.Modal(document.getElementById("modalContactar"));
   modal.show();
+};
+
+const enviarMensaje = async () => {
+  if (!postulacionSeleccionada?.id_usuario) {
+    throw new Error("No se encontro el usuario para enviar el mensaje.");
+  }
+
+  const mensaje = inputContactoMensaje?.value.trim();
+  if (!mensaje) {
+    throw new Error("Escribe un mensaje antes de enviarlo.");
+  }
+
+  const response = await fetch(`${API_URL}/notificaciones`, {
+    method: "POST",
+    headers: authHeaders(true),
+    body: JSON.stringify({
+      tipo_usuario: "usuario",
+      id_destinatario: Number(postulacionSeleccionada.id_usuario),
+      titulo: `Mensaje de empresa sobre ${postulacionSeleccionada.titulo_puesto || "tu postulacion"}`,
+      mensaje,
+      tipo_notificacion: "comentario",
+      enlace: `/views/usuario/detalleempleo/index.html?id=${postulacionSeleccionada.id_vacante_fk}`
+    })
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.mensaje || "No se pudo enviar el mensaje al usuario.");
+  }
+
+  inputContactoMensaje.value = "";
+  bootstrap.Modal.getInstance(document.getElementById("modalContactar"))?.hide();
+  window.alert("Mensaje enviado correctamente. El usuario ya lo puede ver en sus notificaciones.");
 };
 
 const actualizarEstado = async (idPostulacion, nuevoEstadoId) => {
@@ -256,6 +296,14 @@ const cargarLista = async () => {
 searchInput?.addEventListener("input", renderPostulaciones);
 selectVacante?.addEventListener("change", renderPostulaciones);
 selectEstado?.addEventListener("change", renderPostulaciones);
+btnEnviarMensaje?.addEventListener("click", async () => {
+  try {
+    await enviarMensaje();
+  } catch (error) {
+    console.error(error);
+    window.alert(error.message);
+  }
+});
 
 cargarLista().catch((error) => {
   console.error(error);

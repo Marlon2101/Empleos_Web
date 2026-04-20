@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workly - Biblioteca de Recursos (Empresa)</title>
+    <title>Workly | Recursos para Empresa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
 </head>
-<body class="d-flex flex-column min-vh-100 bg-primary-subtle">
-
-    <nav class="navbar navbar-expand-lg py-3 bg-secondary">
+<body class="d-flex flex-column min-vh-100 recursos-body">
+    <nav class="navbar navbar-expand-lg py-3 recursos-nav">
         <div class="container-fluid px-4 px-lg-5">
             <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../principal/index.html">
-                <span class="display-5 me-3 lh-1">💼</span> 
-                <div class="lh-sm">
-                    <span class="text-white fw-bold d-block fs-3">Workly</span>
-                    <span class="text-white-50 fs-6">Tu búsqueda de trabajo profesional</span>
+                <i class="bi bi-briefcase-fill brand-icon"></i>
+                <div class="lh-sm ms-2">
+                    <span class="brand-text">Workly</span>
+                    <span class="brand-sub">Panel de empresa</span>
                 </div>
             </a>
 
@@ -24,233 +27,250 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarContent">
-                <div class="navbar-nav mx-auto mt-3 mt-lg-0 gap-2">
-                    <a href="../publicarvacante/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Publicar vacante</a>
-                    <a href="../misvacantes/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Mis vacantes</a>
-                    <a href="../postulaciones/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Ver postulaciones</a>
-                    <a href="../foro/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Foro</a>
-                    <a href="../resenaempresa/index.html" class="btn btn-primary btn-sm px-3 fw-semibold shadow-sm">Reseñas de postulantes</a>
+                <div class="navbar-nav mx-auto gap-2 mt-3 mt-lg-0">
+                    <a href="../publicarvacante/index.html" class="nav-link-custom">Publicar</a>
+                    <a href="../misvacantes/index.html" class="nav-link-custom">Mis vacantes</a>
+                    <a href="../postulaciones/index.html" class="nav-link-custom">Postulaciones</a>
+                    <a href="../foro/index.html" class="nav-link-custom">Foro</a>
+                    <a href="../resenaempresa/index.html" class="nav-link-custom">Reseñas</a>
+                    <a href="../recursos/index.html" class="nav-link-custom active">Recursos</a>
                 </div>
 
-                <div class="d-flex align-items-center justify-content-center gap-4 mt-3 mt-lg-0">
-                    <a href="../notificaciones/index.html" class="text-dark text-decoration-none position-relative d-inline-block mt-1">
-                        <i class="bi bi-bell-fill fs-3"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light">
-                            2
-                            <span class="visually-hidden">notificaciones no leídas</span>
-                        </span>
+                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+                    <a href="../notificaciones/index.html" class="text-white position-relative text-decoration-none">
+                        <i class="bi bi-bell-fill fs-4"></i>
+                        <span class="notification-badge badge rounded-pill bg-danger">0</span>
                     </a>
-                    
-                    <a href="../perfil/index.html" class="text-dark text-decoration-none d-inline-block">
-                        <i class="bi bi-person-circle fs-2"></i>
+                    <a href="../perfil/index.html" class="text-white text-decoration-none">
+                        <i class="bi bi-person-circle fs-4"></i>
                     </a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <main class="flex-grow-1 py-4">
-        <div class="container-fluid px-4 px-lg-5">
-            
-            <div class="card bg-white border-0 shadow-sm p-3 mb-4 rounded-4 mt-2">
-                <div class="row g-3 align-items-center">
-                    
-                    <div class="col-12 col-md-auto">
-                        <button class="btn bg-info text-white bg-opacity-50 border-0 fw-bold px-4 py-2 rounded-3 w-100 shadow-none pointer-events-none">Recursos</button>
+    <main class="flex-grow-1 py-4 py-lg-5">
+        <div class="container px-4 px-lg-5">
+            <section class="hero-card mb-4">
+                <div class="row g-4 align-items-center">
+                    <div class="col-12 col-xl-7">
+                        <span class="hero-chip">Biblioteca curada</span>
+                        <h1 class="hero-title mt-3 mb-3">Recursos listos para reclutar mejor y moverte más rápido.</h1>
+                        <p class="hero-copy mb-0">Encuentra guías, plantillas y materiales prácticos para publicar mejor, entrevistar con más criterio y dar seguimiento profesional a cada candidato.</p>
                     </div>
-                    
-                    <div class="col-12 col-md">
-                        <div class="input-group">
-                            <span class="input-group-text bg-secondary-subtle border-0 ps-4"><i class="bi bi-search text-muted"></i></span>
-                            <input type="text" class="form-control bg-secondary-subtle border-0 shadow-none py-2 text-muted fw-semibold" placeholder="Buscar guías, plantillas, cursos o documentos...">
+                    <div class="col-12 col-xl-5">
+                        <div class="hero-stats">
+                            <div class="stat-box">
+                                <span class="stat-label">Recursos</span>
+                                <strong class="stat-value" id="contadorRecursos">6</strong>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Categorías</span>
+                                <strong class="stat-value">4</strong>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Favoritos</span>
+                                <strong class="stat-value">3</strong>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="col-12 col-md-auto">
-                        <select class="form-select bg-primary-subtle text-dark fw-bold border-0 px-4 py-2 rounded-3 shadow-none w-100 text-center cursor-pointer">
-                            <option selected>Todas las categorias</option>
-                            <option value="1">Reclutamiento</option>
-                            <option value="2">Entrevistas</option>
+                </div>
+            </section>
+
+            <section class="panel-card mb-4">
+                <div class="row g-3 align-items-end">
+                    <div class="col-12 col-lg-6">
+                        <label class="form-label fw-semibold">Buscar recurso</label>
+                        <div class="search-shell">
+                            <i class="bi bi-search text-muted"></i>
+                            <input id="inputBuscarRecursos" type="search" class="form-control border-0 shadow-none" placeholder="Guías, entrevistas, plantillas, onboarding...">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <label class="form-label fw-semibold">Categoría</label>
+                        <select id="filtroCategoria" class="form-select form-select-lg rounded-4 border-0 surface-input">
+                            <option value="">Todas las categorías</option>
+                            <option value="Reclutamiento">Reclutamiento</option>
+                            <option value="Entrevistas">Entrevistas</option>
+                            <option value="Evaluacion">Evaluación</option>
+                            <option value="Capacitaciones">Capacitaciones</option>
                         </select>
                     </div>
-
-                    <div class="col-12 col-md-auto">
-                        <button type="button" class="btn bg-primary-subtle text-dark fw-bold px-5 py-2 rounded-3 w-100 shadow-sm border-0 btn-accion" data-mensaje="Búsqueda realizada.">Buscar</button>
+                    <div class="col-12 col-lg-3 d-grid">
+                        <button type="button" class="btn btn-primary btn-lg rounded-4" id="btnBuscarRecursos">
+                            <i class="bi bi-funnel me-2"></i>Aplicar búsqueda
+                        </button>
                     </div>
-
                 </div>
-            </div>
+            </section>
 
             <div class="row g-4">
-                
-                <section class="col-12 col-lg-8">
-                    <div class="card bg-white border-0 shadow-sm rounded-0 mb-4 p-4 p-lg-5">
-                        <h5 class="fw-bold text-dark mb-5">Biblioteca de recursos</h5>
-                        
-                        <div class="row g-5">
-                            
-                            <div class="col-12 col-md-6">
-                                <div class="bg-secondary bg-opacity-10 rounded-0 p-4 position-relative h-100 d-flex flex-column">
-                                    <span class="badge bg-primary-subtle text-dark px-4 py-2 rounded-pill position-absolute top-0 start-0 translate-middle-y ms-4 fw-bold">PDF</span>
-                                    <h6 class="fw-bold text-dark mt-3 mb-2">Guía para redactar vacantes efectivas</h6>
-                                    <div class="mb-3">
-                                        <span class="badge bg-primary-subtle text-dark rounded-pill px-3 py-2 shadow-sm border border-primary-subtle">Reclutamiento</span>
-                                    </div>
-                                    <p class="text-dark fw-bold small mb-4 flex-grow-1">Aprende a crear descripciones de puesto claras, atractivas y orientadas al perfil ideal que buscas contratar.</p>
-                                    <div class="d-flex gap-2">
-                                        <button type="button" class="btn btn-primary btn-sm px-4 rounded-pill shadow-sm btn-accion" data-mensaje="Abriendo recurso de lectura...">Ver</button>
-                                        <button type="button" class="btn btn-primary btn-sm px-4 rounded-pill shadow-sm btn-accion" data-mensaje="Descarga iniciada. Revisa tu carpeta de descargas.">Descargar</button>
-                                    </div>
-                                </div>
+                <section class="col-12 col-xl-8">
+                    <div class="panel-card">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+                            <div>
+                                <h2 class="h4 fw-bold mb-1">Biblioteca de recursos</h2>
+                                <p class="text-muted mb-0" id="estadoResultados">Mostrando todos los recursos disponibles.</p>
                             </div>
-
-                            <div class="col-12 col-md-6">
-                                <div class="bg-secondary bg-opacity-10 rounded-0 p-4 position-relative h-100 d-flex flex-column">
-                                    <span class="badge bg-primary-subtle text-dark px-4 py-2 rounded-pill position-absolute top-0 start-0 translate-middle-y ms-4 fw-bold">Word</span>
-                                    <h6 class="fw-bold text-dark mt-3 mb-2">Plantilla de Entrevista Técnica</h6>
-                                    <div class="mb-3">
-                                        <span class="badge bg-primary-subtle text-dark rounded-pill px-3 py-2 shadow-sm border border-primary-subtle">Entrevistas</span>
-                                    </div>
-                                    <p class="text-dark fw-bold small mb-4 flex-grow-1">Estructura estandarizada para evaluar los conocimientos técnicos de los candidatos a desarrollo de software.</p>
-                                    <div class="d-flex gap-2">
-                                        <button type="button" class="btn btn-primary btn-sm px-4 rounded-pill shadow-sm btn-accion" data-mensaje="Abriendo vista previa del documento...">Ver</button>
-                                        <button type="button" class="btn btn-primary btn-sm px-4 rounded-pill shadow-sm btn-accion" data-mensaje="Descarga iniciada. Revisa tu carpeta de descargas.">Descargar</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6">
-                                <div class="bg-secondary bg-opacity-10 rounded-0 p-4 position-relative h-100 d-flex flex-column">
-                                    <span class="badge bg-primary-subtle text-dark px-4 py-2 rounded-pill position-absolute top-0 start-0 translate-middle-y ms-4 fw-bold">Excel</span>
-                                    <h6 class="fw-bold text-dark mt-3 mb-2">Matriz de Evaluación de Candidatos</h6>
-                                    <div class="mb-3">
-                                        <span class="badge bg-primary-subtle text-dark rounded-pill px-3 py-2 shadow-sm border border-primary-subtle">Evaluación</span>
-                                    </div>
-                                    <p class="text-dark fw-bold small mb-4 flex-grow-1">Herramienta en hoja de cálculo para comparar candidatos de forma objetiva basada en competencias.</p>
-                                    <div class="d-flex gap-2">
-                                        <button type="button" class="btn btn-primary btn-sm px-4 rounded-pill shadow-sm btn-accion" data-mensaje="Abriendo vista previa de hoja de cálculo...">Ver</button>
-                                        <button type="button" class="btn btn-primary btn-sm px-4 rounded-pill shadow-sm btn-accion" data-mensaje="Descarga iniciada. Revisa tu carpeta de descargas.">Descargar</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6">
-                                <div class="bg-secondary bg-opacity-10 rounded-0 p-4 position-relative h-100 d-flex flex-column">
-                                    <span class="badge bg-primary-subtle text-dark px-4 py-2 rounded-pill position-absolute top-0 start-0 translate-middle-y ms-4 fw-bold">Video</span>
-                                    <h6 class="fw-bold text-dark mt-3 mb-2">Webinar: Marca Empleadora</h6>
-                                    <div class="mb-3">
-                                        <span class="badge bg-primary-subtle text-dark rounded-pill px-3 py-2 shadow-sm border border-primary-subtle">Capacitaciones</span>
-                                    </div>
-                                    <p class="text-dark fw-bold small mb-4 flex-grow-1">Aprende estrategias efectivas para posicionar a tu empresa y atraer al mejor talento del mercado.</p>
-                                    <div class="d-flex gap-2">
-                                        <button type="button" class="btn btn-primary btn-sm px-4 rounded-pill shadow-sm btn-accion" data-mensaje="Abriendo reproductor de video...">Ver</button>
-                                    </div>
-                                </div>
-                            </div>
-
+                            <span class="badge text-bg-light rounded-pill px-3 py-2" id="contadorResultados">6 resultados</span>
                         </div>
 
+                        <div class="row g-4" id="gridRecursos">
+                            <div class="col-12 col-md-6 recurso-item" data-categoria="Reclutamiento" data-titulo="Guia para redactar vacantes efectivas">
+                                <article class="resource-card">
+                                    <span class="resource-format">PDF</span>
+                                    <h3>Guía para redactar vacantes efectivas</h3>
+                                    <p>Aprende a escribir descripciones claras, precisas y atractivas para traer candidatos más alineados desde la primera publicación.</p>
+                                    <div class="resource-meta">
+                                        <span class="tag">Reclutamiento</span>
+                                        <span class="tag soft">12 min</span>
+                                    </div>
+                                    <div class="resource-actions">
+                                        <button class="btn btn-outline-primary rounded-pill btn-recurso" data-accion="Ver guía para redactar vacantes efectivas">Ver</button>
+                                        <button class="btn btn-primary rounded-pill btn-recurso" data-accion="Descargando guía para redactar vacantes efectivas">Descargar</button>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <div class="col-12 col-md-6 recurso-item" data-categoria="Entrevistas" data-titulo="Plantilla de entrevista tecnica">
+                                <article class="resource-card">
+                                    <span class="resource-format">DOCX</span>
+                                    <h3>Plantilla de entrevista técnica</h3>
+                                    <p>Una estructura lista para ordenar preguntas, puntajes y observaciones sin improvisar durante la entrevista.</p>
+                                    <div class="resource-meta">
+                                        <span class="tag">Entrevistas</span>
+                                        <span class="tag soft">Editable</span>
+                                    </div>
+                                    <div class="resource-actions">
+                                        <button class="btn btn-outline-primary rounded-pill btn-recurso" data-accion="Abriendo plantilla de entrevista tecnica">Ver</button>
+                                        <button class="btn btn-primary rounded-pill btn-recurso" data-accion="Descargando plantilla de entrevista tecnica">Descargar</button>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <div class="col-12 col-md-6 recurso-item" data-categoria="Evaluacion" data-titulo="Matriz de evaluacion de candidatos">
+                                <article class="resource-card">
+                                    <span class="resource-format">XLSX</span>
+                                    <h3>Matriz de evaluación de candidatos</h3>
+                                    <p>Compara perfiles con criterios uniformes para reducir sesgos y dejar trazabilidad clara de la decisión.</p>
+                                    <div class="resource-meta">
+                                        <span class="tag">Evaluación</span>
+                                        <span class="tag soft">Comparativo</span>
+                                    </div>
+                                    <div class="resource-actions">
+                                        <button class="btn btn-outline-primary rounded-pill btn-recurso" data-accion="Abriendo matriz de evaluacion de candidatos">Ver</button>
+                                        <button class="btn btn-primary rounded-pill btn-recurso" data-accion="Descargando matriz de evaluacion de candidatos">Descargar</button>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <div class="col-12 col-md-6 recurso-item" data-categoria="Capacitaciones" data-titulo="Webinar marca empleadora">
+                                <article class="resource-card">
+                                    <span class="resource-format">VIDEO</span>
+                                    <h3>Webinar: marca empleadora</h3>
+                                    <p>Ideas concretas para mejorar la percepción de tu empresa y fortalecer la atracción de talento desde tus publicaciones.</p>
+                                    <div class="resource-meta">
+                                        <span class="tag">Capacitaciones</span>
+                                        <span class="tag soft">45 min</span>
+                                    </div>
+                                    <div class="resource-actions">
+                                        <button class="btn btn-primary rounded-pill btn-recurso" data-accion="Reproduciendo webinar de marca empleadora">Ver</button>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <div class="col-12 col-md-6 recurso-item" data-categoria="Entrevistas" data-titulo="Checklist para entrevistas">
+                                <article class="resource-card">
+                                    <span class="resource-format">PDF</span>
+                                    <h3>Checklist para entrevistas</h3>
+                                    <p>Una lista breve para asegurar consistencia en agenda, preguntas, cierre y seguimiento posterior al contacto.</p>
+                                    <div class="resource-meta">
+                                        <span class="tag">Entrevistas</span>
+                                        <span class="tag soft">Checklist</span>
+                                    </div>
+                                    <div class="resource-actions">
+                                        <button class="btn btn-outline-primary rounded-pill btn-recurso" data-accion="Abriendo checklist para entrevistas">Ver</button>
+                                        <button class="btn btn-primary rounded-pill btn-recurso" data-accion="Descargando checklist para entrevistas">Descargar</button>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <div class="col-12 col-md-6 recurso-item" data-categoria="Reclutamiento" data-titulo="Manual de onboarding inicial">
+                                <article class="resource-card">
+                                    <span class="resource-format">PDF</span>
+                                    <h3>Manual de onboarding inicial</h3>
+                                    <p>Recorrido práctico para que la experiencia del nuevo talento empiece con claridad desde el primer día.</p>
+                                    <div class="resource-meta">
+                                        <span class="tag">Reclutamiento</span>
+                                        <span class="tag soft">Onboarding</span>
+                                    </div>
+                                    <div class="resource-actions">
+                                        <button class="btn btn-outline-primary rounded-pill btn-recurso" data-accion="Abriendo manual de onboarding inicial">Ver</button>
+                                        <button class="btn btn-primary rounded-pill btn-recurso" data-accion="Descargando manual de onboarding inicial">Descargar</button>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+
+                        <div class="empty-state d-none" id="emptyRecursos">
+                            <i class="bi bi-journal-x"></i>
+                            <h3>No encontramos recursos con ese filtro</h3>
+                            <p>Prueba otra palabra o cambia la categoría para ver más materiales.</p>
+                        </div>
                     </div>
                 </section>
 
-                <aside class="col-12 col-lg-4">
-                    
-                    <div class="card bg-white border-0 shadow-sm rounded-0 p-4 mb-4">
-                        <h6 class="fw-bold text-dark mb-1">Recursos recientes</h6>
-                        <hr class="mt-0 mb-3 border-dark border-2 opacity-100">
-                        
-                        <ul class="list-unstyled mb-1 text-dark fw-bold small lh-lg">
-                            <li class="cursor-pointer text-decoration-underline-hover btn-accion" data-mensaje="Abriendo recurso de lectura...">Guía para redactar vacantes</li>
-                            <li class="cursor-pointer text-decoration-underline-hover btn-accion" data-mensaje="Abriendo recurso de lectura...">Plantilla de entrevista técnica</li>
-                            <li class="cursor-pointer text-decoration-underline-hover btn-accion" data-mensaje="Abriendo recurso de lectura...">Checklist para entrevistas</li>
-                            <li class="cursor-pointer text-decoration-underline-hover btn-accion" data-mensaje="Abriendo recurso de lectura...">Manual de marca empleadora</li>
+                <aside class="col-12 col-xl-4">
+                    <div class="sidebar-card mb-4">
+                        <h3 class="h5 fw-bold mb-3">Accesos rápidos</h3>
+                        <div class="quick-links">
+                            <button class="quick-link btn-recurso" data-accion="Abriendo guia para redactar vacantes efectivas">Guía de vacantes</button>
+                            <button class="quick-link btn-recurso" data-accion="Abriendo plantilla de entrevista tecnica">Plantilla técnica</button>
+                            <button class="quick-link btn-recurso" data-accion="Abriendo checklist para entrevistas">Checklist de entrevistas</button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card mb-4">
+                        <h3 class="h5 fw-bold mb-3">Categorías</h3>
+                        <div class="category-list">
+                            <button class="category-row" data-categoria="">Todas <span>6</span></button>
+                            <button class="category-row" data-categoria="Reclutamiento">Reclutamiento <span>2</span></button>
+                            <button class="category-row" data-categoria="Entrevistas">Entrevistas <span>2</span></button>
+                            <button class="category-row" data-categoria="Evaluacion">Evaluación <span>1</span></button>
+                            <button class="category-row" data-categoria="Capacitaciones">Capacitaciones <span>1</span></button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3 class="h5 fw-bold mb-3">Favoritos del equipo</h3>
+                        <ul class="favorite-list mb-0">
+                            <li>Formato de evaluación de candidato</li>
+                            <li>Webinar de reclutamiento moderno</li>
+                            <li>Checklist para entrevistas</li>
                         </ul>
                     </div>
-
-                    <div class="card bg-white border-0 shadow-sm rounded-0 p-4 mb-4">
-                        <h6 class="fw-bold text-dark mb-1">Categorías</h6>
-                        <hr class="mt-0 mb-3 border-dark border-2 opacity-100">
-                        
-                        <div class="d-flex justify-content-between mb-2 cursor-pointer btn-accion" data-mensaje="Filtrando categoría: Reclutamiento">
-                            <span class="text-dark fw-bold small text-decoration-underline-hover">Reclutamiento</span>
-                            <span class="text-dark fw-bold small">8</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-2 cursor-pointer btn-accion" data-mensaje="Filtrando categoría: Entrevistas">
-                            <span class="text-dark fw-bold small text-decoration-underline-hover">Entrevistas</span>
-                            <span class="text-dark fw-bold small">5</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-2 cursor-pointer btn-accion" data-mensaje="Filtrando categoría: Evaluación">
-                            <span class="text-dark fw-bold small text-decoration-underline-hover">Evaluación</span>
-                            <span class="text-dark fw-bold small">7</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-1 cursor-pointer btn-accion" data-mensaje="Filtrando categoría: Capacitaciones">
-                            <span class="text-dark fw-bold small text-decoration-underline-hover">Capacitaciones</span>
-                            <span class="text-dark fw-bold small">4</span>
-                        </div>
-                    </div>
-
-                    <div class="card bg-white border-0 shadow-sm rounded-0 p-4 mb-4">
-                        <h6 class="fw-bold text-dark mb-1">Favoritos</h6>
-                        <hr class="mt-0 mb-3 border-dark border-2 opacity-100">
-                        
-                        <ul class="list-unstyled mb-1 text-dark fw-bold small lh-lg">
-                            <li class="mb-2 cursor-pointer text-decoration-underline-hover btn-accion" data-mensaje="Abriendo recurso de lectura...">Formato de evaluación de candidato</li>
-                            <li class="mb-2 cursor-pointer text-decoration-underline-hover btn-accion" data-mensaje="Abriendo recurso de lectura...">Webinar de reclutamiento moderno</li>
-                            <li class="cursor-pointer text-decoration-underline-hover btn-accion" data-mensaje="Abriendo recurso de lectura...">Checklist para entrevistas</li>
-                        </ul>
-                    </div>
-
                 </aside>
-
             </div>
         </div>
     </main>
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="toastAccion" class="toast align-items-center text-white bg-info bg-opacity-75 border-0 rounded-3 shadow mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="toastAccion" class="toast align-items-center border-0 rounded-4 shadow" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
-                <div class="toast-body fs-6 py-3 fw-bold text-dark" id="toastTexto">
-                    <i class="bi bi-info-circle-fill me-2 fs-5"></i> Acción realizada.
-                </div>
-                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                <div class="toast-body" id="toastTexto"></div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
             </div>
         </div>
     </div>
 
-    <footer class="py-4 mt-auto bg-secondary">
-        <div class="container text-center">
-            <div class="d-flex justify-content-center gap-5">
-                <a href="#" class="text-white-50 text-decoration-none">Ayuda</a>
-                <a href="#" class="text-white-50 text-decoration-none">Privacidad</a>
-                <span class="text-white-50">Workly &nbsp;&nbsp;&nbsp; 2026</span>
-            </div>
+    <footer class="footer-custom py-4 mt-auto text-center text-white-50">
+        <div class="container">
+            <span>Workly 2026 | Recursos para contratar con más orden y criterio</span>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <style>
-        .text-decoration-underline-hover:hover {
-            text-decoration: underline !important;
-            color: #0d6efd !important;
-        }
-    </style>
-
-    <script>
-        const botonesAccion = document.querySelectorAll('.btn-accion');
-        const toastElement = document.getElementById('toastAccion');
-        const toastTexto = document.getElementById('toastTexto');
-        const toastBootstrap = new bootstrap.Toast(toastElement);
-
-        botonesAccion.forEach(function(boton) {
-            boton.addEventListener('click', function(e) {
-                e.preventDefault();
-                const mensaje = this.getAttribute('data-mensaje');
-                toastTexto.innerHTML = `<i class="bi bi-info-circle-fill me-2 fs-5"></i> ${mensaje}`;
-                toastBootstrap.show();
-            });
-        });
-    </script>
-<script type="module" src="../../../assets/js/shared/notificaciones.js"></script>
+    <script type="module" src="../../../assets/js/shared/notificaciones.js"></script>
+    <script type="module" src="./app.js"></script>
 </body>
 </html>

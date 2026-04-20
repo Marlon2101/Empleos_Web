@@ -30,7 +30,7 @@ const resolveNotificationLink = (value) => {
   }
 
   try {
-    return new URL(value, window.location.origin).toString();
+    return new URL(value, API_URL).toString();
   } catch {
     return value;
   }

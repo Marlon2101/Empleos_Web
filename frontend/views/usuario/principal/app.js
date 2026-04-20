@@ -213,10 +213,12 @@ const limpiarFiltros = () => {
 const irABusqueda = () => {
   const query = inputBusquedaRapida?.value.trim();
   if (!query) {
-    inputBusquedaRapida?.focus();
+    window.location.href = "../buscarempleo/index.html";
     return;
   }
 
+  btnBusquedaRapida?.setAttribute("disabled", "true");
+  btnBusquedaRapida.innerHTML = `Buscando <span class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span>`;
   window.location.href = `../buscarempleo/index.html?q=${encodeURIComponent(query)}`;
 };
 

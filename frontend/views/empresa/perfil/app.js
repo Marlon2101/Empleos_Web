@@ -16,6 +16,16 @@ const authHeaders = () => ({
   Authorization: `Bearer ${getToken()}`
 });
 
+const syncEmpresaStorage = (perfil) => {
+  const usuarioActual = JSON.parse(localStorage.getItem("usuario") || "{}");
+  localStorage.setItem("usuario", JSON.stringify({
+    ...usuarioActual,
+    ...perfil,
+    empresa: perfil.nombre_comercial,
+    nombre_comercial: perfil.nombre_comercial
+  }));
+};
+
 const showAlert = (message, type = "danger") => {
   if (!alertContainer) return;
   alertContainer.innerHTML = `
@@ -146,6 +156,7 @@ const guardarPerfil = async () => {
 
   setCardData(data.data);
   renderExtras(data.data);
+  syncEmpresaStorage(data.data);
   showAlert("Perfil de empresa actualizado correctamente.", "success");
 };
 
@@ -155,6 +166,13 @@ inputLogo?.addEventListener("change", async (event) => {
 
   if (!file.type.startsWith("image/")) {
     showAlert("Selecciona una imagen valida.");
+    inputLogo.value = "";
+    return;
+  }
+
+  if (file.size > 3 * 1024 * 1024) {
+    showAlert("La imagen debe pesar menos de 3MB.");
+    inputLogo.value = "";
     return;
   }
 

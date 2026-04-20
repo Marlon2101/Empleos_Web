@@ -13,7 +13,8 @@ export const loginAdminTemporal = async (req, res) => {
 
     const token = generarToken({
       id: 1,
-      tipo: "admin"
+      tipo: "admin",
+      email_verificado: true
     });
 
     res.json({
@@ -23,7 +24,8 @@ export const loginAdminTemporal = async (req, res) => {
       data: {
         id: 1,
         usuario: usuarioNormalizado,
-        tipo: "admin"
+        tipo: "admin",
+        email_verificado: true
       }
     });
   } catch (error) {

@@ -1,21 +1,17 @@
-import { API_URL, getToken, getTipo } from "./config.js";
+import { API_URL, getToken, getTipo, resolveViewPath } from "./config.js";
 
 const getNotificationsPage = () => {
   const tipo = getTipo();
-  
-  // AQUÍ ESTÁ LA MAGIA: Definimos tu ruta base real para que el JS no se pierda
-  const basePath = "/Empleos_Web/frontend/views";
 
   if (tipo === "empresa") {
-    return `${basePath}/empresa/notificaciones/index.html`;
+    return resolveViewPath("empresa/notificaciones/index.html");
   }
 
   if (tipo === "admin") {
-    return `${basePath}/admin/principal/index.html`;
+    return resolveViewPath("admin/principal/index.html");
   }
 
-  // Ruta para el usuario normal
-  return `${basePath}/usuario/notificaciones/index.html`;
+  return resolveViewPath("usuario/notificaciones/index.html");
 };
 
 const updateBadge = (badge, count) => {
@@ -57,7 +53,6 @@ const initNotificationsBell = async () => {
     return;
   }
 
-  // Buscamos todas las campanitas en la pantalla
   const candidates = [
     ...document.querySelectorAll('a[href*="/notificaciones/"], a[href$="notificaciones/index.html"]')
   ];
@@ -68,12 +63,9 @@ const initNotificationsBell = async () => {
 
   const data = await fetchResumen();
   const count = Number(data?.no_leidas || 0);
-  
-  // Obtenemos la ruta correcta y absoluta
   const notificationsPage = getNotificationsPage();
 
   for (const anchor of candidates) {
-    // Ahora el JS sobrescribe el HTML, pero con la ruta PERFECTA
     anchor.setAttribute("href", notificationsPage);
     anchor.removeAttribute("data-bs-toggle");
     anchor.removeAttribute("aria-expanded");

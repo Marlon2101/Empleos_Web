@@ -3,9 +3,8 @@ import dotenv from "dotenv";
 import { pool } from "./config/db.js";
 import path from "path";
 import { fileURLToPath } from "url";
-import cors from "cors"; // UN SOLO IMPORT AQUÍ AL INICIO
+import cors from "cors";
 
-// Importación de rutas
 import authRoutes from "./routes/authRoutes.js";
 import catalogosRoutes from "./routes/catalogosRoutes.js";
 import usersRoutes from "./routes/usersRoutes.js";
@@ -32,32 +31,29 @@ dotenv.config();
 
 const app = express();
 
-// 1. Configuramos __dirname (necesario en ES Modules)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const frontendDir = path.join(__dirname, "../frontend");
 const frontendViewsDir = path.join(frontendDir, "views");
 const frontendAssetsDir = path.join(frontendDir, "assets");
 
-// 2. Middlewares Globales
-app.use(cors()); // Habilita CORS para que el Front (Live Server) pueda entrar
-app.use(express.json()); // Necesario para leer los datos que envías en POST/PUT
+app.use(cors());
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-// 3. Servir archivos estáticos del frontend
 app.use(express.static(frontendDir));
 app.use("/views", express.static(frontendViewsDir));
 app.use("/assets", express.static(frontendAssetsDir));
 
 const PORT = process.env.PORT || 3000;
 
-// Rutas de prueba para verificar salud del sistema
 app.get("/test", (req, res) => {
   res.send("API Workly funcionando correctamente");
 });
 
 app.get("/db", async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT 'Conexión a MySQL exitosa' AS mensaje");
+    const [rows] = await pool.query("SELECT 'Conexion a MySQL exitosa' AS mensaje");
     res.json(rows[0]);
   } catch (error) {
     res.status(500).json({
@@ -67,9 +63,8 @@ app.get("/db", async (req, res) => {
   }
 });
 
-// 4. Definición de Endpoints de la API
-// Asegúrate de que tu Front pida a http://localhost:3000/vacantes (sin /api)
 app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/catalogos", catalogosRoutes);
 app.use("/users", usersRoutes);
 app.use("/empresas", empresasRoutes);

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workly | Verificación pendiente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: "Inter", sans-serif; }
+        :root {
+            --nav-bg: #011671;
+            --primary-deep: #3f51b5;
+            --light-text: #e2e4e8;
+        }
+        body {
+            background: linear-gradient(180deg, #edf3ff 0%, #f7faff 100%);
+        }
+        .navbar-custom, .footer-custom { background: var(--nav-bg); }
+        .brand-text { color: #fff; font-weight: 800; font-size: 1.8rem; }
+        .brand-sub { color: var(--light-text); font-size: 0.9rem; display:block; }
+        .pending-card {
+            background: rgba(255,255,255,0.95);
+            border: 1px solid rgba(255,255,255,0.8);
+            border-radius: 2rem;
+            box-shadow: 0 24px 45px -18px rgba(1, 22, 113, 0.18);
+        }
+        .action-card {
+            border: 1px solid #e7edf9;
+            border-radius: 1.5rem;
+            background: #fff;
+            padding: 1.2rem;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<nav class="navbar navbar-expand-lg py-3 navbar-custom">
+    <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand d-flex align-items-center text-decoration-none" href="../paginainicial/index.html">
+            <i class="bi bi-briefcase-fill text-white fs-2"></i>
+            <div class="lh-sm ms-2">
+                <span class="brand-text">Workly</span>
+                <span class="brand-sub">Tu búsqueda de trabajo profesional</span>
+            </div>
+        </a>
+    </div>
+</nav>
+
+<main class="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-9 col-xl-7">
+                <div class="pending-card p-4 p-lg-5">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width:96px;height:96px;background:#eef2ff;color:#3f51b5;">
+                            <i class="bi bi-envelope-check fs-1"></i>
+                        </div>
+                        <h1 class="display-6 fw-bold mb-2">Verifica tu email</h1>
+                        <p class="text-secondary mb-0">Te hemos enviado un enlace de verificación a tu correo.</p>
+                        <p class="fw-semibold mt-2 mb-0" id="correoDestino">--</p>
+                    </div>
+
+                    <div id="alertContainer" class="mb-4"></div>
+
+                    <div class="action-card mb-4">
+                        <h2 class="h5 fw-bold mb-2">Reenviar correo de verificación</h2>
+                        <p class="text-secondary mb-3">Si no recibiste el mensaje, podemos enviarte uno nuevo.</p>
+                        <button class="btn btn-primary btn-lg rounded-pill px-4" id="btnReenviarCorreo">Reenviar correo</button>
+                    </div>
+
+                    <div class="action-card">
+                        <h2 class="h5 fw-bold mb-2">Cambiar correo electrónico</h2>
+                        <p class="text-secondary mb-3">Si escribiste mal tu correo, actualízalo y te enviaremos un nuevo enlace.</p>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold" for="nuevoCorreo">Nuevo correo</label>
+                            <input type="email" id="nuevoCorreo" class="form-control form-control-lg rounded-4" placeholder="nuevo@email.com">
+                        </div>
+                        <button class="btn btn-outline-primary btn-lg rounded-pill px-4" id="btnCambiarCorreo">Cambiar correo</button>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="../login/index.html" class="text-decoration-none fw-semibold">Volver a iniciar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer-custom py-4 mt-auto text-center text-white-50">
+    <div class="container">Workly 2026 | Revisa también spam o promociones</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="./app.js"></script>
+</body>
+</html>
